@@ -87,20 +87,13 @@ export default function AuthModal({ setIsModalOpen, onLoginSuccess }) {
           <hr className="flex-grow border-gray-300" />
         </div>
 
-        <div className="text-white flex justify-between gap-2">
-          <button className="flex gap-2 items-center bg-[#3B5998] p-4 py-2 flex-1 rounded-md text-white text-center">
-            <FaFacebookSquare /> Facebook Login
-          </button>
-          <button className="flex gap-2 items-center bg-[#DB4437] p-4 py-2 flex-1 rounded-md text-white text-center">
-            <FaGoogle /> Google Login
-          </button>
-        </div>
+      
 
-        <p className="text-center text-sm mt-4">
+        {/* <p className="text-center text-sm mt-4">
           By {isSignup ? "Signing up " : "Logging in"} you agree to our
           <a href="#" className="text-blue-600 hover:underline"> Terms and Conditions</a> and
           <a href="#" className="text-blue-600 hover:underline"> Privacy Policy</a>.
-        </p>
+        </p> */}
 
         <p className="text-center text-sm mt-1">
           {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}

@@ -15,80 +15,102 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { setProfile } from '../features/userdetails/profileSlice';
 
+
+
 const PastBookings = () => {
-    return (
-        <div className='h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5  scrollbar-hide'>
-            <div className='lg:w-[60%] '>
-                <h1 className='font-bold poppins lg:my-6'>Past Bookings</h1>
-                <p className='lg:pb-7 text-[#AA6300] font-medium'>20th Feb 2025</p>
-                <div className='border border-gray-300 lg:p-4 p-2 rounded my-4'>
-                    <div className='flex lg:gap-4 gap-2 lg:items-center'>
-                        <img src={img} className='w-24 h-28 rounded-2xl' />
-                        <div className='space-y-1'>
-                            <p className=' font-normal poppins'>Baby Shower Decoration</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <HiOutlineCalendarDateRange /> 11th Jan 2025</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <IoMdTime /> 08:00 AM - 11:00 AM</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <CiMoneyCheck1 /> Package Amount : Rs. 1,599</p>
-                        </div>
-                    </div>
-                    <div className=' flex md:items-end md:flex-col flex-row-reverse items-center justify-between gap-4 lg:pt-4 md:pt-0 '>
-                        {/* <RiDeleteBin6Line className='cursor-pointer' /> */}
-                        <h1 className='font-medium text-lg'>Rs. 1,599</h1>
-                    </div>
-                </div>
-                <div className='border border-gray-300 lg:p-4 p-2 rounded my-4'>
-                    <div className='flex lg:gap-4 gap-2 lg:items-center'>
-                        <img src={img} className='w-24 h-28 rounded-2xl' />
-                        <div className='space-y-1'>
-                            <p className=' font-normal poppins'>Baby Shower Decoration</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <HiOutlineCalendarDateRange /> 11th Jan 2025</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <IoMdTime /> 08:00 AM - 11:00 AM</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <CiMoneyCheck1 /> Package Amount : Rs. 1,599</p>
-                        </div>
-                    </div>
-                    <div className=' flex md:items-end md:flex-col flex-row-reverse items-center justify-between gap-4 lg:pt-4 md:pt-0 '>
-                        {/* <RiDeleteBin6Line className='cursor-pointer' /> */}
-                        <h1 className='font-medium text-lg'>Rs. 1,599</h1>
-                    </div>
-                </div>
-                <div className='border border-gray-300 lg:p-4 p-2 rounded my-4'>
-                    <div className='flex lg:gap-4 gap-2 lg:items-center'>
-                        <img src={img} className='w-24 h-28 rounded-2xl' />
-                        <div className='space-y-1'>
-                            <p className=' font-normal poppins'>Baby Shower Decoration</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <HiOutlineCalendarDateRange /> 11th Jan 2025</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <IoMdTime /> 08:00 AM - 11:00 AM</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <CiMoneyCheck1 /> Package Amount : Rs. 1,599</p>
-                        </div>
-                    </div>
-                    <div className=' flex md:items-end md:flex-col flex-row-reverse items-center justify-between gap-4 lg:pt-4 md:pt-0 '>
-                        {/* <RiDeleteBin6Line className='cursor-pointer' /> */}
-                        <h1 className='font-medium text-lg'>Rs. 1,599</h1>
-                    </div>
-                </div>
+  const storedUser = localStorage.getItem('user');
+  const userData = JSON.parse(storedUser);
+  const userId = userData?.id;
 
-                <div className='border border-gray-300 lg:p-4 p-2 rounded my-4'>
-                    <div className='flex lg:gap-4 gap-2 lg:items-center'>
-                        <img src={img} className='w-24 h-28 rounded-2xl' />
-                        <div className='space-y-1'>
-                            <p className=' font-normal poppins'>Baby Shower Decoration</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <HiOutlineCalendarDateRange /> 11th Jan 2025</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <IoMdTime /> 08:00 AM - 11:00 AM</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <CiMoneyCheck1 /> Package Amount : Rs. 1,599</p>
-                        </div>
-                    </div>
-                    <div className=' flex md:items-end md:flex-col flex-row-reverse items-center justify-between gap-4 lg:pt-4 md:pt-0 '>
-                        {/* <RiDeleteBin6Line className='cursor-pointer' /> */}
-                        <h1 className='font-medium text-lg'>Rs. 1,599</h1>
-                    </div>
+  const [pastOrders, setPastOrders] = useState([]);
+
+  const fetchPastOrders = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/orders/past/${userId}`);
+      console.log('Past Orders:', res.data.data);
+      setPastOrders(res.data.data);
+    } catch (error) {
+      console.error('Failed to fetch past orders:', error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (userId) fetchPastOrders();
+  }, [userId]);
+
+  return (
+    <div className='h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5 scrollbar-hide'>
+      <div className='lg:w-[60%]'>
+        <h1 className='font-bold poppins lg:my-6'>Past Bookings</h1>
+
+        {pastOrders.length === 0 ? (
+          <p className='text-gray-500'>No past bookings found.</p>
+        ) : (
+          pastOrders.map((order, index) => {
+            const mainService = order.items.find(item => item.categoryType === 'Service') || order.items[0];
+            const serviceName = mainService?.serviceName || 'No Service Name';
+            const serviceImage = mainService?.image
+              ? `http://localhost:5000/uploads/${mainService.image}`
+              : 'https://th.bing.com/th/id/R.aa6627cec345231b8cc69736c2cfa851?rik=VJh5IRdLTL4Hmg&riu=http%3a%2f%2fyoumeandtrends.com%2fwp-content%2fuploads%2f2015%2f11%2fwedding-stage-decoration-with-flowers.jpg&ehk=2h9J7oqWffAAjaUSGprqOEf3OPcl3khR%2fN4IgWpGRis%3d&risl=&pid=ImgRaw&r=0';
+
+            return (
+              <div key={index} className='border border-gray-300 lg:p-4 p-2 rounded my-4'>
+                <div className='flex lg:gap-4 gap-2 lg:items-center'>
+                  <img
+                    src={serviceImage}
+                    alt='Service'
+                    className='w-24 h-28 rounded-2xl object-cover'
+                  />
+                  <div className='space-y-1'>
+                    <p className='font-normal poppins'>{serviceName}</p>
+                    <p className='text-sm text-gray-600 font-medium flex items-center gap-2'>
+                      <HiOutlineCalendarDateRange />
+                      {order?.eventDate || 'N/A'}
+                    </p>
+                    <p className='text-sm text-gray-600 font-medium flex items-center gap-2'>
+                      <IoMdTime />
+                      {order?.eventTime || 'N/A'}
+                    </p>
+                    <p className='text-sm text-gray-600 font-medium flex items-center gap-2'>
+                      <CiMoneyCheck1 />
+                      Package Amount: ₹{order?.grandTotal || 'N/A'}
+                    </p>
+                  </div>
                 </div>
+                <div className='flex md:items-end md:flex-col flex-row-reverse items-center justify-between gap-4 lg:pt-4 md:pt-0'>
+                  <h1 className='font-medium text-lg'>₹{order?.grandTotal || 'N/A'}</h1>
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
+    </div>
+  );
+};
 
-            </div>
-        </div>
 
-    )
-}
+
+  
+
+  
 const UpcomingBookings = () => {
+    // Check if user is logged in
+    const storedUser = localStorage.getItem('user');
+    const userData = JSON.parse(storedUser);
+    const userId = userData.id;
+    console.log("userId", userId);
+
+    // Fetch upcoming orders
+    const fetchUpcomingOrders = async (userId) => {
+        const res = await axios.get(`http://localhost:5000/api/orders/upcoming/${userId}`);
+        console.log('Upcoming Orders:', res.data.data);
+    };
+
+    useEffect(() => {
+        fetchUpcomingOrders(userId);
+    }, [userId]);
+
     return (
         <div className='h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5  scrollbar-hide'>
             <div className='lg:w-[60%] '>
@@ -164,7 +186,7 @@ const UpcomingBookings = () => {
 
 
 const ProfileForm = () => {
-    
+
     const dispatch = useDispatch();
     const profile = useSelector((state) => state.profile);
     const [error, setError] = useState(null);
@@ -183,7 +205,7 @@ const ProfileForm = () => {
                     Authorization: `Bearer ${token}`,
                 }
             });
-            
+
             const { firstName, lastName, mobile, alternateMobile, addressLine1, addressLine2, city, state, pincode, landmark } = response.data.user;
             dispatch(setProfile({
                 firstName,
@@ -226,7 +248,7 @@ const ProfileForm = () => {
         <div className='h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5  scrollbar-hide'>
             <form onSubmit={handleSubmit}>
                 <h1 className='font-bold poppins lg:my-6 my-2'>Profile Details</h1>
-              
+
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <div className='grid grid-cols-2'>
                     <label>
@@ -352,14 +374,6 @@ const ProfileForm = () => {
     );
 };
 
-const Wallet = () => {
-    return (
-        <div className='h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5  scrollbar-hide'>
-            <h1 className='font-bold poppins my-6'>Wallet</h1>
-            <p className='pb-7 text-[#AA6300] font-medium'>Balance : Rs. 00</p>
-        </div>
-    )
-}
 
 
 // const Vouchers = () => {
@@ -434,6 +448,7 @@ const Profile = () => {
     const navigate = useNavigate();
     const profile = useSelector((state) => state.profile);
 
+
     // Effect to update the screen size on window resize
     useEffect(() => {
         const updateScreenSize = () => {
@@ -472,6 +487,7 @@ const Profile = () => {
             // Check if logout was successful
             if (response.status === 200) {
                 localStorage.removeItem("accessToken");
+                localStorage.removeItem("user");
                 navigate("/login");
             }
         } catch (error) {
@@ -598,230 +614,4 @@ const Profile = () => {
 };
 
 export default Profile;
-
-
-
-// const Profile = () => {
-//     const [currentRoute, setCurrentRoute] = useState("/profile");
-//     const [isModalOpen, setIsModalOpen] = useState(false);
-//     const [login, setLogin] = useState(false);
-
-//     const navigate = useNavigate();
-
-//     useEffect(() => {
-//         const token = localStorage.getItem("accessToken");
-//         setLogin(!!token);  // Set login state correctly based on token presence
-//     }, []);
-
-//     const handleLogout = async () => {
-//         try {
-//             await axios.post("http://localhost:5000/api/auth/logout", {}, { withCredentials: true });
-//             localStorage.removeItem("accessToken");
-//             setLogin(false); // Update login state to false
-//             navigate("/"); // Redirect to home or login page
-//         } catch (err) {
-//             console.error("Logout failed:", err);
-//         }
-//     };
-
-//     return (
-//         <>
-//             {login ? (
-//                 <div className="flex mt-24 px-4 overflow-y-hidden">
-//                     {/* Sidebar - Fixed Width (25%) */}
-//                     <div className="w-[25%] border mr-4 border-gray-300 rounded-xl p-4 pt-6 shadow-md fixed">
-//                         <div className="text-center">
-//                             <img
-//                                 src="https://img.freepik.com/free-vector/smiling-young-man-illustration_1308-173524.jpg"
-//                                 className="w-20 h-20 mx-auto rounded-full shadow-md"
-//                                 alt="User"
-//                             />
-//                             <p className="text-2xl py-3 font-medium">John Smith</p>
-//                         </div>
-//                         <div className="mt-5">
-//                             <ul className="flex flex-col gap-4 px-5">
-//                                 {sideBarlinks.map((item, index) => (
-//                                     <li
-//                                         key={index}
-//                                         className={`flex gap-4 items-center text-lg cursor-pointer ${currentRoute === item.link ? "text-primary font-semibold" : ""}`}
-//                                         onClick={() => setCurrentRoute(item.link)}
-//                                     >
-//                                         {item.icon}
-//                                         {item.title}
-//                                     </li>
-//                                 ))}
-//                                 <li className="flex gap-4 items-center text-lg cursor-pointer text-red-500 font-medium" onClick={handleLogout}>
-//                                     <BiLogOut />
-//                                     Logout
-//                                 </li>
-//                             </ul>
-//                         </div>
-//                     </div>
-
-//                     {/* Right Content */}
-//                     <div className="w-full border border-gray-300 rounded-xl shadow-md ml-[27%]">
-//                         {sideBarlinks.find((item) => item.link === currentRoute)?.component}
-//                     </div>
-//                 </div>
-//             ) : (
-//                 <div className="mt-24 px-4 flex items-center justify-center">
-//                     <div className='flex flex-col items-center justify-center'>
-//                         <h1 className='text-2xl font-bold'>Please login to access dashboard</h1>
-//                         <img src="https://img.freepik.com/free-vector/user-circles-set_78370-4704.jpg?uid=R78399817&ga=GA1.1.1852919643.1725948116&semt=ais_hybrid" className='w-64' alt="Login Required" />
-//                         <button
-//                             className="bg-primary flex place-items-center text-white px-6 py-2 rounded"
-//                             onClick={() => setIsModalOpen(true)}
-//                         >
-//                             Login
-//                         </button>
-//                         {isModalOpen && <AuthModal setIsModalOpen={setIsModalOpen} />}
-//                     </div>
-//                 </div>
-//             )}
-//         </>
-//     );
-// };
-
-// export default Profile;
-
-
-
-// const Profile = () => {
-//     const [currentRoute, setCurrentRoute] = useState("/profile");
-//     const [isModalOpen, setIsModalOpen] = useState(false);
-//     return (
-//         <div className="flex mt-24 px-4 overflow-y-hidden">
-//             {/* Sidebar - Fixed Width (30%) */}
-//             <div className="w-[25%] border mr-4 border-gray-300 rounded-xl p-4 pt-6 shadow-md fixed ">
-//                 {/* Login Button to Open Modal */}
-//                 <button
-//                     className="bg-primary text-white px-6 py-2 rounded"
-//                     onClick={() => setIsModalOpen(true)} // Open Modal
-//                 >
-//                     Login
-//                 </button>
-//                 <div className="text-center">
-//                     <img
-//                         src="https://img.freepik.com/free-vector/smiling-young-man-illustration_1308-173524.jpg"
-//                         className="w-20 h-20 mx-auto rounded-full shadow-md"
-//                         alt="User"
-//                     />
-//                     <p className="text-2xl py-3 font-medium">John Smith</p>
-//                     <AuthModal />
-
-//                 </div>
-//                 <div className="mt-5">
-//                     <ul className="flex flex-col gap-4 px-5">
-//                         {sideBarlinks.map((item, index) => (
-//                             <li
-//                                 key={index}
-//                                 className={`flex gap-4 items-center text-lg cursor-pointer ${currentRoute === item.link ? "text-primary font-semibold" : ""
-//                                     }`}
-//                                 onClick={() => setCurrentRoute(item.link)}
-//                             >
-//                                 {item.icon}
-//                                 {item.title}
-//                             </li>
-//                         ))}
-//                         <li className="flex gap-4 items-center text-lg cursor-pointer text-red-500 font-medium">
-//                             <BiLogOut />
-//                             Logout
-//                         </li>
-
-//                     </ul>
-//                 </div>
-//             </div>
-
-//             {/* Right Content - Takes 70% width & Scrollable */}
-//             <div className="w-full border border-gray-300 rounded-xl shadow-md ml-[27%] ">
-//                 {sideBarlinks.find((item) => item.link === currentRoute)?.component}
-//             </div>
-//             {/* Auth Modal - Only Shows When isModalOpen is True */}
-//             {isModalOpen && <AuthModal setIsModalOpen={setIsModalOpen} />}
-//         </div>
-
-//     );
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const Profile = () => {
-//     const [currentRoute, setCurrentRoute] = useState("/profile");
-//     const [isModalOpen, setIsModalOpen] = useState(false);
-
-//     const navigate = useNavigate()
-//     const handleLogout = async () => {
-//         try {
-//             await axios.post("http://localhost:5000/api/auth/logout", {}, { withCredentials: true });
-//             localStorage.removeItem("token");
-//           navigate("/");
-//         } catch (err) {
-//             console.error("Logout failed:", err);
-//         }
-//     };
-
-//     return (
-//         <div className="flex mt-24 px-4 overflow-y-hidden h-[86vh]">
-//             {/* Sidebar - Fixed Width (25%) */}
-//             <div className="w-[25%] border mr-4 border-gray-300 rounded-xl p-4 pt-6 shadow-md fixed h-[86vh]">
-//                 {/* Login Button to Open Modal */}
-//                 {/* <div className='flex justify-between'>
-//                     <button
-//                         className="bg-primary text-white px-6 py-2 rounded"
-//                         onClick={() => setIsModalOpen(true)} // Open modal when button is clicked
-//                     >
-//                         Login
-//                     </button>
-//                 </div> */}
-//                 <div className="text-center">
-//                     <img
-//                         src="https://img.freepik.com/free-vector/smiling-young-man-illustration_1308-173524.jpg"
-//                         className="w-20 h-20 mx-auto rounded-full shadow-md"
-//                         alt="User"
-//                     />
-//                     <p className="text-2xl py-3 font-medium">John Smith</p>
-//                 </div>
-//                 <div className="mt-5">
-//                     <ul className="flex flex-col gap-4 px-5">
-//                         {sideBarlinks.map((item, index) => (
-//                             <li
-//                                 key={index}
-//                                 className={`flex gap-4 items-center text-lg cursor-pointer ${currentRoute === item.link ? "text-primary font-semibold" : ""}`}
-//                                 onClick={() => setCurrentRoute(item.link)}
-//                             >
-//                                 {item.icon}
-//                                 {item.title}
-//                             </li>
-//                         ))}
-//                         <li className="flex gap-4 items-center text-lg cursor-pointer text-red-500 font-medium" onClick={handleLogout}>
-//                             <BiLogOut />
-//                             Logout
-//                         </li>
-//                     </ul>
-//                 </div>
-//             </div>
-
-//             {/* Right Content - Takes Remaining Width & Scrollable */}
-//             <div className="w-full border border-gray-300 rounded-xl shadow-md ml-[27%]">
-//                 {sideBarlinks.find((item) => item.link === currentRoute)?.component}
-//             </div>
-
-//             {/* Auth Modal - Only Shows When isModalOpen is True */}
-//             {/* {isModalOpen && <AuthModal setIsModalOpen={setIsModalOpen} />} */}
-//         </div>
-//     );
-// };
-
-// export default Profile;
 
