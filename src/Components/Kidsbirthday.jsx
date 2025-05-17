@@ -1,0 +1,315 @@
+import React, { useEffect, useLayoutEffect, useState } from 'react'
+import kidsBanner1 from "../assets/banner/kidsbdayBanner1.png"
+import kidsBanner2 from "../assets/banner/photoshootkidsBday.png"
+import kidsBanner3 from "../assets/banner/kidsbdayBanner3.png"
+import simpledecor from "../assets/bday/kidsbday/simpledecor.png"
+import babyboyDecor from "../assets/bday/kidsbday/babyboyDecor.png"
+import babyGirlDeocr from "../assets/bday/kidsbday/babyGirlDeocr.png"
+import halfyrbabyDecor from "../assets/bday/kidsbday/halfyrbabyDecor.png"
+import kidscake from "../assets/bday/kidsbday/kidscake.png"
+import bdayGallery1 from "../assets/bday/kidsbday/bdayGallery1.png"
+import bdayGallery2 from "../assets/bday/kidsbday/bdayGallery2.png"
+import bdayGallery3 from "../assets/services/gallery3.png"
+// import bdayGallery3 from "../assets/bday/kidsbday/bdayGallery3.png"
+import bdayGallery4 from "../assets/bday/kidsbday/bdayGallery4.png"
+import bdayGallery5 from "../assets/bday/kidsbday/bdayGallery5.png"
+import bdayGallery6 from "../assets/bday/kidsbday/bdayGallery6.png"
+import bdayGallery7 from "../assets/bday/kidsbday/bdayGallery7.png"
+import BasicSlider from './BasicSlider'
+
+import kidsactivity1 from "../assets/bday/kidsbday/kidsactivity1.png"
+import kidsactivity2 from "../assets/bday/kidsbday/kidsactivity2.png"
+import kidsactivity3 from "../assets/bday/kidsbday/kidsactivity3.png"
+import kidsactivity4 from "../assets/bday/kidsbday/kidsactivity4.png"
+import FAQ from './FAQ'
+import video from "../assets/services/video.mp4"
+import Testimonials from './Testimonials'
+import { Link, useParams, useNavigate } from 'react-router-dom'
+import CancellationPolicy from './CancellationPolicy'
+import { getAuthAxios } from '../utils/api'
+
+
+const imagelist = [
+    {
+        src: simpledecor,
+        title: "Simple Decoration",
+        sub_SubId: "109"
+    },
+    {
+        src: babyboyDecor,
+        title: "Boy Baby Decor",
+        sub_SubId: "110"
+    },
+    {
+        src: babyGirlDeocr,
+        title: "Girl Baby Decor",
+        sub_SubId: "111"
+    },
+    {
+        src: halfyrbabyDecor,
+        title: "Half Year Birthday Decor",
+        sub_SubId: "112"
+    },
+
+]
+
+
+const kidsactivityList = [
+    {
+        serviceName: "Male Anchor for Entertainment",
+        price: "1,499",
+        cardImg: kidsactivity1
+    },
+    {
+        serviceName: "Caricature Artist",
+        price: "1,499",
+        cardImg: kidsactivity2
+    },
+    {
+        serviceName: "Cartoon Mascot",
+        price: "1,499",
+        cardImg: kidsactivity3
+    },
+    {
+        serviceName: "Cotton Candy",
+        price: "1,499",
+        cardImg: kidsactivity4
+    },
+    {
+        serviceName: "Cartoon Mascot",
+        price: "1,499",
+        cardImg: kidsactivity3
+    },
+    {
+        serviceName: "Caricature Artist",
+        price: "1,499",
+        cardImg: kidsactivity2
+    },
+]
+
+
+
+
+const Kidsbirthday = () => {
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [premiumData, setPremiumdata] = useState([]);
+    const [simpleData, setSimpledata] = useState([]);
+    const [subSubCategories, setSubSubCategories] = useState([]);
+    const [themes, setThemes] = useState([]);
+    const [selectedTheme, setSelectedTheme] = useState(null);
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(true);
+    const { subcat_id } = useParams();
+    const navigate = useNavigate();
+
+    // useEffect(() => {
+    //     setPremiumdata(service.filter((item) => item.sub_SubId === "104"));
+    //     setSimpledata(service.filter((item) => item.sub_SubId === "103"));
+    // }, []);
+
+    const fetchSubSubcategoriesBySubCategory = async () => {
+        if (!subcat_id) return;
+        try {
+            setLoading(true);
+            const res = await getAuthAxios().get(
+                `subsubcategories/subcategory/${subcat_id}`
+            );
+            setSubSubCategories(res.data.data);
+            console.log("subSubCategories", res.data.data);
+        } catch (err) {
+            console.error("error", err);
+            setError("Failed to load subcategories");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const checkForThemes = async (subSubCategoryId) => {
+        try {
+            const res = await getAuthAxios().get(
+                `themes/subsubcategory/${subSubCategoryId}`
+            );
+            return res.data.data && res.data.data.length > 0;
+        } catch (err) {
+            console.error("Error checking themes:", err);
+            return false;
+        }
+    };
+
+    const handleSubSubCategoryClick = async (subSubCategoryId) => {
+        try {
+            console.log("Checking themes for subSubCategoryId:", subSubCategoryId);
+            const hasThemes = await checkForThemes(subSubCategoryId);
+            console.log("Has themes:", hasThemes);
+            
+            if (hasThemes) {
+                console.log("Navigating to themes page");
+                // If themes exist, navigate to themes page
+                navigate(`/themes/${subSubCategoryId}`);
+            } else {
+                console.log("No themes found, navigating to services");
+                // If no themes, navigate directly to services
+                navigate(`/service/${subSubCategoryId}`);
+            }
+        } catch (err) {
+            console.error("Error in navigation:", err);
+            // If error occurs, navigate to services as fallback
+            navigate(`/service/${subSubCategoryId}`);
+        }
+    };
+
+    const handleThemeClick = (themeId) => {
+        setSelectedTheme(themeId);
+        navigate(`/service/${themeId}`);
+    };
+
+    useEffect(() => {
+        fetchSubSubcategoriesBySubCategory();
+    }, [subcat_id]);
+
+    const message = "Hello, I want to know more about kid's birthday Cakes, Games and Activities.";
+    const encodedMessage = encodeURIComponent(message);
+    const WhatsAppLink = `https://wa.me/919611430158?text=${encodedMessage}`;
+
+    const toggleModal = () => {
+        setIsOpen(!isOpen);
+        if (!isOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+    };
+    return (
+        <div className='lg:py-24 md:pt-20 pt-32  p-3  mx-auto'>
+            {loading && (
+                <div className="flex justify-center items-center min-h-screen">
+                    <div className="text-xl text-primary">Loading...</div>
+                </div>
+            )}
+
+            {error && (
+                <div className="text-red-500 text-center mb-4">
+                    {error}
+                </div>
+            )}
+
+            <div>
+                <img src={kidsBanner1} className='mx-auto w-[1600px]' />
+            </div>
+
+            <div className="grid grid-cols-2 gap-x-12 md:gap-y-14 gap-y-5 md:place-items-center lg:mt-20 mt-10">
+                {subSubCategories.map((item) => (
+                    <div className="relative" key={item._id}>
+                        <div 
+                            onClick={() => handleSubSubCategoryClick(item._id)}
+                            className="cursor-pointer transition-shadow duration-300"
+                        >
+                            <img
+                                src={`http://localhost:5000/images/${item.image}`}
+                                alt={item.subSubCategory}
+                                className="rounded-3xl border-4 border-primary md:w-auto md:h-auto w-40 h-40"
+                            />
+                            <p className="text-primary pt-4 md:text-3xl text-xl text-center font-medium carter">
+                                {item.subSubCategory}
+                            </p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            <Link to={WhatsAppLink} target="_blank" rel="noopener noreferrer">
+                <div className="">
+                    <img
+                        src={kidscake}
+                        alt="Kid's Birthday Cakes"
+                        className="rounded-3xl border-4 border-primary md:w-auto md:h-auto w-40 h-40 mx-auto"
+                    />
+                    <p className="text-primary pt-4 md:text-3xl  text-center font-medium carter">
+                        Kid's Birthday Cakes
+                    </p>
+                </div>
+            </Link>
+
+
+            <div className='relative mx-auto text-center lg:mt-10'>
+                <p className='md:py-8 py-4 font-bold poppins md:text-2xl'>#KidsBirthdayDecorationBestMovements</p>
+                <div className='flex justify-center items-center gap-1'>
+                    <div className='place-items-end lg:space-y-2  space-y-1'>
+                        <img src={bdayGallery1} className=' lg:h-40 md:h-28 h-10' />
+                        <img src={bdayGallery2} className=' lg:h-64  ' />
+                        <div className=' bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16'>
+                            <img src={bdayGallery3} className='rounded' />
+                            <video
+                                className='absolute top-0 left-0 w-full h-full object-cover opacity-80'
+                                src={video}
+                                autoPlay
+                                loop
+                                muted
+                            />
+                        </div>
+
+                    </div>
+                    <div>
+                        <img src={bdayGallery4} />
+                    </div>
+                    <div className='lg:space-y-2 space-y-1'>
+                        <img src={bdayGallery5} />
+                        <img src={bdayGallery6} />
+                    </div>
+                    <div>
+                        <img src={bdayGallery7} />
+                    </div>
+                </div>
+                <p className='lg:absolute bottom-10 right-2 [text-shadow:_-4px_4px_3px_#7D7C7C] playfair-display md:text-7xl text-4xl font-bold text-[#FFD1D1]'>Magical Moments</p>
+            </div>
+
+
+            <Link to="/photograpghy"><div className='md:pt-20 py-5'>
+                <img src={kidsBanner2} className='mx-auto w-[2000px]' />
+            </div>
+            </Link>
+            <div className=''>
+                <p className='font-bold poppins md:py-6 pb-4 md:text-2xl'>Why Celebrate With Lavisheventzz</p>
+                <img src={kidsBanner3} className='mx-auto w-[2000px]' />
+            </div>
+            <div className='md:pt-10 pt-7'>
+                <p className='font-bold poppins md:text-2xl'>Kids Special Activities</p>
+                <BasicSlider data={kidsactivityList} />
+            </div>
+
+            <div className='my-4'>
+                <p className='text-center font-bold poppins text-2xl'>FAQs</p>
+                <p className='text-right text-lg underline cursor-pointer' onClick={toggleModal}>Cancellation Policy</p>
+                <CancellationPolicy isOpen={isOpen} toggleModal={toggleModal} />
+                <p className='text-center font-bold poppins text-sm'>Need help? Contact us for any queries related to us</p>
+                <div className='lg:w-[70%]  md:w-[80%] mx-auto my-6'>
+                    <p className='font-bold poppins py-8 '>Pick a query related to your issue</p>
+                    <FAQ />
+                    {/* <FAQServices/> */}
+                </div>
+            </div>
+
+            <div>
+                <p className='font-bold poppins md:text-2xl'>Recent Customer Reviews</p>
+                <Testimonials />
+
+            </div>
+            <div className='md:px-10 px-4'>
+                <p className='font-bold poppins py-8 text-2xl'>Hire the Best Balloon Decorators for Your Child's Birthday Party</p>
+                <p className='font-bold'>
+                    Planning a magical birthday celebration for your little one? Look no further! We specialize in creative and
+                    eye-catching balloon decorations that transform any space into a fun-filled wonderland. Our expert decorators
+                    bring your child's favorite themes to life with vibrant colors, unique designs, and playful arrangements. Whether
+                    you're hosting an indoor gathering or an outdoor extravaganza, we tailor every detail to match your chosen theme
+                    and venue. From stunning balloon arches and adorable centerpieces to fun balloon sculptures and customized
+                    bouquets, we add that special touch to make the day unforgettable. Let us handle the decorations while you focus
+                    on making memories. Book your kid's birthday balloon décor with us today and watch the magic unfold!
+                </p>
+            </div>
+        </div>
+
+    )
+}
+
+export default Kidsbirthday

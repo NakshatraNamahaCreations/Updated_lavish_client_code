@@ -1,0 +1,805 @@
+import React, { useState, useEffect } from "react";
+import ProductSlideCarousel from "./ProductSlideCarousel";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setSelectedTimeSlot,
+  setEventDate,
+  addServiceItem,
+  setPincode,
+  setIsPincodeValid,
+  setDeliveryMessage,
+  setDeliveryCharges,
+  setBalloonColors,
+} from "../features/orderdetails/orderSlice";
+
+// Import assets
+import barbieTheme from "../assets/barbie_theme.png";
+import junlgletheme from "../assets/jungle_theme.png";
+import mermaidTheme from "../assets/Mermaid_theme.png";
+import butterflyTheme from "../assets/butterfly_theme.png";
+import traditionalTheme from "../assets/traditional_theme.png";
+import pastelTheme from "../assets/pastel_theme.png";
+import { GrLocation } from "react-icons/gr";
+import { SlCalender } from "react-icons/sl";
+import { FaCheck, FaStar } from "react-icons/fa6";
+import { IoClose, IoCloseSharp } from "react-icons/io5";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import support from "../assets/support.png";
+import phone from "../assets/phone.png";
+import whatsapp from "../assets/whatsapp.png";
+import { MdArrowRightAlt } from "react-icons/md";
+import img1 from "../assets/butterfly_theme.png";
+import img2 from "../assets/candleImg3.png";
+import img3 from "../assets/categoryimg1.png";
+import img4 from "../assets/categoryimg8.png";
+import img5 from "../assets/momentsgallery7.png";
+import img6 from "../assets/navImg4.png";
+import ReviewGallery from "./ReviewGallery";
+import TimeSlotsModel from "./TimeSlotsModel";
+import RecommenedAddon from "./RecommenedAddon";
+import { GoHeartFill, GoHeart } from "react-icons/go";
+import BasicSlider from "./BasicSlider";
+import FAQ from "./FAQ";
+import RecommenedAddonSlider from "./RecommenedAddonSlider";
+import { MdOutlineCurrencyRupee } from "react-icons/md";
+import { TbCurrencyRupee } from "react-icons/tb";
+import { LuHandHeart } from "react-icons/lu";
+import { GoShieldCheck } from "react-icons/go";
+import { IoIosStar } from "react-icons/io";
+import { FaRegEdit } from "react-icons/fa";
+import MultiSelect from "./MultiSelect";
+import ServiceBottomButtons from "./ServiceBottomButtons";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+
+// Static images for carousel
+const images = [
+  barbieTheme,
+  junlgletheme,
+  mermaidTheme,
+  butterflyTheme,
+  traditionalTheme,
+  pastelTheme,
+];
+
+// Static data for recently viewed - fixed to include _id property
+const recentlyViewed = [
+  {
+    _id: "1", // Added _id property
+    serviceName: "Male Anchor for Entertainment",
+    price: "1,499",
+    cardImg: img1,
+  },
+  {
+    _id: "2", // Added _id property
+    serviceName: "Caricature Artist",
+    price: "1,499",
+    cardImg: img2,
+  },
+  {
+    _id: "3", // Added _id property
+    serviceName: "Cartoon Mascot",
+    price: "1,499",
+    cardImg: img3,
+  },
+  {
+    _id: "4", // Added _id property
+    serviceName: "Cotton Candy",
+    price: "1,499",
+    cardImg: img4,
+  },
+  {
+    _id: "5", // Added _id property
+    serviceName: "Cartoon Mascot",
+    price: "1,499",
+    cardImg: img5,
+  },
+  {
+    _id: "6", // Added _id property
+    serviceName: "Caricature Artist",
+    price: "1,499",
+    cardImg: img6,
+  },
+];
+
+// Pincode lists for delivery charge calculation
+const zerocharges_pin_bangalore = [
+  ...new Set([
+    "560044", "560081", "560069", "560093", "560022", "560048", "560023", "560054", "560085",
+    "560020", "560006", "560066", "560030", "560002", "560007", "560018", "560017", "560059",
+    "560060", "560067", "560038", "560098", "560021", "560055", "560012", "560057", "560026",
+    "560019", "560089", "560095", "560056", "560094", "560049", "560015", "560050", "560004",
+    "560046", "560028", "560025", "560036", "560074", "560092", "560024", "560071", "560027",
+    "560086", "560035", "560034", "560087", "560070", "560045", "560078", "560090", "560052",
+    "560041", "560009", "560084", "560062", "560037", "560016", "560047", "560014", "560011",
+    "560005", "560001", "560003", "560058", "560072", "560013", "560042", "560077", "560040",
+    "560064", "560033", "560061", "560010", "560073", "560075", "560068", "560063", "560082",
+    "560097", "560091", "560031", "560039", "560051", "560053", "560088", "560096", "560076",
+    "560079", "560029", "560065", "560080", "560043", "560032", "560008"
+  ]
+  ),
+];
+
+const deliveryDetails = [
+  "You will need to provide a stool to reach the ceiling.",
+  "In case of a complaint, notice must be given within 2 hours of the delivery time of the experience.",
+  "No rescheduling or cancellation is possible after the decoration has been attempted.",
+  "The LavishEventzz team will not clean the party place after the completion of the decoration.",
+  "Kindly ensure that the balance payment is settled after the completion of the decoration, as the decorator will not wait until the party starts. Your prompt payment is appreciated and helps us ensure a seamless experience for your event.",
+  "The balloons will be hung using tape, as we don't use helium due to its asphyxiation properties.",
+  "Remove the tape immediately after the event is over.",
+  "A consistent power supply is essential for timely service completion, and LavishEventzz is not responsible for delays caused by power interruptions.",
+  "The decorator will not wait more than 30 minutes. After waiting, charges will apply.",
+  "If the decoration is in an open place, please inform us early so we can check if it's possible.",
+  "We regret to inform you that NEFT, RTGS, and cheques cannot be accepted as payment on the day of the event. Only immediate payment methods such as cash, PhonePe, and Google Pay are accepted.",
+  "LavishEventzz will not be responsible for delays in service delivery caused by natural calamities like rain, heavy wind, etc. However, we try our best to deliver on time.",
+  "We use tape on walls to do decorations.",
+];
+
+const careInstructions = [
+  "Avoid Direct Sunlight: Keep the balloons away from direct sunlight or excessive heat, as it may prevent the theme from popping or cause deflation.",
+  "Indoor Placement Preferred: For long-lasting decoration, place the balloons indoors in a cool and dry environment.",
+  "Children Care: Balloons can be a choking hazard. Keep an eye on kids around the decoration.",
+  "Please Check Decoration Place Climate (Outdoor): Before starting the decoration, check the climate of the decoration area (if outdoors).",
+];
+
+const ReviewCard = () => {
+  return (
+    <div className="flex md:gap-5 gap-3 max-w-sm md:p-4 rounded-lg mt-10">
+      <div>
+        <img
+          src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?t=st=1739355337~exp=1739358937~hmac=dfb66ae3ac23da9abd511f79f05dcf0e3c0e175a532caf9ce60f1d392fe76eb5&w=740"
+          alt="avatar"
+          className="w-20 h-20 rounded-full"
+        />
+      </div>
+      <div>
+        <p className="font-medium">Rangarajan</p>
+        <p className="text-gray-500">Reviewed in December</p>
+        <div className="flex text-yellow-400 py-3">
+          <FaStar />
+          <FaStar />
+          <FaStar />
+          <FaStar />
+          <FaStar />
+        </div>
+        <p>Such good job by Lavishxeventz!!!</p>
+      </div>
+    </div>
+  );
+};
+
+const ServiceDetails = () => {
+  const { serviceId } = useParams(); // Get the serviceId from URL params
+  const [serviceDetails, setServiceDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // Get data from redux
+  const selectedTimeSlot = useSelector((state) => state.order.selectedTimeSlot);
+  const isPincodeValid = useSelector((state) => state.order.isPincodeValid);
+  const deliveryMessage = useSelector((state) => state.order.deliveryMessage);
+  const { subTotal, grandTotal, deliveryCharges } = useSelector((state) => state.order.currentOrder);
+  const addonTotal = useSelector((state) =>
+    state.order.currentOrder.items
+      ?.filter((item) => item.categoryType === "addon")
+      .reduce((sum, item) => sum + (item.price || 0), 0)
+  );
+
+  // Local state variables
+  const [pincode, setPincodeLocal] = useState("");
+  const [deliveryCharge, setDeliveryChargeLocal] = useState(0);
+  const [showTimeSlots, setShowTimeSlots] = useState(false);
+  const [showAddonsModal, setShowAddonsModal] = useState(false);
+  const [openCalendar, setOpenCalendar] = useState(false);
+  const [togglelike, setToggleLike] = useState(false);
+  const [currentDetailsTab, setCurrentDetailsTab] = useState("Inclusion");
+  const [showReviewBox, setShowReviewBox] = useState(false);
+  const [reviewText, setReviewText] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState(["default"]);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [addonsData, setAddonsData] = useState([]);
+  const [hasAddons, setHasAddons] = useState(false);
+  const [loadingAddons, setLoadingAddons] = useState(true);
+
+  // Debug effect to log Redux order state changes
+  const reduxOrderState = useSelector((state) => state.order);
+
+  useEffect(() => {
+    console.log("Redux Order State:", reduxOrderState);
+  }, [reduxOrderState]);
+
+  // Attempt to fetch service details
+  useEffect(() => {
+    const fetchServiceDetails = async () => {
+      try {
+        setLoading(true);
+        // Make API call to fetch service details by serviceId
+        const response = await axios.get(`http://localhost:5000/api/services/${serviceId}`);
+        // console.log("API Response:", response.data.data);
+
+        const details = response.data.data;
+        setServiceDetails(details);
+
+        // Add service to redux store
+        if (details) {
+          dispatch(addServiceItem({
+            serviceName: details.serviceName,
+            price: details.offerPrice,
+            originalPrice: details.originalPrice,
+            image: details.serviceImage || '',
+            _id: details._id
+          }));
+        }
+      } catch (err) {
+        console.error("Error fetching service details:", err);
+        setError("Failed to fetch service details");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (serviceId) {
+      fetchServiceDetails();
+    }
+  }, [serviceId, dispatch]);
+
+  // Fetch addons for this service
+  useEffect(() => {
+    const fetchAddons = async () => {
+      if (!serviceDetails?.subCategoryId?._id) return;
+
+      try {
+        setLoadingAddons(true);
+        const response = await axios.get(
+          `http://localhost:5000/api/addons/subcategory/${serviceDetails.subCategoryId._id}`
+        );
+        const result = response.data?.data.addons;
+
+        if (Array.isArray(result) && result.length > 0) {
+          setAddonsData(result);
+          setHasAddons(true);
+        } else {
+          setAddonsData([]);
+          setHasAddons(false);
+        }
+      } catch (error) {
+        console.error("Error fetching addons:", error);
+        setAddonsData([]);
+        setHasAddons(false);
+      } finally {
+        setLoadingAddons(false);
+      }
+    };
+
+    fetchAddons();
+  }, [serviceDetails]);
+
+  // Handle pincode validation
+  useEffect(() => {
+    if (pincode.length === 6 && (serviceDetails?.offerPrice || 4999)) {
+      const deliveryInfo = getDeliveryCharge(pincode, serviceDetails?.offerPrice || 4999);
+      dispatch(setDeliveryMessage(deliveryInfo.message));
+      dispatch(setIsPincodeValid(deliveryInfo.isValid));
+      setDeliveryChargeLocal(deliveryInfo.price);
+      dispatch(setDeliveryCharges(deliveryInfo.price));
+      dispatch(setPincode(pincode));
+    } else {
+      dispatch(setDeliveryMessage(""));
+      dispatch(setIsPincodeValid(false));
+      setDeliveryChargeLocal(0);
+      dispatch(setDeliveryCharges(0));
+    }
+  }, [pincode, serviceDetails, dispatch]);
+
+  // For handling scrolling when modals are open
+  useEffect(() => {
+    if (showTimeSlots || showAddonsModal) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, [showTimeSlots, showAddonsModal]);
+
+  // Get delivery charge based on pincode
+  const getDeliveryCharge = (pincode, price) => {
+    const notAvailablePincodes = ["562107", "562110", "561203", "561205", "562109"];
+    const specialPincodes = ["560105", "560099", "560083", "562114", "562106"];
+
+    if (notAvailablePincodes.includes(pincode)) {
+      return {
+        message: "Service not available for this pincode",
+        price: 0,
+        isValid: false
+      };
+    }
+
+    if (specialPincodes.includes(pincode)) {
+      if (price <= 4000) {
+        return {
+          message: "For this service 1500 delivery charges applicable",
+          price: 1500,
+          isValid: true
+        };
+      } else {
+        return {
+          message: "For this service 500 delivery charges applicable",
+          price: 500,
+          isValid: true
+        };
+      }
+    }
+
+    if (zerocharges_pin_bangalore.includes(pincode)) {
+      return {
+        message: "0 delivery charges for this pincode",
+        price: 0,
+        isValid: true
+      };
+    }
+
+    return {
+      message: "Invalid Pincode",
+      price: 0,
+      isValid: false
+    };
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    dispatch(setEventDate(date));
+    setOpenCalendar(false);
+    setTimeout(() => {
+      setShowTimeSlots(true);
+    }, 300);
+  };
+
+  const handleDivClick = () => {
+    if (!isPincodeValid) {
+      alert("Please enter a valid pincode first");
+      return;
+    }
+    if (selectedOptions.length === 0) {
+      alert("Please select balloons color before Selecting date");
+      return;
+    }
+    setOpenCalendar(!openCalendar);
+  };
+
+  // Handle balloon color selection
+  const handleBalloonColorChange = (colors) => {
+    setSelectedOptions(colors);
+    dispatch(setBalloonColors(colors));
+  };
+
+  // For WhatsApp contact
+  const city = "Bangalore";
+  const price = serviceDetails?.offerPrice || 4999;
+  const currentPageUrl = window.location.href;
+  const message = `URL: ${currentPageUrl}\nCity: ${city},\nPrice: ${price}\nCan I get more details?`;
+  const encodedMessage = encodeURIComponent(message);
+  const WhatsAppLink = `https://wa.me/919611430158?text=${encodedMessage}`;
+
+  // Format currency for display
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    })
+      .format(amount)
+      .replace("₹", "Rs. ");
+  };
+
+
+  return (
+    <div className="lg:py-28 lg:px-10 p-4 pt-32 mx-auto">
+      {loading ? (
+        <div className="text-center py-10">Loading service details...</div>
+      ) : error ? (
+        <div className="text-center py-10 text-red-500">{error}</div>
+      ) : (
+        <>
+          <ServiceBottomButtons />
+
+          <div className="relative grid md:grid-cols-2 grid-cols-1 lg:gap-10 gap-4">
+            <div>
+              <ProductSlideCarousel images={images} />
+              <div className="rounded-md border border-gray-300 lg:my-20 p-4">
+                <div>
+                  <h1 className="font-semibold py-3">Required</h1>
+                  <p>
+                    <div
+                      className=" text-gray-600"
+                      dangerouslySetInnerHTML={{
+                        __html: serviceDetails?.requiredDetails
+                      }}
+                    />
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="md:relative mt-5 lg:mt-0">
+                <div
+                  className="absolute lg:top-0 md:-top-8 top-5 md:right-0 right-1 rounded-full border border-gray-300 bg-white p-2 text-black text-2xl cursor-pointer"
+                  onClick={() => setToggleLike(!togglelike)}
+                >
+                  {togglelike ? (
+                    <GoHeartFill className="text-red-600" />
+                  ) : (
+                    <GoHeart className="text-gray-600" />
+                  )}
+                </div>
+                <div id="booking">
+                  <h1 className="text-3xl font-bold max-w-lg">
+                    {serviceDetails?.serviceName || "Golden Star Decoration"}
+                  </h1>
+                  <div>
+                    <div className="flex gap-3 items-center py-2">
+                      <p className="poppins text-2xl text-primary font-bold flex items-center">
+                        <MdOutlineCurrencyRupee /> {serviceDetails?.offerPrice || 4999}
+                      </p>
+                      <p className="poppins text-gray-500 font-medium flex items-center line-through">
+                        <MdOutlineCurrencyRupee /> {serviceDetails?.originalPrice || 5599}
+                      </p>
+                      <p className="py-1 px-2 text-xs bg-green-600 text-white rounded-3xl">
+                        {Math.round(((serviceDetails?.originalPrice || 5599) - (serviceDetails?.offerPrice || 4999)) / (serviceDetails?.originalPrice || 5599) * 100)}% OFF
+                      </p>
+                    </div>
+                    <p className="text-gray-500 p-1">Inclusive of all charges</p>
+                  </div>
+                  <div className="rounded-md border border-gray-300 p-4 mt-3">
+                    <div className="flex justify-between flex-col gap-2">
+                      <div className="flex gap-2 items-center px-3 py-2 rounded-md border border-gray-300">
+                        <GrLocation size={20} />
+                        <input
+                          placeholder="Enter Pincode"
+                          className="outline-none"
+                          value={pincode}
+                          onChange={(e) => setPincodeLocal(e.target.value)}
+                        />
+                      </div>
+                      <small>Don't know PINCODE?</small>
+                      {deliveryMessage && (
+                        <p
+                          className={`${deliveryMessage === "Service not available for this pincode" ||
+                            deliveryMessage === "Invalid Pincode"
+                            ? "text-red-500"
+                            : "text-green-500"
+                            } font-medium`}
+                        >
+                          {deliveryMessage}
+                        </p>
+                      )}
+
+                      <MultiSelect
+                        disabled={!isPincodeValid}
+                        defaulyballoonsColors={serviceDetails.balloonColors}
+                        onSelectionChange={(colors) => dispatch(setBalloonColors(colors))}
+                      />
+                      <div className="relative">
+                        <div
+                          onClick={handleDivClick}
+                          className={`flex items-center justify-between border border-gray-300 p-2 px-4 ${isPincodeValid
+                            ? "cursor-pointer"
+                            : "cursor-not-allowed opacity-60"
+                            } rounded-md`}
+                        >
+                          <p
+                            className={`${selectedDate ? "text-black" : "text-gray-400"
+                              }`}
+                          >
+                            {selectedDate
+                              ? selectedDate.toLocaleDateString()
+                              : "Select Date & Time"}
+                          </p>
+                          <SlCalender />
+                        </div>
+                        {openCalendar && isPincodeValid && (
+                          <div className="absolute top-10 left-4 z-50">
+                            <Calendar
+                              onChange={handleDateChange}
+                              value={selectedDate}
+                              minDate={new Date()}
+                              className="w-[300px] outline-none text-xl"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="mt-8 mb-2 flex gap-2 justify-between items-center text-gray-600">
+                      <p>Delivery Charges</p>
+                      <p>{formatCurrency(deliveryCharge)}</p>
+                    </div>
+                    <div className="flex justify-end items-end flex-col">
+                      <p>Total Price</p>
+                      <p className="font-bold">
+                        {formatCurrency(serviceDetails?.offerPrice + addonTotal + (deliveryCharges || 0))}
+                      </p>
+                      {deliveryCharges > 0 && (
+                        <div className="text-sm text-gray-500 mt-1">
+                          <p>(Including delivery Chareges)</p>
+                        </div>
+                      )}
+                    </div>
+
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 justify-between items-center py-10 border rounded-lg border-gray-400 bg-gradient-to-t from-green-200 to-white">
+                  <div className="text-lg">
+                    <div className="mx-auto border-2 border-primary w-12 h-12 place-items-center place-content-center rounded-full">
+                      <TbCurrencyRupee className="text-primary" size={30} />
+                    </div>
+                    <p className="text-center pt-3">No Hidden Charges</p>
+                  </div>
+                  <div className="text-lg">
+                    <div className="mx-auto border-2 border-primary w-12 h-12 place-items-center place-content-center rounded-full">
+                      <LuHandHeart className="text-primary" size={30} />
+                    </div>
+                    <p className="text-center pt-3">10k+ Trusted Clients</p>
+                  </div>
+                  <div className="text-lg">
+                    <div className="mx-auto border-2 border-primary w-12 h-12 place-items-center place-content-center rounded-full">
+                      <GoShieldCheck className="text-primary" size={30} />
+                    </div>
+                    <p className="text-center pt-3">100% Secure Payments</p>
+                  </div>
+                </div>
+
+                <div className="rounded-md border border-gray-300 p-4 mt-4">
+                  <div className="flex justify-between">
+                    {["Inclusion", "FAQs", "Delivery details", "Care Info"].map(
+                      (item) => (
+                        <p
+                          key={item}
+                          onClick={() => setCurrentDetailsTab(item)}
+                          className={`${currentDetailsTab === item
+                            ? "text-primary border-b-2 border-primary"
+                            : "text-black"
+                            } cursor-pointer font-bold`}
+                        >
+                          {item}
+                        </p>
+                      )
+                    )}
+                  </div>
+                  <div className="mt-2 max-h-56 overflow-y-scroll scrollbar-thin">
+                    {currentDetailsTab === "Inclusion" && (
+                      <div
+                        className="mt-2"
+                        dangerouslySetInnerHTML={{
+                          __html: serviceDetails?.packageDetails
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div className="mt-2 max-h-56 overflow-y-scroll scrollbar-thin">
+                    {currentDetailsTab === "Delivery details" && (
+                      <div>
+                        {deliveryDetails.map((item, idx) => (
+                          <p key={idx}>
+                            {idx + 1}) {item}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="mt-2 max-h-56 overflow-y-scroll scrollbar-thin">
+                    {currentDetailsTab === "Care Info" && (
+                      <div>
+                        {careInstructions.map((item, idx) => (
+                          <p key={idx}>
+                            {idx + 1}) {item}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div>{currentDetailsTab === "FAQs" && <FAQ />}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {hasAddons && (
+            <>
+              <h1 className="font-bold md:text-3xl text-xl py-4">
+                Make It Extra Special
+              </h1>
+              <RecommenedAddonSlider subCat={serviceDetails?.subCategoryId} addons={addonsData} />
+            </>
+          )}
+
+          <div className="hidden md:w-[90%] mx-auto md:flex items-center justify-between gap-2 border border-gray-300 px-2 py-4 my-4 rounded-2xl">
+            <div className="flex gap-2 items-center">
+              <img src={support} className="w-10" alt="support" />
+              <div>
+                <p className="text-primary text-2xl">
+                  Want to <span>customize</span> this decoration?
+                </p>
+                <p className="text-xl">Need assistance?</p>
+              </div>
+            </div>
+            <div className="flex gap-2 items-center text-2xl">
+              <button
+                className="flex gap-2 items-center border border-green-500 text-green-500 rounded-full px-4 py-1 hover:bg-green-500 hover:text-white"
+                onClick={() => window.open(WhatsAppLink, "_blank")}
+              >
+                <img src={whatsapp} className="w-6" alt="whatsapp" />
+                Whatsapp
+              </button>
+              <button className="flex gap-2 items-center border border-blue-500 text-blue-500 rounded-full px-6 py-1 hover:bg-blue-500 hover:text-white">
+                <img src={phone} className="w-6" alt="phone" />
+                Call us
+              </button>
+            </div>
+          </div>
+
+          <div className="my-10">
+            <h1 className="font-bold text-3xl text-center">Rating</h1>
+            <div className="bg-gray-100 w-full md:p-10 py-10 px-4 place-content-center place-items-center flex md:gap-14 gap-4 my-4">
+              <div>
+                <h1 className="flex items-center gap-1 justify-center text-4xl font-bold">
+                  4.9 <IoIosStar className="text-green-600" />
+                </h1>
+                <p className="md:text-2xl text-xl text-gray-400">150 Ratings</p>
+              </div>
+              <div className="h-20 border border-gray-600" />
+              <div onClick={() => setShowReviewBox(!showReviewBox)}>
+                <p className="flex items-center gap-3 md:text-2xl text-xl cursor-pointer">
+                  Write a review <FaRegEdit />
+                </p>
+              </div>
+            </div>
+
+            {showReviewBox && (
+              <form className="flex flex-col md:w-1/2 mx-auto gap-5">
+                <label className="text-lg font-medium">
+                  Write your Experience with Lavish Events.
+                </label>
+                <textarea
+                  id="review"
+                  name="review"
+                  rows="4"
+                  cols="50"
+                  placeholder="Write your review here!"
+                  onChange={(e) => setReviewText(e.target.value)}
+                  className="p-3 resize-none border border-gray-300 rounded-md"
+                ></textarea>
+                <input
+                  type="submit"
+                  value="Submit"
+                  className="bg-green-600 p-4 text-white text-2xl uppercase"
+                  disabled={reviewText.trim() === ""}
+                />
+              </form>
+            )}
+          </div>
+
+          <div className="px-4 md:px-0 border rounded-lg p-2">
+            <p className="font-bold poppins md:text-2xl">Reviews</p>
+            <div className="flex text-yellow-400 py-2">
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
+            </div>
+
+            <ReviewGallery />
+            <ReviewCard />
+            <ReviewCard />
+
+            <a href="#" className="text-primary font-bold flex items-center pt-4">
+              Read more reviews <MdArrowRightAlt size={25} />
+            </a>
+          </div>
+
+          <div className="md:pt-10 pt-7">
+            <p className="font-bold poppins md:text-2xl">Recently Viewed</p>
+            <BasicSlider data={recentlyViewed} />
+          </div>
+
+          {(showTimeSlots || showAddonsModal) && (
+            <div className="absolute top-0 left-0 w-full h-screen bg-black/80 flex justify-center items-center z-50">
+              <div className="relative">
+                {/* Header */}
+                <div className="bg-gray-200 p-3 text-black flex items-center justify-between">
+                  <div className="md:flex gap-4">
+                    {showAddonsModal && (
+                      <button
+                        className="flex gap-1 items-center"
+                        onClick={() => {
+                          setShowAddonsModal(false);
+                          setShowTimeSlots(true);
+                        }}
+                      >
+                        <IoMdArrowRoundBack /> Go back
+                      </button>
+                    )}
+                    <p>{showAddonsModal ? "Add-ons" : "Time Slots"}</p>
+                  </div>
+                  <IoCloseSharp
+                    onClick={() => {
+                      setShowTimeSlots(false);
+                      setShowAddonsModal(false);
+                    }}
+                    className="cursor-pointer"
+                    size={30}
+                  />
+                </div>
+
+                {/* Body */}
+                {showTimeSlots && (
+                  <TimeSlotsModel
+                    setShowAddonsModal={setShowAddonsModal}
+                    setShowTimeSlots={setShowTimeSlots}
+                    hasAddons={hasAddons}
+                  />
+                )}
+
+                {showAddonsModal && hasAddons && (
+                  <RecommenedAddon subCat={serviceDetails?.subCategoryId} addons={addonsData} />
+                )}
+
+                {/* Footer */}
+                <div className="bg-white px-2 flex justify-between items-center py-2">
+                  <div>
+                    <p>Total Price</p>
+                    <p className="font-bold">
+                      {formatCurrency(serviceDetails?.offerPrice + addonTotal + (deliveryCharges || 0))}
+                    </p>
+                    {/* {deliveryCharges > 0 && (
+                      <div className="text-sm text-gray-500 mt-1">
+                        <p>Including delivery</p>
+                      </div>
+                    )} */}
+                  </div>
+
+                  {/* Buttons */}
+                  {showTimeSlots && selectedTimeSlot && (
+                    <button
+                      className="flex gap-1 items-center bg-primary p-2 text-white rounded"
+                      onClick={() => {
+                        if (hasAddons) {
+                          setShowAddonsModal(true);
+                          setShowTimeSlots(false);
+                        } else {
+                          navigate(`/checkout/${serviceId}`);
+                        }
+                      }}
+                    >
+                      {hasAddons ? "Next" : "Book Now"}
+                    </button>
+                  )}
+
+                  {showAddonsModal && (
+                    <button
+                      className="flex gap-1 items-center bg-primary p-2 text-white rounded"
+                      onClick={() => navigate(`/checkout/${serviceId}`)}
+                    >
+                      Book now
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+};
+
+export default ServiceDetails;

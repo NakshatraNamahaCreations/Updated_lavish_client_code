@@ -1,0 +1,17 @@
+{
+    "menuItems": [
+      {
+        "name": "About",
+        "link": "/about"
+      },
+      {
+        "name": "Services",
+        "dropdown": true
+      },
+      {
+        "name": "Contact Us",
+        "link": "/contact"
+      }
+    ]
+  }
+  
