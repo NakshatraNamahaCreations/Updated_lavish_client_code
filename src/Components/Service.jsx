@@ -1,58 +1,121 @@
-// import React, { useEffect, useLayoutEffect, useState } from 'react'
-// import { Link, useParams } from 'react-router-dom'
-// import { services } from "../json/services"
-// import ServiceCard from './ServiceCard'
+// import React, { useEffect, useState } from "react";
+// import { useParams } from "react-router-dom";
+// import ServiceCard from "./ServiceCard";
 
 // const Service = () => {
+//   const [filteredServices, setFilteredServices] = useState([]);
+//   const [subCatTitle, setSubCatTitle] = useState("");
+//   const [services, setServices] = useState([]);
+//   const [sortOption, setSortOption] = useState("latest");
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const { id } = useParams();
 
-//   const [filteredData, setFilteredData] = useState([])
-//   const { category } = useParams();
+//   const fetchServices = async () => {
+//     try {
+//       setLoading(true);
+//       setError(null);
+//       // Clear previous data
+//       setServices([]);
+//       setFilteredServices([]);
+//       setSubCatTitle("");
 
+//       const response = await fetch(
+//         `http://localhost:5000/api/services/filter/${id}`
+//       );
+
+//       if (!response.ok) {
+//         throw new Error(`Failed to fetch services: ${response.statusText}`);
+//       }
+
+//       const data = await response.json();
+
+//       if (data.success) {
+//         console.log("data", data);
+//         setServices(data.data);
+//         setFilteredServices(data.data);
+//       } else {
+//         setServices([]);
+//         setFilteredServices([]);
+//       }
+//     } catch (error) {
+//       console.error("Error fetching services:", error);
+//       setServices([]);
+//       setFilteredServices([]);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // Sorting function based on the selected option
+//   const handleSortChange = (event) => {
+//     setSortOption(event.target.value);
+//   };
+
+//   console.log("filteredServices", filteredServices);
+//   console.log("services", services);
+//   console.log("subCatTitle", subCatTitle);
+
+//   const sortedServices = () => {
+//     let sorted = [...filteredServices];
+
+//     if (sortOption === "latest") {
+//       sorted = sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+//     } else if (sortOption === "high to low") {
+//       sorted = sorted.sort((a, b) => (b.offerPrice || 0) - (a.offerPrice || 0));
+//     } else if (sortOption === "low to high") {
+//       sorted = sorted.sort((a, b) => (a.offerPrice || 0) - (b.offerPrice || 0));
+//     }
+//     return sorted;
+//   };
+
+//   // Fetch services when the component mounts or the `id` param changes
 //   useEffect(() => {
-//     setFilteredData(services.filter(item => item.subcatName === category))
-//   }, [category])
+//     fetchServices();
+//   }, [id]);
 
 //   return (
-//     <div className='relative md:pt-20 pt-32  mx-auto'>
-//         <div className="md:p-5 p-3">
-// {filteredData.map((cat, index) => (
-//   <div key={index} className="mb-6 md:p-4 ">
-//     {/* Subcategory Name */}
-//     <h2 className="text-xl font-bold mb-2">{cat.subcatName}</h2>
-
-//     {/* Check if subsubCat exists */}
-//     {cat.subsubCat && (
-//       <div className="flex gap-4 my-4 ">
-//         {cat.subsubCat.map((subsub, idx) => (
-//           <div key={idx} className="text-center">
-//             <img
-//               src={subsub.src}
-//               alt={subsub.subsubcatName}
-//               className="w-32 h-32 object-cover rounded-full"
-//             />
-//             <p className="mt-2 font-semibold">{subsub.subsubcatName}</p>
-//           </div>
-//         ))}
+//     <div className="relative pt-28 px-10">
+//       <div className="flex justify-between items-center mb-5 px-10">
+//         <div>
+//           <h1 className="text-2xl font-bold">{subCatTitle} Services</h1>
+//           {!loading && services.length === 0 && (
+//             <p className="text-gray-500 mt-2">No services available for this category at the moment.</p>
+//           )}
+//         </div>
+//         {services.length > 0 && (
+//           <select
+//             name="filter"
+//             className="border-b p-2 rounded-2xl w-[200px] outline-none"
+//             value={sortOption}
+//             onChange={handleSortChange}
+//           >
+//             <option value="latest">Latest</option>
+//             <option value="high to low">High to Low</option>
+//             <option value="low to high">Low to High</option>
+//           </select>
+//         )}
 //       </div>
-//     )}
 
-//             {/* Services List */}
-
-//             {/* <div className="flex md:space-x-16 lg:gap-x-20 lg:gap-y-10 flex-wrap md:justify-center justify-between lg:mt-10 mt-5"> */}
-//             <div className="grid md:grid-cols-3 grid-cols-2 justify-between lg:mt-10 mt-5">
-//               {cat.serviceName.map((service, idx) => (
-
-//                 <ServiceCard category={category} key={idx} item={service}  />
-//               ))}
-//             </div>
+//       <div className="grid grid-cols-3 lg:gap-10 gap-3 justify-between lg:mt-10 mt-5">
+//         {loading ? (
+//           <p>Loading services...</p>
+//         ) : services.length === 0 ? (
+//           <div className="col-span-3 text-center py-10">
+//             <p className="text-gray-500 text-lg">No services found for this category.</p>
+//             <p className="text-gray-400 mt-2">Please check back later or explore other categories.</p>
 //           </div>
-//         ))}
+//         ) : (
+//           sortedServices().map((service) => (
+//             <ServiceCard key={service._id} service={service} />
+//           ))
+//         )}
 //       </div>
 //     </div>
-//   )
-// }
+//   );
+// };
 
-// export default Service
+// export default Service;
 
 
 import React, { useEffect, useState } from "react";
@@ -60,91 +123,98 @@ import { useParams } from "react-router-dom";
 import ServiceCard from "./ServiceCard";
 
 const Service = () => {
-  const [filteredServices, setFilteredServices] = useState([]);
-  const [subCatTitle, setSubCatTitle] = useState("");
+  const { id } = useParams();
+
   const [services, setServices] = useState([]);
+  const [subCatTitle, setSubCatTitle] = useState("Services");
   const [sortOption, setSortOption] = useState("latest");
-  const { id } = useParams(); // Fetching 'id' from URL params
+  const [loading, setLoading] = useState(true);
 
-  const fetchServices = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/api/services/filter/${id}`
-      );
+  useEffect(() => {
+    const fetchServices = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`http://localhost:5000/api/services/filter/${id}`);
+        const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(`Failed to fetch services: ${response.statusText}`);
+        if (response.ok && data.success && Array.isArray(data.data)) {
+          setServices(data.data);
+
+          // Get subcategory name from the first service
+          const firstService = data.data[0];
+          const subCategoryName = firstService?.subCategoryId?.subCategory;
+          setSubCatTitle(subCategoryName || "Services");
+        } else {
+          setServices([]);
+          setSubCatTitle("");
+        }
+      } catch (error) {
+        console.error("Error fetching services:", error);
+        setServices([]);
+        setSubCatTitle("Error Loading Services");
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const data = await response.json();
+    fetchServices();
+  }, [id]);
 
-      if (data.success) {
-        console.log("data", data)
-        setServices(data.data); // Set the services returned from the API
-        setSubCatTitle(data.categoryName || "Services"); // Set the category name, or default to "Services"
-        setFilteredServices(data.data); // Initially, display all services as per the backend
-      } else {
-        console.error(data.message);
-      }
-    } catch (error) {
-      console.error("Error fetching services:", error);
-    }
-  };
-
-  // Sorting function based on the selected option
   const handleSortChange = (event) => {
     setSortOption(event.target.value);
   };
 
   const sortedServices = () => {
-    let sorted = [...filteredServices];
-
+    const sorted = [...services];
     if (sortOption === "latest") {
-      // Assuming createdAt is in ISO 8601 format (string)
-      sorted = sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    } else if (sortOption === "high to low") {
-      // Ensure price is treated as a number (parse if needed)
-      sorted = sorted.sort((a, b) => (b.offerPrice || 0) - (a.offerPrice || 0));
-    } else if (sortOption === "low to high") {
-      // Ensure price is treated as a number (parse if needed)
-      sorted = sorted.sort((a, b) => (a.offerPrice || 0) - (b.offerPrice || 0));
+      return sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
+    if (sortOption === "high to low") {
+      return sorted.sort((a, b) => (b.offerPrice || 0) - (a.offerPrice || 0));
+    }
+    if (sortOption === "low to high") {
+      return sorted.sort((a, b) => (a.offerPrice || 0) - (b.offerPrice || 0));
     }
     return sorted;
   };
 
-  // Fetch services when the component mounts or the `id` param changes
-  useEffect(() => {
-    fetchServices();
-  }, [id]); // Adding `id` as a dependency to refetch if the `id` changes
-
   return (
     <div className="relative pt-28 px-10">
       <div className="flex justify-between items-center mb-5 px-10">
-        <h1 className="text-2xl font-bold">{subCatTitle}</h1>
-        <select
-          name="filter"
-          className="border-b p-2 rounded-2xl w-[200px] outline-none"
-          value={sortOption}
-          onChange={handleSortChange}
-        >
-          <option value="latest">Latest</option>
-          <option value="high to low">High to Low</option>
-          <option value="low to high">Low to High</option>
-        </select>
+        <div>
+          <h1 className="text-2xl font-bold">{subCatTitle} Services</h1>
+          {/* {!loading && services.length === 0 && (
+            <p className="text-gray-500 mt-2">No services available for this category.</p>
+          )} */}
+        </div>
+
+        {services.length > 0 && (
+          <select
+            name="filter"
+            className="border-b p-2 rounded-2xl w-[200px] outline-none"
+            value={sortOption}
+            onChange={handleSortChange}
+          >
+            <option value="latest">Latest</option>
+            <option value="high to low">High to Low</option>
+            <option value="low to high">Low to High</option>
+          </select>
+        )}
       </div>
 
-
-
-      <div className="grid  grid-cols-3 lg:gap-10 gap-3 justify-between lg:mt-10 mt-5">
-        {services.length === 0 ? (
-          <p>No services found for this category.</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        {loading ? (
+          <div className="col-span-3 text-center text-gray-500">Loading services...</div>
+        ) : services.length === 0 ? (
+          <div className="col-span-3 text-center text-gray-500">
+            No services found for this category.
+          </div>
         ) : (
           sortedServices().map((service) => (
             <ServiceCard key={service._id} service={service} />
           ))
         )}
       </div>
-
     </div>
   );
 };

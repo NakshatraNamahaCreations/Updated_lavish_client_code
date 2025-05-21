@@ -5,17 +5,24 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { SlCalender } from "react-icons/sl";
 
-const TimeSlotsModel = ({ setShowAddonsModal, setShowTimeSlots, hasAddons }) => {
+const TimeSlotsModel = ({ setShowAddonsModal, setShowTimeSlots, hasAddons, timeSlots }) => {
     const [showCalendar, setShowCalendar] = useState(false);
     
-    const timeSlots = [
-        "06:00 AM - 11:00 AM",
-        "10:00 AM - 01:00 PM",
-        "01:00 PM - 04:00 PM",
-        "04:00 PM - 07:00 PM",
-        "07:00 PM - 10:00 PM",
-        "09:00 PM - 12:00 PM (15%)",
-    ];
+    // const timeSlots = [
+    //     "06:00 AM - 11:00 AM",
+    //     "10:00 AM - 01:00 PM",
+    //     "01:00 PM - 04:00 PM",
+    //     "04:00 PM - 07:00 PM",
+    //     "07:00 PM - 10:00 PM",
+    //     "09:00 PM - 12:00 PM (15%)",
+    // ];
+    // const timeSlots2 = [
+    //     "08:00 AM - 12:00 PM (10%)",
+    //     "10:00 AM - 02:00 PM",
+    //     "02:00 PM - 06:00 PM",
+    //     "06:00 PM - 10:00 PM",
+        
+    // ];
 
     const dispatch = useDispatch();
     const selectedTimeSlot = useSelector((state) => state.order.selectedTimeSlot);

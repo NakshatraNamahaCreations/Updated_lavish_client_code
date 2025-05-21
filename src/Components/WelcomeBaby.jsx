@@ -36,6 +36,8 @@ import { Link, useParams } from 'react-router-dom'
 import BasicSlider from './BasicSlider'
 import CancellationPolicy from './CancellationPolicy'
 import { getAuthAxios } from '../utils/api'
+import CardCarousel from './CardCarousel'
+import { MdArrowRightAlt } from "react-icons/md";
 
 const addOns = [
     {
@@ -118,6 +120,7 @@ const recentlyViewed = [
 const WelcomeBaby = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [subSubCategories, setSubSubCategories] = useState([]);
+    const [allServices, setAllServices] = useState([]);
     const [error, setError] = useState("");
     const { subcat_id } = useParams();
 
@@ -139,8 +142,46 @@ const WelcomeBaby = () => {
         }
     };
 
+
+    const fetchServices = async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:5000/api/services/filter/${subcat_id}`
+            );
+
+            const data = await response.json();
+
+            // If the response is not OK but contains a known 404 message, treat it gracefully
+            if (!response.ok && response.status === 404) {
+                console.warn("No services found for this subcategory.");
+                setAllServices([]);
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch services: ${response.statusText}`);
+            }
+
+            if (data.success) {
+                console.log("data", data.data);
+
+                setAllServices(data.data);
+                // setPremiumdata(premiumData);
+            } else {
+                // API responded but without success — treat it as "no data"
+                console.warn("API returned success: false");
+                setAllServices([]);
+            }
+        } catch (error) {
+            console.error("Error fetching services:", error);
+
+
+        }
+    };
+
     useEffect(() => {
         fetchSubSubcategoriesBySubCategory();
+        fetchServices();
     }, [subcat_id]);
 
 
@@ -154,7 +195,6 @@ const WelcomeBaby = () => {
         }
     };
 
-    console.log('Generated WhatsApp link:', WhatsAppLink)
 
     return (
         <div className='lg:py-24  pt-32  p-3  mx-auto'>
@@ -163,17 +203,7 @@ const WelcomeBaby = () => {
             </div>
 
             <div className='grid grid-cols-2 md:gap-10 gap-3   lg:mt-20 mt-10'>
-                {/* {imagelist.map((item, idx) => (
-                    <div className='relative' key={idx}>
-                        <Link to={`/welcomebabydecor/${item.link}`} >  <img src={item.src} alt={item.title} className='rounded-3xl mx-auto md:w-[400px] w-auto' key={item.alt} /></Link>
-                      
-                        <p className="pt-4 md:text-3xl  text-primary text-center font-medium carter">
-                                {item.title}
-                            </p>
-                            
-                    </div>
-                    
-                ))} */}
+
                 {subSubCategories.map((item, idx) => (
                     <div className="relative" key={item._id}>
                         <Link to={`/service/${item._id}`}>
@@ -181,7 +211,7 @@ const WelcomeBaby = () => {
                             <img
                                 src={`http://localhost:5000/images/${item.image}`}
                                 alt={item.subSubCategory}
-                               className='rounded-3xl mx-auto md:w-[400px] w-auto'
+                                className='rounded-3xl mx-auto md:w-[400px] w-auto'
                             />
                         </Link>
                         <p className="pt-4 md:text-3xl  text-primary text-center font-medium carter">
@@ -200,9 +230,22 @@ const WelcomeBaby = () => {
                 </Link>
 
             </div>
-            <div className='md:pt-10 pt-7'>
-                <p className='font-bold poppins md:text-2xl'>All Decorations</p>
-                <BasicSlider data={recentlyViewed} />
+            {/* Simple Decoration Section */}
+            <div className="mt-5 px-10">
+                <div className="flex justify-between">
+                    <p className="lg:text-2xl text-primary font-bold playfair-display">
+                        All Decoration Service
+                    </p>
+                    {/* <div className="text-secondary font-bold flex items-center text-sm md:text-base">
+                        View All <MdArrowRightAlt className="md:text-2xl text-xl" />
+                    </div> */}
+                </div>
+
+                {allServices.length > 0 ? (
+                    <CardCarousel centercardData={allServices} />
+                ) : (
+                    <p className="text-gray-500 text-center mt-4">Simple Decoration Service Not Found</p>
+                )}
             </div>
             {/* Add ons */}
             <div className="relative inset-0 flex flex-col items-center justify-center text-center gap-5 my-10">

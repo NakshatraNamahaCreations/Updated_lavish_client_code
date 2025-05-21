@@ -48,15 +48,6 @@ import cardecorImg from "../assets/cardecorImg.png"
 import shopDecor from "../assets/shop_decoration.png"
 import officeDecor from "../assets/office_decor.png"
 
-import barbieTheme from "../assets/barbie_theme.png"
-import junlglethere from "../assets/jungle_theme.png"
-import mermaidTheme from "../assets/Mermaid_theme.png"
-
-
-import butterflyTheme from "../assets/butterfly_theme.png"
-import traditionalTheme from "../assets/traditional_theme.png"
-import pastelTheme from "../assets/pastel_theme.png"
-
 import haldi from "../assets/haldi.png"
 import Mehendi from "../assets/Mehendi.png"
 import decor1 from "../assets/decor1.png"
@@ -72,70 +63,70 @@ import WhatsappandCallFeature from './WhatsappandCallFeature';
 import PurchasePopup from './PurchasePopup';
 import axios from 'axios';
 
-const kidsCelebList = [
-  {
-    title: "Barbie theme birthday party decoration",
-    price: "7,999",
-    img: barbieTheme
-  },
-  {
-    title: "Jungle Safari theme Birthday Party decoration",
-    price: "2,199",
-    img: junlglethere
-  },
-  {
-    title: "Mermaid theme Birthday Party decoration",
-    price: "8,999",
-    img: mermaidTheme
-  },
-  {
-    title: "Candy theme Birthday Party decoration",
-    price: "3,499",
-    img: barbieTheme
-  },
-  {
-    title: "Cars theme Birthday Party decoration",
-    price: "5,099",
-    img: mermaidTheme
-  },
-  {
-    title: "Football theme Birthday Party decoration",
-    price: "2,999",
-    img: junlglethere
-  },
-]
-const trendingDesignList = [
-  {
-    title: "Pastel Butterfly theme baby shower decoration ",
-    price: "5,999",
-    img: butterflyTheme
-  },
-  {
-    title: "Traditional Swing flowers theme baby shower decoration",
-    price: "11,199",
-    img: traditionalTheme
-  },
-  {
-    title: "Pastel theme baby shower decoration",
-    price: "4,999",
-    img: pastelTheme
-  },
-  {
-    title: "Vintage theme Baby Shower decoration",
-    price: "8,499",
-    img: barbieTheme
-  },
-  {
-    title: "Cars theme Birthday Party decoration",
-    price: 5099,
-    img: mermaidTheme
-  },
-  {
-    title: "Football theme Birthday Party decoration",
-    price: 2999,
-    img: junlglethere
-  },
-]
+// const kidsCelebList = [
+//   {
+//     title: "Barbie theme birthday party decoration",
+//     price: "7,999",
+//     img: barbieTheme
+//   },
+//   {
+//     title: "Jungle Safari theme Birthday Party decoration",
+//     price: "2,199",
+//     img: junlglethere
+//   },
+//   {
+//     title: "Mermaid theme Birthday Party decoration",
+//     price: "8,999",
+//     img: mermaidTheme
+//   },
+//   {
+//     title: "Candy theme Birthday Party decoration",
+//     price: "3,499",
+//     img: barbieTheme
+//   },
+//   {
+//     title: "Cars theme Birthday Party decoration",
+//     price: "5,099",
+//     img: mermaidTheme
+//   },
+//   {
+//     title: "Football theme Birthday Party decoration",
+//     price: "2,999",
+//     img: junlglethere
+//   },
+// ]
+// const trendingDesignList = [
+//   {
+//     title: "Pastel Butterfly theme baby shower decoration ",
+//     price: "5,999",
+//     img: butterflyTheme
+//   },
+//   {
+//     title: "Traditional Swing flowers theme baby shower decoration",
+//     price: "11,199",
+//     img: traditionalTheme
+//   },
+//   {
+//     title: "Pastel theme baby shower decoration",
+//     price: "4,999",
+//     img: pastelTheme
+//   },
+//   {
+//     title: "Vintage theme Baby Shower decoration",
+//     price: "8,499",
+//     img: barbieTheme
+//   },
+//   {
+//     title: "Cars theme Birthday Party decoration",
+//     price: 5099,
+//     img: mermaidTheme
+//   },
+//   {
+//     title: "Football theme Birthday Party decoration",
+//     price: 2999,
+//     img: junlglethere
+//   },
+// ]
 
 const occasions = [
   {
@@ -268,12 +259,14 @@ const varities = [
 
 const HomePage = () => {
 
-  const [subCategories, setSubCategories] = useState([]);
   const [services, setServices] = useState([]);
+  const [servicesbySubcategory, setServicesbySubcategory] = useState([]);
+  const [banner, setBanner] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const upcomingBanner = banner.filter(item => item.bannerType === "upcoming banner");
 
   const fetchServices = async () => {
     setLoading(true);
@@ -283,7 +276,7 @@ const HomePage = () => {
       );
       const { data } = response.data;
       setServices(data);
-      console.log(data)
+      // console.log(data)
 
     } catch (error) {
       console.error("Error fetching services:", error.message);
@@ -293,9 +286,45 @@ const HomePage = () => {
     }
   };
 
+  const fetchServivesbySubcategory = async (subcategory) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/services/by-subcategory/${subcategory}`
+      );
+      const { data } = response.data;
+      setServicesbySubcategory(data);
+      // console.log("servicesbySubcategory", data)
+
+    } catch (error) {
+      console.error("Error fetching services:", error.message);
+      setError("Failed to fetch services. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  const fetchBanner = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/banners/`
+      );
+      const { data } = response.data;
+      setBanner(data);
+      // console.log("banner", data)
+    } catch (error) {
+      console.error("Error fetching banner:", error.message);
+      setError("Failed to fetch banner. Please try again later.");
+    }
+  }
+
   useEffect(() => {
     fetchServices();
+    fetchServivesbySubcategory("Kids Birthday")
+    fetchBanner()
   }, []);
+
 
 
   const handleNavigation = async (text, baseRoute) => {
@@ -392,11 +421,11 @@ const HomePage = () => {
 
       <PurchasePopup />
 
-      <SingleCarousel />
+      <SingleCarousel banner={banner} />
       <section className='lg:py-20 p-2 '>
         <h1 className=' font-bold text-center text-primary playfair-display lg:text-5xl text-2xl'>Upcoming Festivals</h1>
         <div className="relative flex justify-center md:py-10 py-4" >
-          <img src={banner4} alt="banner" className="w-full lg:h-[400px] md:h-[250px] h-[180px] object-cover rounded-2xl" />
+          <img src={`http://localhost:5000/images/${upcomingBanner[0]?.bannerImage}`} alt="banner" className="w-full lg:h-[400px] md:h-[250px] h-[180px] object-cover rounded-2xl" />
           <div className="absolute top-1/2 lg:left-28 left-4 transform -translate-y-1/2  lg:w-[375px] md:w-[280px] w-[140px]  ">
             <div className='bg-white p-1 rounded-lg'>
               <div className='border-2 border-primary border-dashed p-1 rounded-lg'>
@@ -514,7 +543,7 @@ const HomePage = () => {
           <p className='lg:text-2xl text-primary font-bold playfair-display'>Kids Celebration</p>
           <Link to='#' className='text-secondary font-bold flex items-center text-sm md:text-base  '>View All <MdArrowRightAlt className='md:text-2xl text-xl ' /></Link>
         </div>
-        <CardCarousel centercardData={kidsCelebList} />
+        <CardCarousel centercardData={servicesbySubcategory} />
 
         <div className="relative md:flex hidden justify-center lg:py-10" >
           <img src={banner7} alt="banner" className="w-full" />
@@ -557,9 +586,8 @@ const HomePage = () => {
           <p className='lg:text-2xl text-primary font-bold playfair-display '>New Trendings Design</p>
           <Link to='#' className='text-secondary font-bold flex items-center text-sm md:text-base  '>View All <MdArrowRightAlt className='md:text-2xl text-xl ' /></Link>
         </div>
-        <CardCarousel services={services} />
-
-        <Link to="/service/11"><div className="relative lg:mt-44 md:mt-32 mt-16 mb-5 flex flex-col items-center">
+        <CardCarousel centercardData={services} />
+        <div className="relative lg:mt-44 md:mt-32 mt-16 mb-5 flex flex-col items-center" onClick={() => handleSpecialNavigation("Candlelight", "/service")}>
           <img src={banner8} alt="banner" className="w-full h-auto" />
           <div className="absolute lg:-top-24  md:-top-16 -top-8 lg:left-[9%] flex md:gap-4 gap-1 items-center  ">
             <img src={candleImg1} alt="candleImg1" className="lg:w-64 lg:h-56 md:w-40 md:h-32 w-20 h-20 object-cover rounded-s-3xl" />
@@ -574,7 +602,7 @@ const HomePage = () => {
             </button>
           </div>
         </div>
-        </Link>
+
 
 
       </section>
@@ -592,23 +620,25 @@ const HomePage = () => {
 
       <div className="relative flex justify-center lg:py-10" >
         <img src={banner9} alt="banner" className="w-full" />
-        <Link to="/service/7">
-          <div className="absolute top-1/2 lg:left-44 md:left-24 left-12 transform -translate-y-1/2     ">
-            <div className='bg-[#FF9500] md:p-2 p-1 lg:rounded-tr-[60px] lg:rounded-bl-[80px] rounded-tr-3xl rounded-bl-3xl lg:w-[420px] md:w-[240px] w-[120px]  mx-auto'>
-              <img src={haldi} alt="office decor" className="w-full max-h-full object-contain lg:rounded-tr-[60px] lg:rounded-bl-[80px] rounded-tr-3xl rounded-bl-3xl " />
-            </div>
-            <p className="carter lg:text-3xl md:text-2xl text-xs text-center text-black lg:pt-4">Haldi Decoration</p>
+        {/* <Link to="/service/7"> */}
+        <div className="absolute top-1/2 lg:left-44 md:left-24 left-12 transform -translate-y-1/2     "
+          onClick={() => handleSpecialNavigation("Haldi", "/service")}>
+          <div className='bg-[#FF9500] md:p-2 p-1 lg:rounded-tr-[60px] lg:rounded-bl-[80px] rounded-tr-3xl rounded-bl-3xl lg:w-[420px] md:w-[240px] w-[120px]  mx-auto'>
+            <img src={haldi} alt="office decor" className="w-full max-h-full object-contain lg:rounded-tr-[60px] lg:rounded-bl-[80px] rounded-tr-3xl rounded-bl-3xl " />
           </div>
-        </Link>
-        <Link to="/service/8">
-          <div className="absolute top-1/2 lg:right-44 md:right-24 right-12 transform -translate-y-1/2   ">
-            <div className='bg-[#FF9500] md:p-2 p-1 lg:rounded-tl-[60px] lg:rounded-br-[80px] rounded-tl-3xl rounded-br-3xl lg:w-[420px] md:w-[240px] w-[120px]  mx-auto'>
+          <p className="carter lg:text-3xl md:text-2xl text-xs text-center text-black lg:pt-4">Haldi Decoration</p>
+        </div>
+        {/* </Link> */}
 
-              <img src={Mehendi} alt="office decor" className="w-full max-h-full object-contain lg:rounded-tl-[60px] lg:rounded-br-[80px] rounded-tl-3xl rounded-br-3xl " />
-            </div>
-            <p className="carter lg:text-3xl md:text-2xl text-xs text-center text-black lg:pt-4">Mehendi Decoration</p>
+        <div className="absolute top-1/2 lg:right-44 md:right-24 right-12 transform -translate-y-1/2   "
+          onClick={() => handleSpecialNavigation("Mehendi", "/service")}>
+          <div className='bg-[#FF9500] md:p-2 p-1 lg:rounded-tl-[60px] lg:rounded-br-[80px] rounded-tl-3xl rounded-br-3xl lg:w-[420px] md:w-[240px] w-[120px]  mx-auto'>
+
+            <img src={Mehendi} alt="office decor" className="w-full max-h-full object-contain lg:rounded-tl-[60px] lg:rounded-br-[80px] rounded-tl-3xl rounded-br-3xl " />
           </div>
-        </Link>
+          <p className="carter lg:text-3xl md:text-2xl text-xs text-center text-black lg:pt-4">Mehendi Decoration</p>
+        </div>
+
       </div>
 
       <section className='pt-10 text-primary lg:px-0 px-4'>

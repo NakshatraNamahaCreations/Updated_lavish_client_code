@@ -1,34 +1,28 @@
 import React from "react";
 import Slider from "react-slick";
-import ServiceCard from "./ServiceCard";
-
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
-import ServiceCardstatic from "./ServiceCardstatic";
 
-
+// Arrow Components
 const PrevArrow = ({ onClick }) => (
-  <button
-    onClick={onClick}
-    className={`z-10 absolute -left-3 top-1/2 transform -translate-y-1/2
-      bg-primary text-white md:p-2 p-1 rounded-full shadow-md hover:bg-gray-900`}
-  >
-  <AiOutlineArrowLeft size={15} />
-  </button>
+    <button
+        onClick={onClick}
+        className="z-10 absolute -left-3 top-1/2 transform -translate-y-1/2 bg-primary text-white md:p-2 p-1 rounded-full shadow-md hover:bg-gray-900"
+    >
+        <AiOutlineArrowLeft size={15} />
+    </button>
 );
 
 const NextArrow = ({ onClick }) => (
-  <button
-    onClick={onClick}
-    className={`z-10 absolute -right-3 top-1/2 transform -translate-y-1/2 bg-primary text-white md:p-2 p-1 rounded-full shadow-md hover:bg-gray-900`}
-  >
-   <AiOutlineArrowRight size={15} /> 
-  </button>
+    <button
+        onClick={onClick}
+        className="z-10 absolute -right-3 top-1/2 transform -translate-y-1/2 bg-primary text-white md:p-2 p-1 rounded-full shadow-md hover:bg-gray-900"
+    >
+        <AiOutlineArrowRight size={15} />
+    </button>
 );
-
 
 function BasicSlider({ data }) {
     const settings = {
-      
         infinite: true,
         slidesToShow: 3,
         speed: 500,
@@ -44,7 +38,6 @@ function BasicSlider({ data }) {
                 settings: {
                     slidesToShow: 3,
                     slidesToScroll: 1,
-                    infinite: true,
                     dots: true,
                 },
             },
@@ -71,8 +64,19 @@ function BasicSlider({ data }) {
         <div className="md:my-10 my-3 px-4">
             <Slider {...settings}>
                 {data.map((item, index) => (
-                <ServiceCardstatic item={item} key={index}/>
-                // <Ser item={item} key={index}/>
+                    <div key={index} className="flex flex-col items-center text-center px-2">
+                        <div className="w-56 h-56 mx-auto flex justify-center items-center overflow-hidden rounded-lg">
+                            <img
+                                src={item.cardImg}
+                                alt={item.serviceName}
+                                className="object-cover h-full w-full rounded-lg"
+                            />
+                        </div>
+                        <div className="mt-2">
+                            <p className="font-semibold text-gray-800">{item.serviceName}</p>
+                            <p className="text-primary font-medium">₹{item.price}</p>
+                        </div>
+                    </div>
                 ))}
             </Slider>
         </div>
@@ -80,3 +84,12 @@ function BasicSlider({ data }) {
 }
 
 export default BasicSlider;
+
+
+
+      {/* <Slider {...settings}>
+                {data.map((item, index) => (
+                <ServiceCardstatic item={item} key={index}/>
+                // <Ser item={item} key={index}/>
+                ))}
+            </Slider> */}

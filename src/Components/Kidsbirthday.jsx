@@ -27,6 +27,7 @@ import Testimonials from './Testimonials'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import CancellationPolicy from './CancellationPolicy'
 import { getAuthAxios } from '../utils/api'
+import CardCarousel from './CardCarousel'
 
 
 const imagelist = [
@@ -93,20 +94,19 @@ const kidsactivityList = [
 const Kidsbirthday = () => {
 
     const [isOpen, setIsOpen] = useState(false);
-    const [premiumData, setPremiumdata] = useState([]);
-    const [simpleData, setSimpledata] = useState([]);
     const [subSubCategories, setSubSubCategories] = useState([]);
-    const [themes, setThemes] = useState([]);
-    const [selectedTheme, setSelectedTheme] = useState(null);
+    const [allServices, setAllServices] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
     const { subcat_id } = useParams();
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     setPremiumdata(service.filter((item) => item.sub_SubId === "104"));
-    //     setSimpledata(service.filter((item) => item.sub_SubId === "103"));
-    // }, []);
+    
+    const message = "Hello, I want to know more about kid's birthday Cakes, Games and Activities.";
+    const encodedMessage = encodeURIComponent(message);
+    const WhatsAppLink = `https://wa.me/919611430158?text=${encodedMessage}`;
+
+
 
     const fetchSubSubcategoriesBySubCategory = async () => {
         if (!subcat_id) return;
@@ -124,7 +124,41 @@ const Kidsbirthday = () => {
             setLoading(false);
         }
     };
+    const fetchServices = async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:5000/api/services/filter/${subcat_id}`
+            );
 
+            const data = await response.json();
+
+            // If the response is not OK but contains a known 404 message, treat it gracefully
+            if (!response.ok && response.status === 404) {
+                console.warn("No services found for this subcategory.");
+                setAllServices([]);
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch services: ${response.statusText}`);
+            }
+
+            if (data.success) {
+                console.log("data", data.data);
+
+                setAllServices(data.data);
+                // setPremiumdata(premiumData);
+            } else {
+                // API responded but without success — treat it as "no data"
+                console.warn("API returned success: false");
+                setAllServices([]);
+            }
+        } catch (error) {
+            console.error("Error fetching services:", error);
+
+
+        }
+    };
     const checkForThemes = async (subSubCategoryId) => {
         try {
             const res = await getAuthAxios().get(
@@ -142,7 +176,7 @@ const Kidsbirthday = () => {
             console.log("Checking themes for subSubCategoryId:", subSubCategoryId);
             const hasThemes = await checkForThemes(subSubCategoryId);
             console.log("Has themes:", hasThemes);
-            
+
             if (hasThemes) {
                 console.log("Navigating to themes page");
                 // If themes exist, navigate to themes page
@@ -159,18 +193,13 @@ const Kidsbirthday = () => {
         }
     };
 
-    const handleThemeClick = (themeId) => {
-        setSelectedTheme(themeId);
-        navigate(`/service/${themeId}`);
-    };
+
 
     useEffect(() => {
         fetchSubSubcategoriesBySubCategory();
+        fetchServices()
     }, [subcat_id]);
 
-    const message = "Hello, I want to know more about kid's birthday Cakes, Games and Activities.";
-    const encodedMessage = encodeURIComponent(message);
-    const WhatsAppLink = `https://wa.me/919611430158?text=${encodedMessage}`;
 
     const toggleModal = () => {
         setIsOpen(!isOpen);
@@ -201,7 +230,7 @@ const Kidsbirthday = () => {
             <div className="grid grid-cols-2 gap-x-12 md:gap-y-14 gap-y-5 md:place-items-center lg:mt-20 mt-10">
                 {subSubCategories.map((item) => (
                     <div className="relative" key={item._id}>
-                        <div 
+                        <div
                             onClick={() => handleSubSubCategoryClick(item._id)}
                             className="cursor-pointer transition-shadow duration-300"
                         >
@@ -231,6 +260,23 @@ const Kidsbirthday = () => {
                 </div>
             </Link>
 
+
+            <div className="mt-5 px-10">
+                <div className="flex justify-between">
+                    <p className="lg:text-2xl text-primary font-bold playfair-display">
+                        All Decoration Service
+                    </p>
+                    {/* <div className="text-secondary font-bold flex items-center text-sm md:text-base">
+              View All <MdArrowRightAlt className="md:text-2xl text-xl" />
+            </div> */}
+                </div>
+
+                {allServices.length > 0 ? (
+                    <CardCarousel centercardData={allServices} />
+                ) : (
+                    <p className="text-gray-500 text-center mt-4">Simple Decoration Service Not Found</p>
+                )}
+            </div>
 
             <div className='relative mx-auto text-center lg:mt-10'>
                 <p className='md:py-8 py-4 font-bold poppins md:text-2xl'>#KidsBirthdayDecorationBestMovements</p>

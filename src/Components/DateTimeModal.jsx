@@ -9,7 +9,7 @@ import { setEventDate, setSelectedTimeSlot } from "../features/orderdetails/orde
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from "react-router-dom";
 
-const DateTimeModal = ({ setShowModal }) => {
+const DateTimeModal = ({ setShowModal, timeSlots }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const orderState = useSelector((state) => state.order);
@@ -30,15 +30,6 @@ const DateTimeModal = ({ setShowModal }) => {
     const [isDateOpen, setIsDateOpen] = useState(false);
     const [isTimeOpen, setIsTimeOpen] = useState(false);
 
-    const timeSlots = [
-        "06:00 AM - 11:00 AM",
-        "10:00 AM - 01:00 PM",
-        "01:00 PM - 04:00 PM",
-        "04:00 PM - 07:00 PM",
-        "07:00 PM - 10:00 PM",
-        "09:00 PM - 12:00 PM (15%)",
-    ];
-
     // Format date for display
     const formatDate = (date) => {
         if (!date) return '';
@@ -52,7 +43,7 @@ const DateTimeModal = ({ setShowModal }) => {
     const handleDateChange = (date) => {
         if (date) {
             dispatch(setEventDate(date.toISOString()));
-            setIsDateOpen(false);
+            // setIsDateOpen(false);
         }
     };
 
@@ -82,7 +73,6 @@ const DateTimeModal = ({ setShowModal }) => {
                             {isDateOpen ? <GoChevronUp /> : <GoChevronDown />}
                         </span>
                     </div>
-
                     <AnimatePresence>
                         {isDateOpen && (
                             <motion.div
@@ -91,6 +81,7 @@ const DateTimeModal = ({ setShowModal }) => {
                                 exit={{ height: 0, opacity: 0 }}
                                 transition={{ duration: 0.3 }}
                                 className="mt-2 flex justify-center"
+                                onClick={(e) => e.stopPropagation()} // ✅ This line prevents closing
                             >
                                 <DatePicker
                                     selected={selectedDate}
@@ -100,10 +91,12 @@ const DateTimeModal = ({ setShowModal }) => {
                                     className='w-full outline-none'
                                     dateFormat="dd-MM-yyyy"
                                     inline
+                                    shouldCloseOnSelect={false} // ✅ Prevents auto-close on select
                                 />
                             </motion.div>
                         )}
                     </AnimatePresence>
+
                 </div>
 
                 {/* Time Slot Selection */}
@@ -132,11 +125,10 @@ const DateTimeModal = ({ setShowModal }) => {
                                         <div
                                             key={index}
                                             onClick={() => handleTimeSlotSelect(slot)}
-                                            className={`p-2 rounded-md cursor-pointer ${
-                                                selectedTimeSlot === slot
+                                            className={`p-2 rounded-md cursor-pointer ${selectedTimeSlot === slot
                                                     ? "bg-primary text-white"
                                                     : "bg-gray-100 hover:bg-gray-200"
-                                            }`}
+                                                }`}
                                         >
                                             {slot}
                                         </div>
@@ -152,11 +144,10 @@ const DateTimeModal = ({ setShowModal }) => {
                     <button
                         onClick={() => setShowModal(false)}
                         disabled={!selectedDate || !selectedTimeSlot}
-                        className={`p-2 rounded-md text-sm ${
-                            selectedDate && selectedTimeSlot
+                        className={`p-2 rounded-md text-sm ${selectedDate && selectedTimeSlot
                                 ? "bg-primary text-white"
                                 : "bg-gray-400 text-gray-200 cursor-not-allowed"
-                        }`}
+                            }`}
                     >
                         Confirm
                     </button>

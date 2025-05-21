@@ -42,6 +42,8 @@ import BasicSlider from "./BasicSlider";
 import FAQServices from "./FAQServices";
 import CancellationPolicy from "./CancellationPolicy";
 import { getAuthAxios } from "../utils/api";
+import CardCarousel from "./CardCarousel";
+import { MdArrowRightAlt } from "react-icons/md";
 
 const addOns = [
   {
@@ -147,6 +149,9 @@ const AdultBirthday = () => {
   const [subSubCategories, setSubSubCategories] = useState([]);
   const [error, setError] = useState("");
   const { subcat_id } = useParams();
+  const [allServices, setAllServices] = useState([]);
+  // const [simpleData, setSimpledata] = useState([]);
+  // const [premiumData, setPremiumdata] = useState([]);
 
   const fetchSubSubcategoriesBySubCategory = async () => {
     if (!subcat_id) return;
@@ -162,8 +167,45 @@ const AdultBirthday = () => {
     }
   };
 
+  const fetchServices = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/services/filter/${subcat_id}`
+      );
+
+      const data = await response.json();
+
+      // If the response is not OK but contains a known 404 message, treat it gracefully
+      if (!response.ok && response.status === 404) {
+        console.warn("No services found for this subcategory.");
+        setAllServices([]);
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch services: ${response.statusText}`);
+      }
+
+      if (data.success) {
+        console.log("data", data.data);
+
+        setAllServices(data.data);
+        // setPremiumdata(premiumData);
+      } else {
+        // API responded but without success — treat it as "no data"
+        console.warn("API returned success: false");
+        setAllServices([]);
+      }
+    } catch (error) {
+      console.error("Error fetching services:", error);
+  
+
+    }
+  };
+
   useEffect(() => {
     fetchSubSubcategoriesBySubCategory();
+    fetchServices();
   }, [subcat_id]);
 
   const toggleModal = () => {
@@ -198,10 +240,25 @@ const AdultBirthday = () => {
         ))}
       </div>
 
-      <div className="">
-        <p className="font-bold poppins md:text-2xl">All Decorations</p>
-        <BasicSlider data={recentlyViewed} />
-      </div>
+    
+        <div className="mt-5 px-10">
+          <div className="flex justify-between">
+            <p className="lg:text-2xl text-primary font-bold playfair-display">
+              All Decoration Service
+            </p>
+            {/* <div className="text-secondary font-bold flex items-center text-sm md:text-base">
+              View All <MdArrowRightAlt className="md:text-2xl text-xl" />
+            </div> */}
+          </div>
+
+          {allServices.length > 0 ? (
+            <CardCarousel centercardData={allServices} />
+          ) : (
+            <p className="text-gray-500 text-center mt-4">Simple Decoration Service Not Found</p>
+          )}
+        </div>
+
+
 
       {/* Add ons */}
       <div className="relative inset-0 flex flex-col items-center justify-center text-center gap-5 my-10">

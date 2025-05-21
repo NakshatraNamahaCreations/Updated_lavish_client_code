@@ -40,6 +40,8 @@ import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
 import CancellationPolicy from "./CancellationPolicy";
 import { getAuthAxios } from "../utils/api";
+import CardCarousel from "./CardCarousel";
+import axios from "axios";
 
 const addOns = [
   {
@@ -127,10 +129,64 @@ const recentlyViewed = [
 const RingCermony = () => {
   const [premiumData, setPremiumdata] = useState([]);
   const [simpleData, setSimpledata] = useState([]);
+
   const [isOpen, setIsOpen] = useState(false);
   const [subSubCategories, setSubSubCategories] = useState([]);
   const [error, setError] = useState("");
   const { subcat_id } = useParams();
+
+
+const fetchServices = async () => {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/services/filter/${subcat_id}`
+    );
+
+    const data = await response.json();
+
+    // If the response is not OK but contains a known 404 message, treat it gracefully
+    if (!response.ok && response.status === 404) {
+      console.warn("No services found for this subcategory.");
+      setSimpledata([]);
+      setPremiumdata([]);
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch services: ${response.statusText}`);
+    }
+
+    if (data.success) {
+      console.log("data", data.data);
+
+      const simpleData = data.data.filter(
+        (item) =>
+          item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
+          "simple decoration"
+      );
+
+      const premiumData = data.data.filter(
+        (item) =>
+          item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
+          "premium decoration"
+      );
+
+      setSimpledata(simpleData);
+      setPremiumdata(premiumData);
+    } else {
+      // API responded but without success — treat it as "no data"
+      console.warn("API returned success: false");
+      setSimpledata([]);
+      setPremiumdata([]);
+    }
+  } catch (error) {
+    console.error("Error fetching services:", error);
+    // Optional: Show a user-friendly message to the UI
+    setSimpledata([]);
+    setPremiumdata([]);
+  }
+};
+
 
   const fetchSubSubcategoriesBySubCategory = async () => {
     if (!subcat_id) return;
@@ -139,7 +195,7 @@ const RingCermony = () => {
         `subsubcategories/subcategory/${subcat_id}`
       );
       setSubSubCategories(res.data.data);
-      console.log("subSubCategories", res.data.data);
+      console.log("res subsubcategories", res.data.data);
     } catch (err) {
       console.error("error", err);
       setError("Failed to load subcategories");
@@ -148,6 +204,7 @@ const RingCermony = () => {
 
   useEffect(() => {
     fetchSubSubcategoriesBySubCategory();
+    fetchServices();
   }, [subcat_id]);
 
   const toggleModal = () => {
@@ -158,10 +215,9 @@ const RingCermony = () => {
       document.body.style.overflow = "auto";
     }
   };
-  useEffect(() => {
-    setPremiumdata(service.filter((item) => item.sub_SubId === "102"));
-    setSimpledata(service.filter((item) => item.sub_SubId === "101"));
-  }, []);
+
+
+
 
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
@@ -174,38 +230,60 @@ const RingCermony = () => {
           return (
             <div className="relative" key={item._id}>
               {/* <Link to={subSubAvailable ? `/service/${item.sub_SubId}` : `/service/${item.subId}`}> */}
-               <Link to={`/service/${item._id}`}>
-               <img
-                src={`http://localhost:5000/images/${item.image}`}
-                alt={item.subSubCategory}
-                className="rounded-3xl w-[500px] "
-              />
-                   <p className="text-primary pt-4 md:text-3xl text-xl text-center font-medium carter">
-              {item.subSubCategory}
-            </p>
+              <Link to={`/service/${item._id}`}>
+                <img
+                  src={`http://localhost:5000/images/${item.image}`}
+                  alt={item.subSubCategory}
+                  className="rounded-3xl w-[500px] "
+                />
+                <p className="text-primary pt-4 md:text-3xl text-xl text-center font-medium carter">
+                  {item.subSubCategory}
+                </p>
               </Link>
             </div>
           );
         })}
       </div>
 
-      <div className="mt-5">
-        <div className="flex justify-between ">
-          <p className="lg:text-2xl text-primary font-bold playfair-display">
-            Simple Decoration Service
-          </p>
-          <Link
-            to={`/service/101`}
-            className="text-secondary font-bold flex items-center text-sm md:text-base  "
-          >
-            View All <MdArrowRightAlt className="md:text-2xl text-xl " />
-          </Link>
+
+      <div className="px-10">
+
+        {/* Simple Decoration Section */}
+        <div className="mt-5">
+          <div className="flex justify-between">
+            <p className="lg:text-2xl text-primary font-bold playfair-display">
+              Simple Decoration Service
+            </p>
+           
+          </div>
+
+          {simpleData.length > 0 ? (
+            <CardCarousel centercardData={simpleData} />
+          ) : (
+            <p className="text-gray-500 text-center mt-4">Simple Decoration Service Not Found</p>
+          )}
         </div>
 
-        {<BasicSlider data={simpleData} />}
+        {/* Premium Decoration Section */}
+        <div className="mt-10">
+          <div className="flex justify-between">
+            <p className="lg:text-2xl text-primary font-bold playfair-display">
+              Premium Decoration Service
+            </p>
+      
+          </div>
+
+          {premiumData.length > 0 ? (
+            <CardCarousel centercardData={premiumData} />
+          ) : (
+            <p className="text-gray-500 text-center mt-4">Premium Decoration Service Not Found</p>
+          )}
+        </div>
+
       </div>
 
-      <div>
+
+      {/* <div>
         <div className="flex justify-between ">
           <p className="lg:text-2xl text-primary font-bold playfair-display">
             Premium Decoration Service
@@ -217,8 +295,8 @@ const RingCermony = () => {
             View All <MdArrowRightAlt className="md:text-2xl text-xl " />
           </Link>
         </div>
-        {<BasicSlider data={premiumData} />}
-      </div>
+        {premiumData.length > 0 && <CardCarousel centercardData={premiumData} />}
+      </div> */}
 
       {/* Add ons */}
       <div className="relative inset-0 flex flex-col items-center justify-center text-center gap-5 md:my-10 my-4">

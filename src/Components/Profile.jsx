@@ -14,175 +14,335 @@ import { IoMdClose } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { setProfile } from '../features/userdetails/profileSlice';
-
+import ReasonModal from './ReasonModal';
+import RescheduleDateModal from './rescheduleDateModal';
+import dayjs from 'dayjs';
 
 
 const PastBookings = () => {
-  const storedUser = localStorage.getItem('user');
-  const userData = JSON.parse(storedUser);
-  const userId = userData?.id;
+    const storedUser = localStorage.getItem('user');
+    const userData = JSON.parse(storedUser);
+    const userId = userData?.id;
 
-  const [pastOrders, setPastOrders] = useState([]);
+    const [pastOrders, setPastOrders] = useState([]);
 
-  const fetchPastOrders = async () => {
-    try {
-      const res = await axios.get(`http://localhost:5000/api/orders/past/${userId}`);
-      console.log('Past Orders:', res.data.data);
-      setPastOrders(res.data.data);
-    } catch (error) {
-      console.error('Failed to fetch past orders:', error.message);
-    }
-  };
+    const fetchPastOrders = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/api/orders/past/${userId}`);
+            console.log('Past Orders:', res.data.data);
+            setPastOrders(res.data.data);
+        } catch (error) {
+            console.error('Failed to fetch past orders:', error.message);
+        }
+    };
 
-  useEffect(() => {
-    if (userId) fetchPastOrders();
-  }, [userId]);
+    useEffect(() => {
+        if (userId) fetchPastOrders();
+    }, [userId]);
 
-  return (
-    <div className='h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5 scrollbar-hide'>
-      <div className='lg:w-[60%]'>
-        <h1 className='font-bold poppins lg:my-6'>Past Bookings</h1>
+    return (
+        <div className='h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5 scrollbar-hide'>
+            <div className='lg:w-[60%]'>
+                <h1 className='font-bold poppins lg:my-6'>Past Bookings</h1>
 
-        {pastOrders.length === 0 ? (
-          <p className='text-gray-500'>No past bookings found.</p>
-        ) : (
-          pastOrders.map((order, index) => {
-            const mainService = order.items.find(item => item.categoryType === 'Service') || order.items[0];
-            const serviceName = mainService?.serviceName || 'No Service Name';
-            const serviceImage = mainService?.image
-              ? `http://localhost:5000/uploads/${mainService.image}`
-              : 'https://th.bing.com/th/id/R.aa6627cec345231b8cc69736c2cfa851?rik=VJh5IRdLTL4Hmg&riu=http%3a%2f%2fyoumeandtrends.com%2fwp-content%2fuploads%2f2015%2f11%2fwedding-stage-decoration-with-flowers.jpg&ehk=2h9J7oqWffAAjaUSGprqOEf3OPcl3khR%2fN4IgWpGRis%3d&risl=&pid=ImgRaw&r=0';
+                {pastOrders.length === 0 ? (
+                    <p className='text-gray-500'>No past bookings found.</p>
+                ) : (
+                    pastOrders.map((order, index) => {
+                        const mainService = order.items.find(item => item.categoryType === 'Service') || order.items[0];
+                        const serviceName = mainService?.serviceName || 'No Service Name';
+                        const serviceImage = mainService?.image
+                            ? `http://localhost:5000/uploads/${mainService.image}`
+                            : 'https://th.bing.com/th/id/R.aa6627cec345231b8cc69736c2cfa851?rik=VJh5IRdLTL4Hmg&riu=http%3a%2f%2fyoumeandtrends.com%2fwp-content%2fuploads%2f2015%2f11%2fwedding-stage-decoration-with-flowers.jpg&ehk=2h9J7oqWffAAjaUSGprqOEf3OPcl3khR%2fN4IgWpGRis%3d&risl=&pid=ImgRaw&r=0';
 
-            return (
-              <div key={index} className='border border-gray-300 lg:p-4 p-2 rounded my-4'>
-                <div className='flex lg:gap-4 gap-2 lg:items-center'>
-                  <img
-                    src={serviceImage}
-                    alt='Service'
-                    className='w-24 h-28 rounded-2xl object-cover'
-                  />
-                  <div className='space-y-1'>
-                    <p className='font-normal poppins'>{serviceName}</p>
-                    <p className='text-sm text-gray-600 font-medium flex items-center gap-2'>
-                      <HiOutlineCalendarDateRange />
-                      {order?.eventDate || 'N/A'}
-                    </p>
-                    <p className='text-sm text-gray-600 font-medium flex items-center gap-2'>
-                      <IoMdTime />
-                      {order?.eventTime || 'N/A'}
-                    </p>
-                    <p className='text-sm text-gray-600 font-medium flex items-center gap-2'>
-                      <CiMoneyCheck1 />
-                      Package Amount: ₹{order?.grandTotal || 'N/A'}
-                    </p>
-                  </div>
-                </div>
-                <div className='flex md:items-end md:flex-col flex-row-reverse items-center justify-between gap-4 lg:pt-4 md:pt-0'>
-                  <h1 className='font-medium text-lg'>₹{order?.grandTotal || 'N/A'}</h1>
-                </div>
-              </div>
-            );
-          })
-        )}
-      </div>
-    </div>
-  );
+                        return (
+                            <div key={index} className='border border-gray-300 lg:p-4 p-2 rounded my-4'>
+                                <div className='flex lg:gap-4 gap-2 lg:items-center'>
+                                    <img
+                                        src={serviceImage}
+                                        alt='Service'
+                                        className='w-24 h-28 rounded-2xl object-cover'
+                                    />
+                                    <div className='space-y-1'>
+                                        <p className='font-normal poppins'>{serviceName}</p>
+                                        <p className='text-sm text-gray-600 font-medium flex items-center gap-2'>
+                                            <HiOutlineCalendarDateRange />
+                                            {order?.eventDate || 'N/A'}
+                                        </p>
+                                        <p className='text-sm text-gray-600 font-medium flex items-center gap-2'>
+                                            <IoMdTime />
+                                            {order?.eventTime || 'N/A'}
+                                        </p>
+                                        {/* <p className='text-sm text-gray-600 font-medium flex items-center gap-2'>
+                                            <CiMoneyCheck1 />
+                                            Package Amount: ₹{order?.grandTotal || 'N/A'}
+                                        </p> */}
+                                    </div>
+                                </div>
+                                <div className='flex md:items-end md:flex-col flex-row-reverse items-center justify-between gap-4 lg:pt-4 md:pt-0'>
+                                    <h1 className='font-medium text-md text-gray-800'>Total: Rs. {order?.grandTotal || 'N/A'}</h1>
+                                </div>
+                            </div>
+                        );
+                    })
+                )}
+            </div>
+        </div>
+    );
 };
 
 
 
-  
+const parseStartTime = (dateStr, timeRange) => {
+    const startTimeRaw = timeRange.split(" - ")[0]; // e.g., "10:00 AM"
+    return dayjs(`${dateStr} ${startTimeRaw}`, "MMMM D, YYYY hh:mm A");
+};
 
-  
+
+
+
 const UpcomingBookings = () => {
-    // Check if user is logged in
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem("user");
     const userData = JSON.parse(storedUser);
-    const userId = userData.id;
-    console.log("userId", userId);
+    const userId = userData?.id;
 
-    // Fetch upcoming orders
-    const fetchUpcomingOrders = async (userId) => {
-        const res = await axios.get(`http://localhost:5000/api/orders/upcoming/${userId}`);
-        console.log('Upcoming Orders:', res.data.data);
+    const timeSlotsBasic = [
+        "06:00 AM - 11:00 AM",
+        "10:00 AM - 01:00 PM",
+        "01:00 PM - 04:00 PM",
+        "04:00 PM - 07:00 PM",
+        "07:00 PM - 10:00 PM",
+        "09:00 PM - 12:00 PM (15%)",
+    ];
+    const timeSlotsPremium = [
+        "08:00 AM - 12:00 PM (10%)",
+        "10:00 AM - 02:00 PM",
+        "02:00 PM - 06:00 PM",
+        "06:00 PM - 10:00 PM",
+
+    ];
+
+    const [upcomingOrders, setUpcomingOrders] = useState([]);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const [showDateModal, setShowDateModal] = useState(false);
+    const [showReasonModal, setShowReasonModal] = useState(false);
+    const [isCancelling, setIsCancelling] = useState(false);
+    const [newDate, setNewDate] = useState("");
+    const [newTime, setNewTime] = useState("");
+    const [error, setError] = useState("");
+
+    const fetchUpcomingOrders = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/api/orders/upcoming/${userId}`);
+            setUpcomingOrders(res.data.data);
+            console.log(res.data.data);
+        } catch (error) {
+            console.error("Failed to fetch upcoming orders:", error.message);
+        }
     };
 
     useEffect(() => {
-        fetchUpcomingOrders(userId);
+        if (userId) fetchUpcomingOrders();
     }, [userId]);
 
+    // Parse event start datetime from date and time slot string
+    const parseEventStartDateTime = (dateStr, timeSlotStr) => {
+        const [startTime] = timeSlotStr?.split(" - ") || [];
+        const fullDateTimeStr = `${dateStr} ${startTime}`;
+        return dayjs(fullDateTimeStr, "MMM D, YYYY hh:mm A");
+    };
+
+    const handleRescheduleClick = (order) => {
+        setSelectedOrder(order);
+        setNewDate(order.eventDate);
+        setNewTime(order.eventTime);
+        setShowDateModal(true);
+        setError("");
+        setIsCancelling(false);
+    };
+
+    const handleDateConfirm = () => {
+        const originalDate = selectedOrder?.eventDate;
+        const originalTime = selectedOrder?.eventTime;
+
+        if (!newDate && newTime) {
+            alert("Please select a date if you are changing the time.");
+            return;
+        }
+
+        if (newDate === originalDate && newTime === originalTime) {
+            alert("No changes detected. Please select a new date or time.");
+            return;
+        }
+
+        setShowDateModal(false);
+        setShowReasonModal(true);
+        setIsCancelling(false);
+    };
+
     return (
-        <div className='h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5  scrollbar-hide'>
-            <div className='lg:w-[60%] '>
-                <h1 className='font-bold poppins lg:my-6'>Upcoming Bookings</h1>
-                <p className='lg:pb-7 text-[#AA6300] font-medium'>20th Mar 2025</p>
-                <div className='border border-gray-300 lg:p-4 p-2 rounded my-4'>
-                    <div className='flex lg:gap-4 gap-2 lg:items-center'>
-                        <img src={img} className='w-24 h-28 rounded-2xl' />
-                        <div className='space-y-1'>
-                            <p className=' font-normal poppins'>Baby Shower Decoration</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <HiOutlineCalendarDateRange /> 11th Jan 2025</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <IoMdTime /> 08:00 AM - 11:00 AM</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <CiMoneyCheck1 /> Package Amount : Rs. 1,599</p>
-                        </div>
-                    </div>
-                    <div className=' flex md:items-end md:flex-col flex-row-reverse items-center justify-between gap-4 lg:pt-4 md:pt-0 '>
-                        {/* <RiDeleteBin6Line className='cursor-pointer' /> */}
-                        <h1 className='font-medium text-lg'>Rs. 1,599</h1>
-                    </div>
-                </div>
-                <div className='border border-gray-300 lg:p-4 p-2 rounded my-4'>
-                    <div className='flex lg:gap-4 gap-2 lg:items-center'>
-                        <img src={img} className='w-24 h-28 rounded-2xl' />
-                        <div className='space-y-1'>
-                            <p className=' font-normal poppins'>Baby Shower Decoration</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <HiOutlineCalendarDateRange /> 11th Jan 2025</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <IoMdTime /> 08:00 AM - 11:00 AM</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <CiMoneyCheck1 /> Package Amount : Rs. 1,599</p>
-                        </div>
-                    </div>
-                    <div className=' flex md:items-end md:flex-col flex-row-reverse items-center justify-between gap-4 lg:pt-4 md:pt-0 '>
-                        {/* <RiDeleteBin6Line className='cursor-pointer' /> */}
-                        <h1 className='font-medium text-lg'>Rs. 1,599</h1>
-                    </div>
-                </div>
-                <div className='border border-gray-300 lg:p-4 p-2 rounded my-4'>
-                    <div className='flex lg:gap-4 gap-2 lg:items-center'>
-                        <img src={img} className='w-24 h-28 rounded-2xl' />
-                        <div className='space-y-1'>
-                            <p className=' font-normal poppins'>Baby Shower Decoration</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <HiOutlineCalendarDateRange /> 11th Jan 2025</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <IoMdTime /> 08:00 AM - 11:00 AM</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <CiMoneyCheck1 /> Package Amount : Rs. 1,599</p>
-                        </div>
-                    </div>
-                    <div className=' flex md:items-end md:flex-col flex-row-reverse items-center justify-between gap-4 lg:pt-4 md:pt-0 '>
-                        {/* <RiDeleteBin6Line className='cursor-pointer' /> */}
-                        <h1 className='font-medium text-lg'>Rs. 1,599</h1>
-                    </div>
-                </div>
+        <div className="h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5 scrollbar-hide">
+            <div className="lg:w-[60%]">
+                <h1 className="font-bold poppins lg:my-6">Upcoming Bookings</h1>
 
-                <div className='border border-gray-300 lg:p-4 p-2 rounded my-4'>
-                    <div className='flex lg:gap-4 gap-2 lg:items-center'>
-                        <img src={img} className='w-24 h-28 rounded-2xl' />
-                        <div className='space-y-1'>
-                            <p className=' font-normal poppins'>Baby Shower Decoration</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <HiOutlineCalendarDateRange /> 11th Jan 2025</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <IoMdTime /> 08:00 AM - 11:00 AM</p>
-                            <p className='text-sm text-gray-600 font-medium flex items-center gap-2'> <CiMoneyCheck1 /> Package Amount : Rs. 1,599</p>
-                        </div>
+                {error && (
+                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4">
+                        {error}
                     </div>
-                    <div className=' flex md:items-end md:flex-col flex-row-reverse items-center justify-between gap-4 lg:pt-4 md:pt-0 '>
-                        {/* <RiDeleteBin6Line className='cursor-pointer' /> */}
-                        <h1 className='font-medium text-lg'>Rs. 1,599</h1>
-                    </div>
-                </div>
+                )}
 
+                {upcomingOrders.length === 0 ? (
+                    <p className="text-gray-500">No upcoming bookings found.</p>
+                ) : (
+                    upcomingOrders.map((order, index) => {
+                        const mainService =
+                            order.items.find((item) => item.categoryType.toLowerCase() === "service") || order.items[0];
+
+                        const serviceName = mainService?.serviceName || "No Service Name";
+                        const serviceImage = mainService?.image
+                            ? `http://localhost:5000/images/${mainService.image}`
+                            : "";
+
+                        const isRescheduled = !!order.rescheduledEventDate;
+                        const displayDate = isRescheduled ? order.rescheduledEventDate : order.eventDate;
+                        const displayTime = order.rescheduledEventSlot || order.eventTime;
+                        const packageAmount = mainService?.price;
+
+                        // Calculate difference in hours from now to event start
+                        const eventStart = parseEventStartDateTime(order.eventDate, order.eventTime);
+                        const now = dayjs();
+                        const hoursLeft = eventStart.diff(now, "hour");
+
+                        const canReschedule = hoursLeft >= 24 && !isRescheduled;
+                        const canCancel = hoursLeft >= 24 && (order.orderStatus === 'created' || order.orderStatus === 'rescheduled');
+
+                        return (
+                            <div key={index} className="border border-gray-300 lg:p-4 p-2 rounded my-4">
+                                <div className="flex lg:gap-4 gap-2 lg:items-center">
+                                    <img
+                                        src={serviceImage}
+                                        alt="Service"
+                                        className="w-24 h-28 rounded-2xl object-cover"
+                                    />
+                                    <div className="space-y-1">
+                                        <p className="font-normal poppins">{serviceName}</p>
+
+                                        {isRescheduled && order.orderStatus === 'rescheduled' && (
+                                            <p className=" text-purple-600 font-medium">Rescheduled</p>
+                                        )}
+
+                                        {order.orderStatus === 'cancelled' && (
+                                            <p className=" text-red-600 font-medium">Cancelled</p>
+                                        )}
+
+
+                                        <p className="text-sm text-gray-600 font-medium flex items-center gap-2">
+                                            <HiOutlineCalendarDateRange />
+                                            {displayDate || "N/A"}
+                                        </p>
+                                        <p className="text-sm text-gray-600 font-medium flex items-center gap-2">
+                                            <IoMdTime />
+                                            {displayTime || "N/A"}
+                                        </p>
+                                        <p className="text-sm text-gray-600 font-medium flex items-center gap-2">
+                                            <IoMdTime />
+                                            Package Amount: ₹{packageAmount || "N/A"}
+                                        </p>
+
+                                        <div className="flex gap-2">
+                                            {canReschedule && (
+                                                <button
+                                                    onClick={() => handleRescheduleClick(order)}
+                                                    className="mt-2 px-4 py-1 text-sm bg-purple-800 text-white rounded hover:bg-purple-600"
+                                                >
+                                                    Reschedule
+                                                </button>
+                                            )}
+                                            {canCancel && (
+                                                <button
+                                                    onClick={() => {
+                                                        setSelectedOrder(order);
+                                                        setIsCancelling(true);
+                                                        setShowReasonModal(true);
+                                                    }}
+                                                    className="mt-2 px-4 py-1 text-sm bg-gray-500 text-white rounded hover:bg-gray-600"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex md:items-end md:flex-col flex-row-reverse items-center justify-between gap-4 lg:pt-4 md:pt-0">
+                                    <h1 className="font-medium text-md text-gray-800">
+                                        Total: Rs. {order?.grandTotal || "N/A"}
+                                    </h1>
+                                </div>
+                            </div>
+                        );
+                    })
+                )}
             </div>
-        </div>
 
-    )
-}
+            {/* Reschedule Modal */}
+            {/* {showDateModal && (
+                <RescheduleDateModal
+                    timeSlots={upcomingOrders.find(item => item.categoryType === 'service')?.price > 4000 ? timeSlotsPremium : timeSlotsBasic}
+                    setShowModal={setShowDateModal}
+                    selectedOrder={selectedOrder}
+                    newDate={newDate}
+                    setNewDate={setNewDate}
+                    newTime={newTime}
+                    setNewTime={setNewTime}
+                    onContinue={handleDateConfirm}
+                />
+            )} */}
+
+            {showDateModal && (
+                <RescheduleDateModal
+                    timeSlots={
+                        selectedOrder?.items.find(item => item.categoryType?.toLowerCase() === 'service')?.price > 4000
+                            ? timeSlotsPremium
+                            : timeSlotsBasic
+                    }
+                    setShowModal={setShowDateModal}
+                    selectedOrder={selectedOrder}
+                    newDate={newDate}
+                    setNewDate={setNewDate}
+                    newTime={newTime}
+                    setNewTime={setNewTime}
+                    onContinue={handleDateConfirm}
+                />
+            )}
+
+
+            {/* Reason Modal (Cancel / Reschedule) */}
+            {showReasonModal && (
+                <ReasonModal
+                    setShowModal={setShowReasonModal}
+                    selectedOrder={selectedOrder}
+                    newDate={newDate}
+                    newTime={newTime}
+                    fetchUpcomingOrders={fetchUpcomingOrders}
+                    isCancelling={isCancelling}
+                />
+            )}
+        </div>
+    );
+};
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 const ProfileForm = () => {

@@ -1,11 +1,67 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { GoHeartFill, GoHeart } from "react-icons/go";
 import { IoIosStar } from "react-icons/io";
+import axios from "axios";
 
 const ServiceCard = ({ service }) => {
-  const [togglelike, setToggleLike] = useState(false);
-  
+  const [isInWishlist, setIsInWishlist] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const storedUser = localStorage.getItem('user');
+  const userData = JSON.parse(storedUser);
+  const customerId = userData?.id;
+
+  useEffect(() => {
+    const checkWishlistStatus = async () => {
+      if (!customerId || !service?._id) return;
+      
+      try {
+        const response = await axios.get(`http://localhost:5000/api/wishlist/${customerId}`);
+        const wishlistItems = response.data.wishlist;
+        const isServiceInWishlist = wishlistItems.some(item => item.serviceId._id === service._id);
+        setIsInWishlist(isServiceInWishlist);
+        
+      } catch (error) {
+        console.error("Error checking wishlist status:", error);
+      }
+    };
+
+    checkWishlistStatus();
+  }, [customerId, service?._id]);
+
+  const handleWishlist = async () => {
+    if (!customerId) {
+      // Handle case when user is not logged in
+      alert("Please login to add items to wishlist");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      if (isInWishlist) {
+        // Remove from wishlist
+        await axios.delete(`http://localhost:5000/api/wishlist/remove-item/${customerId}/${service._id}`);
+        setIsInWishlist(false);
+      } else {
+        // Add to wishlist with all required fields
+        await axios.post(`http://localhost:5000/api/wishlist/create/`, {
+          serviceId: service._id,
+          serviceName: service.serviceName,
+          customerId,
+          servicePrice: service.offerPrice || service.price || 0,
+          serviceImages: service.images || []
+        });
+        setIsInWishlist(true);
+      }
+    } catch (error) {
+      console.error("Error updating wishlist:", error);
+      alert(error.response?.data?.message || "Error updating wishlist");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // If service is undefined or null, return a placeholder card
   if (!service) {
     return (
@@ -19,16 +75,17 @@ const ServiceCard = ({ service }) => {
     <div className="relative mx-auto group mb-4 shadow-lg rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300 break-inside-avoid md:px-3 md:pt-4 md:w-[300px] w-[180px] md:h-[360px] h-[280px] border border-gray-300">
       <div
         className="rounded-full bg-white p-2 absolute lg:top-6 lg:right-6 top-2 right-1 text-2xl cursor-pointer"
-        onClick={() => setToggleLike(!togglelike)}
+        onClick={handleWishlist}
+        style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
       >
-        {togglelike ? (
+        {isInWishlist ? (
           <GoHeartFill className="text-red-600" />
         ) : (
           <GoHeart className="text-gray-600" />
         )}
       </div>
 
-      <Link to={`/service/details/${service._id || '1'}`}>
+      <Link to={`/service/details/${service._id}`}>
         <div>
           <div>
             <img
@@ -59,3 +116,4 @@ const ServiceCard = ({ service }) => {
 };
 
 export default ServiceCard;
+

@@ -31,6 +31,8 @@ import Signup from "./Components/Signup";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import OrderConfirmation from "./Components/OrderConfirmation";
 import Themes from './Components/Themes';
+import Thankyou from "./Components/Thankyou";
+
 
 
 function App() {
@@ -45,11 +47,12 @@ function App() {
           {/* <Route path="/service/:subId/:serviceId" element={<ServiceDetails />} /> */}
           <Route path="/service/details/:serviceId" element={<ServiceDetails />} />
           <Route path="/wishlist" element={<Wishlist />} />
-           <Route path="/profile" element={ <ProtectedRoute> <Profile /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute> <Profile /></ProtectedRoute>} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/checkout/:serviceId" element={<Checkout />} />
-          <Route path="/order-confirmation" element={<OrderConfirmation />} />
+          {/* <Route path="/order-confirmation" element={<OrderConfirmation />} /> */}
+          <Route path="/thank-you" element={<Thankyou />} />
           <Route path="/kidsBirthdaydecor/:subcat_id" element={<Kidsbirthday />} />
           <Route path="/adultBirthdaydecor/:subcat_id" element={<AdultBirthday />} />
           <Route path="/anniversarydecor/:subcat_id" element={<Anniversary />} />

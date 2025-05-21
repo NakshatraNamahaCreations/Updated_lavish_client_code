@@ -42,6 +42,7 @@ import { MdArrowRightAlt } from "react-icons/md";
 import ServiceSlider from './ServiceSlider'
 import CancellationPolicy from './CancellationPolicy'
 import { getAuthAxios } from '../utils/api'
+import CardCarousel from './CardCarousel'
 
 const addOns = [
     {
@@ -131,26 +132,79 @@ const NamingCeremony = () => {
     const [simpleData, setSimpledata] = useState([])
     const [isOpen, setIsOpen] = useState(false);
     const [subSubCategories, setSubSubCategories] = useState([]);
-  const [error, setError] = useState("");
-  const { subcat_id } = useParams();
+    const [error, setError] = useState("");
+    const { subcat_id } = useParams();
 
-  const fetchSubSubcategoriesBySubCategory = async () => {
-    if (!subcat_id) return;
-    try {
-      const res = await getAuthAxios().get(
-        `subsubcategories/subcategory/${subcat_id}`
-      );
-      setSubSubCategories(res.data.data);
-      console.log("subSubCategories", res.data.data);
-    } catch (err) {
-      console.error("error", err);
-      setError("Failed to load subcategories");
-    }
-  };
+    const fetchSubSubcategoriesBySubCategory = async () => {
+        if (!subcat_id) return;
+        try {
+            const res = await getAuthAxios().get(
+                `subsubcategories/subcategory/${subcat_id}`
+            );
+            setSubSubCategories(res.data.data);
+            console.log("subSubCategories", res.data.data);
+        } catch (err) {
+            console.error("error", err);
+            setError("Failed to load subcategories");
+        }
+    };
 
-  useEffect(() => {
-    fetchSubSubcategoriesBySubCategory();
-  }, [subcat_id]);
+    const fetchServices = async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:5000/api/services/filter/${subcat_id}`
+          );
+      
+          const data = await response.json();
+      
+          // If the response is not OK but contains a known 404 message, treat it gracefully
+          if (!response.ok && response.status === 404) {
+            console.warn("No services found for this subcategory.");
+            setSimpledata([]);
+            setPremiumdata([]);
+            return;
+          }
+      
+          if (!response.ok) {
+            throw new Error(`Failed to fetch services: ${response.statusText}`);
+          }
+      
+          if (data.success) {
+            console.log("data", data.data);
+      
+            const simpleData = data.data.filter(
+              (item) =>
+                item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
+                "simple decoration"
+            );
+      
+            const premiumData = data.data.filter(
+              (item) =>
+                item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
+                "premium decoration"
+            );
+      
+            setSimpledata(simpleData);
+            setPremiumdata(premiumData);
+          } else {
+            // API responded but without success — treat it as "no data"
+            console.warn("API returned success: false");
+            setSimpledata([]);
+            setPremiumdata([]);
+          }
+        } catch (error) {
+          console.error("Error fetching services:", error);
+          // Optional: Show a user-friendly message to the UI
+          setSimpledata([]);
+          setPremiumdata([]);
+        }
+      };
+
+
+    useEffect(() => {
+        fetchSubSubcategoriesBySubCategory();
+        fetchServices();
+    }, [subcat_id]);
 
     const toggleModal = () => {
         setIsOpen(!isOpen);
@@ -205,21 +259,21 @@ const NamingCeremony = () => {
 
                 ))} */}
 
-{subSubCategories.map((item, idx) => (
-          <div className="relative" key={item._id}>
-            <Link to={`/service/${item._id}`}>
-         
-              <img
-                src={`http://localhost:5000/images/${item.image}`}
-                alt={item.subSubCategory}
-                className="rounded-3xl w-[500px] "
-              />
-            </Link>
-            <p className="text-primary pt-4 md:text-3xl text-xl text-center font-medium carter">
-              {item.subSubCategory}
-            </p>
-          </div>
-        ))}
+                {subSubCategories.map((item, idx) => (
+                    <div className="relative" key={item._id}>
+                        <Link to={`/service/${item._id}`}>
+
+                            <img
+                                src={`http://localhost:5000/images/${item.image}`}
+                                alt={item.subSubCategory}
+                                className="rounded-3xl w-[500px] "
+                            />
+                        </Link>
+                        <p className="text-primary pt-4 md:text-3xl text-xl text-center font-medium carter">
+                            {item.subSubCategory}
+                        </p>
+                    </div>
+                ))}
             </div>
             <Link to={WhatsAppLink} target="_blank" rel="noopener noreferrer">
                 <div className="md:my-10 my-5">
@@ -234,28 +288,39 @@ const NamingCeremony = () => {
                 </div>
             </Link>
 
-            <div className='mt-5'>
+            <div className="px-10">
 
-                <div className='flex justify-between '>
-                    <p className='lg:text-2xl text-primary font-bold playfair-display'>Simple Decoration Service</p>
-                    <Link to={`/service/129`} className='text-secondary font-bold flex items-center text-sm md:text-base  '>View All <MdArrowRightAlt className='md:text-2xl text-xl ' /></Link>
+                {/* Simple Decoration Section */}
+                <div className="mt-5">
+                    <div className="flex justify-between">
+                        <p className="lg:text-2xl text-primary font-bold playfair-display">
+                            Simple Decoration Service
+                        </p>
+                     
+                    </div>
+
+                    {simpleData.length > 0 ? (
+                        <CardCarousel centercardData={simpleData} />
+                    ) : (
+                        <p className="text-gray-500 text-center mt-4">Simple Decoration Service Not Found</p>
+                    )}
                 </div>
 
-                {
-                    <BasicSlider data={simpleData} />
-                }
-            </div>
+                {/* Premium Decoration Section */}
+                <div className="mt-10">
+                    <div className="flex justify-between">
+                        <p className="lg:text-2xl text-primary font-bold playfair-display">
+                            Premium Decoration Service
+                        </p>
+                    </div>
 
-
-
-            <div>
-                <div className='flex justify-between '>
-                    <p className='lg:text-2xl text-primary font-bold playfair-display'>Premium Decoration Service</p>
-                    <Link to={`/service/130`} className='text-secondary font-bold flex items-center text-sm md:text-base  '>View All <MdArrowRightAlt className='md:text-2xl text-xl ' /></Link>
+                    {premiumData.length > 0 ? (
+                        <CardCarousel centercardData={premiumData} />
+                    ) : (
+                        <p className="text-gray-500 text-center mt-4">Premium Decoration Service Not Found</p>
+                    )}
                 </div>
-                {
-                    <BasicSlider data={premiumData} />
-                }
+
             </div>
 
             {/* Add ons */}
@@ -324,7 +389,7 @@ const NamingCeremony = () => {
                 <p className='font-bold poppins md:py-6 pb-4 md:text-2xl'>Why Celebrate With Lavisheventzz</p>
                 <img src={adultBanner3} className='mx-auto w-[1600px]' />
             </div>
-          
+
             <div className='my-4'>
                 <p className='text-center font-bold poppins text-2xl'>FAQs</p>
                 <p className='text-right text-lg underline cursor-pointer' onClick={toggleModal}>Cancellation Policy</p>

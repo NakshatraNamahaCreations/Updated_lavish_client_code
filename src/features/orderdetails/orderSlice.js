@@ -52,13 +52,18 @@ const initialState = {
     deliveryCharges: 0,
     couponDiscount: 0,
     gstAmount: 0,
-    paymentType: 'full', // 'full' or 'half'
+    // paymentType: 'full', // 'full' or 'half'
     paidAmount: 0,
     dueAmount: 0,
     address: '',
     pincode: '',
     balloonsColor: [],
-    items: []
+    items: [],
+    addNote: '',
+    venueAddress: '',
+    source: '',
+    occasion: '',
+    altMobile: '',
   },
   selectedTimeSlot: null,
   isPincodeValid: false,
@@ -66,7 +71,8 @@ const initialState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  message: ''
+  message: '',
+
 };
 
 const GST_PERCENTAGE = 18;
@@ -114,12 +120,13 @@ const orderSlice = createSlice({
       state.deliveryMessage = action.payload;
     },
 
-    setBalloonColors: (state, action) => {
-      state.currentOrder.balloonsColor = action.payload;
+
+    setBalloonsColor: (state, action) => {
+      state.currentOrder.balloonsColor = action.payload; // ✅ FIXED FIELD NAME
     },
 
     addServiceItem: (state, action) => {
-      const { serviceName, price, originalPrice, image , id} = action.payload;
+      const { serviceName, price, originalPrice, image, id, customizedInputs = [] } = action.payload;
 
       const serviceIndex = state.currentOrder.items.findIndex(
         item => item.categoryType === 'service'
@@ -134,7 +141,8 @@ const orderSlice = createSlice({
           image,
           quantity: 1,
           categoryType: 'service',
-          _id: id
+          id,
+          customizedInputs
         };
       } else {
         state.currentOrder.items.push({
@@ -144,7 +152,8 @@ const orderSlice = createSlice({
           quantity: 1,
           image,
           categoryType: 'service',
-          _id: id
+          id,
+          customizedInputs
         });
       }
 
@@ -155,7 +164,7 @@ const orderSlice = createSlice({
     },
 
     addAddonItem: (state, action) => {
-      const { serviceName, originalPrice, image, quantity = 1 , id} = action.payload;
+      const { serviceName, originalPrice, image, quantity = 1, id, customizedInputs = [] } = action.payload;
 
       const addonIndex = state.currentOrder.items.findIndex(
         item => item.categoryType === 'addon' && item.serviceName === serviceName
@@ -174,7 +183,8 @@ const orderSlice = createSlice({
           price: originalPrice * quantity,
           image,
           categoryType: 'addon',
-          _id: id
+          id,
+          customizedInputs
         });
       }
 
@@ -224,8 +234,26 @@ const orderSlice = createSlice({
       }
       updateTotals(state);
     },
-    
+    recalculateTotals: (state) => {
+      updateTotals(state);
+    },
 
+    setAddNote: (state, action) => {
+      state.currentOrder.addNote = action.payload;
+    },
+    setVenueAddress: (state, action) => {
+      state.currentOrder.venueAddress = action.payload;
+    },
+    setSource: (state, action) => {
+      state.currentOrder.source = action.payload;
+    },
+    setOccasion: (state, action) => {
+      state.currentOrder.occasion = action.payload;
+    },
+    setAltMobile: (state, action) => {
+      state.currentOrder.altMobile = action.payload;
+    },
+    
     completeOrder: (state) => {
       state.orders.push({ ...state.currentOrder });
 
@@ -275,37 +303,54 @@ const orderSlice = createSlice({
 
 // Updated helper function for all calculations
 const updateTotals = (state) => {
-  // Calculate items total
+  const hasItems = state.currentOrder.items.length > 0;
+
+  if (!hasItems) {
+    state.currentOrder.subTotal = 0;
+    state.currentOrder.gstAmount = 0;
+    state.currentOrder.grandTotal = 0;
+    state.currentOrder.paidAmount = 0;
+    state.currentOrder.dueAmount = 0;
+    return;
+  }
+
+  // 1. Total all items (price * quantity)
   const itemsTotal = state.currentOrder.items.reduce((total, item) => {
     return total + (item.price * item.quantity);
   }, 0);
 
-  // Only include delivery charges if pincode is valid
+  // 2. Add delivery charges only if pincode is valid
   const deliveryAmount = state.isPincodeValid ? state.currentOrder.deliveryCharges : 0;
 
-  // Calculate subtotal (items + delivery)
-  const subtotalBeforeGST = itemsTotal + deliveryAmount;
-  state.currentOrder.subTotal = subtotalBeforeGST;
+  // 3. Subtotal before GST and discount
+  const subtotalBeforeDiscount = itemsTotal + deliveryAmount;
 
-  // Only apply coupon if it's full payment
-  const couponAmount = state.currentOrder.paymentType === 'half' ? 0 : state.currentOrder.couponDiscount;
+  // 4. Apply coupon if available and paymentType is 'full'
+  const couponAmount =
+    state.currentOrder.paymentType === 'half' ? 0 : state.currentOrder.couponDiscount || 0;
 
-  // Calculate GST on (subtotal - coupon)
-  const gstAmount = Math.round(((subtotalBeforeGST - couponAmount) * 18) / 100);
+  // 5. Subtotal after discount
+  const subtotalAfterDiscount = subtotalBeforeDiscount - couponAmount;
+  state.currentOrder.subTotal = subtotalAfterDiscount;
+
+  // 6. GST = 18% of subtotal
+  const gstAmount = Math.round((subtotalAfterDiscount * GST_PERCENTAGE) / 100);
   state.currentOrder.gstAmount = gstAmount;
 
-  // Calculate grand total
-  state.currentOrder.grandTotal = subtotalBeforeGST - couponAmount + gstAmount;
+  // 7. Grand Total = subtotal + GST
+  const grandTotal = subtotalAfterDiscount + gstAmount;
+  state.currentOrder.grandTotal = grandTotal;
 
-  // Handle payment calculations
+  // 8. Payment calculations
   if (state.currentOrder.paymentType === 'half') {
-    state.currentOrder.paidAmount = Math.round(state.currentOrder.grandTotal / 2);
-    state.currentOrder.dueAmount = Math.round(state.currentOrder.grandTotal / 2);
+    state.currentOrder.paidAmount = Math.round(grandTotal / 2);
+    state.currentOrder.dueAmount = grandTotal - state.currentOrder.paidAmount;
   } else {
-    state.currentOrder.paidAmount = state.currentOrder.grandTotal;
+    state.currentOrder.paidAmount = grandTotal;
     state.currentOrder.dueAmount = 0;
   }
 };
+
 
 export const {
   resetCurrentOrder,
@@ -316,14 +361,20 @@ export const {
   setDeliveryCharges,
   setIsPincodeValid,
   setDeliveryMessage,
-  setBalloonColors,
+  setAddNote,
+  setBalloonsColor,
   addServiceItem,
   addAddonItem,
   updateAddonQuantity,
   removeAddonItem,
   setCouponDiscount,
   setPaymentType,
-  completeOrder
+  recalculateTotals,
+  completeOrder,
+  setVenueAddress,
+  setSource,
+  setOccasion,
+  setAltMobile
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

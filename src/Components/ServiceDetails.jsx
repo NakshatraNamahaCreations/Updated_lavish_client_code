@@ -11,7 +11,8 @@ import {
   setIsPincodeValid,
   setDeliveryMessage,
   setDeliveryCharges,
-  setBalloonColors,
+  setBalloonsColor,
+  recalculateTotals
 } from "../features/orderdetails/orderSlice";
 
 // Import assets
@@ -23,20 +24,19 @@ import traditionalTheme from "../assets/traditional_theme.png";
 import pastelTheme from "../assets/pastel_theme.png";
 import { GrLocation } from "react-icons/gr";
 import { SlCalender } from "react-icons/sl";
-import { FaCheck, FaStar } from "react-icons/fa6";
+
 import { IoClose, IoCloseSharp } from "react-icons/io5";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import support from "../assets/support.png";
 import phone from "../assets/phone.png";
 import whatsapp from "../assets/whatsapp.png";
-import { MdArrowRightAlt } from "react-icons/md";
+
 import img1 from "../assets/butterfly_theme.png";
 import img2 from "../assets/candleImg3.png";
 import img3 from "../assets/categoryimg1.png";
 import img4 from "../assets/categoryimg8.png";
 import img5 from "../assets/momentsgallery7.png";
 import img6 from "../assets/navImg4.png";
-import ReviewGallery from "./ReviewGallery";
 import TimeSlotsModel from "./TimeSlotsModel";
 import RecommenedAddon from "./RecommenedAddon";
 import { GoHeartFill, GoHeart } from "react-icons/go";
@@ -47,12 +47,12 @@ import { MdOutlineCurrencyRupee } from "react-icons/md";
 import { TbCurrencyRupee } from "react-icons/tb";
 import { LuHandHeart } from "react-icons/lu";
 import { GoShieldCheck } from "react-icons/go";
-import { IoIosStar } from "react-icons/io";
-import { FaRegEdit } from "react-icons/fa";
+
 import MultiSelect from "./MultiSelect";
 import ServiceBottomButtons from "./ServiceBottomButtons";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import Review from "./Review";
 
 // Static images for carousel
 const images = [
@@ -104,23 +104,44 @@ const recentlyViewed = [
   },
 ];
 
+
+const timeSlotsBasic = [
+  "06:00 AM - 11:00 AM",
+  "10:00 AM - 01:00 PM",
+  "01:00 PM - 04:00 PM",
+  "04:00 PM - 07:00 PM",
+  "07:00 PM - 10:00 PM",
+  "09:00 PM - 12:00 PM (15%)",
+];
+const timeSlotsPremium = [
+  "08:00 AM - 12:00 PM (10%)",
+  "10:00 AM - 02:00 PM",
+  "02:00 PM - 06:00 PM",
+  "06:00 PM - 10:00 PM",
+
+];
+
 // Pincode lists for delivery charge calculation
 const zerocharges_pin_bangalore = [
   ...new Set([
-    "560044", "560081", "560069", "560093", "560022", "560048", "560023", "560054", "560085",
-    "560020", "560006", "560066", "560030", "560002", "560007", "560018", "560017", "560059",
-    "560060", "560067", "560038", "560098", "560021", "560055", "560012", "560057", "560026",
-    "560019", "560089", "560095", "560056", "560094", "560049", "560015", "560050", "560004",
-    "560046", "560028", "560025", "560036", "560074", "560092", "560024", "560071", "560027",
-    "560086", "560035", "560034", "560087", "560070", "560045", "560078", "560090", "560052",
-    "560041", "560009", "560084", "560062", "560037", "560016", "560047", "560014", "560011",
-    "560005", "560001", "560003", "560058", "560072", "560013", "560042", "560077", "560040",
-    "560064", "560033", "560061", "560010", "560073", "560075", "560068", "560063", "560082",
-    "560097", "560091", "560031", "560039", "560051", "560053", "560088", "560096", "560076",
-    "560079", "560029", "560065", "560080", "560043", "560032", "560008"
-  ]
-  ),
+    "560001", "560002", "560003", "560004", "560005", "560006", "560007", "560008", "560009",
+    "560010", "560011", "560012", "560013", "560014", "560015", "560016", "560017", "560018",
+    "560019", "560020", "560021", "560022", "560023", "560024", "560025", "560026", "560027",
+    "560028", "560029", "560030", "560031", "560032", "560033", "560034", "560035", "560036",
+    "560037", "560038", "560039", "560040", "560041", "560042", "560043", "560044", "560045",
+    "560046", "560047", "560048", "560049", "560050", "560051", "560052", "560053", "560054",
+    "560055", "560056", "560057", "560058", "560059", "560060", "560061", "560062", "560063",
+    "560064", "560065", "560066", "560067", "560068", "560069", "560070", "560071", "560072",
+    "560073", "560074", "560075", "560076", "560077", "560078", "560079", "560080", "560081",
+    "560082", "560083", "560084", "560085", "560086", "560087", "560088", "560089", "560090",
+    "560091", "560092", "560093", "560094", "560095", "560096", "560097", "560098", "560099",
+    "560100", "560101", "560102", "560103", "560104", "560106", "560107", "560108", "560109",
+    "560110", "560111", "560113", "560114", "560116", "560117", "562125", "560105"
+  ])
 ];
+
+const notAvailablePincodes = ["562107", "562110", "561203", "561205", "562109"];
+const specialPincodes = ["562125", "560099", "560105", "560067"];
 
 const deliveryDetails = [
   "You will need to provide a stool to reach the ceiling.",
@@ -145,34 +166,39 @@ const careInstructions = [
   "Please Check Decoration Place Climate (Outdoor): Before starting the decoration, check the climate of the decoration area (if outdoors).",
 ];
 
-const ReviewCard = () => {
-  return (
-    <div className="flex md:gap-5 gap-3 max-w-sm md:p-4 rounded-lg mt-10">
-      <div>
-        <img
-          src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?t=st=1739355337~exp=1739358937~hmac=dfb66ae3ac23da9abd511f79f05dcf0e3c0e175a532caf9ce60f1d392fe76eb5&w=740"
-          alt="avatar"
-          className="w-20 h-20 rounded-full"
-        />
-      </div>
-      <div>
-        <p className="font-medium">Rangarajan</p>
-        <p className="text-gray-500">Reviewed in December</p>
-        <div className="flex text-yellow-400 py-3">
-          <FaStar />
-          <FaStar />
-          <FaStar />
-          <FaStar />
-          <FaStar />
-        </div>
-        <p>Such good job by Lavishxeventz!!!</p>
-      </div>
-    </div>
-  );
-};
+// const ReviewCard = () => {
+//   return (
+//     <div className="flex md:gap-5 gap-3 max-w-sm md:p-4 rounded-lg mt-10">
+//       <div>
+//         <img
+//           src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?t=st=1739355337~exp=1739358937~hmac=dfb66ae3ac23da9abd511f79f05dcf0e3c0e175a532caf9ce60f1d392fe76eb5&w=740"
+//           alt="avatar"
+//           className="w-20 h-20 rounded-full"
+//         />
+//       </div>
+//       <div>
+//         <p className="font-medium">Rangarajan</p>
+//         <p className="text-gray-500">Reviewed in December</p>
+//         <div className="flex text-yellow-400 py-3">
+//           <FaStar />
+//           <FaStar />
+//           <FaStar />
+//           <FaStar />
+//           <FaStar />
+//         </div>
+//         <p>Such good job by Lavishxeventz!!!</p>
+//       </div>
+//     </div>
+//   );
+// };
 
 const ServiceDetails = () => {
   const { serviceId } = useParams(); // Get the serviceId from URL params
+  const storedUser = localStorage.getItem('user');
+  const userData = JSON.parse(storedUser);
+  const customerId = userData?.id;
+
+
   const [serviceDetails, setServiceDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -183,7 +209,7 @@ const ServiceDetails = () => {
   const selectedTimeSlot = useSelector((state) => state.order.selectedTimeSlot);
   const isPincodeValid = useSelector((state) => state.order.isPincodeValid);
   const deliveryMessage = useSelector((state) => state.order.deliveryMessage);
-  const { subTotal, grandTotal, deliveryCharges } = useSelector((state) => state.order.currentOrder);
+  const { deliveryCharges } = useSelector((state) => state.order.currentOrder);
   const addonTotal = useSelector((state) =>
     state.order.currentOrder.items
       ?.filter((item) => item.categoryType === "addon")
@@ -198,16 +224,18 @@ const ServiceDetails = () => {
   const [openCalendar, setOpenCalendar] = useState(false);
   const [togglelike, setToggleLike] = useState(false);
   const [currentDetailsTab, setCurrentDetailsTab] = useState("Inclusion");
-  const [showReviewBox, setShowReviewBox] = useState(false);
-  const [reviewText, setReviewText] = useState("");
-  const [selectedOptions, setSelectedOptions] = useState(["default"]);
+
   const [selectedDate, setSelectedDate] = useState(null);
   const [addonsData, setAddonsData] = useState([]);
   const [hasAddons, setHasAddons] = useState(false);
   const [loadingAddons, setLoadingAddons] = useState(true);
 
-  // Debug effect to log Redux order state changes
+  const selectedOptions = useSelector((state) => state.order.currentOrder.balloonsColor);
+
   const reduxOrderState = useSelector((state) => state.order);
+
+  const [isInWishlist, setIsInWishlist] = useState(false);
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
 
   useEffect(() => {
     console.log("Redux Order State:", reduxOrderState);
@@ -218,22 +246,29 @@ const ServiceDetails = () => {
     const fetchServiceDetails = async () => {
       try {
         setLoading(true);
-        // Make API call to fetch service details by serviceId
         const response = await axios.get(`http://localhost:5000/api/services/${serviceId}`);
-        // console.log("API Response:", response.data.data);
-
         const details = response.data.data;
         setServiceDetails(details);
+        console.log("Service Details:", details);
 
-        // Add service to redux store
+        // ✅ Step 1: Save the service in the order
         if (details) {
           dispatch(addServiceItem({
             serviceName: details.serviceName,
             price: details.offerPrice,
             originalPrice: details.originalPrice,
-            image: details.serviceImage || '',
-            _id: details._id
+            image: details.images[0] || '',
+            id: details._id,
+            customizedInputs: details.customizedInputs,
           }));
+
+          // ✅ Step 2: Save the default balloon colors to Redux
+          if (Array.isArray(details.balloonColors) && details.balloonColors.length > 0) {
+            dispatch(setBalloonsColor(details.balloonColors));
+          }
+
+          // ✅ Trigger subtotal + GST calculation after item is added
+          dispatch(recalculateTotals());
         }
       } catch (err) {
         console.error("Error fetching service details:", err);
@@ -247,6 +282,7 @@ const ServiceDetails = () => {
       fetchServiceDetails();
     }
   }, [serviceId, dispatch]);
+
 
   // Fetch addons for this service
   useEffect(() => {
@@ -262,13 +298,14 @@ const ServiceDetails = () => {
 
         if (Array.isArray(result) && result.length > 0) {
           setAddonsData(result);
+          console.log("Addons Data:", result);
           setHasAddons(true);
         } else {
           setAddonsData([]);
           setHasAddons(false);
         }
       } catch (error) {
-        console.error("Error fetching addons:", error);
+        console.error("Error fetching addons:", error.response.data.message);
         setAddonsData([]);
         setHasAddons(false);
       } finally {
@@ -311,48 +348,48 @@ const ServiceDetails = () => {
 
   // Get delivery charge based on pincode
   const getDeliveryCharge = (pincode, price) => {
-    const notAvailablePincodes = ["562107", "562110", "561203", "561205", "562109"];
-    const specialPincodes = ["560105", "560099", "560083", "562114", "562106"];
-
+    // 1. Blocked pincodes
     if (notAvailablePincodes.includes(pincode)) {
       return {
         message: "Service not available for this pincode",
         price: 0,
-        isValid: false
+        isValid: false,
       };
     }
 
+    // 2. Special pincodes with tiered charges
     if (specialPincodes.includes(pincode)) {
       if (price <= 4000) {
         return {
-          message: "For this service 1500 delivery charges applicable",
-          price: 1500,
-          isValid: true
+          message: "For this service ₹500 delivery charges applicable",
+          price: 500,
+          isValid: true,
         };
       } else {
         return {
-          message: "For this service 500 delivery charges applicable",
-          price: 500,
-          isValid: true
+          message: "For this service ₹1500 delivery charges applicable",
+          price: 1500,
+          isValid: true,
         };
       }
     }
 
+    // 3. Free delivery pincodes
     if (zerocharges_pin_bangalore.includes(pincode)) {
       return {
-        message: "0 delivery charges for this pincode",
+        message: "₹0 delivery charges for this pincode",
         price: 0,
-        isValid: true
+        isValid: true,
       };
     }
 
+    // 4. Unknown/invalid pincode
     return {
       message: "Invalid Pincode",
       price: 0,
-      isValid: false
+      isValid: false,
     };
   };
-
   const handleDateChange = (date) => {
     setSelectedDate(date);
     dispatch(setEventDate(date));
@@ -367,18 +404,18 @@ const ServiceDetails = () => {
       alert("Please enter a valid pincode first");
       return;
     }
-    if (selectedOptions.length === 0) {
-      alert("Please select balloons color before Selecting date");
+    if (!selectedOptions || selectedOptions.length === 0) {
+      alert("Please select balloons color before selecting date");
       return;
     }
+
     setOpenCalendar(!openCalendar);
   };
 
-  // Handle balloon color selection
-  const handleBalloonColorChange = (colors) => {
-    setSelectedOptions(colors);
-    dispatch(setBalloonColors(colors));
-  };
+  useEffect(() => {
+    console.log("Balloon colors in Redux:", reduxOrderState.currentOrder.balloonsColor);
+  }, [reduxOrderState.currentOrder.balloonsColor]);
+
 
   // For WhatsApp contact
   const city = "Bangalore";
@@ -400,6 +437,55 @@ const ServiceDetails = () => {
       .replace("₹", "Rs. ");
   };
 
+  // Add this useEffect to check wishlist status
+  useEffect(() => {
+    const checkWishlistStatus = async () => {
+      if (!customerId || !serviceId) return;
+      
+      try {
+        const response = await axios.get(`http://localhost:5000/api/wishlist/${customerId}`);
+        const wishlistItems = response.data.wishlist;
+        const isServiceInWishlist = wishlistItems.some(item => item.serviceId._id === serviceId);
+        setIsInWishlist(isServiceInWishlist);
+      } catch (error) {
+        console.error("Error checking wishlist status:", error);
+      }
+    };
+
+    checkWishlistStatus();
+  }, [customerId, serviceId]);
+
+  // Add this function to handle wishlist operations
+  const handleWishlist = async () => {
+    if (!customerId) {
+      alert("Please login to add items to wishlist");
+      return;
+    }
+
+    setIsWishlistLoading(true);
+    try {
+      if (isInWishlist) {
+        // Remove from wishlist
+        await axios.delete(`http://localhost:5000/api/wishlist/remove-item/${customerId}/${serviceId}`);
+        setIsInWishlist(false);
+      } else {
+        // Add to wishlist
+        await axios.post(`http://localhost:5000/api/wishlist/create/`, {
+          serviceId: serviceId,
+          serviceName: serviceDetails?.serviceName,
+          customerId,
+          servicePrice: serviceDetails?.offerPrice || serviceDetails?.price || 0,
+          serviceImages: serviceDetails?.images || []
+        });
+        setIsInWishlist(true);
+      }
+    } catch (error) {
+      console.error("Error updating wishlist:", error);
+      alert(error.response?.data?.message || "Error updating wishlist");
+    } finally {
+      setIsWishlistLoading(false);
+    }
+  };
 
   return (
     <div className="lg:py-28 lg:px-10 p-4 pt-32 mx-auto">
@@ -413,7 +499,7 @@ const ServiceDetails = () => {
 
           <div className="relative grid md:grid-cols-2 grid-cols-1 lg:gap-10 gap-4">
             <div>
-              <ProductSlideCarousel images={images} />
+              <ProductSlideCarousel images={serviceDetails?.images} />
               <div className="rounded-md border border-gray-300 lg:my-20 p-4">
                 <div>
                   <h1 className="font-semibold py-3">Required</h1>
@@ -432,9 +518,10 @@ const ServiceDetails = () => {
               <div className="md:relative mt-5 lg:mt-0">
                 <div
                   className="absolute lg:top-0 md:-top-8 top-5 md:right-0 right-1 rounded-full border border-gray-300 bg-white p-2 text-black text-2xl cursor-pointer"
-                  onClick={() => setToggleLike(!togglelike)}
+                  onClick={handleWishlist}
+                  style={{ pointerEvents: isWishlistLoading ? 'none' : 'auto' }}
                 >
-                  {togglelike ? (
+                  {isInWishlist ? (
                     <GoHeartFill className="text-red-600" />
                   ) : (
                     <GoHeart className="text-gray-600" />
@@ -485,7 +572,7 @@ const ServiceDetails = () => {
                       <MultiSelect
                         disabled={!isPincodeValid}
                         defaulyballoonsColors={serviceDetails.balloonColors}
-                        onSelectionChange={(colors) => dispatch(setBalloonColors(colors))}
+                        onSelectionChange={(colors) => dispatch(setBalloonsColor(colors))}
                       />
                       <div className="relative">
                         <div
@@ -646,65 +733,7 @@ const ServiceDetails = () => {
             </div>
           </div>
 
-          <div className="my-10">
-            <h1 className="font-bold text-3xl text-center">Rating</h1>
-            <div className="bg-gray-100 w-full md:p-10 py-10 px-4 place-content-center place-items-center flex md:gap-14 gap-4 my-4">
-              <div>
-                <h1 className="flex items-center gap-1 justify-center text-4xl font-bold">
-                  4.9 <IoIosStar className="text-green-600" />
-                </h1>
-                <p className="md:text-2xl text-xl text-gray-400">150 Ratings</p>
-              </div>
-              <div className="h-20 border border-gray-600" />
-              <div onClick={() => setShowReviewBox(!showReviewBox)}>
-                <p className="flex items-center gap-3 md:text-2xl text-xl cursor-pointer">
-                  Write a review <FaRegEdit />
-                </p>
-              </div>
-            </div>
-
-            {showReviewBox && (
-              <form className="flex flex-col md:w-1/2 mx-auto gap-5">
-                <label className="text-lg font-medium">
-                  Write your Experience with Lavish Events.
-                </label>
-                <textarea
-                  id="review"
-                  name="review"
-                  rows="4"
-                  cols="50"
-                  placeholder="Write your review here!"
-                  onChange={(e) => setReviewText(e.target.value)}
-                  className="p-3 resize-none border border-gray-300 rounded-md"
-                ></textarea>
-                <input
-                  type="submit"
-                  value="Submit"
-                  className="bg-green-600 p-4 text-white text-2xl uppercase"
-                  disabled={reviewText.trim() === ""}
-                />
-              </form>
-            )}
-          </div>
-
-          <div className="px-4 md:px-0 border rounded-lg p-2">
-            <p className="font-bold poppins md:text-2xl">Reviews</p>
-            <div className="flex text-yellow-400 py-2">
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaStar />
-            </div>
-
-            <ReviewGallery />
-            <ReviewCard />
-            <ReviewCard />
-
-            <a href="#" className="text-primary font-bold flex items-center pt-4">
-              Read more reviews <MdArrowRightAlt size={25} />
-            </a>
-          </div>
+          <Review serviceId={serviceId} customerId={customerId} />
 
           <div className="md:pt-10 pt-7">
             <p className="font-bold poppins md:text-2xl">Recently Viewed</p>
@@ -746,6 +775,7 @@ const ServiceDetails = () => {
                     setShowAddonsModal={setShowAddonsModal}
                     setShowTimeSlots={setShowTimeSlots}
                     hasAddons={hasAddons}
+                    timeSlots={serviceDetails?.offerPrice > 4000 ? timeSlotsPremium : timeSlotsBasic}
                   />
                 )}
 

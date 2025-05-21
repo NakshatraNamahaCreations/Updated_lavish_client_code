@@ -21,8 +21,16 @@ const DynamicInputField = ({ item, index, onChange }) => {
     fetchBalloons();
   }, []);
 
+  // Add null check for item
+  if (!item || !item.label) {
+    console.warn('DynamicInputField received invalid item prop:', item);
+    return null;
+  }
+
   const getOptions = (label, inputType) => {
-    const normalized = label?.toLowerCase();
+    if (!label) return [];
+    
+    const normalized = label.toLowerCase();
 
     const foilOptions = ["Silver", "Golden"];
     const digitOptions = Array.from({ length: 10 }, (_, i) => `${i}`);
@@ -37,7 +45,7 @@ const DynamicInputField = ({ item, index, onChange }) => {
     if (normalized.includes("flavour") || normalized.includes("flavor")) return cakeFlavours;
     if (normalized.includes("eggless") || normalized.includes("egg")) return eggOptions;
     if (normalized.includes("balloon color")) return balloonColors;
-    if (normalized.includes("foil color") || normalized.includes("star foil")) return foilOptions;
+    if (normalized.includes("foil color") || normalized.includes("star foil") || normalized.includes("frill color")) return foilOptions;
     if (normalized.includes("digit")) return digitOptions;
     if (normalized.includes("letter")) return letterOptions;
     if (normalized.includes("name")) return letterOptions;

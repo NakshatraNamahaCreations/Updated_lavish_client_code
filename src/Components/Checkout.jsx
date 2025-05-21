@@ -25,7 +25,12 @@ import {
     resetCurrentOrder,
     setAddress,
     setCouponDiscount,
-    setPaymentType
+    setPaymentType,
+    setAddNote,
+    setVenueAddress,
+    setSource,
+    setOccasion,
+    setAltMobile
 } from '../features/orderdetails/orderSlice'
 import DynamicInputField from './DynamicInputField';
 import AuthModal from "./AuthModal";
@@ -39,13 +44,11 @@ const Checkout = () => {
     const orderState = useSelector((state) => state.order);
     const authState = useSelector((state) => state.auth);
 
-    const { currentOrder, selectedTimeSlot, isPincodeValid, deliveryMessage } = orderState;
+    const { currentOrder, selectedTimeSlot, isPincodeValid, deliveryMessage, } = orderState;
     const user = authState?.user || null;
 
     const {
-        orderId,
         eventDate,
-        eventTime,
         grandTotal,
         subTotal,
         deliveryCharges,
@@ -55,17 +58,24 @@ const Checkout = () => {
         balloonsColor,
         items,
         gstAmount,
-        paidAmount,
-        dueAmount,
-        paymentType
+        addNote
     } = currentOrder;
 
-    const [formData, setFormData] = useState({
-        venueAddress: address || '',
-        source: '',
-        occasion: '',
-        altMobile: ''
-    });
+    const timeSlotsBasic = [
+        "06:00 AM - 11:00 AM",
+        "10:00 AM - 01:00 PM",
+        "01:00 PM - 04:00 PM",
+        "04:00 PM - 07:00 PM",
+        "07:00 PM - 10:00 PM",
+        "09:00 PM - 12:00 PM (15%)",
+    ];
+    const timeSlotsPremium = [
+        "08:00 AM - 12:00 PM (10%)",
+        "10:00 AM - 02:00 PM",
+        "02:00 PM - 06:00 PM",
+        "06:00 PM - 10:00 PM",
+
+    ];
 
     const [showModal, setShowModal] = useState(false)
     const [showCoupon, setShowCoupon] = useState(false)
@@ -74,13 +84,13 @@ const Checkout = () => {
     const [selectedPayPercentage, setSelectedPayPercentage] = useState('100');
     const [selectedNotification, setSelectedNotification] = useState(false);
     const [openOption, setOpenOption] = useState(false);
-    const [selectSource, setSelectSource] = useState("");
     const [serviceDetails, setServiceDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [customizedValues, setCustomizedValues] = useState({});
     const [isOpen, setIsOpen] = useState(false);
     const [addonDetails, setAddonDetails] = useState({});
+    const [coupons, setCoupons] = useState([]);
     const options = [
         "Google", "Facebook", "Instagram", "Youtube", "Recommended", "Used Before"
     ];
@@ -186,20 +196,9 @@ const Checkout = () => {
         const { name, value, type } = e.target;
 
         if (type === "radio") {
-            setFormData((prevData) => ({
-                ...prevData,
-                [name]: value
-            }));
-            setSelectSource(value);
+            dispatch(setSource(value));
         } else {
-            setFormData((prevData) => ({
-                ...prevData,
-                [name]: value
-            }));
-        }
-
-        // Update address in redux if venue address changes
-        if (name === 'venueAddress') {
+            dispatch(setVenueAddress(value));
             dispatch(setAddress(value));
         }
     };
@@ -219,17 +218,6 @@ const Checkout = () => {
         navigate(-1);
     }
 
-    const handlePaymentTypeChange = (percentage) => {
-        setSelectedPayPercentage(percentage);
-        dispatch(setPaymentType(percentage === '50' ? 'half' : 'full'));
-
-        // If switching to half payment, remove any applied coupon
-        if (percentage === '50') {
-            setSelectedCoupon('');
-            dispatch(setCouponDiscount(0));
-        }
-    };
-
     const applyCoupon = (couponCode) => {
         if (selectedPayPercentage === "50") {
             alert("Coupons cannot be applied with 50% payment option");
@@ -245,15 +233,37 @@ const Checkout = () => {
         }
     };
 
+    //fetch coupoun
+    useEffect(() => {
+        const fetchCoupons = async () => {
+            setLoading(true);
+            setError("");
+            try {
+                const response = await axios.get(
+                    "http://localhost:5000/api/coupons/getcoupons"
+                );
+                setCoupons(response.data.coupons);
+                console.log("Coupons", response.data.coupons);
+            } catch (error) {
+                console.error("Error fetching coupons:", error);
+                setError("Failed to fetch coupons. Please try again later.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCoupons();
+    }, []);
+
     const handleProceedToPay = async () => {
         try {
             // Check if user is logged in
             const storedUser = localStorage.getItem('user');
             const storedToken = localStorage.getItem('accessToken');
-            
+
             console.log('Stored User Data:', storedUser);
             console.log('Stored Token:', storedToken);
-            
+
             if (!storedUser || !storedToken) {
                 setShowLoginModal(true);
                 return;
@@ -264,15 +274,15 @@ const Checkout = () => {
             console.log('Parsed User Data:', userData);
 
             // Form validation
-            if (!formData.venueAddress.trim()) {
+            if (!address.trim()) {
                 alert("Please enter venue address");
                 return;
             }
-            if (!selectSource) {
+            if (!currentOrder.source) {
                 alert("Please select how you came to know about us");
                 return;
             }
-            if (!formData.occasion) {
+            if (!currentOrder.occasion) {
                 alert("Please select an occasion");
                 return;
             }
@@ -289,9 +299,6 @@ const Checkout = () => {
             const amountToPay = selectedPayPercentage === "50" ? Math.round(grandTotal / 2) : grandTotal;
             const duePayment = selectedPayPercentage === "50" ? Math.round(grandTotal / 2) : 0;
 
-            // Map customizedValues to array of { label, value }
-            const customizedInputsArr = Object.entries(customizedValues).map(([label, value]) => ({ label, value }));
-
             // Process items to match schema requirements
             const processedItems = items.map(item => {
                 // Ensure categoryType is properly capitalized
@@ -307,27 +314,18 @@ const Checkout = () => {
                         throw new Error(`Service ID not found for ${item.serviceName}`);
                     }
                 } else if (item.categoryType === 'addon') {
-                    const addonDetail = addonDetails[item._id];
-                    if (!addonDetail) {
-                        throw new Error(`Addon details not found for ${item.serviceName}`);
-                    }
-                    refId = addonDetail._id;
+                    // Try to get from addonDetails, fallback to item.id/_id
+                    const addonDetail = addonDetails[item._id || item.id];
+                    refId = addonDetail ? addonDetail._id : (item._id || item.id);
+                    // No error thrown if not found!
                 }
 
-                // Get customized inputs for the item
-                let itemCustomizedInputs = [];
-                if (item.categoryType === 'service') {
-                    itemCustomizedInputs = (serviceDetails?.customizedInputs || []).map(input => ({
+                // Build customizedInputs for this item
+                let customizedInputs = [];
+                if (item.customizedInputs && item.customizedInputs.length > 0) {
+                    customizedInputs = item.customizedInputs.map(input => ({
                         label: input.label,
-                        value: customizedValues[input.label] || '',
-                        _id: input._id
-                    }));
-                } else if (item.categoryType === 'addon') {
-                    const addonDetail = addonDetails[item._id];
-                    itemCustomizedInputs = (addonDetail?.customizedInputs || []).map(input => ({
-                        label: input.label,
-                        value: customizedValues[`${addonDetail._id}_${input.label}`] || '',
-                        _id: input._id
+                        value: customizedValues[`${item.id || item._id}_${input.label}`] || ''
                     }));
                 }
 
@@ -339,7 +337,8 @@ const Checkout = () => {
                     quantity: Number(item.quantity || 1),
                     image: item.image || '',
                     categoryType: categoryType,
-                    customizedInputs: itemCustomizedInputs,
+                    customizedInputs,
+                    id: item.id,
                     _id: item._id
                 };
             });
@@ -359,14 +358,16 @@ const Checkout = () => {
                 couponDiscount: Number(couponDiscount || 0),
                 gstAmount: Number(gstAmount || 0),
                 paymentType: selectedPayPercentage === "50" ? "half" : "full",
-                address: formData.venueAddress.trim(),
+                address: address.trim(),
                 items: processedItems,
-                customerName: userData.name || 'Guest',
-                customerId: userData._id,
-                occasion: formData.occasion,
-                source: selectSource,
-                altMobile: formData.altMobile || '',
-                orderStatus: 'created'
+                customerName: userData.firstName + " " + userData.lastName || 'Guest',
+                customerId: userData.id,
+                occasion: currentOrder.occasion,
+                source: currentOrder.source,
+                altMobile: currentOrder.altMobile || '',
+                addNote: currentOrder.addNote || '',
+                orderStatus: 'created',
+                venueAddress: address.trim(),
             };
 
             console.log('Order Data being sent:', orderData);
@@ -382,13 +383,13 @@ const Checkout = () => {
                 console.log("Order created successfully:", response.data.data);
                 alert("Order created successfully");
                 // Clear form and state
-                setFormData({ venueAddress: '', source: '', occasion: '', altMobile: '' });
+                dispatch(resetCurrentOrder());
                 setSelectedCoupon("");
                 setSelectedNotification(false);
                 dispatch(completeOrder());
 
                 // Redirect to order confirmation page
-                navigate(`/order-confirmation`);
+                navigate(`/thank-you`);
             } else {
                 alert(response.data.message || "Failed to create order. Please try again.");
             }
@@ -439,12 +440,10 @@ const Checkout = () => {
         <div className="min-h-screen bg-gray-100 py-8">
             {/* Login Modal */}
             {showLoginModal && (
-                <AuthModal 
-                    setIsModalOpen={setShowLoginModal} 
+                <AuthModal
+                    setIsModalOpen={setShowLoginModal}
                     onLoginSuccess={() => {
                         setShowLoginModal(false);
-                        // After successful login, proceed with order placement
-                        // handleProceedToPay();
                     }}
                 />
             )}
@@ -471,8 +470,11 @@ const Checkout = () => {
                                     <input
                                         placeholder='Add the venue address'
                                         className='w-full border p-2 my-2 text-sm border-gray-300   rounded-md'
-                                        value={formData.venueAddress}
-                                        onChange={handleChange}
+                                        value={address}
+                                        onChange={e => {
+                                            dispatch(setVenueAddress(e.target.value));
+                                            dispatch(setAddress(e.target.value));
+                                        }}
                                         name="venueAddress"
                                     />
                                 </label>
@@ -491,7 +493,7 @@ const Checkout = () => {
                                         onClick={() => setOpenOption(!openOption)}
                                     >
                                         <label className="flex items-center space-x-2">
-                                            <p className="text-gray-400 text-sm">{selectSource || "Select the option"}</p>
+                                            <p className="text-gray-400 text-sm">{currentOrder.source || "Select the option"}</p>
                                         </label>
                                         <button>
                                             {openOption ? <IoChevronUp /> : <IoChevronDown />}
@@ -510,12 +512,12 @@ const Checkout = () => {
                                                             type="radio"
                                                             name="source"
                                                             value={option}
-                                                            checked={selectSource === option}
-                                                            onChange={handleChange}
+                                                            checked={currentOrder.source === option}
+                                                            onChange={e => dispatch(setSource(e.target.value))}
                                                             className="hidden"
                                                         />
                                                         <span className="text-primary">
-                                                            {selectSource === option ? (
+                                                            {currentOrder.source === option ? (
                                                                 <FaCircle size={14} />
                                                             ) : (
                                                                 <FaRegCircle size={14} />
@@ -534,8 +536,8 @@ const Checkout = () => {
                                     <select
                                         name="occasion"
                                         className={`border p-1 mb-3 w-full text-sm`}
-                                        value={formData.occasion}
-                                        onChange={handleChange}
+                                        value={currentOrder.occasion}
+                                        onChange={e => dispatch(setOccasion(e.target.value))}
                                     >
                                         <option value="" className="text-gray-400">Occasion</option>
                                         <option value="birthday" className='text-black'>Birthday</option>
@@ -554,48 +556,41 @@ const Checkout = () => {
                                         placeholder='mobile number'
                                         className='w-full border p-2 my-2 text-sm'
                                         name="altMobile"
-                                        value={formData.altMobile}
-                                        onChange={handleChange}
-
+                                        value={currentOrder.altMobile}
+                                        onChange={e => dispatch(setAltMobile(e.target.value))}
                                     />
                                 </label>
 
-                                {/* Service Customized Inputs */}
-                                {serviceDetails?.customizedInputs?.map((item, index) => (
-                                    <DynamicInputField
-                                        key={index}
-                                        item={item}
-                                        index={index}
-                                        onChange={(label, value, type, checked) => handleInputChange(label, value, null, type, checked)}
-                                    />
-                                ))}
 
-                                <h3 className="font-medium text-lg my-4 ">Selected Addons</h3>
-                                {/* Addon Customized Inputs */}
-                                {items
-                                    .filter(item => item.categoryType === 'addon')
-                                    .map((addon) => {
-                                        // Get the addon detail using the _id
-                                        const addonDetail = addonDetails[addon._id];
+                                {items.some(item => item.customizedInputs?.length > 0) && (
+                                    <div className="mt-4">
+                                        <h3 className="font-medium text-lg mb-4">Customized Inputs</h3>
+                                        {items
+                                            .filter(item => item.customizedInputs?.length > 0)
+                                            .map((item) => (
+                                                <div key={item.id || item._id} className="mt-4">
+                                                    <div className="flex justify-between items-center mb-2">
+                                                        <h4 className="font-medium">{item.serviceName}</h4>
+                                                        <span className="text-gray-600">
+                                                            Rs. {item.price} x {item.quantity}
+                                                        </span>
+                                                    </div>
 
-                                        if (!addonDetail || !addonDetail.customizedInputs || addonDetail.customizedInputs.length === 0) {
-                                            return null;
-                                        }
+                                                    {item.customizedInputs.map((input, index) => (
+                                                        <DynamicInputField
+                                                            key={`${item.id || item._id}_${index}`}
+                                                            item={input}
+                                                            index={index}
+                                                            onChange={(label, value, type, checked) =>
+                                                                handleInputChange(label, value, item.id || item._id, type, checked)
+                                                            }
+                                                        />
+                                                    ))}
+                                                </div>
+                                            ))}
+                                    </div>
+                                )}
 
-                                        return (
-                                            <div key={addon._id} className="mt-4 border-t pt-4">
-                                                <h4 className="font-medium mb-2">{addon.serviceName}</h4>
-                                                {addonDetail.customizedInputs.map((input, index) => (
-                                                    <DynamicInputField
-                                                        key={`${addon._id}_${index}`}
-                                                        item={input}
-                                                        index={index}
-                                                        onChange={(label, value, type, checked) => handleInputChange(label, value, addon._id, type, checked)}
-                                                    />
-                                                ))}
-                                            </div>
-                                        );
-                                    })}
 
                             </form>
 
@@ -604,7 +599,10 @@ const Checkout = () => {
                     {/* right side */}
                     <div className='col-span-2'>
                         <div className="border border-gray-300 md:p-6 p-3 my-6 rounded-2xl shadow-lg bg-white">
-                            <h2 className="text-2xl font-semibold mb-5 text-gray-800">Order Details</h2>
+                            <div className='flex justify-between items-center  mb-4'>
+                                <h2 className="text-2xl font-semibold text-gray-800">Order Details</h2>
+                                <button className='text-primary bg-red-500 text-white px-4 py-1 rounded-md' onClick={handleDeleteAll}>Cancel Order</button>
+                            </div>
 
                             <div className="flex flex-col md:flex-row justify-between items-start rounded-2xl gap-6">
                                 {/* Left Section - Product Image & Details */}
@@ -652,11 +650,12 @@ const Checkout = () => {
 
                                 {/* Right Section - Pricing & Actions */}
                                 <div className="flex md:items-end md:flex-col flex-row-reverse items-center justify-between gap-6 md:gap-4 pt-4 md:pt-0">
-                                    <RiDeleteBin6Line
+                                    {/* <RiDeleteBin6Line
                                         className="cursor-pointer text-red-500 hover:text-red-600 text-2xl transition"
                                         title="Delete All Data"
                                         onClick={handleDeleteAll}
-                                    />
+                                    /> */}
+
                                     <h1 className="font-semibold text-xl text-gray-900">Rs. {grandTotal}</h1>
                                 </div>
                             </div>
@@ -665,7 +664,12 @@ const Checkout = () => {
                             <div className="p-2 px-3 mt-4 rounded-md border border-gray-300 bg-gray-50">
                                 <p className="text-sm text-gray-700">
                                     <span className="font-bold">Note:</span>
-                                    <input className='w-full p-2' placeholder='If you have any note type here  ' />
+                                    <input
+                                        className='w-full p-2'
+                                        placeholder='If you have any note type here'
+                                        value={currentOrder.addNote || ""}
+                                        onChange={(e) => dispatch(setAddNote(e.target.value))}
+                                    />
                                 </p>
                             </div>
                         </div>
@@ -709,7 +713,7 @@ const Checkout = () => {
                                     {/* Coupon Discount */}
                                     {selectedCoupon && selectedPayPercentage !== "50" && (
                                         <div className='flex justify-between items-center text-red-500'>
-                                            <p>Coupon Discount (10%)</p>
+                                            <p>Coupon Discount</p>
                                             <p>- Rs. {couponDiscount}</p>
                                         </div>
                                     )}
@@ -746,28 +750,38 @@ const Checkout = () => {
                                                 </div>
                                             </div>
                                         ))}
-                                    {showCoupon &&
-                                        <div className='max-h-[300px] overflow-y-scroll my-4 md:w-[90%] mx-auto scrollbar-hide '>
-                                            <div className="flex border border-primary rounded-md h-[100px] mt-3 text-sm cursor-pointer" onClick={() => {
-                                                setSelectedCoupon("NEWUSER")
-                                                setShowCoupon(false)
-                                            }}>
-                                                <div className="flex items-center justify-center bg-primary text-white p-4   md:w-[70px] w-[100px]">
-                                                    <h1 className="-rotate-90  font-bold">{'10% OFF'}</h1>
-                                                </div>
+                                    {showCoupon && coupons.length > 0 && (
+                                        <div className='max-h-[240px] overflow-y-scroll my-2 md:w-[90%] mx-auto scrollbar-hide'>
+                                            {coupons.map((coupon, idx) => (
+                                                <div
+                                                    key={idx}
+                                                    className="flex border border-primary rounded-md h-auto mt-2 cursor-pointer hover:shadow-sm transition text-xs"
+                                                    onClick={() => {
+                                                        setSelectedCoupon(coupon.couponCode);
+                                                        setShowCoupon(false);
+                                                    }}
+                                                >
+                                                    {/* Left - Discount */}
+                                                    <div className="flex items-center justify-center bg-primary text-white px-2 py-1 w-[60px]">
+                                                        <h1 className="-rotate-90 font-bold whitespace-nowrap text-[10px]">
+                                                            {coupon.discount}% OFF
+                                                        </h1>
+                                                    </div>
 
-                                                <div className="flex flex-col justify-center px-4 ">
-                                                    <h1 className=" font-semibold">NEWUSER</h1>
-                                                    <p className="text-gray-700 ">Save 10% off on this offer on purchases above Rs. 2,000</p>
-                                                    <small className="text-gray-500 ">Apply NEWUSER and get up to Rs. 200 off on your order!</small>
+                                                    {/* Right - Coupon Details */}
+                                                    <div className="flex flex-col justify-center px-3 py-0">
+                                                        <h1 className="font-semibold text-sm text-primary">{coupon.couponName}</h1>
+                                                        <p className="text-gray-700 mt-1">{coupon.couponDetails}</p>
+                                                        <small className="text-gray-500 mt-1">
+                                                            Use code <span className="font-medium text-black">{coupon.couponCode}</span> and save {coupon.discount}%!
+                                                        </small>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            ))}
                                         </div>
-                                    }
-                                    <div className='flex items-center gap-4 py-2'>
-                                        <input type='checkbox' className="w-4 h-4 " checked={selectedNotification} onChange={() => setSelectedNotification(!selectedNotification)} />
-                                        <p className='flex md:items-center items-start gap-2'><img src={whatsapp} className='w-5' />Get booking notifications on whatsapp.</p>
-                                    </div>
+
+                                    )}
+
                                 </div>
 
                                 {/* Final Payment Display */}
@@ -799,34 +813,6 @@ const Checkout = () => {
                         </div>
 
                         <div className='my-10'>
-                            <div className='flex justify-between items-center font-medium'>
-                                <p className=''>Payment Options</p>
-                                <div className='text-primary flex gap-2'>
-                                    <label className='flex gap-1'>
-                                        <input
-                                            type='radio'
-                                            name='percentage'
-                                            value='50'
-                                            className='text-primary'
-                                            checked={selectedPayPercentage === '50'}
-                                            onChange={() => handlePaymentTypeChange('50')}
-                                        />
-                                        <p>50%</p>
-                                    </label>
-                                    <label className='flex gap-1'>
-                                        <input
-                                            type='radio'
-                                            name='percentage'
-                                            value='100'
-                                            className='text-primary'
-                                            checked={selectedPayPercentage === '100'}
-                                            onChange={() => handlePaymentTypeChange('100')}
-                                        />
-                                        <p>100%</p>
-                                    </label>
-                                </div>
-                            </div>
-
                             <button
                                 onClick={handleProceedToPay}
                                 className='bg-primary text-center py-3 mt-5 w-full text-white rounded-xl font-semibold text-xl'
@@ -838,7 +824,10 @@ const Checkout = () => {
                     </div>
 
                     {showModal && (
-                        <DateTimeModal setShowModal={setShowModal} />
+                        <DateTimeModal setShowModal={setShowModal}
+                            timeSlots={items.find(item => item.categoryType === 'service')?.price > 4000 ? timeSlotsPremium : timeSlotsBasic}
+
+                        />
                     )}
                 </div>
 

@@ -77,32 +77,34 @@ const CustomNextArrow = (props) => {
 };
 
 // CardCarousel Component
-function CardCarousel({ services }) {
+function CardCarousel({ centercardData }) {
+  const itemCount = centercardData?.length || 0;
+
   const settings = {
-    infinite: true,
-    slidesToShow: 3,
-    slidesToScroll: 3,
+    infinite: itemCount > 3, // Disable infinite scroll if items are less than slides
+    slidesToShow: itemCount >= 3 ? 3 : itemCount,
+    slidesToScroll: itemCount >= 3 ? 3 : 1,
     speed: 500,
-    autoplay: true,
+    autoplay: itemCount > 1,
     autoplaySpeed: 3000,
     pauseOnHover: true,
-    arrows: true,
+    arrows: itemCount > 1,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: itemCount >= 3 ? 3 : itemCount,
           slidesToScroll: 1,
-          infinite: true,
-          dots: true,
+          infinite: itemCount > 3,
+          dots: itemCount > 3,
         },
       },
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: itemCount >= 2 ? 2 : itemCount,
           slidesToScroll: 1,
           dots: false,
         },
@@ -110,8 +112,8 @@ function CardCarousel({ services }) {
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
+          slidesToShow: itemCount >= 1 ? 1 : itemCount,
+          slidesToScroll: 1,
           dots: false,
         },
       },
@@ -121,15 +123,13 @@ function CardCarousel({ services }) {
   return (
     <div className="relative lg:my-10 md:px-4">
       <Slider {...settings}>
-        {services?.map((item, idx) => {
-          console.log('CardCarousel item:', item);
-          return (
-            <CenterCarousalCard item={item} key={idx} />
-          );
-        })}
+        {centercardData?.map((item, idx) => (
+          <CenterCarousalCard item={item} key={idx} />
+        ))}
       </Slider>
     </div>
   );
 }
+
 
 export default CardCarousel;
