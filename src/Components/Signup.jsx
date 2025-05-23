@@ -88,17 +88,7 @@ const Signup = () => {
                     <hr className="flex-grow border-gray-300" />
                 </div>
 
-                {/* Social media login buttons */}
-                <div className="flex justify-between gap-2">
-                    <button 
-                        className="flex gap-2 items-center bg-[#3B5998] p-4 py-2 flex-1 rounded-md text-white text-center">
-                        <FaFacebookSquare /> Facebook Login
-                    </button>
-                    <button 
-                        className="flex gap-2 items-center bg-[#DB4437] p-4 py-2 flex-1 rounded-md text-white text-center">
-                        <FaGoogle /> Google Login
-                    </button>
-                </div>
+      
 
                 <p className="text-center text-sm mt-4">
                     By signing up, you agree to our

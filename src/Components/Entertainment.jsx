@@ -1,5 +1,5 @@
 
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import entertainmentBanner from "../assets/banner/entertainmentBanner.png"
 import entertainmentBanner2 from "../assets/banner/photoshootactivity.png"
 import adultBanner3 from "../assets/banner/trustedBanner.png"
@@ -25,63 +25,65 @@ import kidsactivity4 from "../assets/bday/kidsbday/kidsactivity4.png"
 
 import FAQ from './FAQ'
 import Testimonials from './Testimonials'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import CancellationPolicy from './CancellationPolicy'
+import CardCarousel from './CardCarousel'
+import { getAxios } from '../utils/api'
+import { navigateToSubcategory } from '../utils/navigationsUtils'
 
-
-
-const kidsactivityList = [
-    {
-        serviceName: "Male Anchor for Entertainment",
-        price: "1,499",
-        cardImg: kidsactivity1
-    },
-    {
-        serviceName: "Caricature Artist",
-        price: "1,499",
-        cardImg: kidsactivity2
-    },
-    {
-        serviceName: "Cartoon Mascot",
-        price: "1,499",
-        cardImg: kidsactivity3
-    },
-    {
-        serviceName: "Cotton Candy",
-        price: "1,499",
-        cardImg: kidsactivity4
-    },
-    {
-        serviceName: "Cartoon Mascot",
-        price: "1,499",
-        cardImg: kidsactivity3
-    },
-    {
-        serviceName: "Caricature Artist",
-        price: "1,499",
-        cardImg: kidsactivity2
-    },
-]
 
 
 const Entertainment = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [recentPurchase, setRecentPurchase] = useState([]);
+    const [serviceDetails, setServiceDetails] = useState([]);
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate()
 
-    const toggleModal = () => {
-        setIsOpen(!isOpen);
-        if (!isOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "auto";
+    const storedUser = localStorage.getItem('user');
+    const userData = JSON.parse(storedUser);
+    const customerId = userData?.id;
+
+
+    const fetchRecentPurchase = async () => {
+        try {
+            const response = await getAxios().get(`/orders/recent-orders/${customerId}`);
+            const data = await response.data;
+            setRecentPurchase(data.services);
+        } catch (error) {
+            console.error("Error fetching recent purchase:", error);
         }
-    };
+    }
+
+    const handleNavigation = (text, baseRoute) => {
+        navigateToSubcategory({
+          text,
+          baseRoute,
+          navigate,
+          setLoading,
+          setError,
+        });
+      };
+
+      
+
+    useEffect(() => {
+        const serviceDetails = recentPurchase?.map((item) => item.serviceDetails);
+        setServiceDetails(serviceDetails);
+    }, [recentPurchase]);
+
+
+    useEffect(() => {
+        fetchRecentPurchase();
+    }, [customerId]);
+
 
     return (
         <div className='lg:py-24 md:pt-20 pt-32  p-3  mx-auto'>
             <div>
                 <img src={entertainmentBanner} className='mx-auto w-[1600px]' />
-            </div>  
-              
+            </div>
+
             {/* gallery */}
             <div className='relative mx-auto text-center md:mt-10'>
                 <p className='py-8 font-bold poppins md:text-2xl'>#Entertainment&ActivitiesBestMovements</p>
@@ -114,23 +116,21 @@ const Entertainment = () => {
                 </div>
                 <p className='lg:absolute bottom-10 right-2 [text-shadow:_-4px_4px_3px_#7D7C7C] playfair-display md:text-7xl text-4xl font-bold text-[#FFD1D1]'>Wonderful Moments</p>
             </div>
-            <Link to="/photograpghy">
-                <div className='md:pt-20 pt-10'>
+         
+                <div className='md:pt-20 pt-10' onClick={() => handleNavigation("photography", "/photography")}>
                     <img src={entertainmentBanner2} className='mx-auto w-[2000px]' />
                 </div>
-            </Link>
+      
             <div className='md:pt-20 pt-10'>
                 <p className='font-bold poppins md:py-6 pb-4 md:text-2xl'>Why Celebrate With Lavisheventzz</p>
                 <img src={adultBanner3} className='mx-auto w-[1600px]' />
             </div>
-            <div className='md:pt-10 pt-7'>
-                <p className='font-bold poppins md:text-2xl'>Kids Special Activities</p>
-                <BasicSlider data={kidsactivityList} />
-            </div>
+            {customerId && <div className="md:pt-10 pt-7">
+                <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+                <CardCarousel centercardData={serviceDetails} />
+            </div>}
             <div className='my-4'>
                 <p className='text-center font-bold poppins text-2xl'>FAQs</p>
-                <p className='text-right text-lg underline cursor-pointer' onClick={toggleModal}>Cancellation Policy</p>
-                <CancellationPolicy isOpen={isOpen} toggleModal={toggleModal} />
                 <p className='text-center font-bold poppins text-sm'>Need help? Contact us for any queries related to us</p>
                 <div className='lg:w-[70%]  md:w-[80%] mx-auto my-6'>
                     <p className='font-bold poppins py-8 '>Pick a query related to your issue</p>

@@ -31,7 +31,7 @@ import welcomeboard from "../assets/services/welcomeboard.png";
 import flwrbouqt from "../assets/services/flwrbouqt.png";
 import activity from "../assets/services/activity.png";
 import video from "../assets/services/video.mp4";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { service } from "../json/services";
 import { MdArrowRightAlt } from "react-icons/md";
 import ServiceSlider from "./ServiceSlider";
@@ -39,9 +39,10 @@ import ServiceSlider from "./ServiceSlider";
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
 import CancellationPolicy from "./CancellationPolicy";
-import { getAuthAxios } from "../utils/api";
+import { getAuthAxios, getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import axios from "axios";
+import { navigateToSubcategory } from "../utils/navigationsUtils";
 
 const addOns = [
   {
@@ -78,128 +79,104 @@ const addOns = [
   },
 ];
 
-const imagelist = [
-  {
-    src: decor1,
-    title: "Simple Decoration",
-    link: "simpledecor",
-    sub_SubId: "101",
-  },
-  {
-    src: decor2,
-    title: "Premium Decoration",
-    link: "premiumdecor",
-    sub_SubId: "102",
-  },
-];
 
-const recentlyViewed = [
-  {
-    serviceName: "Male Anchor for Entertainment",
-    price: "1,499",
-    cardImg: img1,
-  },
-  {
-    serviceName: "Caricature Artist",
-    price: "1,499",
-    cardImg: img2,
-  },
-  {
-    serviceName: "Cartoon Mascot",
-    price: "1,499",
-    cardImg: img3,
-  },
-  {
-    serviceName: "Cotton Candy",
-    price: "1,499",
-    cardImg: img4,
-  },
-  {
-    serviceName: "Cartoon Mascot",
-    price: "1,499",
-    cardImg: img5,
-  },
-  {
-    serviceName: "Caricature Artist",
-    price: "1,499",
-    cardImg: img6,
-  },
-];
 
 const RingCermony = () => {
   const [premiumData, setPremiumdata] = useState([]);
   const [simpleData, setSimpledata] = useState([]);
-
-  const [isOpen, setIsOpen] = useState(false);
   const [subSubCategories, setSubSubCategories] = useState([]);
+  const [recentPurchase, setRecentPurchase] = useState([]);
+  const [serviceDetails, setServiceDetails] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
   const { subcat_id } = useParams();
+  const storedUser = localStorage.getItem('user');
+  const userData = JSON.parse(storedUser);
+  const customerId = userData?.id;
 
 
-const fetchServices = async () => {
-  try {
-    const response = await fetch(
-      `http://localhost:5000/api/services/filter/${subcat_id}`
-    );
-
-    const data = await response.json();
-
-    // If the response is not OK but contains a known 404 message, treat it gracefully
-    if (!response.ok && response.status === 404) {
-      console.warn("No services found for this subcategory.");
-      setSimpledata([]);
-      setPremiumdata([]);
-      return;
+  const fetchRecentPurchase = async () => {
+    try {
+      const response = await getAxios().get(`/orders/recent-orders/${customerId}`);
+      const data = await response.data;
+      setRecentPurchase(data.services);
+    } catch (error) {
+      console.error("Error fetching recent purchase:", error);
     }
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch services: ${response.statusText}`);
-    }
-
-    if (data.success) {
-      console.log("data", data.data);
-
-      const simpleData = data.data.filter(
-        (item) =>
-          item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
-          "simple decoration"
-      );
-
-      const premiumData = data.data.filter(
-        (item) =>
-          item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
-          "premium decoration"
-      );
-
-      setSimpledata(simpleData);
-      setPremiumdata(premiumData);
-    } else {
-      // API responded but without success — treat it as "no data"
-      console.warn("API returned success: false");
-      setSimpledata([]);
-      setPremiumdata([]);
-    }
-  } catch (error) {
-    console.error("Error fetching services:", error);
-    // Optional: Show a user-friendly message to the UI
-    setSimpledata([]);
-    setPremiumdata([]);
   }
-};
+
+  const fetchServices = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/services/filter/${subcat_id}`
+      );
+
+      const data = await response.json();
+
+      // If the response is not OK but contains a known 404 message, treat it gracefully
+      if (!response.ok && response.status === 404) {
+        console.warn("No services found for this subcategory.");
+        setSimpledata([]);
+        setPremiumdata([]);
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch services: ${response.statusText}`);
+      }
+
+      if (data.success) {
+        const simpleData = data.data.filter(
+          (item) =>
+            item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
+            "simple decoration"
+        );
+
+        const premiumData = data.data.filter(
+          (item) =>
+            item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
+            "premium decoration"
+        );
+
+        setSimpledata(simpleData);
+        setPremiumdata(premiumData);
+      } else {
+        // API responded but without success — treat it as "no data"
+        console.warn("API returned success: false");
+        setSimpledata([]);
+        setPremiumdata([]);
+      }
+    } catch (error) {
+      console.error("Error fetching services:", error);
+      // Optional: Show a user-friendly message to the UI
+      setSimpledata([]);
+      setPremiumdata([]);
+    }
+  };
 
 
   const fetchSubSubcategoriesBySubCategory = async () => {
     if (!subcat_id) return;
     try {
-      const res = await getAuthAxios().get(
-        `subsubcategories/subcategory/${subcat_id}`
+      const res = await getAxios().get(
+        `/subsubcategories/subcategory/${subcat_id}`
       );
       setSubSubCategories(res.data.data);
-      console.log("res subsubcategories", res.data.data);
     } catch (err) {
       console.error("error", err);
       setError("Failed to load subcategories");
     }
+  };
+
+  const handleNavigation = (text, baseRoute) => {
+    navigateToSubcategory({
+      text,
+      baseRoute,
+      navigate,
+      setLoading,
+      setError,
+    });
   };
 
   useEffect(() => {
@@ -207,16 +184,16 @@ const fetchServices = async () => {
     fetchServices();
   }, [subcat_id]);
 
-  const toggleModal = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  };
+
+  useEffect(() => {
+    const serviceDetails = recentPurchase?.map((item) => item.serviceDetails);
+    setServiceDetails(serviceDetails);
+  }, [recentPurchase]);
 
 
+  useEffect(() => {
+    fetchRecentPurchase();
+  }, [customerId]);
 
 
   return (
@@ -254,7 +231,7 @@ const fetchServices = async () => {
             <p className="lg:text-2xl text-primary font-bold playfair-display">
               Simple Decoration Service
             </p>
-           
+
           </div>
 
           {simpleData.length > 0 ? (
@@ -270,7 +247,7 @@ const fetchServices = async () => {
             <p className="lg:text-2xl text-primary font-bold playfair-display">
               Premium Decoration Service
             </p>
-      
+
           </div>
 
           {premiumData.length > 0 ? (
@@ -281,22 +258,6 @@ const fetchServices = async () => {
         </div>
 
       </div>
-
-
-      {/* <div>
-        <div className="flex justify-between ">
-          <p className="lg:text-2xl text-primary font-bold playfair-display">
-            Premium Decoration Service
-          </p>
-          <Link
-            to={`/service/102`}
-            className="text-secondary font-bold flex items-center text-sm md:text-base  "
-          >
-            View All <MdArrowRightAlt className="md:text-2xl text-xl " />
-          </Link>
-        </div>
-        {premiumData.length > 0 && <CardCarousel centercardData={premiumData} />}
-      </div> */}
 
       {/* Add ons */}
       <div className="relative inset-0 flex flex-col items-center justify-center text-center gap-5 md:my-10 my-4">
@@ -354,15 +315,15 @@ const fetchServices = async () => {
           Wonderful Moments
         </p>
       </div>
-      <Link to="/photograpghy">
-        <div className="md:pt-20 py-5">
-          <img src={engagementBanner2} className="mx-auto w-[2000px]" />
-        </div>
-      </Link>
-      <div className="md:pt-10 pt-7">
-        <p className="font-bold poppins md:text-2xl">Recently Viewed</p>
-        <BasicSlider data={recentlyViewed} />
+
+      <div className="md:pt-20 py-5" onClick={() => handleNavigation("photography", "/photography")}>
+        <img src={engagementBanner2} className="mx-auto w-[2000px]" />
       </div>
+
+      {customerId && <div className="md:pt-10 pt-7">
+        <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+        <CardCarousel centercardData={serviceDetails} />
+      </div>}
       <div className="">
         <p className="font-bold poppins md:py-6 pb-4 md:text-2xl">
           Why Celebrate With Lavisheventzz
@@ -372,13 +333,7 @@ const fetchServices = async () => {
 
       <div className="my-4">
         <p className="text-center font-bold poppins text-2xl">FAQs</p>
-        <p
-          className="text-right text-lg underline cursor-pointer"
-          onClick={toggleModal}
-        >
-          Cancellation Policy
-        </p>
-        <CancellationPolicy isOpen={isOpen} toggleModal={toggleModal} />
+        
         <p className="text-center font-bold poppins text-sm">
           Need help? Contact us for any queries related to us
         </p>
@@ -394,7 +349,6 @@ const fetchServices = async () => {
       <div>
         <p className="font-bold poppins md:text-2xl">Recent Customer Reviews</p>
         <Testimonials />
-        {/* <ReviewSlider /> */}
       </div>
       <div className="md:px-10 px-4">
         <p className="font-bold poppins py-8 text-2xl">

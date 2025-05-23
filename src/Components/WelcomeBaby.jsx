@@ -32,12 +32,13 @@ import cakes from "../assets/bday/add_ons/cakes.png"
 import FAQ from './FAQ'
 import video from "../assets/services/video.mp4"
 import Testimonials from './Testimonials'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import BasicSlider from './BasicSlider'
 import CancellationPolicy from './CancellationPolicy'
-import { getAuthAxios } from '../utils/api'
+import { getAuthAxios, getAxios } from '../utils/api'
 import CardCarousel from './CardCarousel'
 import { MdArrowRightAlt } from "react-icons/md";
+import { navigateToSubcategory } from '../utils/navigationsUtils'
 
 const addOns = [
     {
@@ -62,77 +63,43 @@ const addOns = [
     }
 ]
 
-const imagelist = [
-    {
-        src: decor1,
-        title: "Welcome Baby Boy Decoration",
-        link: "simpledecor"
-    },
-    {
-        src: decor2,
-        title: "Welcome Baby Girl Decoration",
-        link: "premiumdecor"
-    },
-    {
-        src: twinImg,
-        title: "Twins baby Decoration",
-        link: "twinsbabydecor"
-    },
-
-
-]
-
-const recentlyViewed = [
-    {
-        serviceName: "Male Anchor for Entertainment",
-        price: "1,499",
-        cardImg: img1
-    },
-    {
-        serviceName: "Caricature Artist",
-        price: "1,499",
-        cardImg: img2
-    },
-    {
-        serviceName: "Cartoon Mascot",
-        price: "1,499",
-        cardImg: img3
-    },
-    {
-        serviceName: "Cotton Candy",
-        price: "1,499",
-        cardImg: img4
-    },
-    {
-        serviceName: "Cartoon Mascot",
-        price: "1,499",
-        cardImg: img5
-    },
-    {
-        serviceName: "Caricature Artist",
-        price: "1,499",
-        cardImg: img6
-    },
-]
-
 
 
 const WelcomeBaby = () => {
-    const [isOpen, setIsOpen] = useState(false);
+
     const [subSubCategories, setSubSubCategories] = useState([]);
     const [allServices, setAllServices] = useState([]);
+    const [recentPurchase, setRecentPurchase] = useState([]);
+    const [serviceDetails, setServiceDetails] = useState([]);
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(true);
     const { subcat_id } = useParams();
+    const storedUser = localStorage.getItem('user');
+    const userData = JSON.parse(storedUser);
+    const customerId = userData?.id;
+    const navigate = useNavigate()
 
-    const message = "Hello, I want to know more about Welcome Baby's Cakes, Games and activities.";
+
+    const fetchRecentPurchase = async () => {
+        try {
+            const response = await getAxios().get(`/orders/recent-orders/${customerId}`);
+            const data = await response.data;
+            setRecentPurchase(data.services);
+        } catch (error) {
+            console.error("Error fetching recent purchase:", error);
+        }
+    }
+
+
+    const message = "Hello, I want to know more about Welcome Baby's Cakes.";
     const encodedMessage = encodeURIComponent(message);
-    const WhatsAppLink = `https://wa.me/919611430158?text=${encodedMessage}`;
+    const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
 
     const fetchSubSubcategoriesBySubCategory = async () => {
         if (!subcat_id) return;
         try {
-            const res = await getAuthAxios().get(
-                `subsubcategories/subcategory/${subcat_id}`
+            const res = await getAxios().get(
+                `/subsubcategories/subcategory/${subcat_id}`
             );
             setSubSubCategories(res.data.data);
             console.log("subSubCategories", res.data.data);
@@ -179,21 +146,33 @@ const WelcomeBaby = () => {
         }
     };
 
+    const handleNavigation = (text, baseRoute) => {
+        navigateToSubcategory({
+            text,
+            baseRoute,
+            navigate,
+            setLoading,
+            setError,
+        });
+    };
+
+
     useEffect(() => {
         fetchSubSubcategoriesBySubCategory();
         fetchServices();
     }, [subcat_id]);
 
+    useEffect(() => {
+        const serviceDetails = recentPurchase?.map((item) => item.serviceDetails);
+        setServiceDetails(serviceDetails);
+    }, [recentPurchase]);
 
 
-    const toggleModal = () => {
-        setIsOpen(!isOpen);
-        if (!isOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "auto";
-        }
-    };
+    useEffect(() => {
+        fetchRecentPurchase();
+    }, [customerId]);
+
+
 
 
     return (
@@ -299,23 +278,23 @@ const WelcomeBaby = () => {
                 </div>
                 <p className='lg:absolute bottom-10 right-2 [text-shadow:_-4px_4px_3px_#7D7C7C] playfair-display md:text-7xl text-4xl font-bold text-[#FFD1D1]'>Magical Moments</p>
             </div>
-            <Link to="/photograpghy">
-                <div className='md:pt-20 py-5'>
-                    <img src={wlecomeBanner2} className='mx-auto w-[2000px]' />
-                </div>
-            </Link>
-            <div className='md:pt-10 pt-7'>
-                <p className='font-bold poppins md:text-2xl'>Recently Viewed</p>
-                <BasicSlider data={recentlyViewed} />
+
+            <div className='md:pt-20 py-5' onClick={() => handleNavigation("photography", "/photography")}>
+                <img src={wlecomeBanner2} className='mx-auto w-[2000px]' />
             </div>
+
+            {customerId && <div className="md:pt-10 pt-7">
+                <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+                <CardCarousel centercardData={serviceDetails} />
+            </div>}
             <div className=''>
                 <p className='font-bold poppins md:py-6 pb-4 md:text-2xl'>Why Celebrate With Lavisheventzz</p>
                 <img src={adultBanner3} className='mx-auto w-[1600px]' />
             </div>
             <div className='my-4'>
                 <p className='text-center font-bold poppins text-2xl'>FAQs</p>
-                <p className='text-right text-lg underline cursor-pointer' onClick={toggleModal}>Cancellation Policy</p>
-                <CancellationPolicy isOpen={isOpen} toggleModal={toggleModal} />
+
+
                 <p className='text-center font-bold poppins text-sm'>Need help? Contact us for any queries related to us</p>
                 <div className='lg:w-[70%]  md:w-[80%] mx-auto my-6'>
                     <p className='font-bold poppins py-8 '>Pick a query related to your issue</p>

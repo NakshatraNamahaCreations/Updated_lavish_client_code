@@ -15,7 +15,7 @@ const CenterCarousalCard = ({ item }) => {
   };
 
   return (
-    <div className="mx-auto  md:h-[400px] h-[320px] bg-white max-w-xs shadow-xl rounded-lg mt-5 z-10">
+    <div className="mx-auto h-[420px] bg-white max-w-xs shadow-xl rounded-lg mt-5 z-10">
       <div className="md:px-4 md:pt-4 p-2 border-2 rounded-lg  h-full">
         <img
           src={
@@ -24,7 +24,7 @@ const CenterCarousalCard = ({ item }) => {
             "https://via.placeholder.com/300x200?text=No+Image"
           }
           alt={item.serviceName}
-          className="rounded-lg mb-2 w-full md:h-[60%] object-cover"
+          className="rounded-lg mb-2 w-full h-[70%] object-cover"
         />
         <div className="poppins text-center">
           <p className="text-sm md:text-base">{item.serviceName}</p>

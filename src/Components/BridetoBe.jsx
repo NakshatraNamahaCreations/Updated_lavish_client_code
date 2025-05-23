@@ -35,13 +35,14 @@ import video from "../assets/services/video.mp4";
 
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { service } from "../json/services";
 import { MdArrowRightAlt } from "react-icons/md";
 import ServiceSlider from "./ServiceSlider";
 import CancellationPolicy from "./CancellationPolicy";
-import { getAuthAxios } from "../utils/api";
+import { getAuthAxios, getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
+import { navigateToSubcategory } from "../utils/navigationsUtils";
 
 const addOns = [
   {
@@ -126,21 +127,32 @@ const recentlyViewed = [
 const BridetoBe = () => {
   const [premiumData, setPremiumdata] = useState([]);
   const [simpleData, setSimpledata] = useState([]);
-
-  const [isOpen, setIsOpen] = useState(false);
   const [subSubCategories, setSubSubCategories] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [recentPurchase, setRecentPurchase] = useState([]);
+  const [serviceDetails, setServiceDetails] = useState([]);
   const { subcat_id } = useParams();
+  const storedUser = localStorage.getItem('user');
+  const userData = JSON.parse(storedUser);
+  const customerId = userData?.id;
 
-  const toggleModal = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const serviceDetails = recentPurchase?.map((item) => item.serviceDetails);
+    setServiceDetails(serviceDetails);
+  }, [recentPurchase]);
+
+  const fetchRecentPurchase = async () => {
+    try {
+      const response = await getAxios().get(`/orders/recent-orders/${customerId}`);
+      const data = await response.data;
+      setRecentPurchase(data.services);
+    } catch (error) {
+      console.error("Error fetching recent purchase:", error);
     }
-  };
-
+  }
 
 
   const fetchServices = async () => {
@@ -148,9 +160,9 @@ const BridetoBe = () => {
       const response = await fetch(
         `http://localhost:5000/api/services/filter/${subcat_id}`
       );
-  
+
       const data = await response.json();
-  
+
       // If the response is not OK but contains a known 404 message, treat it gracefully
       if (!response.ok && response.status === 404) {
         console.warn("No services found for this subcategory.");
@@ -158,26 +170,26 @@ const BridetoBe = () => {
         setPremiumdata([]);
         return;
       }
-  
+
       if (!response.ok) {
         throw new Error(`Failed to fetch services: ${response.statusText}`);
       }
-  
+
       if (data.success) {
         console.log("data", data.data);
-  
+
         const simpleData = data.data.filter(
           (item) =>
             item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
             "simple decoration"
         );
-  
+
         const premiumData = data.data.filter(
           (item) =>
             item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
             "premium decoration"
         );
-  
+
         setSimpledata(simpleData);
         setPremiumdata(premiumData);
       } else {
@@ -193,13 +205,13 @@ const BridetoBe = () => {
       setPremiumdata([]);
     }
   };
-  
+
 
   const fetchSubSubcategoriesBySubCategory = async () => {
     if (!subcat_id) return;
     try {
-      const res = await getAuthAxios().get(
-        `subsubcategories/subcategory/${subcat_id}`
+      const res = await getAxios().get(
+        `/subsubcategories/subcategory/${subcat_id}`
       );
       setSubSubCategories(res.data.data);
       console.log("subSubCategories", res.data.data);
@@ -209,10 +221,25 @@ const BridetoBe = () => {
     }
   };
 
+  const handleNavigation = (text, baseRoute) => {
+    navigateToSubcategory({
+      text,
+      baseRoute,
+      navigate,
+      setLoading,
+      setError,
+    });
+  };
+
+
   useEffect(() => {
     fetchServices();
     fetchSubSubcategoriesBySubCategory();
   }, [subcat_id]);
+
+  useEffect(() => {
+    fetchRecentPurchase();
+  }, [customerId]);
 
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
@@ -246,7 +273,7 @@ const BridetoBe = () => {
             <p className="lg:text-2xl text-primary font-bold playfair-display">
               Simple Decoration Service
             </p>
-           
+
           </div>
 
           {simpleData.length > 0 ? (
@@ -332,31 +359,24 @@ const BridetoBe = () => {
           Wonderful Moments
         </p>
       </div>
-      <Link to="/photograpghy">
-        {" "}
-        <div className="md:pt-20 py-5">
-          <img src={bridetobeBanner2} className="mx-auto w-[2000px]" />
-        </div>
-      </Link>
+
+      <div className="md:pt-20 py-5" onClick={() => handleNavigation("photography", "/photography")}>
+        <img src={bridetobeBanner2} className="mx-auto w-[2000px]" />
+      </div>
+
       <div className="md:pt-20 pt-10">
         <p className="font-bold poppins md:py-6 pb-4 md:text-2xl">
           Why Celebrate With Lavisheventzz
         </p>
         <img src={adultBanner3} className="mx-auto w-[1600px]" />
       </div>
-      <div className="md:pt-10 pt-7">
-        <p className="font-bold poppins md:text-2xl">Recently Viewed</p>
-        <BasicSlider data={recentlyViewed} />
-      </div>
+      {customerId && <div className="md:pt-10 pt-7">
+        <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+        <CardCarousel centercardData={serviceDetails} />
+      </div>}
       <div className="my-4">
         <p className="text-center font-bold poppins text-2xl">FAQs</p>
-        <p
-          className="text-right text-lg underline cursor-pointer"
-          onClick={toggleModal}
-        >
-          Cancellation Policy
-        </p>
-        <CancellationPolicy isOpen={isOpen} toggleModal={toggleModal} />
+
         <p className="text-center font-bold poppins text-sm">
           Need help? Contact us for any queries related to us
         </p>

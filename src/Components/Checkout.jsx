@@ -1,3 +1,892 @@
+// import React, { useEffect, useState } from 'react'
+// import support from "../assets/support.png"
+// import phone from "../assets/phone.png"
+// import whatsapp from "../assets/whatsapp.png"
+// import { IoMdTime } from "react-icons/io";
+// import { RiDeleteBin6Line } from "react-icons/ri";
+// import img from "../assets/img/img1.jpg"
+// import { CiMoneyCheck1 } from "react-icons/ci";
+// import { HiOutlineCalendarDateRange } from "react-icons/hi2";
+// import DateTimeModal from './DateTimeModal';
+// import { FaCircleCheck } from "react-icons/fa6";
+// import { useDispatch, useSelector } from "react-redux";
+// import { TbRosetteDiscount } from "react-icons/tb";
+// import { MdDelete } from "react-icons/md";
+// import { BiRupee } from "react-icons/bi";
+// import { FaQuestion } from "react-icons/fa";
+// import { IoChevronForward } from "react-icons/io5";
+// import { IoChevronDown, IoChevronUp } from "react-icons/io5";
+// import { FaRegCircle, FaCircle } from "react-icons/fa";
+// import BookingFAQs from './BookingFAQs';
+// import { useNavigate, useParams } from 'react-router-dom';
+// import axios from 'axios';
+// import {
+//     completeOrder,
+//     resetCurrentOrder,
+//     setAddress,
+//     setCouponDiscount,
+//     setPaymentType,
+//     setAddNote,
+//     setVenueAddress,
+//     setSource,
+//     setOccasion,
+//     setAltMobile
+// } from '../features/orderdetails/orderSlice'
+// import DynamicInputField from './DynamicInputField';
+// import AuthModal from "./AuthModal";
+// import { persistor } from "../app/store"; // adjust path if needed
+
+// const Checkout = () => {
+
+//     const navigate = useNavigate();
+//     const dispatch = useDispatch();
+//     const { serviceId } = useParams()
+//     const orderState = useSelector((state) => state.order);
+//     const authState = useSelector((state) => state.auth);
+
+//     const { currentOrder, selectedTimeSlot, isPincodeValid, deliveryMessage, } = orderState;
+//     const user = authState?.user || null;
+
+//     const {
+//         eventDate,
+//         grandTotal,
+//         subTotal,
+//         deliveryCharges,
+//         couponDiscount,
+//         address,
+//         pincode,
+//         balloonsColor,
+//         items,
+//         gstAmount,
+//         addNote
+//     } = currentOrder;
+
+//     const timeSlotsBasic = [
+//         "06:00 AM - 11:00 AM",
+//         "10:00 AM - 01:00 PM",
+//         "01:00 PM - 04:00 PM",
+//         "04:00 PM - 07:00 PM",
+//         "07:00 PM - 10:00 PM",
+//         "09:00 PM - 12:00 PM (15%)",
+//     ];
+//     const timeSlotsPremium = [
+//         "08:00 AM - 12:00 PM (10%)",
+//         "10:00 AM - 02:00 PM",
+//         "02:00 PM - 06:00 PM",
+//         "06:00 PM - 10:00 PM",
+
+//     ];
+
+//     const [showModal, setShowModal] = useState(false)
+//     const [showCoupon, setShowCoupon] = useState(false)
+//     const [showLoginModal, setShowLoginModal] = useState(false)
+//     const [selectedCoupon, setSelectedCoupon] = useState("")
+//     const [selectedPayPercentage, setSelectedPayPercentage] = useState('100');
+//     const [selectedNotification, setSelectedNotification] = useState(false);
+//     const [openOption, setOpenOption] = useState(false);
+//     const [serviceDetails, setServiceDetails] = useState(null);
+//     const [loading, setLoading] = useState(true);
+//     const [error, setError] = useState(null);
+//     const [customizedValues, setCustomizedValues] = useState({});
+//     const [isOpen, setIsOpen] = useState(false);
+//     const [addonDetails, setAddonDetails] = useState({});
+//     const [coupons, setCoupons] = useState([]);
+//     const options = [
+//         "Google", "Facebook", "Instagram", "Youtube", "Recommended", "Used Before"
+//     ];
+
+//     const city = "Bangalore";
+//     const price = grandTotal || 0;
+//     const currentPageUrl = window.location.href;
+//     const message = `${currentPageUrl}\nCity: ${city},\nPrice: ${price}\nCan I get more details?`;
+//     const encodedMessage = encodeURIComponent(message);
+//     const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
+
+//     useEffect(() => {
+//         const fetchDetails = async () => {
+//             try {
+//                 setLoading(true);
+//                 // Fetch service details
+//                 const serviceResponse = await axios.get(`http://localhost:5000/api/services/${serviceId}`);
+//                 const serviceData = serviceResponse.data.data;
+//                 setServiceDetails(serviceData);
+
+//                 // Fetch all addons
+//                 const allAddonsResponse = await axios.get('http://localhost:5000/api/addons/');
+//                 const allAddons = allAddonsResponse.data.data;
+//                 console.log("All addons from API:", allAddons);
+
+//                 // Filter addons that are in the cart
+//                 const cartAddons = items.filter(item => item.categoryType === 'addon');
+//                 console.log("Cart addons:", cartAddons);
+
+//                 // Create a map of addon details using the _id from cart addons
+//                 const addonDetailsMap = {};
+//                 cartAddons.forEach(cartAddon => {
+//                     // Find the complete addon details by matching the _id
+//                     const addonDetail = allAddons.find(addon => addon._id === cartAddon._id);
+//                     console.log("Matching addon by ID:", cartAddon._id, "Found:", addonDetail);
+
+//                     if (addonDetail) {
+//                         addonDetailsMap[addonDetail._id] = {
+//                             ...addonDetail,
+//                             serviceName: cartAddon.serviceName,
+//                             price: cartAddon.price,
+//                             quantity: cartAddon.quantity
+//                         };
+//                         console.log("Added to map:", addonDetailsMap[addonDetail._id]);
+//                     } else {
+//                         console.log("No matching addon found for ID:", cartAddon._id);
+//                     }
+//                 });
+
+//                 console.log("Final addon details map:", addonDetailsMap);
+//                 setAddonDetails(addonDetailsMap);
+//             } catch (err) {
+//                 console.error("Error fetching details:", err);
+//                 setError("Failed to fetch details");
+//             } finally {
+//                 setLoading(false);
+//             }
+//         };
+
+//         if (serviceId) {
+//             fetchDetails();
+//         }
+//     }, [serviceId, items]);
+
+//     console.log("Service", serviceDetails)
+
+//     const handleInputChange = (label, value, itemId = null, type = 'text', checked = false) => {
+//         let finalValue = value;
+
+//         if (type === 'checkbox') {
+//             // For checkboxes, we'll store an array of selected values
+//             if (itemId) {
+//                 const currentValues = customizedValues[`${itemId}_${label}`] || [];
+//                 if (checked) {
+//                     // Add value if checked
+//                     finalValue = [...currentValues, value];
+//                 } else {
+//                     // Remove value if unchecked
+//                     finalValue = currentValues.filter(v => v !== value);
+//                 }
+//             } else {
+//                 const currentValues = customizedValues[label] || [];
+//                 if (checked) {
+//                     finalValue = [...currentValues, value];
+//                 } else {
+//                     finalValue = currentValues.filter(v => v !== value);
+//                 }
+//             }
+//         }
+
+//         if (itemId) {
+//             setCustomizedValues((prev) => ({
+//                 ...prev,
+//                 [`${itemId}_${label}`]: finalValue,
+//             }));
+//         } else {
+//             setCustomizedValues((prev) => ({
+//                 ...prev,
+//                 [label]: finalValue,
+//             }));
+//         }
+//     };
+
+//     const toggleModal = () => {
+//         setIsOpen(!isOpen);
+//         if (!isOpen) {
+//             document.body.style.overflow = "hidden";
+//         } else {
+//             document.body.style.overflow = "auto";
+//         }
+//     };
+
+//     useEffect(() => {
+//         document.body.style.overflow = showModal ? 'hidden' : 'unset';
+
+//         return () => {
+//             document.body.style.overflow = 'unset';
+//         };
+//     }, [showModal]);
+
+//     const handleChange = (e) => {
+//         const { name, value, type } = e.target;
+
+//         if (type === "radio") {
+//             dispatch(setSource(value));
+//         } else {
+//             dispatch(setVenueAddress(value));
+//             dispatch(setAddress(value));
+//         }
+//     };
+
+//     // Format date for display
+//     const formatDate = (date) => {
+//         if (!date) return '';
+//         return date.toLocaleDateString('en-US', {
+//             day: 'numeric',
+//             month: 'short',
+//             year: 'numeric'
+//         });
+//     };
+
+//     const handleEditPincode = () => {
+//         dispatch(resetCurrentOrder());
+//         navigate(-1);
+//     }
+
+//     const applyCoupon = (couponCode) => {
+//         if (selectedPayPercentage === "50") {
+//             alert("Coupons cannot be applied with 50% payment option");
+//             return;
+//         }
+
+//         if (couponCode) {
+//             setSelectedCoupon(couponCode);
+//             dispatch(setCouponDiscount(Math.round(subTotal * 0.1)));
+//         } else {
+//             dispatch(setCouponDiscount(0));
+//             setSelectedCoupon("");
+//         }
+//     };
+
+//     //fetch coupoun
+//     useEffect(() => {
+//         const fetchCoupons = async () => {
+//             setLoading(true);
+//             setError("");
+//             try {
+//                 const response = await axios.get(
+//                     "http://localhost:5000/api/coupons/getcoupons"
+//                 );
+//                 setCoupons(response.data.coupons);
+//                 console.log("Coupons", response.data.coupons);
+//             } catch (error) {
+//                 console.error("Error fetching coupons:", error);
+//                 setError("Failed to fetch coupons. Please try again later.");
+//             } finally {
+//                 setLoading(false);
+//             }
+//         };
+
+//         fetchCoupons();
+//     }, []);
+
+//     const handleProceedToPay = async () => {
+//         try {
+//             // Check if user is logged in
+//             const storedUser = localStorage.getItem('user');
+//             const storedToken = localStorage.getItem('accessToken');
+
+//             console.log('Stored User Data:', storedUser);
+//             console.log('Stored Token:', storedToken);
+
+//             if (!storedUser || !storedToken) {
+//                 setShowLoginModal(true);
+//                 return;
+//             }
+
+//             // Parse stored user data
+//             const userData = JSON.parse(storedUser);
+//             console.log('Parsed User Data:', userData);
+
+//             // Form validation
+//             if (!address.trim()) {
+//                 alert("Please enter venue address");
+//                 return;
+//             }
+//             if (!currentOrder.source) {
+//                 alert("Please select how you came to know about us");
+//                 return;
+//             }
+//             if (!currentOrder.occasion) {
+//                 alert("Please select an occasion");
+//                 return;
+//             }
+//             if (!eventDate) {
+//                 alert("Please select a date");
+//                 return;
+//             }
+//             if (!selectedTimeSlot) {
+//                 alert("Please select a time slot");
+//                 return;
+//             }
+
+//             // Calculate payment amounts
+//             const amountToPay = selectedPayPercentage === "50" ? Math.round(grandTotal / 2) : grandTotal;
+//             const duePayment = selectedPayPercentage === "50" ? Math.round(grandTotal / 2) : 0;
+
+//             // Process items to match schema requirements
+//             const processedItems = items.map(item => {
+//                 // Ensure categoryType is properly capitalized
+//                 const categoryType = item.categoryType === 'service' ? 'Service' :
+//                     item.categoryType === 'addon' ? 'Addon' :
+//                         item.categoryType;
+
+//                 // Get the refId based on item type
+//                 let refId;
+//                 if (item.categoryType === 'service') {
+//                     refId = serviceDetails?._id;
+//                     if (!refId) {
+//                         throw new Error(`Service ID not found for ${item.serviceName}`);
+//                     }
+//                 } else if (item.categoryType === 'addon') {
+//                     // Try to get from addonDetails, fallback to item.id/_id
+//                     const addonDetail = addonDetails[item._id || item.id];
+//                     refId = addonDetail ? addonDetail._id : (item._id || item.id);
+//                     // No error thrown if not found!
+//                 }
+
+//                 // Build customizedInputs for this item
+//                 let customizedInputs = [];
+//                 if (item.customizedInputs && item.customizedInputs.length > 0) {
+//                     customizedInputs = item.customizedInputs.map(input => ({
+//                         label: input.label,
+//                         value: customizedValues[`${item.id || item._id}_${input.label}`] || ''
+//                     }));
+//                 }
+
+//                 return {
+//                     refId: refId,
+//                     serviceName: item.serviceName,
+//                     price: Number(item.price) || 0,
+//                     originalPrice: Number(item.originalPrice || item.price) || 0,
+//                     quantity: Number(item.quantity || 1),
+//                     image: item.image || '',
+//                     categoryType: categoryType,
+//                     customizedInputs,
+//                     id: item.id,
+//                     _id: item._id
+//                 };
+//             });
+
+//             // Create order data
+//             const orderData = {
+//                 orderId: `ORD${Date.now()}`,
+//                 eventDate: formatDate(new Date(eventDate)),
+//                 eventTime: selectedTimeSlot,
+//                 pincode: pincode,
+//                 balloonsColor: balloonsColor || [],
+//                 subTotal: Number(subTotal || 0),
+//                 grandTotal: Number(grandTotal || 0),
+//                 paidAmount: Number(amountToPay || 0),
+//                 dueAmount: Number(duePayment || 0),
+//                 deliveryCharges: Number(deliveryCharges || 0),
+//                 couponDiscount: Number(couponDiscount || 0),
+//                 gstAmount: Number(gstAmount || 0),
+//                 paymentType: selectedPayPercentage === "50" ? "half" : "full",
+//                 address: address.trim(),
+//                 items: processedItems,
+//                 customerName: userData.firstName + " " + userData.lastName || 'Guest',
+//                 customerId: userData.id,
+//                 occasion: currentOrder.occasion,
+//                 source: currentOrder.source,
+//                 altMobile: currentOrder.altMobile || '',
+//                 addNote: currentOrder.addNote || '',
+//                 orderStatus: 'created',
+//                 venueAddress: address.trim(),
+//             };
+
+//             console.log('Order Data being sent:', orderData);
+
+//             // Create order with authentication token
+//             const response = await axios.post('http://localhost:5000/api/orders/create', orderData, {
+//                 headers: {
+//                     Authorization: `Bearer ${storedToken}`
+//                 }
+//             });
+
+//             if (response.data.success) {
+//                 console.log("Order created successfully:", response.data.data);
+//                 alert("Order created successfully");
+//                 // Clear form and state
+//                 dispatch(resetCurrentOrder());
+//                 setSelectedCoupon("");
+//                 setSelectedNotification(false);
+//                 dispatch(completeOrder());
+
+//                 // Redirect to order confirmation page
+//                 navigate(`/thank-you`);
+//             } else {
+//                 alert(response.data.message || "Failed to create order. Please try again.");
+//             }
+//         } catch (error) {
+//             console.error("Error processing order:", error);
+//             if (error.response) {
+//                 const errorMessage = error.response.data.message || "Failed to create order. Please check all required fields.";
+//                 const missingFields = error.response.data.required;
+//                 if (missingFields) {
+//                     const missingFieldNames = Object.entries(missingFields)
+//                         .filter(([_, value]) => value === false)
+//                         .map(([key]) => key);
+//                     alert(`${errorMessage}\nMissing fields: ${missingFieldNames.join(', ')}`);
+//                 } else {
+//                     alert(errorMessage);
+//                 }
+//             } else {
+//                 alert(error.message || "Error creating order. Please try again.");
+//             }
+//         }
+//     };
+
+//     useEffect(() => {
+//         if (selectedCoupon && selectedPayPercentage === '100') {
+//             applyCoupon(selectedCoupon);
+//         }
+//     }, [selectedCoupon, selectedPayPercentage]);
+
+//     // Calculate amount to pay based on payment percentage
+//     const amountToPay = selectedPayPercentage === "50" ? Math.round(grandTotal / 2) : grandTotal;
+
+//     const handleDeleteAll = async () => {
+//         // Purge redux-persist storage if used
+//         if (persistor && persistor.purge) {
+//             await persistor.purge();
+//         }
+//         // Optionally, dispatch resets for your slices
+//         dispatch(resetCurrentOrder());
+//         // You can also clear localStorage if needed
+//         localStorage.clear();
+//         // Navigate to home
+//         navigate("/");
+//         // Optionally reload for a clean state
+//         window.location.reload();
+//     };
+
+//     return (
+//         <div className="min-h-screen bg-gray-100 py-8">
+//             {/* Login Modal */}
+//             {showLoginModal && (
+//                 <AuthModal
+//                     setIsModalOpen={setShowLoginModal}
+//                     onLoginSuccess={() => {
+//                         setShowLoginModal(false);
+//                     }}
+//                 />
+//             )}
+
+//             <div className='lg:p-24 p-2 pt-36  mx-auto'>
+//                 <div className='lg:grid grid-cols-5 gap-10 '>
+//                     <div className='col-span-3' >
+//                         <h1 className='text-2xl font-bold poppins pb-5'>Checkout</h1>
+//                         <div className='hidden lg:w-9/12 md:flex items-center justify-between gap-2 border border-gray-300  px-2 py-4 my-4 rounded-2xl'>
+//                             <div className='flex items-center gap-2'>
+//                                 <img src={support} className='w-10' />
+//                                 <p className=''>Need assistance?</p>
+//                             </div>
+//                             <div className="flex gap-2 items-center ">
+//                                 <button
+//                                     className="flex gap-2 items-center border border-green-500 text-green-500 rounded-full px-4 py-1 hover:bg-green-500 hover:text-white"
+//                                     onClick={() => window.open(WhatsAppLink, "_blank")}
+//                                 >
+//                                     <img src={whatsapp} className="w-6" alt="whatsapp" />
+//                                     Whatsapp
+//                                 </button>
+//                                 <a
+//                                     href="tel:+919620558000"
+//                                     className="flex gap-2 items-center border border-blue-500 text-blue-500 rounded-full px-6 py-1 hover:bg-blue-500 hover:text-white"
+//                                 >
+//                                     <img src={phone} className="w-6" alt="phone" />
+//                                     Call us
+//                                 </a>
+
+//                             </div>
+//                         </div>
+//                         <div className=' bg-white border border-gray-300  p-4 my-4 rounded-2xl shadow-xl'>
+//                             <h2 className='text-xl font-medium '>Customer Details</h2>
+//                             <form className='mt-2 py-3 '>
+//                                 <label>
+//                                     Venue Address
+//                                     <input
+//                                         placeholder='Add the venue address'
+//                                         className='w-full border p-2 my-2 text-sm border-gray-300   rounded-md'
+//                                         value={address}
+//                                         onChange={e => {
+//                                             dispatch(setVenueAddress(e.target.value));
+//                                             dispatch(setAddress(e.target.value));
+//                                         }}
+//                                         name="venueAddress"
+//                                     />
+//                                 </label>
+//                                 <div>
+//                                     <p>Pincode</p>
+//                                     <div className='flex items-center gap-2 border border-gray-300 p-2 rounded-md'>
+//                                         <p className='w-full text-sm'>{pincode}</p>
+//                                         <button className='text-primary' onClick={handleEditPincode} >Edit</button>
+//                                     </div>
+
+//                                 </div>
+//                                 <div className="bg-transparent">
+//                                     <p className="">How did you come to know about Lavisheventzz?</p>
+//                                     <div
+//                                         className="flex items-center justify-between gap-3 border border-gray-300 p-1 px-2 my-3 bg-transparent cursor-pointer"
+//                                         onClick={() => setOpenOption(!openOption)}
+//                                     >
+//                                         <label className="flex items-center space-x-2">
+//                                             <p className="text-gray-400 text-sm">{currentOrder.source || "Select the option"}</p>
+//                                         </label>
+//                                         <button>
+//                                             {openOption ? <IoChevronUp /> : <IoChevronDown />}
+//                                         </button>
+//                                     </div>
+
+//                                     {openOption && (
+//                                         <div className="mt-2 space-y-2">
+//                                             <div className="grid grid-cols-2 md:w-1/2">
+//                                                 {options.map((option) => (
+//                                                     <label
+//                                                         key={option}
+//                                                         className="flex items-center space-x-2 px-4 py-2 cursor-pointer"
+//                                                     >
+//                                                         <input
+//                                                             type="radio"
+//                                                             name="source"
+//                                                             value={option}
+//                                                             checked={currentOrder.source === option}
+//                                                             onChange={e => dispatch(setSource(e.target.value))}
+//                                                             className="hidden"
+//                                                         />
+//                                                         <span className="text-primary">
+//                                                             {currentOrder.source === option ? (
+//                                                                 <FaCircle size={14} />
+//                                                             ) : (
+//                                                                 <FaRegCircle size={14} />
+//                                                             )}
+//                                                         </span>
+//                                                         <span>{option}</span>
+//                                                     </label>
+//                                                 ))}
+//                                             </div>
+//                                         </div>
+//                                     )}
+//                                 </div>
+
+//                                 <div>
+//                                     <p className='pb-2'>What is the occasion? </p>
+//                                     <select
+//                                         name="occasion"
+//                                         className={`border p-1 mb-3 w-full text-sm`}
+//                                         value={currentOrder.occasion}
+//                                         onChange={e => dispatch(setOccasion(e.target.value))}
+//                                     >
+//                                         <option value="" className="text-gray-400">Occasion</option>
+//                                         <option value="birthday" className='text-black'>Birthday</option>
+//                                         <option value="anniversary" className='text-black'>Anniversary</option>
+//                                         <option value="babyShower" className='text-black'>Baby Shower</option>
+//                                         <option value="welcome" className='text-black'>Welcome</option>
+//                                         <option value="bacheloretteparty" className='text-black'>Bachelorette Party</option>
+//                                         <option value="weddingnight" className='text-black'>Wedding Night</option>
+//                                         <option value="others" className='text-black'>Others</option>
+//                                     </select>
+//                                 </div>
+
+//                                 <label className=''>
+//                                     Alternate Contact Number
+//                                     <input
+//                                         placeholder='mobile number'
+//                                         className='w-full border p-2 my-2 text-sm'
+//                                         name="altMobile"
+//                                         value={currentOrder.altMobile}
+//                                         onChange={e => dispatch(setAltMobile(e.target.value))}
+//                                     />
+//                                 </label>
+
+
+//                                 {items.some(item => item.customizedInputs?.length > 0) && (
+//                                     <div className="mt-4">
+//                                         <h3 className="font-medium text-lg mb-4">Customized Inputs</h3>
+//                                         {items
+//                                             .filter(item => item.customizedInputs?.length > 0)
+//                                             .map((item) => (
+//                                                 <div key={item.id || item._id} className="mt-4">
+//                                                     <div className="flex justify-between items-center mb-2">
+//                                                         <h4 className="font-medium">{item.serviceName}</h4>
+//                                                         <span className="text-gray-600">
+//                                                             Rs. {item.price} x {item.quantity}
+//                                                         </span>
+//                                                     </div>
+
+//                                                     {item.customizedInputs.map((input, index) => (
+//                                                         <DynamicInputField
+//                                                             key={`${item.id || item._id}_${index}`}
+//                                                             item={input}
+//                                                             index={index}
+//                                                             onChange={(label, value, type, checked) =>
+//                                                                 handleInputChange(label, value, item.id || item._id, type, checked)
+//                                                             }
+//                                                         />
+//                                                     ))}
+//                                                 </div>
+//                                             ))}
+//                                     </div>
+//                                 )}
+
+
+//                             </form>
+
+//                         </div>
+//                     </div >
+//                     {/* right side */}
+//                     <div className='col-span-2'>
+//                         <div className="border border-gray-300 md:p-6 p-3 my-6 rounded-2xl shadow-lg bg-white">
+//                             <div className='flex justify-between items-center  mb-4'>
+//                                 <h2 className="text-2xl font-semibold text-gray-800">Order Details</h2>
+//                                 <button className='text-primary bg-red-500 text-white px-4 py-1 rounded-md' onClick={handleDeleteAll}>Cancel Order</button>
+//                             </div>
+
+//                             <div className="flex flex-col md:flex-row justify-between items-start rounded-2xl gap-6">
+//                                 {/* Left Section - Product Image & Details */}
+//                                 <div className="flex gap-4 w-full">
+//                                     <img src={img} className="w-32 h-32 rounded-xl object-cover shadow-sm" alt="Product" />
+//                                     <div className="space-y-2 w-full">
+//                                         <p className="text-lg md:text-xl font-semibold text-gray-900">{items.find(item => item.categoryType === 'service')?.serviceName}</p>
+
+//                                         {/* Date & Time Selection */}
+//                                         <div className="space-y-1">
+//                                             <p
+//                                                 className="text-sm text-gray-600 font-medium flex items-center gap-2 cursor-pointer hover:text-blue-600 transition"
+//                                                 onClick={() => setShowModal(true)}
+//                                             >
+//                                                 <HiOutlineCalendarDateRange className="text-lg" />
+//                                                 {eventDate ? formatDate(new Date(eventDate)) : "Select a date"}
+//                                             </p>
+//                                             <p
+//                                                 className="text-sm text-gray-600 font-medium flex items-center gap-2 cursor-pointer hover:text-blue-600 transition"
+//                                                 onClick={() => setShowModal(true)}
+//                                             >
+//                                                 <IoMdTime className="text-lg" />
+//                                                 {selectedTimeSlot || "Select a time slot"}
+//                                             </p>
+//                                             <p className="text-sm text-gray-600 font-medium flex items-center gap-2">
+//                                                 <CiMoneyCheck1 className="text-lg" />
+//                                                 <span className="font-semibold text-gray-900">Package Amount:</span> Rs. {items.find(item => item.categoryType === 'service')?.price}
+//                                             </p>
+//                                         </div>
+
+//                                         {/* Add-ons Section */}
+//                                         {items.filter(item => item.categoryType === 'addon').length > 0 && (
+//                                             <div className="mt-2 border border-gray-200 p-2 rounded-lg bg-gray-50">
+//                                                 <h3 className="text-sm font-semibold text-gray-800">Add-ons:</h3>
+//                                                 {items.filter(item => item.categoryType === 'addon').map((addon, index) => (
+//                                                     <div key={index} className="flex justify-between items-center text-sm text-gray-700">
+//                                                         <span>{addon.serviceName}</span>
+//                                                         <span>{addon.price} x {addon.quantity}</span>
+//                                                     </div>
+//                                                 ))}
+//                                             </div>
+//                                         )}
+//                                     </div>
+//                                 </div>
+
+//                                 {/* Right Section - Pricing & Actions */}
+//                                 <div className="flex md:items-end md:flex-col flex-row-reverse items-center justify-between gap-6 md:gap-4 pt-4 md:pt-0">
+//                                     {/* <RiDeleteBin6Line
+//                                         className="cursor-pointer text-red-500 hover:text-red-600 text-2xl transition"
+//                                         title="Delete All Data"
+//                                         onClick={handleDeleteAll}
+//                                     /> */}
+
+//                                     <h1 className="font-semibold text-xl text-gray-900">Rs. {grandTotal}</h1>
+//                                 </div>
+//                             </div>
+
+//                             {/* Note Section */}
+//                             <div className="p-2 px-3 mt-4 rounded-md border border-gray-300 bg-gray-50">
+//                                 <p className="text-sm text-gray-700">
+//                                     <span className="font-bold">Note:</span>
+//                                     <input
+//                                         className='w-full p-2'
+//                                         placeholder='If you have any note type here'
+//                                         value={currentOrder.addNote || ""}
+//                                         onChange={(e) => dispatch(setAddNote(e.target.value))}
+//                                     />
+//                                 </p>
+//                             </div>
+//                         </div>
+
+//                         <div className='flex justify-between border border-gray-300  md:p-4 p-2 my-4 rounded-2xl shadow-xl cursor-pointer' onClick={toggleModal} >
+//                             <p className='flex gap-2 items-center'><span className='bg-green-600 p-1 text-white rounded-full'><FaQuestion size={10} /></span>  Read Before Booking</p>
+//                             <IoChevronForward />
+//                         </div>
+
+//                         <BookingFAQs isOpen={isOpen} toggleModal={toggleModal} />
+
+//                         <div className=' border border-gray-300  p-4 my-2 rounded-2xl shadow-xl'>
+//                             <h2 className='text-xl font-medium '>Product Details</h2>
+//                             <div className=' rounded-b-lg bg-purple-800 shadow-xl   '>
+//                                 <div className='border-b-2 border-dashed border-gray-500 text-gray-500  bg-white poppins p-3 space-y-2'>
+//                                     {/* Base Service */}
+//                                     <div className='flex justify-between items-center'>
+//                                         <p className=''>Base Service</p>
+//                                         <p className='text-right'>Rs. {items.find(item => item.categoryType === 'service')?.price || 0}</p>
+//                                     </div>
+
+//                                     {/* Add-ons Total */}
+//                                     {items.filter(item => item.categoryType === 'addon').length > 0 && (
+//                                         <div className='flex justify-between items-center'>
+//                                             <p className=''>Add-ons Total</p>
+//                                             <p className='text-right'>Rs. {items.filter(item => item.categoryType === 'addon')
+//                                                 .reduce((total, addon) => total + (addon.price * addon.quantity), 0)}</p>
+//                                         </div>
+//                                     )}
+
+//                                     {/* Delivery Charges */}
+//                                     <div className='flex justify-between items-center'>
+//                                         <p className=''>Delivery Charges</p>
+//                                         <p className='text-right'>Rs. {deliveryCharges}</p>
+//                                     </div>
+
+//                                     {/* Subtotal before GST */}
+//                                     <div className='flex justify-between items-center font-medium'>
+//                                         <p className=''>Subtotal (before GST)</p>
+//                                         <p className='text-right'>Rs. {subTotal}</p>
+//                                     </div>
+
+//                                     {/* Coupon Discount */}
+//                                     {selectedCoupon && selectedPayPercentage !== "50" && (
+//                                         <div className='flex justify-between items-center text-red-500'>
+//                                             <p>Coupon Discount</p>
+//                                             <p>- Rs. {couponDiscount}</p>
+//                                         </div>
+//                                     )}
+
+//                                     {/* GST */}
+//                                     <div className='flex justify-between items-center'>
+//                                         <p className=''>GST (18%)</p>
+//                                         <p className='text-right'>Rs. {Math.round((subTotal - (selectedPayPercentage === "50" ? 0 : couponDiscount)) * 0.18)}</p>
+//                                     </div>
+
+//                                     {/* Coupon Section */}
+//                                     {selectedPayPercentage === "100" && (
+//                                         selectedCoupon !== "" ? (
+//                                             <div className={`flex gap-4 text-lg ${selectedPayPercentage === "50" ? "text-gray-400" : "text-black"}`}>
+//                                                 <div className='w-full'>
+//                                                     <div className='w-full flex items-center'>
+//                                                         <p className="text-sm">Coupon {selectedCoupon}</p>
+//                                                         <button onClick={() => setSelectedCoupon("")}><MdDelete className='cursor-pointer' size={20} /></button>
+//                                                     </div>
+//                                                     {selectedPayPercentage === "50" && (
+//                                                         <small className='text-red-400'>Coupon not applicable for 50% Payment</small>
+//                                                     )}
+//                                                 </div>
+//                                                 <p className='text-red-400'>
+//                                                     {selectedPayPercentage === "50" ? "-0" : `-${couponDiscount}`}
+//                                                 </p>
+//                                             </div>
+//                                         ) : (
+//                                             <div>
+//                                                 <div className='flex items-center gap-4 md:mx-4 md:px-4 px-2 py-2 rounded-md text-black bg-blue-300 cursor-pointer'
+//                                                     onClick={() => setShowCoupon(!showCoupon)}>
+//                                                     <div className='w-full flex items-center gap-2'><TbRosetteDiscount /> Coupon</div>
+//                                                     <button className='underline'>View</button>
+//                                                 </div>
+//                                             </div>
+//                                         ))}
+//                                     {showCoupon && coupons.length > 0 && (
+//                                         <div className='max-h-[240px] overflow-y-scroll my-2 md:w-[90%] mx-auto scrollbar-hide'>
+//                                             {coupons.map((coupon, idx) => (
+//                                                 <div
+//                                                     key={idx}
+//                                                     className="flex border border-primary rounded-md h-auto mt-2 cursor-pointer hover:shadow-sm transition text-xs"
+//                                                     onClick={() => {
+//                                                         setSelectedCoupon(coupon.couponCode);
+//                                                         setShowCoupon(false);
+//                                                     }}
+//                                                 >
+//                                                     {/* Left - Discount */}
+//                                                     <div className="flex items-center justify-center bg-primary text-white px-2 py-1 w-[60px]">
+//                                                         <h1 className="-rotate-90 font-bold whitespace-nowrap text-[10px]">
+//                                                             {coupon.discount}% OFF
+//                                                         </h1>
+//                                                     </div>
+
+//                                                     {/* Right - Coupon Details */}
+//                                                     <div className="flex flex-col justify-center px-3 py-0">
+//                                                         <h1 className="font-semibold text-sm text-primary">{coupon.couponName}</h1>
+//                                                         <p className="text-gray-700 mt-1">{coupon.couponDetails}</p>
+//                                                         <small className="text-gray-500 mt-1">
+//                                                             Use code <span className="font-medium text-black">{coupon.couponCode}</span> and save {coupon.discount}%!
+//                                                         </small>
+//                                                     </div>
+//                                                 </div>
+//                                             ))}
+//                                         </div>
+
+//                                     )}
+
+//                                 </div>
+
+//                                 {/* Final Payment Display */}
+//                                 <div className='text-lg text-black poppins rounded-b-2xl bg-white p-3 shadow-2xl pt-4'>
+//                                     <div className='flex justify-between items-center'>
+//                                         <p className=''>Grand Total</p>
+//                                         <p className='flex items-center font-semibold text-right text-black'>
+//                                             <BiRupee size={24} />{grandTotal}
+//                                         </p>
+//                                     </div>
+//                                     {/* {selectedPayPercentage === "50" && (
+//                                         <>
+//                                             <div className='flex justify-between items-center'>
+//                                                 <p className=''>Amount to Pay Now</p>
+//                                                 <p className='flex items-center font-semibold text-right text-green-600'>
+//                                                     <BiRupee size={24} />{Math.round(grandTotal / 2)}
+//                                                 </p>
+//                                             </div>
+//                                             <div className='flex justify-between items-center'>
+//                                                 <p className=''>Amount Due Later</p>
+//                                                 <p className='flex items-center font-semibold text-right text-red-600'>
+//                                                     <BiRupee size={24} />{Math.round(grandTotal / 2)}
+//                                                 </p>
+//                                             </div>
+//                                         </>
+//                                     )} */}
+//                                 </div>
+//                                 <div className='py-3 text-center text-white font-semibold'>
+//                                     Bangalore's #1 Balloon Decoration Service
+//                                 </div>
+//                             </div>
+//                         </div>
+
+//                         <div className='my-10'>
+//                             <button
+//                                 onClick={handleProceedToPay}
+//                                 className='bg-primary text-center py-3 mt-5 w-full text-white rounded-xl font-semibold text-xl'
+//                             >
+//                                 PROCEED TO PAY | Rs. {selectedPayPercentage === "50" ? Math.round(grandTotal / 2) : grandTotal}
+//                             </button>
+//                             <p className='text-gray-500 py-3 text-center'>100% Safe & Secure Payment!</p>
+//                         </div>
+//                     </div>
+
+//                     {showModal && (
+//                         <DateTimeModal setShowModal={setShowModal}
+//                             timeSlots={items.find(item => item.categoryType === 'service')?.price > 4000 ? timeSlotsPremium : timeSlotsBasic}
+
+//                         />
+//                     )}
+//                 </div>
+
+//                 {/* Debug section to display Redux order data */}
+//                 {/* <div className="mt-8 p-4 border border-gray-300 rounded-lg">
+//                     <h2 className="text-xl font-bold mb-2">Current Order Data (Redux Store)</h2>
+//                     <div className="bg-gray-100 p-4 rounded overflow-auto max-h-64">
+//                         <pre className="text-sm whitespace-pre-wrap">
+//                             {JSON.stringify(currentOrder, null, 2)}
+//                         </pre>
+//                     </div>
+//                 </div> */}
+//             </div>
+//         </div>
+//     )
+// }
+
+// export default Checkout
+
+
+
+
 import React, { useEffect, useState } from 'react'
 import support from "../assets/support.png"
 import phone from "../assets/phone.png"
@@ -100,7 +989,7 @@ const Checkout = () => {
     const currentPageUrl = window.location.href;
     const message = `${currentPageUrl}\nCity: ${city},\nPrice: ${price}\nCan I get more details?`;
     const encodedMessage = encodeURIComponent(message);
-    const WhatsAppLink = `https://wa.me/919611430158?text=${encodedMessage}`;
+    const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
 
     useEffect(() => {
         const fetchDetails = async () => {
@@ -159,9 +1048,28 @@ const Checkout = () => {
 
     const handleInputChange = (label, value, itemId = null, type = 'text', checked = false) => {
         let finalValue = value;
+
         if (type === 'checkbox') {
-            finalValue = checked;
+            // For checkboxes, we'll store an array of selected values
+            if (itemId) {
+                const currentValues = customizedValues[`${itemId}_${label}`] || [];
+                if (checked) {
+                    // Add value if checked
+                    finalValue = [...currentValues, value];
+                } else {
+                    // Remove value if unchecked
+                    finalValue = currentValues.filter(v => v !== value);
+                }
+            } else {
+                const currentValues = customizedValues[label] || [];
+                if (checked) {
+                    finalValue = [...currentValues, value];
+                } else {
+                    finalValue = currentValues.filter(v => v !== value);
+                }
+            }
         }
+
         if (itemId) {
             setCustomizedValues((prev) => ({
                 ...prev,
@@ -457,9 +1365,22 @@ const Checkout = () => {
                                 <img src={support} className='w-10' />
                                 <p className=''>Need assistance?</p>
                             </div>
-                            <div className='md:flex items-center lg:gap-4 md:gap-2 '>
-                                <button className='flex gap-2 items-center border bg-green-500 text-white rounded-full px-4 py-2 ' onClick={() => window.open(WhatsAppLink, "_blank")}> <img src={whatsapp} className='w-6' />Whatsapp</button>
-                                <button className='flex gap-2 items-center border border-blue-500 text-blue-500 rounded-full px-6 py-2'> <img src={phone} className='w-6' />Call us</button>
+                            <div className="flex gap-2 items-center ">
+                                <button
+                                    className="flex gap-2 items-center border border-green-500 text-green-500 rounded-full px-4 py-1 hover:bg-green-500 hover:text-white"
+                                    onClick={() => window.open(WhatsAppLink, "_blank")}
+                                >
+                                    <img src={whatsapp} className="w-6" alt="whatsapp" />
+                                    Whatsapp
+                                </button>
+                                <a
+                                    href="tel:+919620558000"
+                                    className="flex gap-2 items-center border border-blue-500 text-blue-500 rounded-full px-6 py-1 hover:bg-blue-500 hover:text-white"
+                                >
+                                    <img src={phone} className="w-6" alt="phone" />
+                                    Call us
+                                </a>
+
                             </div>
                         </div>
                         <div className=' bg-white border border-gray-300  p-4 my-4 rounded-2xl shadow-xl'>
@@ -487,7 +1408,7 @@ const Checkout = () => {
 
                                 </div>
                                 <div className="bg-transparent">
-                                    <p className="">How did you come to know about Lavishevents?</p>
+                                    <p className="">How did you come to know about Lavisheventzz?</p>
                                     <div
                                         className="flex items-center justify-between gap-3 border border-gray-300 p-1 px-2 my-3 bg-transparent cursor-pointer"
                                         onClick={() => setOpenOption(!openOption)}
@@ -549,6 +1470,9 @@ const Checkout = () => {
                                         <option value="others" className='text-black'>Others</option>
                                     </select>
                                 </div>
+
+
+                                
 
                                 <label className=''>
                                     Alternate Contact Number
@@ -678,10 +1602,12 @@ const Checkout = () => {
                             <p className='flex gap-2 items-center'><span className='bg-green-600 p-1 text-white rounded-full'><FaQuestion size={10} /></span>  Read Before Booking</p>
                             <IoChevronForward />
                         </div>
+
                         <BookingFAQs isOpen={isOpen} toggleModal={toggleModal} />
+
                         <div className=' border border-gray-300  p-4 my-2 rounded-2xl shadow-xl'>
                             <h2 className='text-xl font-medium '>Product Details</h2>
-                            <div className=' rounded-b-lg bg-green-200 shadow-xl '>
+                            <div className=' rounded-b-lg bg-purple-800 shadow-xl   '>
                                 <div className='border-b-2 border-dashed border-gray-500 text-gray-500  bg-white poppins p-3 space-y-2'>
                                     {/* Base Service */}
                                     <div className='flex justify-between items-center'>
@@ -792,7 +1718,7 @@ const Checkout = () => {
                                             <BiRupee size={24} />{grandTotal}
                                         </p>
                                     </div>
-                                    {selectedPayPercentage === "50" && (
+                                    {/* {selectedPayPercentage === "50" && (
                                         <>
                                             <div className='flex justify-between items-center'>
                                                 <p className=''>Amount to Pay Now</p>
@@ -807,7 +1733,10 @@ const Checkout = () => {
                                                 </p>
                                             </div>
                                         </>
-                                    )}
+                                    )} */}
+                                </div>
+                                <div className='py-3 text-center text-white font-semibold'>
+                                    Bangalore's #1 Balloon Decoration Service
                                 </div>
                             </div>
                         </div>
@@ -832,19 +1761,21 @@ const Checkout = () => {
                 </div>
 
                 {/* Debug section to display Redux order data */}
-                <div className="mt-8 p-4 border border-gray-300 rounded-lg">
+                {/* <div className="mt-8 p-4 border border-gray-300 rounded-lg">
                     <h2 className="text-xl font-bold mb-2">Current Order Data (Redux Store)</h2>
                     <div className="bg-gray-100 p-4 rounded overflow-auto max-h-64">
                         <pre className="text-sm whitespace-pre-wrap">
                             {JSON.stringify(currentOrder, null, 2)}
                         </pre>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     )
 }
 
 export default Checkout
+
+
 
 

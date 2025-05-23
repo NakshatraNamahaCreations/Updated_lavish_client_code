@@ -26,85 +26,43 @@ import video from "../assets/services/video.mp4"
 import Testimonials from './Testimonials'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import CancellationPolicy from './CancellationPolicy'
-import { getAuthAxios } from '../utils/api'
+import { getAuthAxios, getAxios } from '../utils/api'
 import CardCarousel from './CardCarousel'
-
-
-const imagelist = [
-    {
-        src: simpledecor,
-        title: "Simple Decoration",
-        sub_SubId: "109"
-    },
-    {
-        src: babyboyDecor,
-        title: "Boy Baby Decor",
-        sub_SubId: "110"
-    },
-    {
-        src: babyGirlDeocr,
-        title: "Girl Baby Decor",
-        sub_SubId: "111"
-    },
-    {
-        src: halfyrbabyDecor,
-        title: "Half Year Birthday Decor",
-        sub_SubId: "112"
-    },
-
-]
-
-
-const kidsactivityList = [
-    {
-        serviceName: "Male Anchor for Entertainment",
-        price: "1,499",
-        cardImg: kidsactivity1
-    },
-    {
-        serviceName: "Caricature Artist",
-        price: "1,499",
-        cardImg: kidsactivity2
-    },
-    {
-        serviceName: "Cartoon Mascot",
-        price: "1,499",
-        cardImg: kidsactivity3
-    },
-    {
-        serviceName: "Cotton Candy",
-        price: "1,499",
-        cardImg: kidsactivity4
-    },
-    {
-        serviceName: "Cartoon Mascot",
-        price: "1,499",
-        cardImg: kidsactivity3
-    },
-    {
-        serviceName: "Caricature Artist",
-        price: "1,499",
-        cardImg: kidsactivity2
-    },
-]
-
+import { navigateToSubcategory } from '../utils/navigationsUtils'
 
 
 
 const Kidsbirthday = () => {
-
-    const [isOpen, setIsOpen] = useState(false);
     const [subSubCategories, setSubSubCategories] = useState([]);
     const [allServices, setAllServices] = useState([]);
+
+
+    const navigate = useNavigate();
+    const [recentPurchase, setRecentPurchase] = useState([]);
+    const [serviceDetails, setServiceDetails] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
     const { subcat_id } = useParams();
-    const navigate = useNavigate();
+    const storedUser = localStorage.getItem('user');
+    const userData = JSON.parse(storedUser);
+    const customerId = userData?.id;
 
-    
-    const message = "Hello, I want to know more about kid's birthday Cakes, Games and Activities.";
+
+    const fetchRecentPurchase = async () => {
+        try {
+            const response = await getAxios().get(`/orders/recent-orders/${customerId}`);
+            const data = await response.data;
+            setRecentPurchase(data.services);
+        } catch (error) {
+            console.error("Error fetching recent purchase:", error);
+        }
+    }
+
+
+
+    const message = "Hello, I want to know more about kid's birthday Cakes.";
     const encodedMessage = encodeURIComponent(message);
-    const WhatsAppLink = `https://wa.me/919611430158?text=${encodedMessage}`;
+    const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
 
 
 
@@ -112,8 +70,8 @@ const Kidsbirthday = () => {
         if (!subcat_id) return;
         try {
             setLoading(true);
-            const res = await getAuthAxios().get(
-                `subsubcategories/subcategory/${subcat_id}`
+            const res = await getAxios().get(
+                `/subsubcategories/subcategory/${subcat_id}`
             );
             setSubSubCategories(res.data.data);
             console.log("subSubCategories", res.data.data);
@@ -161,8 +119,8 @@ const Kidsbirthday = () => {
     };
     const checkForThemes = async (subSubCategoryId) => {
         try {
-            const res = await getAuthAxios().get(
-                `themes/subsubcategory/${subSubCategoryId}`
+            const res = await getAxios().get(
+                `/themes/subsubcategory/${subSubCategoryId}`
             );
             return res.data.data && res.data.data.length > 0;
         } catch (err) {
@@ -194,21 +152,31 @@ const Kidsbirthday = () => {
     };
 
 
+    const handleNavigation = (text, baseRoute) => {
+        navigateToSubcategory({
+          text,
+          baseRoute,
+          navigate,
+          setLoading,
+          setError,
+        });
+      };
 
     useEffect(() => {
         fetchSubSubcategoriesBySubCategory();
         fetchServices()
     }, [subcat_id]);
 
+    useEffect(() => {
+        const serviceDetails = recentPurchase?.map((item) => item.serviceDetails);
+        setServiceDetails(serviceDetails);
+    }, [recentPurchase]);
 
-    const toggleModal = () => {
-        setIsOpen(!isOpen);
-        if (!isOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "auto";
-        }
-    };
+
+    useEffect(() => {
+        fetchRecentPurchase();
+    }, [customerId]);
+
     return (
         <div className='lg:py-24 md:pt-20 pt-32  p-3  mx-auto'>
             {loading && (
@@ -311,23 +279,22 @@ const Kidsbirthday = () => {
             </div>
 
 
-            <Link to="/photograpghy"><div className='md:pt-20 py-5'>
+            
+            <div className='md:pt-20 py-5' onClick={() => handleNavigation("photography", "/photography")}>
                 <img src={kidsBanner2} className='mx-auto w-[2000px]' />
             </div>
-            </Link>
+          
             <div className=''>
                 <p className='font-bold poppins md:py-6 pb-4 md:text-2xl'>Why Celebrate With Lavisheventzz</p>
                 <img src={kidsBanner3} className='mx-auto w-[2000px]' />
             </div>
-            <div className='md:pt-10 pt-7'>
-                <p className='font-bold poppins md:text-2xl'>Kids Special Activities</p>
-                <BasicSlider data={kidsactivityList} />
-            </div>
-
+            {customerId && <div className="md:pt-10 pt-7">
+                <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+                <CardCarousel centercardData={serviceDetails} />
+            </div>}
             <div className='my-4'>
                 <p className='text-center font-bold poppins text-2xl'>FAQs</p>
-                <p className='text-right text-lg underline cursor-pointer' onClick={toggleModal}>Cancellation Policy</p>
-                <CancellationPolicy isOpen={isOpen} toggleModal={toggleModal} />
+    
                 <p className='text-center font-bold poppins text-sm'>Need help? Contact us for any queries related to us</p>
                 <div className='lg:w-[70%]  md:w-[80%] mx-auto my-6'>
                     <p className='font-bold poppins py-8 '>Pick a query related to your issue</p>

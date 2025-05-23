@@ -83,14 +83,14 @@ const Login = () => {
                     <hr className="flex-grow border-gray-300" />
                 </div>
 
-                <div className="text-white flex justify-between gap-2">
+                {/* <div className="text-white flex justify-between gap-2">
                     <button className="flex gap-2 items-center bg-[#3B5998] p-4 py-2 flex-1 rounded-md text-white text-center">
                         <FaFacebookSquare /> Facebook Login
                     </button>
                     <button className="flex gap-2 items-center bg-[#DB4437] p-4 py-2 flex-1 rounded-md text-white text-center">
                         <FaGoogle /> Google Login
                     </button>
-                </div>
+                </div> */}
 
                 <p className="text-center text-sm mt-4">
                     By logging in, you agree to our
@@ -104,8 +104,8 @@ const Login = () => {
                 </p>
 
                 <p className="text-center text-sm mt-1">
-                    Don't have an account?
-                    <Link to="/signup" className="text-blue-600 hover:underline">
+                    Don't have an account? 
+                    <Link to="/signup" className="text-blue-600 hover:underline px-1">
                         Signup
                     </Link>
                 </p>

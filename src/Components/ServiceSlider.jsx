@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import ServiceCard from "./ServiceCard";
 
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
-import ServiceCardstatic from "./ServiceCardstatic";
+
 
 
 
@@ -73,7 +73,6 @@ function ServiceSlider({ data }) {
             <Slider {...settings}>
                 {data.map((item, index) => (
                 <ServiceCard item={item} key={index}/>
-                // <ServiceCardstatic item={item} key={index}/>
                 ))}
             </Slider>
         </div>

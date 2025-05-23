@@ -10,7 +10,6 @@ import HomePage from "./Components/HomePage";
 import About from "./Components/About";
 import Service from "./Components/Service";
 import Wishlist from "./Components/Wishlist";
-import CartPage from "./Components/CartPage";
 import ContactUs from "./Components/ContactUs";
 import ServiceDetails from "./Components/ServiceDetails";
 import Checkout from "./Components/Checkout";
@@ -29,29 +28,27 @@ import Profile from "./Components/Profile";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import ProtectedRoute from "./Components/ProtectedRoute";
-import OrderConfirmation from "./Components/OrderConfirmation";
 import Themes from './Components/Themes';
 import Thankyou from "./Components/Thankyou";
-
+import ScrollToTop from "./Components/ScrollToTop";
+import AllServices from "./Components/AllServices";
 
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         {/* Wrap all routes inside Layout */}
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<About />} />
           <Route path="/service/:id" element={<Service />} />
-          {/* <Route path="/service/:subId/:serviceId" element={<ServiceDetails />} /> */}
           <Route path="/service/details/:serviceId" element={<ServiceDetails />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/profile" element={<ProtectedRoute> <Profile /></ProtectedRoute>} />
-          <Route path="/cart" element={<CartPage />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/checkout/:serviceId" element={<Checkout />} />
-          {/* <Route path="/order-confirmation" element={<OrderConfirmation />} /> */}
           <Route path="/thank-you" element={<Thankyou />} />
           <Route path="/kidsBirthdaydecor/:subcat_id" element={<Kidsbirthday />} />
           <Route path="/adultBirthdaydecor/:subcat_id" element={<AdultBirthday />} />
@@ -67,6 +64,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/themes/:subSubCategoryId" element={<Themes />} />
+          <Route path="/all-services" element={<AllServices />} />
           <Route path="*" element={<HomePage />} />
         </Route>
       </Routes>

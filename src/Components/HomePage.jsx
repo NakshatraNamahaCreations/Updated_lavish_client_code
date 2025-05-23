@@ -63,70 +63,8 @@ import WhatsappandCallFeature from './WhatsappandCallFeature';
 import PurchasePopup from './PurchasePopup';
 import axios from 'axios';
 
-// const kidsCelebList = [
-//   {
-//     title: "Barbie theme birthday party decoration",
-//     price: "7,999",
-//     img: barbieTheme
-//   },
-//   {
-//     title: "Jungle Safari theme Birthday Party decoration",
-//     price: "2,199",
-//     img: junlglethere
-//   },
-//   {
-//     title: "Mermaid theme Birthday Party decoration",
-//     price: "8,999",
-//     img: mermaidTheme
-//   },
-//   {
-//     title: "Candy theme Birthday Party decoration",
-//     price: "3,499",
-//     img: barbieTheme
-//   },
-//   {
-//     title: "Cars theme Birthday Party decoration",
-//     price: "5,099",
-//     img: mermaidTheme
-//   },
-//   {
-//     title: "Football theme Birthday Party decoration",
-//     price: "2,999",
-//     img: junlglethere
-//   },
-// ]
-// const trendingDesignList = [
-//   {
-//     title: "Pastel Butterfly theme baby shower decoration ",
-//     price: "5,999",
-//     img: butterflyTheme
-//   },
-//   {
-//     title: "Traditional Swing flowers theme baby shower decoration",
-//     price: "11,199",
-//     img: traditionalTheme
-//   },
-//   {
-//     title: "Pastel theme baby shower decoration",
-//     price: "4,999",
-//     img: pastelTheme
-//   },
-//   {
-//     title: "Vintage theme Baby Shower decoration",
-//     price: "8,499",
-//     img: barbieTheme
-//   },
-//   {
-//     title: "Cars theme Birthday Party decoration",
-//     price: 5099,
-//     img: mermaidTheme
-//   },
-//   {
-//     title: "Football theme Birthday Party decoration",
-//     price: 2999,
-//     img: junlglethere
-//   },
-// ]
+import { navigateToSubcategory } from '../utils/navigationsUtils';
+
 
 const occasions = [
   {
@@ -327,90 +265,24 @@ const HomePage = () => {
 
 
 
-  const handleNavigation = async (text, baseRoute) => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      // Get first two words from the text and clean it
-      const searchWords = text.split(' ').slice(0, 2).join(' ').trim();
-      console.log('Searching for:', searchWords);
-
-      // Call the API to search for subcategories
-      const response = await fetch(`http://localhost:5000/api/subcategories/search/${encodeURIComponent(searchWords)}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log('API Response:', data);
-
-      if (data.success && data.data && data.data.length > 0) {
-        // Get the first matching subcategory
-        const subCategory = data.data[0];
-        console.log('Found subcategory:', subCategory);
-
-        // Validate the subcategory has an ID
-        if (!subCategory._id) {
-          throw new Error('Invalid subcategory data: missing ID');
-        }
-
-        // Determine the correct route based on the baseRoute
-        let finalRoute;
-        if (baseRoute === '/service' || baseRoute === '/service/') {
-          // For services like Proposal Decoration, First Night Decoration, etc.
-          finalRoute = `/service/${subCategory._id}`;
-        } else {
-          // For specific service types like kidsBirthdaydecor, adultBirthdaydecor, etc.
-          finalRoute = `${baseRoute}/${subCategory._id}`;
-        }
-
-        console.log('Navigating to:', finalRoute);
-        navigate(finalRoute);
-      } else {
-        // If no subcategory found, show error
-        setError(`No matching service found for "${searchWords}". Please try again.`);
-        console.error('No matching subcategory found for:', searchWords);
-      }
-    } catch (err) {
-      console.error('Error fetching subcategory:', err);
-      setError(err.message || 'Failed to find service. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+  const handleNavigation = (text, baseRoute) => {
+    navigateToSubcategory({
+      text,
+      baseRoute,
+      navigate,
+      setLoading,
+      setError,
+    });
   };
+
 
   const handleWhatsappRedirect = (value) => {
     const message = `Hello, I want to know more about ${value} Decoration.`
     const encodedMessage = encodeURIComponent(message);
-    const WhatsAppLink = `https://wa.me/919611430158?text=${encodedMessage}`;
+    const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
     window.open(WhatsAppLink, "_blank")
-    console.log(WhatsAppLink)
+    
   }
-
-  // Handler for special navigation (Bride to be, Groom to be)
-  const handleSpecialNavigation = async (displayText, baseRoute) => {
-    try {
-      // You can adjust the searchText logic as needed
-      const searchText = displayText.split(' ').slice(0, 2).join(' ');
-      const response = await fetch(`http://localhost:5000/api/subcategories/search/${encodeURIComponent(searchText)}`);
-      const data = await response.json();
-      if (data && data.data && data.data.length > 0) {
-        const subcatId = data.data[0]._id;
-        navigate(`${baseRoute}/${subcatId}`);
-      } else {
-        alert('No matching subcategory found!');
-      }
-    } catch (err) {
-      alert('Error finding subcategory!');
-    }
-  };
 
   return (
     <div className='container md:pt-24 pt-32  mx-auto'>
@@ -424,7 +296,7 @@ const HomePage = () => {
       <SingleCarousel banner={banner} />
       <section className='lg:py-20 p-2 '>
         <h1 className=' font-bold text-center text-primary playfair-display lg:text-5xl text-2xl'>Upcoming Festivals</h1>
-        <div className="relative flex justify-center md:py-10 py-4" >
+        <div className="relative flex justify-center md:py-10 py-4 cursor-pointer" onClick={() => handleNavigation("Festival Decoration", "/service/")} >
           <img src={`http://localhost:5000/images/${upcomingBanner[0]?.bannerImage}`} alt="banner" className="w-full lg:h-[400px] md:h-[250px] h-[180px] object-cover rounded-2xl" />
           <div className="absolute top-1/2 lg:left-28 left-4 transform -translate-y-1/2  lg:w-[375px] md:w-[280px] w-[140px]  ">
             <div className='bg-white p-1 rounded-lg'>
@@ -435,7 +307,7 @@ const HomePage = () => {
             </div>
             <p className="lg:text-2xl  text-[10px] text-center carter text-white md:font-bold md:pt-4 pt-2">Valentine's day Decoration</p>
           </div>
-          <Link to={`/service/15`}>
+  
             <div className="absolute top-1/2 lg:right-28 right-4 transform -translate-y-1/2  lg:w-[375px] md:w-[280px] w-[140px] ">
               <div className='bg-white p-1 rounded-lg'>
                 <div className='border-2 border-primary border-dashed p-1 rounded-lg'>
@@ -444,7 +316,7 @@ const HomePage = () => {
               </div>
               <p className="lg:text-2xl text-[10px]  text-center md:pt-4 pt-2 carter text-white md:font-bold">Mahashivratri Decoration</p>
             </div>
-          </Link>
+      
         </div>
 
         <div>
@@ -457,7 +329,7 @@ const HomePage = () => {
             initial={{ scale: 0.5, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{ duration: .5, ease: "easeOut" }}
-            onClick={() => handleSpecialNavigation("Kids Birthday", "/kidsBirthdaydecor")}
+            onClick={() => handleNavigation("Kids Birthday", "/kidsBirthdaydecor")}
           // viewport={{ once: true, amount: 0.2 }}
           >
             <img src={decor1} alt="img" className="" />
@@ -472,7 +344,7 @@ const HomePage = () => {
             initial={{ scale: 0.5, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{ duration: .5, ease: "easeOut" }}
-            onClick={() => handleSpecialNavigation("Entertainment", "/entertainmentdecor")}
+            onClick={() => handleNavigation("Entertainment", "/entertainmentdecor")}
           // viewport={{ once: true, amount: 0.2 }}
           >
             <img src={decor2} alt="img" className="" />
@@ -518,7 +390,7 @@ const HomePage = () => {
 
         <div className="relative flex justify-center lg:py-10" >
           <img src={banner6} alt="banner" className="w-full" />
-          {/* <Link to="/service/16"> */}
+   
           <div className="absolute top-1/2 lg:left-44 md:left-24 left-12 transform -translate-y-1/2     " onClick={() => handleWhatsappRedirect("Shop")}>
             <div className=' md:p-2 p-1  lg:w-[350px] md:w-[240px] w-[120px]  mx-auto'>
               <img src={shopDecor} alt="Shop decor" className="w-full max-h-full object-contain  " />
@@ -526,29 +398,28 @@ const HomePage = () => {
 
             <p className="carter lg:text-3xl md:text-2xl text-xs text-center text-black ">Shop Opening Decoration</p>
           </div>
-          {/* </Link> */}
-          {/* <Link to="/service/17"> */}
+         
           <div className="absolute top-1/2 lg:right-44 md:right-24 right-12 transform -translate-y-1/2 " onClick={() => handleWhatsappRedirect("Office")} >
             <div className=' md:p-2 p-1  lg:w-[350px] md:w-[240px] w-[120px]  mx-auto'>
               <img src={officeDecor} alt="office decor" className="w-full max-h-full object-contain" />
             </div>
             <p className="carter lg:text-3xl md:text-2xl text-xs text-center text-black ">Office Decoration</p>
           </div>
-          {/* </Link> */}
+ 
         </div>
       </section>
 
       <section className='md:pt-10 pt-5  px-4 lg:px-0'>
         <div className='flex justify-between '>
           <p className='lg:text-2xl text-primary font-bold playfair-display'>Kids Celebration</p>
-          <Link to='#' className='text-secondary font-bold flex items-center text-sm md:text-base  '>View All <MdArrowRightAlt className='md:text-2xl text-xl ' /></Link>
+          <div className='text-secondary font-bold flex items-center text-sm md:text-base  ' onClick={() => handleNavigation("Kids Birthday", "/service/")}>View All <MdArrowRightAlt className='md:text-2xl text-xl ' /></div>
         </div>
         <CardCarousel centercardData={servicesbySubcategory} />
 
         <div className="relative md:flex hidden justify-center lg:py-10" >
           <img src={banner7} alt="banner" className="w-full" />
           <div className="absolute top-1/2 lg:left-44 md:left-24 left-12 transform -translate-y-1/2"
-            onClick={() => handleSpecialNavigation("Bride to be Decoration", "/bridetobedecor")}
+            onClick={() => handleNavigation("Bride to be Decoration", "/bridetobedecor")}
             style={{ cursor: 'pointer' }}>
             <div className=' lg:rounded-tr-[60px] lg:rounded-bl-[80px] rounded-tr-3xl rounded-bl-3xl lg:w-[420px] md:w-[240px] w-[120px]  mx-auto'>
               <img src={bride} alt="office decor" className="w-full max-h-full object-contain lg:rounded-tr-[60px] lg:rounded-bl-[80px] rounded-tr-3xl rounded-bl-3xl " />
@@ -556,7 +427,7 @@ const HomePage = () => {
             <p className="carter lg:text-3xl md:text-xl text-xs text-center text-black lg:pt-4">Bride to be Decoration</p>
           </div>
           <div className="absolute top-1/2 lg:right-44 md:right-24 right-12 transform -translate-y-1/2"
-            onClick={() => handleSpecialNavigation("Groom to be Decoration", "/groomtobedecor")}
+            onClick={() => handleNavigation("Groom to be Decoration", "/groomtobedecor")}
             style={{ cursor: 'pointer' }}>
             <div className='  lg:rounded-tl-[60px] lg:rounded-br-[80px] rounded-tl-3xl rounded-br-3xl lg:w-[420px] md:w-[240px] w-[120px]  mx-auto'>
               <img src={groom} alt="office decor" className="w-full max-h-full object-contain lg:rounded-tl-[60px] lg:rounded-br-[80px] rounded-tl-3xl rounded-br-3xl " />
@@ -569,13 +440,13 @@ const HomePage = () => {
         <div className="relative md:hidden " >
           <img src={bannermobile7} alt="banner" className="w-full" />
           <div className="absolute top-44  left-1/2 transform -translate-x-1/2 w-[300px]"
-            onClick={() => handleSpecialNavigation("Bride to be Decoration", "/bridetobedecor")}
+            onClick={() => handleNavigation("Bride to be Decoration", "/bridetobedecor")}
             style={{ cursor: 'pointer' }}>
             <p className="carter  text-2xl pb-5 text-center text-black ">Bride to be Decoration</p>
             <img src={bride} alt="office decor" className="w-full max-h-full object-contain " />
           </div>
           <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 w-[300px]"
-            onClick={() => handleSpecialNavigation("Groom to be Decoration", "/groomtobedecor")}
+            onClick={() => handleNavigation("Groom to be Decoration", "/groomtobedecor")}
             style={{ cursor: 'pointer' }}>
             <p className="carter text-2xl pb-5  text-center text-black ">Groom to be Decoration</p>
             <img src={groom} alt="office decor" className="w-full max-h-full object-contain  " />
@@ -584,10 +455,12 @@ const HomePage = () => {
 
         <div className='flex justify-between mt-5 '>
           <p className='lg:text-2xl text-primary font-bold playfair-display '>New Trendings Design</p>
-          <Link to='#' className='text-secondary font-bold flex items-center text-sm md:text-base  '>View All <MdArrowRightAlt className='md:text-2xl text-xl ' /></Link>
+          <div className='text-secondary font-bold flex items-center text-sm md:text-base cursor-pointer' onClick={() => navigate('/all-services')}>
+            View All <MdArrowRightAlt className='md:text-2xl text-xl' />
+          </div>
         </div>
         <CardCarousel centercardData={services} />
-        <div className="relative lg:mt-44 md:mt-32 mt-16 mb-5 flex flex-col items-center" onClick={() => handleSpecialNavigation("Candlelight", "/service")}>
+        <div className="relative lg:mt-44 md:mt-32 mt-16 mb-5 flex flex-col items-center" onClick={() => handleNavigation("Candlelight", "/service")}>
           <img src={banner8} alt="banner" className="w-full h-auto" />
           <div className="absolute lg:-top-24  md:-top-16 -top-8 lg:left-[9%] flex md:gap-4 gap-1 items-center  ">
             <img src={candleImg1} alt="candleImg1" className="lg:w-64 lg:h-56 md:w-40 md:h-32 w-20 h-20 object-cover rounded-s-3xl" />
@@ -611,9 +484,9 @@ const HomePage = () => {
         <h1 className='lg:text-4xl text-2xl font-bold text-center  text-primary playfair-display'>Curating moments that shine </h1>
         <h1 className='text-sm font-bold text-center poppins text-primary'>Love designs, flawless execution, unforgattable results. </h1>
 
-        <div className='flex justify-end  lg:py-4 py-2 px-3 '>
+        {/* <div className='flex justify-end  lg:py-4 py-2 px-3 '>
           <Link to='#' className='text-secondary font-bold flex items-center text-sm md:text-base  '>View All <MdArrowRightAlt className='md:text-2xl text-xl ' /></Link>
-        </div>
+        </div> */}
         <PhotoGrid />
       </section>
 
@@ -622,7 +495,7 @@ const HomePage = () => {
         <img src={banner9} alt="banner" className="w-full" />
         {/* <Link to="/service/7"> */}
         <div className="absolute top-1/2 lg:left-44 md:left-24 left-12 transform -translate-y-1/2     "
-          onClick={() => handleSpecialNavigation("Haldi", "/service")}>
+          onClick={() => handleNavigation("Haldi", "/service")}>
           <div className='bg-[#FF9500] md:p-2 p-1 lg:rounded-tr-[60px] lg:rounded-bl-[80px] rounded-tr-3xl rounded-bl-3xl lg:w-[420px] md:w-[240px] w-[120px]  mx-auto'>
             <img src={haldi} alt="office decor" className="w-full max-h-full object-contain lg:rounded-tr-[60px] lg:rounded-bl-[80px] rounded-tr-3xl rounded-bl-3xl " />
           </div>
@@ -631,7 +504,7 @@ const HomePage = () => {
         {/* </Link> */}
 
         <div className="absolute top-1/2 lg:right-44 md:right-24 right-12 transform -translate-y-1/2   "
-          onClick={() => handleSpecialNavigation("Mehendi", "/service")}>
+          onClick={() => handleNavigation("Mehendi", "/service")}>
           <div className='bg-[#FF9500] md:p-2 p-1 lg:rounded-tl-[60px] lg:rounded-br-[80px] rounded-tl-3xl rounded-br-3xl lg:w-[420px] md:w-[240px] w-[120px]  mx-auto'>
 
             <img src={Mehendi} alt="office decor" className="w-full max-h-full object-contain lg:rounded-tl-[60px] lg:rounded-br-[80px] rounded-tl-3xl rounded-br-3xl " />
@@ -653,7 +526,8 @@ const HomePage = () => {
       {loading && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-4 rounded-lg shadow-lg">
-            <p className="text-lg">Loading...</p>
+            {/* <p className="text-lg">Loading...</p> */}
+            <img src="images/loader.gif" alt="loading" className="w-20 h-20" />
           </div>
         </div>
       )}

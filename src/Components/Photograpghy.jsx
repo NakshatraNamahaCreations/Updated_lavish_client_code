@@ -1,5 +1,5 @@
 
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import photograpghyBanner from "../assets/banner/photograpghyBanner.png"
 import photographyBanner2 from "../assets/banner/photoShootPhotograpghy.png"
 import adultBanner3 from "../assets/banner/trustedBanner.png"
@@ -40,6 +40,8 @@ import PhotograpghySlider from './PhotograpghySlider'
 import Testimonials from './Testimonials'
 import { Link } from 'react-router-dom'
 import CancellationPolicy from './CancellationPolicy'
+import { getAxios } from '../utils/api'
+import CardCarousel from './CardCarousel'
 
 
 const imagelist = [
@@ -101,51 +103,30 @@ const imagelist = [
 
 ]
 
-const kidsactivityList = [
-    {
-        serviceName: "Male Anchor for Entertainment",
-        price: "1,499",
-        cardImg: kidsactivity1
-    },
-    {
-        serviceName: "Caricature Artist",
-        price: "1,499",
-        cardImg: kidsactivity2
-    },
-    {
-        serviceName: "Cartoon Mascot",
-        price: "1,499",
-        cardImg: kidsactivity3
-    },
-    {
-        serviceName: "Cotton Candy",
-        price: "1,499",
-        cardImg: kidsactivity4
-    },
-    {
-        serviceName: "Cartoon Mascot",
-        price: "1,499",
-        cardImg: kidsactivity3
-    },
-    {
-        serviceName: "Caricature Artist",
-        price: "1,499",
-        cardImg: kidsactivity2
-    },
-]
 
 
 const Photograpghy = () => {
-    const [isOpen, setIsOpen] = useState(false);
 
-    const toggleModal = () => {
-        setIsOpen(!isOpen);
-        if (!isOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "auto";
+    const [recentPurchase, setRecentPurchase] = useState([]);
+    const [serviceDetails, setServiceDetails] = useState([]);
+
+    const storedUser = localStorage.getItem('user');
+    const userData = JSON.parse(storedUser);
+    const customerId = userData?.id;
+
+
+    const fetchRecentPurchase = async () => {
+        try {
+            const response = await getAxios().get(`/orders/recent-orders/${customerId}`);
+            const data = await response.data;
+            setRecentPurchase(data.services);
+        } catch (error) {
+            console.error("Error fetching recent purchase:", error);
         }
-    };
+    }
+
+
+
     const handleWhatsappRedirect = (value) => {
         const message = `Hello, I want to know more about ${value}.`
         const encodedMessage = encodeURIComponent(message);
@@ -153,6 +134,17 @@ const Photograpghy = () => {
         window.open(WhatsAppLink, "_blank")
         console.log(WhatsAppLink)
     }
+
+
+    useEffect(() => {
+        const serviceDetails = recentPurchase?.map((item) => item.serviceDetails);
+        setServiceDetails(serviceDetails);
+    }, [recentPurchase]);
+
+
+    useEffect(() => {
+        fetchRecentPurchase();
+    }, [customerId]);
 
     return (
         <div className='lg:py-24 md:pt-20 pt-32  p-3  mx-auto'>
@@ -229,15 +221,12 @@ const Photograpghy = () => {
                 <p className='font-bold poppins md:py-6 pb-4 md:text-2xl'>Why Celebrate With Lavisheventzz</p>
                 <img src={adultBanner3} className='mx-auto w-[1600px]' />
             </div>
-            <div className='md:pt-10 pt-7'>
-                <p className='font-bold poppins md:text-2xl'>Kids Special Activities</p>
-                <BasicSlider data={kidsactivityList} />
-            </div>
-          
+            {customerId && <div className="md:pt-10 pt-7">
+                <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+                <CardCarousel centercardData={serviceDetails} />
+            </div>}
             <div className='my-4'>
                 <p className='text-center font-bold poppins text-2xl'>FAQs</p>
-                <p className='text-right text-lg underline cursor-pointer' onClick={toggleModal}>Cancellation Policy</p>
-                <CancellationPolicy isOpen={isOpen} toggleModal={toggleModal} />
                 <p className='text-center font-bold poppins text-sm'>Need help? Contact us for any queries related to us</p>
                 <div className='lg:w-[70%]  md:w-[80%] mx-auto my-6'>
                     <p className='font-bold poppins py-8 '>Pick a query related to your issue</p>

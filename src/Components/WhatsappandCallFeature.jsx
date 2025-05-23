@@ -1,64 +1,6 @@
-
-// import React from 'react'
-// import Logo from "../assets/logo_footer.png";
-// import bgImage from '../assets/bg.png';
-// import call from "../assets/icons/call.png";
-// import whatsapp from "../assets/icons/whatsapp.png";
-
-// const WhatsappCard = () => {
-//   return (
-//     <div className='rounded w-96 h-[200px]'>
-//       <button
-//         className="absolute top-2 right-3 text-white text-lg"
-//       >
-//         ✖
-//       </button>
-//       <div className='p-4 bg-primary text-white flex  gap-3 items-center'>
-//         <img src={Logo} className='w-14' />
-//         <div>
-//           <p>Lavisheventz</p>
-//           <p>your Partner!</p>
-//         </div>
-//       </div>
-//       <div className="h-screen w-full" style={{ backgroundImage: `url(${bgImage})`, backgroundSize: "cover", backgroundPosition: "center" }}>
-//       </div>
-
-//     </div>
-//   )
-// }
-
-// const WhatsappandCallFeature = () => {
-//   return (
-//     <div className='relative'>
-//       <div className="bg-white rounded-full">
-//         <img src={call} alt="Call" className="w-12 h-12 cursor-pointer" />
-//       </div>
-//       <img
-//         src={whatsapp}
-//         alt="WhatsApp"
-//         className="w-12 h-12 cursor-pointer"
-
-//       />
-//       <div className='absolute top-0 lef'>
-
-//       < WhatsappCard />
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default WhatsappandCallFeature
-
-
-
-
-//    // onClick={() => window.open("https://wa.me/919108703981", "_blank")}
-
-
-
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Logo from "../assets/logo_footer.png";
+import Logo from "../assets/logo.png";
 import bgImage from "../assets/bg.png";
 import call from "../assets/icons/call.png";
 import whatsapp from "../assets/icons/whatsapp.png";
@@ -71,7 +13,7 @@ const WhatsappCard = ({ onClose }) => {
   const currentPageUrl = window.location.href;
   const message = `${currentPageUrl}`;
   const encodedMessage = encodeURIComponent(message);
-  const WhatsAppLink = `https://wa.me/919611430158?text=${encodedMessage}`;
+  const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
 
 
   return (
@@ -92,7 +34,10 @@ const WhatsappCard = ({ onClose }) => {
 
       {/* Header */}
       <div className="p-4 bg-primary text-white flex gap-3 items-center">
-        <img src={Logo} className="w-12 h-12" alt="Logo" />
+        <div className="bg-white rounded-full p-2">
+
+          <img src={Logo} className="w-12 h-12" alt="Logo" />
+        </div>
         <div>
           <p className="font-bold">Lavisheventz</p>
           <p>Your Event Partner!</p>
@@ -130,9 +75,11 @@ const WhatsappandCallFeature = () => {
   return (
     <div className="fixed bottom-5 right-5 flex flex-col gap-3 z-50">
       {/* Call Button */}
-      <div className="bg-white rounded-full p-2 shadow-lg">
-        <img src={call} alt="Call" className="w-12 h-12 cursor-pointer" />
-      </div>
+      <a href="tel:+919620558000">
+        <div className="bg-white rounded-full p-2 shadow-lg">
+          <img src={call} alt="Call" className="w-12 h-12 cursor-pointer" />
+        </div>
+      </a>
 
       {/* WhatsApp Button */}
       <div

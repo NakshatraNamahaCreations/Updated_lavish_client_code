@@ -37,13 +37,14 @@ import cakes from "../assets/bday/add_ons/cakes.png";
 import FAQ from "./FAQ";
 import video from "../assets/services/video.mp4";
 import Testimonials from "./Testimonials";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import BasicSlider from "./BasicSlider";
 import FAQServices from "./FAQServices";
 import CancellationPolicy from "./CancellationPolicy";
-import { getAuthAxios } from "../utils/api";
+import { getAuthAxios, getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import { MdArrowRightAlt } from "react-icons/md";
+import { navigateToSubcategory } from "../utils/navigationsUtils";
 
 const addOns = [
   {
@@ -68,96 +69,37 @@ const addOns = [
   },
 ];
 
-const imagelist = [
-  {
-    src: decor1,
-    title: "Simple Decoration",
-    sub_SubId: "114",
-  },
-  {
-    src: decor2,
-    title: "Premium Decoration",
-    sub_SubId: "115",
-  },
-  {
-    src: decor3,
-    title: "Room Decoration",
-    sub_SubId: "116",
-  },
-  {
-    src: decor4,
-    title: "Romantic Decoration",
-    sub_SubId: "117",
-  },
-  {
-    src: decor5,
-    title: "Canopy Decoration",
-    sub_SubId: "118",
-  },
-  {
-    src: decor6,
-    title: "Terrace decoration",
-    sub_SubId: "119",
-  },
-  {
-    src: decor7,
-    title: "Mom birthday decoration",
-    sub_SubId: "120",
-  },
-  {
-    src: decor8,
-    title: "Dad birthday decoration",
-    sub_SubId: "121",
-  },
-];
-
-const recentlyViewed = [
-  {
-    serviceName: "Male Anchor for Entertainment",
-    price: "1,499",
-    cardImg: img1,
-  },
-  {
-    serviceName: "Caricature Artist",
-    price: "1,499",
-    cardImg: img2,
-  },
-  {
-    serviceName: "Cartoon Mascot",
-    price: "1,499",
-    cardImg: img3,
-  },
-  {
-    serviceName: "Cotton Candy",
-    price: "1,499",
-    cardImg: img4,
-  },
-  {
-    serviceName: "Cartoon Mascot",
-    price: "1,499",
-    cardImg: img5,
-  },
-  {
-    serviceName: "Caricature Artist",
-    price: "1,499",
-    cardImg: img6,
-  },
-];
 
 const AdultBirthday = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [subSubCategories, setSubSubCategories] = useState([]);
-  const [error, setError] = useState("");
-  const { subcat_id } = useParams();
-  const [allServices, setAllServices] = useState([]);
-  // const [simpleData, setSimpledata] = useState([]);
-  // const [premiumData, setPremiumdata] = useState([]);
 
+  const [subSubCategories, setSubSubCategories] = useState([]);
+  const [allServices, setAllServices] = useState([]);
+  const [recentPurchase, setRecentPurchase] = useState([]);
+  const [serviceDetails, setServiceDetails] = useState([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
+  const { subcat_id } = useParams();
+  const storedUser = localStorage.getItem('user');
+  const userData = JSON.parse(storedUser);
+  const customerId = userData?.id;
+
+
+  const fetchRecentPurchase = async () => {
+    try {
+      const response = await getAxios().get(`/orders/recent-orders/${customerId}`);
+      const data = await response.data;
+      setRecentPurchase(data.services);
+    } catch (error) {
+      console.error("Error fetching recent purchase:", error);
+    }
+  }
+  
   const fetchSubSubcategoriesBySubCategory = async () => {
     if (!subcat_id) return;
     try {
-      const res = await getAuthAxios().get(
-        `subsubcategories/subcategory/${subcat_id}`
+      const res = await getAxios().get(
+        `/subsubcategories/subcategory/${subcat_id}`
       );
       setSubSubCategories(res.data.data);
       console.log("subSubCategories", res.data.data);
@@ -198,9 +140,19 @@ const AdultBirthday = () => {
       }
     } catch (error) {
       console.error("Error fetching services:", error);
-  
+
 
     }
+  };
+
+  const handleNavigation = (text, baseRoute) => {
+    navigateToSubcategory({
+      text,
+      baseRoute,
+      navigate,
+      setLoading,
+      setError,
+    });
   };
 
   useEffect(() => {
@@ -208,14 +160,18 @@ const AdultBirthday = () => {
     fetchServices();
   }, [subcat_id]);
 
-  const toggleModal = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  };
+  useEffect(() => {
+    const serviceDetails = recentPurchase?.map((item) => item.serviceDetails);
+    setServiceDetails(serviceDetails);
+  }, [recentPurchase]);
+
+
+  useEffect(() => {
+    fetchRecentPurchase();
+  }, [customerId]);
+
+
+
 
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
@@ -240,23 +196,20 @@ const AdultBirthday = () => {
         ))}
       </div>
 
-    
-        <div className="mt-5 px-10">
-          <div className="flex justify-between">
-            <p className="lg:text-2xl text-primary font-bold playfair-display">
-              All Decoration Service
-            </p>
-            {/* <div className="text-secondary font-bold flex items-center text-sm md:text-base">
-              View All <MdArrowRightAlt className="md:text-2xl text-xl" />
-            </div> */}
-          </div>
 
-          {allServices.length > 0 ? (
-            <CardCarousel centercardData={allServices} />
-          ) : (
-            <p className="text-gray-500 text-center mt-4">Simple Decoration Service Not Found</p>
-          )}
+      <div className="mt-5 px-10">
+        <div className="flex justify-between">
+          <p className="lg:text-2xl text-primary font-bold playfair-display">
+            All Decoration Service
+          </p>
         </div>
+
+        {allServices.length > 0 ? (
+          <CardCarousel centercardData={allServices} />
+        ) : (
+          <p className="text-gray-500 text-center mt-4">Simple Decoration Service Not Found</p>
+        )}
+      </div>
 
 
 
@@ -319,16 +272,16 @@ const AdultBirthday = () => {
         </p>
       </div>
 
-      <Link to="/photograpghy">
-        <div className="md:pt-20 py-5">
-          <img src={adultBanner2} className="mx-auto w-[2000px]" />
-        </div>
-      </Link>
 
-      <div className="md:pt-10 pt-7">
-        <p className="font-bold poppins md:text-2xl">Recently Viewed</p>
-        <BasicSlider data={recentlyViewed} />
+      <div className="md:pt-20 py-5" onClick={() => handleNavigation("photography", "/photography")}>
+        <img src={adultBanner2} className="mx-auto w-[2000px]" />
       </div>
+
+
+      {customerId && <div className="md:pt-10 pt-7">
+        <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+        <CardCarousel centercardData={serviceDetails} />
+      </div>}
 
       <div className="">
         <p className="font-bold poppins md:py-6 pb-4 md:text-2xl">
@@ -339,13 +292,6 @@ const AdultBirthday = () => {
 
       <div className="my-4">
         <p className="text-center font-bold poppins text-2xl">FAQs</p>
-        <p
-          className="text-right text-lg underline cursor-pointer"
-          onClick={toggleModal}
-        >
-          Cancellation Policy
-        </p>
-        <CancellationPolicy isOpen={isOpen} toggleModal={toggleModal} />
         <p className="text-center font-bold poppins text-sm">
           Need help? Contact us for any queries related to us
         </p>

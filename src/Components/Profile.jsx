@@ -19,6 +19,7 @@ import RescheduleDateModal from './rescheduleDateModal';
 import dayjs from 'dayjs';
 
 
+
 const PastBookings = () => {
     const storedUser = localStorage.getItem('user');
     const userData = JSON.parse(storedUser);
@@ -89,13 +90,6 @@ const PastBookings = () => {
             </div>
         </div>
     );
-};
-
-
-
-const parseStartTime = (dateStr, timeRange) => {
-    const startTimeRaw = timeRange.split(" - ")[0]; // e.g., "10:00 AM"
-    return dayjs(`${dateStr} ${startTimeRaw}`, "MMMM D, YYYY hh:mm A");
 };
 
 
@@ -213,7 +207,7 @@ const UpcomingBookings = () => {
                         const now = dayjs();
                         const hoursLeft = eventStart.diff(now, "hour");
 
-                        const canReschedule = hoursLeft >= 24 && !isRescheduled;
+                        const canReschedule = hoursLeft >= 24 && !isRescheduled && order.orderStatus === 'created';
                         const canCancel = hoursLeft >= 24 && (order.orderStatus === 'created' || order.orderStatus === 'rescheduled');
 
                         return (
@@ -245,7 +239,7 @@ const UpcomingBookings = () => {
                                             {displayTime || "N/A"}
                                         </p>
                                         <p className="text-sm text-gray-600 font-medium flex items-center gap-2">
-                                            <IoMdTime />
+                                            <CiMoneyCheck1 />
                                             Package Amount: ₹{packageAmount || "N/A"}
                                         </p>
 
@@ -284,20 +278,6 @@ const UpcomingBookings = () => {
                     })
                 )}
             </div>
-
-            {/* Reschedule Modal */}
-            {/* {showDateModal && (
-                <RescheduleDateModal
-                    timeSlots={upcomingOrders.find(item => item.categoryType === 'service')?.price > 4000 ? timeSlotsPremium : timeSlotsBasic}
-                    setShowModal={setShowDateModal}
-                    selectedOrder={selectedOrder}
-                    newDate={newDate}
-                    setNewDate={setNewDate}
-                    newTime={newTime}
-                    setNewTime={setNewTime}
-                    onContinue={handleDateConfirm}
-                />
-            )} */}
 
             {showDateModal && (
                 <RescheduleDateModal
@@ -664,7 +644,7 @@ const Profile = () => {
             <div className={`lg:w-[25%] border  bg-white mr-4 border-gray-300 lg:rounded-xl rounded-e-lg p-4 pt-6 lg:shadow-md fixed h-[86vh] ${isMobile ? "hidden" : "block"}`}>
                 <div className="text-center">
                     <img
-                        src="https://img.freepik.com/free-vector/smiling-young-man-illustration_1308-173524.jpg"
+                        src="https://static.vecteezy.com/system/resources/thumbnails/018/742/015/small_2x/minimal-profile-account-symbol-user-interface-theme-3d-icon-rendering-illustration-isolated-in-transparent-background-png.png"
                         className="w-20 h-20 mx-auto rounded-full shadow-md"
                         alt="User"
                     />

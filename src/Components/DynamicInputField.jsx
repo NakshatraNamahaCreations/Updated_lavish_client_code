@@ -123,6 +123,7 @@ const DynamicInputField = ({ item, index, onChange }) => {
                   name={item.label}
                   value={opt}
                   onChange={(e) => {
+                    // Pass the option value and checked state
                     onChange(item.label, opt, "checkbox", e.target.checked);
                   }}
                 />

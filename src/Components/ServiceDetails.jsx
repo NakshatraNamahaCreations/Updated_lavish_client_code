@@ -53,6 +53,8 @@ import ServiceBottomButtons from "./ServiceBottomButtons";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Review from "./Review";
+import CardCarousel from "./CardCarousel";
+import { getAxios } from "../utils/api";
 
 // Static images for carousel
 const images = [
@@ -166,39 +168,14 @@ const careInstructions = [
   "Please Check Decoration Place Climate (Outdoor): Before starting the decoration, check the climate of the decoration area (if outdoors).",
 ];
 
-// const ReviewCard = () => {
-//   return (
-//     <div className="flex md:gap-5 gap-3 max-w-sm md:p-4 rounded-lg mt-10">
-//       <div>
-//         <img
-//           src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?t=st=1739355337~exp=1739358937~hmac=dfb66ae3ac23da9abd511f79f05dcf0e3c0e175a532caf9ce60f1d392fe76eb5&w=740"
-//           alt="avatar"
-//           className="w-20 h-20 rounded-full"
-//         />
-//       </div>
-//       <div>
-//         <p className="font-medium">Rangarajan</p>
-//         <p className="text-gray-500">Reviewed in December</p>
-//         <div className="flex text-yellow-400 py-3">
-//           <FaStar />
-//           <FaStar />
-//           <FaStar />
-//           <FaStar />
-//           <FaStar />
-//         </div>
-//         <p>Such good job by Lavishxeventz!!!</p>
-//       </div>
-//     </div>
-//   );
-// };
 
 const ServiceDetails = () => {
   const { serviceId } = useParams(); // Get the serviceId from URL params
   const storedUser = localStorage.getItem('user');
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
-
-
+  const [recentPurchase, setRecentPurchase] = useState([]);
+  const [recentPurchaseServiceDetails, setRecentPurchaseServiceDetails] = useState([]);
   const [serviceDetails, setServiceDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -240,6 +217,27 @@ const ServiceDetails = () => {
   useEffect(() => {
     console.log("Redux Order State:", reduxOrderState);
   }, [reduxOrderState]);
+
+  const fetchRecentPurchase = async () => {
+    try {
+      const response = await getAxios().get(`/orders/recent-orders/${customerId}`);
+      const data = await response.data;
+      setRecentPurchase(data.services);
+    } catch (error) {
+      console.error("Error fetching recent purchase:", error);
+    }
+  }
+
+
+  useEffect(() => {
+    const serviceDetails = recentPurchase?.map((item) => item.serviceDetails);
+    setRecentPurchaseServiceDetails(serviceDetails);
+  }, [recentPurchase]);
+
+  useEffect(() => {
+    fetchRecentPurchase();
+  }, [customerId]);
+
 
   // Attempt to fetch service details
   useEffect(() => {
@@ -423,7 +421,7 @@ const ServiceDetails = () => {
   const currentPageUrl = window.location.href;
   const message = `URL: ${currentPageUrl}\nCity: ${city},\nPrice: ${price}\nCan I get more details?`;
   const encodedMessage = encodeURIComponent(message);
-  const WhatsAppLink = `https://wa.me/919611430158?text=${encodedMessage}`;
+  const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
 
   // Format currency for display
   const formatCurrency = (amount) => {
@@ -441,7 +439,7 @@ const ServiceDetails = () => {
   useEffect(() => {
     const checkWishlistStatus = async () => {
       if (!customerId || !serviceId) return;
-      
+
       try {
         const response = await axios.get(`http://localhost:5000/api/wishlist/${customerId}`);
         const wishlistItems = response.data.wishlist;
@@ -726,19 +724,24 @@ const ServiceDetails = () => {
                 <img src={whatsapp} className="w-6" alt="whatsapp" />
                 Whatsapp
               </button>
-              <button className="flex gap-2 items-center border border-blue-500 text-blue-500 rounded-full px-6 py-1 hover:bg-blue-500 hover:text-white">
+              <a
+                href="tel:+919620558000"
+                className="flex gap-2 items-center border border-blue-500 text-blue-500 rounded-full px-6 py-1 hover:bg-blue-500 hover:text-white"
+              >
                 <img src={phone} className="w-6" alt="phone" />
                 Call us
-              </button>
+              </a>
+
             </div>
           </div>
 
           <Review serviceId={serviceId} customerId={customerId} />
 
-          <div className="md:pt-10 pt-7">
-            <p className="font-bold poppins md:text-2xl">Recently Viewed</p>
-            <BasicSlider data={recentlyViewed} />
-          </div>
+          {customerId && <div className="md:pt-10 pt-7">
+            <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+            <CardCarousel centercardData={recentPurchaseServiceDetails} />
+          </div>}
+
 
           {(showTimeSlots || showAddonsModal) && (
             <div className="absolute top-0 left-0 w-full h-screen bg-black/80 flex justify-center items-center z-50">

@@ -1,6 +1,5 @@
 import React from 'react';
 import whatsapp from "../assets/whatsapp.png"
-import phone from "../assets/phone.png"
 
 function ServiceBottomButtons() {
   const city = "Bangalore";

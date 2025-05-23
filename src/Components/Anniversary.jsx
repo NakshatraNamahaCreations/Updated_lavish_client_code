@@ -30,14 +30,15 @@ import photography from "../assets/bday/add_ons/photography.png";
 import cakes from "../assets/bday/add_ons/cakes.png";
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { service } from "../json/services";
 import { MdArrowRightAlt } from "react-icons/md";
 import ServiceSlider from "./ServiceSlider";
 import BasicSlider from "./BasicSlider";
 import CancellationPolicy from "./CancellationPolicy";
-import { getAuthAxios } from "../utils/api";
+import { getAuthAxios, getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
+import { navigateToSubcategory } from "../utils/navigationsUtils";
 
 const addOns = [
   {
@@ -62,65 +63,38 @@ const addOns = [
   },
 ];
 
-const imagelist = [
-  {
-    src: decor1,
-    title: "Simple Decoration",
-    sub_SubId: "107",
-  },
-  {
-    src: decor2,
-    title: "Premium Decoration",
-    sub_SubId: "108",
-  },
-];
 
-const recentlyViewed = [
-  {
-    serviceName: "Male Anchor for Entertainment",
-    price: "1,499",
-    cardImg: img1,
-  },
-  {
-    serviceName: "Caricature Artist",
-    price: "1,499",
-    cardImg: img2,
-  },
-  {
-    serviceName: "Cartoon Mascot",
-    price: "1,499",
-    cardImg: img3,
-  },
-  {
-    serviceName: "Cotton Candy",
-    price: "1,499",
-    cardImg: img4,
-  },
-  {
-    serviceName: "Cartoon Mascot",
-    price: "1,499",
-    cardImg: img5,
-  },
-  {
-    serviceName: "Caricature Artist",
-    price: "1,499",
-    cardImg: img6,
-  },
-];
 
 const Anniversary = () => {
   const [premiumData, setPremiumdata] = useState([]);
   const [simpleData, setSimpledata] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
   const [subSubCategories, setSubSubCategories] = useState([]);
+  const [recentPurchase, setRecentPurchase] = useState([]);
+  const [serviceDetails, setServiceDetails] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
   const { subcat_id } = useParams();
+  const storedUser = localStorage.getItem('user');
+  const userData = JSON.parse(storedUser);
+  const customerId = userData?.id;
+
+
+  const fetchRecentPurchase = async () => {
+    try {
+      const response = await getAxios().get(`/orders/recent-orders/${customerId}`);
+      const data = await response.data;
+      setRecentPurchase(data.services);
+    } catch (error) {
+      console.error("Error fetching recent purchase:", error);
+    }
+  }
 
   const fetchSubSubcategoriesBySubCategory = async () => {
     if (!subcat_id) return;
     try {
-      const res = await getAuthAxios().get(
-        `subsubcategories/subcategory/${subcat_id}`
+      const res = await getAxios().get(
+        `/subsubcategories/subcategory/${subcat_id}`
       );
       setSubSubCategories(res.data.data);
       // console.log("subSubCategories", res.data.data);
@@ -135,9 +109,9 @@ const Anniversary = () => {
       const response = await fetch(
         `http://localhost:5000/api/services/filter/${subcat_id}`
       );
-  
+
       const data = await response.json();
-  
+
       // If the response is not OK but contains a known 404 message, treat it gracefully
       if (!response.ok && response.status === 404) {
         console.warn("No services found for this subcategory.");
@@ -145,26 +119,26 @@ const Anniversary = () => {
         setPremiumdata([]);
         return;
       }
-  
+
       if (!response.ok) {
         throw new Error(`Failed to fetch services: ${response.statusText}`);
       }
-  
+
       if (data.success) {
         console.log("data", data.data);
-  
+
         const simpleData = data.data.filter(
           (item) =>
             item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
             "simple decoration"
         );
-  
+
         const premiumData = data.data.filter(
           (item) =>
             item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
             "premium decoration"
         );
-  
+
         setSimpledata(simpleData);
         setPremiumdata(premiumData);
       } else {
@@ -180,21 +154,33 @@ const Anniversary = () => {
       setPremiumdata([]);
     }
   };
-  
+
+  const handleNavigation = (text, baseRoute) => {
+    navigateToSubcategory({
+      text,
+      baseRoute,
+      navigate,
+      setLoading,
+      setError,
+    });
+  };
+
 
   useEffect(() => {
     fetchServices();
     fetchSubSubcategoriesBySubCategory();
   }, [subcat_id]);
 
-  const toggleModal = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  };
+  useEffect(() => {
+    const serviceDetails = recentPurchase?.map((item) => item.serviceDetails);
+    setServiceDetails(serviceDetails);
+  }, [recentPurchase]);
+
+
+  useEffect(() => {
+    fetchRecentPurchase();
+  }, [customerId]);
+
 
 
 
@@ -214,7 +200,7 @@ const Anniversary = () => {
                 alt={item.subSubCategory}
                 className="rounded-3xl w-[500px] "
               />
-          
+
             </Link>
           </div>
         ))}
@@ -227,7 +213,7 @@ const Anniversary = () => {
             <p className="lg:text-2xl text-primary font-bold playfair-display">
               Simple Decoration Service
             </p>
-        
+
           </div>
 
           {simpleData.length > 0 ? (
@@ -243,7 +229,7 @@ const Anniversary = () => {
             <p className="lg:text-2xl text-primary font-bold playfair-display">
               Premium Decoration Service
             </p>
-          
+
           </div>
 
           {premiumData.length > 0 ? (
@@ -313,16 +299,15 @@ const Anniversary = () => {
           Magical Moments
         </p>
       </div>
-      <Link to="/photograpghy">
-        {" "}
-        <div className="md:pt-20 py-5">
-          <img src={anniverseryBanner2} className="mx-auto w-[2000px]" />
-        </div>
-      </Link>
-      <div className="md:pt-10 pt-7">
-        <p className="font-bold poppins md:text-2xl">Recently Viewed</p>
-        <BasicSlider data={recentlyViewed} />
+
+      <div className="md:pt-20 py-5" onClick={() => handleNavigation("photography", "/photography")}>
+        <img src={anniverseryBanner2} className="mx-auto w-[2000px]" />
       </div>
+
+      {customerId && <div className="md:pt-10 pt-7">
+        <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+        <CardCarousel centercardData={serviceDetails} />
+      </div>}
       <div className="">
         <p className="font-bold poppins md:py-6 pb-4 md:text-2xl">
           Why Celebrate With Lavisheventzz

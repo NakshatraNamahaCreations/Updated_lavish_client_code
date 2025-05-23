@@ -4,15 +4,6 @@ import babyshowerBanner2 from "../assets/banner/photoshootshower.png"
 import adultBanner3 from "../assets/banner/trustedBanner.png"
 import addonsbanner from "../assets/banner/addonsbanner.png"
 
-import img1 from "../assets/butterfly_theme.png"
-import img2 from "../assets/candleImg3.png"
-import img3 from "../assets/categoryimg1.png"
-import img4 from "../assets/categoryimg8.png"
-import img5 from "../assets/momentsgallery7.png"
-import img6 from "../assets/navImg4.png"
-
-import decor1 from "../assets/services/babyshowerdecor1.png"
-import decor2 from "../assets/services/babyshowerdecor2.png"
 import decor3 from "../assets/services/babyshowerdecor3.png"
 
 import gallery1 from "../assets/services/babyshower1.png"
@@ -39,14 +30,12 @@ import video from "../assets/services/video.mp4"
 
 import FAQ from './FAQ'
 import Testimonials from './Testimonials'
-import { Link, useParams } from 'react-router-dom'
-import ServiceSlider from './ServiceSlider'
-import { service } from "../json/services"
-import { MdArrowRightAlt } from "react-icons/md";
-import BasicSlider from './BasicSlider'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+
 import CancellationPolicy from './CancellationPolicy'
-import { getAuthAxios } from '../utils/api'
+import { getAuthAxios, getAxios } from '../utils/api'
 import CardCarousel from './CardCarousel'
+import { navigateToSubcategory } from '../utils/navigationsUtils'
 
 const addOns = [
     {
@@ -83,66 +72,35 @@ const addOns = [
     },
 ]
 
-const imagelist = [
-    {
-        src: decor1,
-        title: "Simple Decoration",
-        sub_SubId: "122"
-    },
-    {
-        src: decor2,
-        title: "Premium Decoration",
-        sub_SubId: "123"
-    },
-
-
-]
-
-const recentlyViewed = [
-    {
-        serviceName: "Male Anchor for Entertainment",
-        price: "1,499",
-        cardImg: img1
-    },
-    {
-        serviceName: "Caricature Artist",
-        price: "1,499",
-        cardImg: img2
-    },
-    {
-        serviceName: "Cartoon Mascot",
-        price: "1,499",
-        cardImg: img3
-    },
-    {
-        serviceName: "Cotton Candy",
-        price: "1,499",
-        cardImg: img4
-    },
-    {
-        serviceName: "Cartoon Mascot",
-        price: "1,499",
-        cardImg: img5
-    },
-    {
-        serviceName: "Caricature Artist",
-        price: "1,499",
-        cardImg: img6
-    },
-]
 
 const BabyShower = () => {
 
     const [premiumData, setPremiumdata] = useState([])
     const [simpleData, setSimpledata] = useState([])
-    const [isOpen, setIsOpen] = useState(false);
     const [subSubCategories, setSubSubCategories] = useState([]);
+    const [recentPurchase, setRecentPurchase] = useState([]);
+    const [serviceDetails, setServiceDetails] = useState([]);
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(true);
     const { subcat_id } = useParams();
+    const storedUser = localStorage.getItem('user');
+    const userData = JSON.parse(storedUser);
+    const customerId = userData?.id;
+    const navigate = useNavigate()
 
-    const message = "Hello, I want to know more about Baby Shower Cakes, Games and Activities.";
+    const fetchRecentPurchase = async () => {
+        try {
+            const response = await getAxios().get(`/orders/recent-orders/${customerId}`);
+            const data = await response.data;
+            setRecentPurchase(data.services);
+        } catch (error) {
+            console.error("Error fetching recent purchase:", error);
+        }
+    }
+
+    const message = "Hello, I want to know more about Baby Shower Cakes.";
     const encodedMessage = encodeURIComponent(message);
-    const WhatsAppLink = `https://wa.me/919611430158?text=${encodedMessage}`;
+    const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
 
     const fetchSubSubcategoriesBySubCategory = async () => {
         if (!subcat_id) return;
@@ -209,6 +167,16 @@ const BabyShower = () => {
         }
     };
 
+    const handleNavigation = (text, baseRoute) => {
+        navigateToSubcategory({
+            text,
+            baseRoute,
+            navigate,
+            setLoading,
+            setError,
+        });
+    };
+
 
     useEffect(() => {
         fetchSubSubcategoriesBySubCategory();
@@ -216,19 +184,16 @@ const BabyShower = () => {
     }, [subcat_id]);
 
 
-    const toggleModal = () => {
-        setIsOpen(!isOpen);
-        if (!isOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "auto";
-        }
-    };
+    useEffect(() => {
+        const serviceDetails = recentPurchase?.map((item) => item.serviceDetails);
+        setServiceDetails(serviceDetails);
+    }, [recentPurchase]);
+
 
     useEffect(() => {
-        setPremiumdata(service.filter(item => item.sub_SubId === "123"))
-        setSimpledata(service.filter(item => item.sub_SubId === "122"))
-    }, [])
+        fetchRecentPurchase();
+    }, [customerId]);
+
 
 
 
@@ -358,15 +323,15 @@ const BabyShower = () => {
             </div>
 
 
-            <Link to="/photograpghy">
-                <div className='md:pt-20 py-5'>
-                    <img src={babyshowerBanner2} className='mx-auto w-[2000px]' />
-                </div>
-            </Link>
-            <div className='md:pt-10 pt-7'>
-                <p className='font-bold poppins md:text-2xl'>Recently Viewed</p>
-                <BasicSlider data={recentlyViewed} />
+
+            <div className='md:pt-20 py-5' onClick={() => handleNavigation("photography", "/photography")}>
+                <img src={babyshowerBanner2} className='mx-auto w-[2000px]' />
             </div>
+
+            {customerId && <div className="md:pt-10 pt-7">
+                <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+                <CardCarousel centercardData={serviceDetails} />
+            </div>}
             <div className=' '>
                 <p className='font-bold poppins md:py-6 pb-4 md:text-2xl'>Why Celebrate With Lavisheventzz</p>
                 <img src={adultBanner3} className='mx-auto w-[1600px]' />
@@ -374,8 +339,7 @@ const BabyShower = () => {
 
             <div className='my-4'>
                 <p className='text-center font-bold poppins text-2xl'>FAQs</p>
-                <p className='text-right text-lg underline cursor-pointer' onClick={toggleModal}>Cancellation Policy</p>
-                <CancellationPolicy isOpen={isOpen} toggleModal={toggleModal} />
+
                 <p className='text-center font-bold poppins text-sm'>Need help? Contact us for any queries related to us</p>
                 <div className='lg:w-[70%]  md:w-[80%] mx-auto my-6'>
                     <p className='font-bold poppins py-8 '>Pick a query related to your issue</p>

@@ -210,7 +210,7 @@ const SearchBar = ({ setSearchbartoggle }) => {
                     </ul>
 
                 </div>
-                <div className="grid grid-cols-3 gap-4 px-20">
+                <div className="grid md:grid-cols-3 grid-cols-2 md:gap-4 md:px-20">
                     {filteredData.length > 0 && inpVal.length > 2 ? (
                         filteredData.map((item, index) => (
                             <div key={index} onClick={handleClose}>

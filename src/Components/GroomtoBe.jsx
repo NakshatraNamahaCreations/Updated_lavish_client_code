@@ -34,13 +34,15 @@ import activity from "../assets/services/activity.png";
 import video from "../assets/services/video.mp4";
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { service } from "../json/services";
 import { MdArrowRightAlt } from "react-icons/md";
 import ServiceSlider from "./ServiceSlider";
 import CancellationPolicy from "./CancellationPolicy";
 import { getAuthAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
+import axios from "axios";
+import { navigateToSubcategory } from "../utils/navigationsUtils";
 
 const addOns = [
   {
@@ -77,59 +79,38 @@ const addOns = [
   },
 ];
 
-const imagelist = [
-  {
-    src: decor1,
-    title: "Simple Decoration",
-    sub_SubId: "105",
-  },
-  {
-    src: decor2,
-    title: "Premium Decoration",
-    sub_SubId: "106",
-  },
-];
 
-const recentlyViewed = [
-  {
-    serviceName: "Male Anchor for Entertainment",
-    price: "1,499",
-    cardImg: img1,
-  },
-  {
-    serviceName: "Caricature Artist",
-    price: "1,499",
-    cardImg: img2,
-  },
-  {
-    serviceName: "Cartoon Mascot",
-    price: "1,499",
-    cardImg: img3,
-  },
-  {
-    serviceName: "Cotton Candy",
-    price: "1,499",
-    cardImg: img4,
-  },
-  {
-    serviceName: "Cartoon Mascot",
-    price: "1,499",
-    cardImg: img5,
-  },
-  {
-    serviceName: "Caricature Artist",
-    price: "1,499",
-    cardImg: img6,
-  },
-];
 
 const GroomtoBe = () => {
   const [premiumData, setPremiumdata] = useState([]);
   const [simpleData, setSimpledata] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
   const [subSubCategories, setSubSubCategories] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [recentPurchase, setRecentPurchase] = useState([]);
+  const [serviceDetails, setServiceDetails] = useState([]);
   const { subcat_id } = useParams();
+  const storedUser = localStorage.getItem('user');
+  const userData = JSON.parse(storedUser);
+  const customerId = userData?.id;
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const serviceDetails = recentPurchase?.map((item) => item.serviceDetails);
+    setServiceDetails(serviceDetails);
+  }, [recentPurchase]);
+
+
+  const fetchRecentPurchase = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/orders/recent-orders/${customerId}`);
+      const data = await response.data;
+      setRecentPurchase(data.services);
+    } catch (error) {
+      console.error("Error fetching recent purchase:", error);
+    }
+  }
 
   const fetchSubSubcategoriesBySubCategory = async () => {
     if (!subcat_id) return;
@@ -144,14 +125,15 @@ const GroomtoBe = () => {
       setError("Failed to load subcategories");
     }
   };
+
   const fetchServices = async () => {
     try {
       const response = await fetch(
         `http://localhost:5000/api/services/filter/${subcat_id}`
       );
-  
+
       const data = await response.json();
-  
+
       // If the response is not OK but contains a known 404 message, treat it gracefully
       if (!response.ok && response.status === 404) {
         console.warn("No services found for this subcategory.");
@@ -159,26 +141,26 @@ const GroomtoBe = () => {
         setPremiumdata([]);
         return;
       }
-  
+
       if (!response.ok) {
         throw new Error(`Failed to fetch services: ${response.statusText}`);
       }
-  
+
       if (data.success) {
         console.log("data", data.data);
-  
+
         const simpleData = data.data.filter(
           (item) =>
             item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
             "simple decoration"
         );
-  
+
         const premiumData = data.data.filter(
           (item) =>
             item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
             "premium decoration"
         );
-  
+
         setSimpledata(simpleData);
         setPremiumdata(premiumData);
       } else {
@@ -194,21 +176,26 @@ const GroomtoBe = () => {
       setPremiumdata([]);
     }
   };
-  
+
+  const handleNavigation = (text, baseRoute) => {
+    navigateToSubcategory({
+      text,
+      baseRoute,
+      navigate,
+      setLoading,
+      setError,
+    });
+  };
 
   useEffect(() => {
     fetchSubSubcategoriesBySubCategory();
     fetchServices();
   }, [subcat_id]);
 
-  const toggleModal = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  };
+  useEffect(() => {
+    fetchRecentPurchase();
+  }, [customerId]);
+
 
 
 
@@ -220,14 +207,14 @@ const GroomtoBe = () => {
 
       <div className="grid grid-cols-2 md:gap-10 gap-3   md:my-16 mt-4 md:mx-10">
 
-         {subSubCategories.map((item, idx) => (
+        {subSubCategories.map((item, idx) => (
           <div className="relative" key={item._id}>
             <Link to={`/service/${item._id}`}>
-         
+
               <img
                 src={`http://localhost:5000/images/${item.image}`}
                 alt={item.subSubCategory}
-              className="rounded-tl-[100px] rounded-br-[100px] w-[500px] h-[340px] mx-auto"
+                className="rounded-tl-[100px] rounded-br-[100px] w-[500px] h-[340px] mx-auto"
               />
             </Link>
             <p className="text-primary pt-4 md:text-3xl text-xl text-center font-medium carter">
@@ -237,7 +224,7 @@ const GroomtoBe = () => {
         ))}
       </div>
 
-   
+
       <div className="px-10">
 
         {/* Simple Decoration Section */}
@@ -246,7 +233,7 @@ const GroomtoBe = () => {
             <p className="lg:text-2xl text-primary font-bold playfair-display">
               Simple Decoration Service
             </p>
-         
+
           </div>
 
           {simpleData.length > 0 ? (
@@ -262,7 +249,7 @@ const GroomtoBe = () => {
             <p className="lg:text-2xl text-primary font-bold playfair-display">
               Premium Decoration Service
             </p>
-          
+
           </div>
 
           {premiumData.length > 0 ? (
@@ -330,31 +317,25 @@ const GroomtoBe = () => {
           Wonderful Moments
         </p>
       </div>
-      <Link to="/photograpghy">
-        <div className="md:pt-20 py-5">
-          <img src={groomtobeBanner2} className="mx-auto w-[2000px]" />
-        </div>
-      </Link>
+
+      <div className="md:pt-20 py-5" onClick={() => handleNavigation("photography", "/photography")}>
+        <img src={groomtobeBanner2} className="mx-auto w-[2000px]" />
+      </div>
+
       <div className="">
         <p className="font-bold poppins md:py-6 pb-4 md:text-2xl">
           Why Celebrate With Lavisheventzz
         </p>
         <img src={adultBanner3} className="mx-auto w-[1600px]" />
       </div>
-      <div className="md:pt-10 pt-7">
-        <p className="font-bold poppins md:text-2xl">Recently Viewed</p>
-        <BasicSlider data={recentlyViewed} />
-      </div>
+      {customerId && <div className="md:pt-10 pt-7">
+        <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+        <CardCarousel centercardData={serviceDetails} />
+      </div>}
 
       <div className="my-4">
         <p className="text-center font-bold poppins text-2xl">FAQs</p>
-        <p
-          className="text-right text-lg underline cursor-pointer"
-          onClick={toggleModal}
-        >
-          Cancellation Policy
-        </p>
-        <CancellationPolicy isOpen={isOpen} toggleModal={toggleModal} />
+    
         <p className="text-center font-bold poppins text-sm">
           Need help? Contact us for any queries related to us
         </p>
@@ -363,7 +344,6 @@ const GroomtoBe = () => {
             Pick a query related to your issue
           </p>
           <FAQ />
-          {/* <FAQServices/> */}
         </div>
       </div>
       <div>
