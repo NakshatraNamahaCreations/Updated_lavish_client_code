@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import babyshowerbanner from "../assets/banner/babyshowerbanner.png"
 import babyshowerBanner2 from "../assets/banner/photoshootshower.png"
 import adultBanner3 from "../assets/banner/trustedBanner.png"
@@ -8,7 +8,6 @@ import decor3 from "../assets/services/babyshowerdecor3.png"
 
 import gallery1 from "../assets/services/babyshower1.png"
 import gallery2 from "../assets/services/babyshower2.png"
-// import gallery3 from "../assets/bday/kidsbday/bdaygallery3.png"
 import gallery3 from "../assets/services/gallery3.png"
 import gallery4 from "../assets/services/gallery4.png"
 import gallery5 from "../assets/services/babyshower5.png"
@@ -31,8 +30,6 @@ import video from "../assets/services/video.mp4"
 import FAQ from './FAQ'
 import Testimonials from './Testimonials'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-
-import CancellationPolicy from './CancellationPolicy'
 import { getAuthAxios, getAxios } from '../utils/api'
 import CardCarousel from './CardCarousel'
 import { navigateToSubcategory } from '../utils/navigationsUtils'
@@ -116,52 +113,51 @@ const BabyShower = () => {
         }
     };
 
+ 
     const fetchServices = async () => {
         try {
-            const response = await fetch(
-                `http://localhost:5000/api/services/filter/${subcat_id}`
+            const response = await getAxios().get(
+                `/services/filter/${subcat_id}`
             );
 
-            const data = await response.json();
+            const data = response.data;
 
-            // If the response is not OK but contains a known 404 message, treat it gracefully
-            if (!response.ok && response.status === 404) {
-                console.warn("No services found for this subcategory.");
+            // Axios throws on non-2xx status, so manual .ok check is not needed.
+            if (!data.success) {
+                console.warn("API returned success: false");
                 setSimpledata([]);
                 setPremiumdata([]);
                 return;
             }
 
-            if (!response.ok) {
-                throw new Error(`Failed to fetch services: ${response.statusText}`);
-            }
+            const simpleData = data.data.filter(
+                (item) =>
+                    item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
+                    "simple decoration"
+            );
 
-            if (data.success) {
-                console.log("data", data.data);
+            const premiumData = data.data.filter(
+                (item) =>
+                    item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
+                    "premium decoration"
+            );
 
-                const simpleData = data.data.filter(
-                    (item) =>
-                        item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
-                        "simple decoration"
-                );
-
-                const premiumData = data.data.filter(
-                    (item) =>
-                        item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
-                        "premium decoration"
-                );
-
-                setSimpledata(simpleData);
-                setPremiumdata(premiumData);
-            } else {
-                // API responded but without success — treat it as "no data"
-                console.warn("API returned success: false");
-                setSimpledata([]);
-                setPremiumdata([]);
-            }
+            setSimpledata(simpleData);
+            setPremiumdata(premiumData);
         } catch (error) {
-            console.error("Error fetching services:", error);
-            // Optional: Show a user-friendly message to the UI
+            if (axios.isAxiosError(error)) {
+                if (error.response && error.response.status === 404) {
+                    console.warn("No services found for this subcategory.");
+                    setSimpledata([]);
+                    setPremiumdata([]);
+                    return;
+                }
+
+                console.error("Failed to fetch services:", error.message);
+            } else {
+                console.error("Unexpected error:", error);
+            }
+
             setSimpledata([]);
             setPremiumdata([]);
         }
@@ -193,9 +189,6 @@ const BabyShower = () => {
     useEffect(() => {
         fetchRecentPurchase();
     }, [customerId]);
-
-
-
 
     return (
         <div className='lg:py-24  pt-32  p-3  mx-auto'>

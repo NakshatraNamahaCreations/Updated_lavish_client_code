@@ -13,10 +13,12 @@ import { TfiAlignLeft } from "react-icons/tfi";
 import { IoMdClose } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { setProfile } from '../features/userdetails/profileSlice';
+import { setProfile, resetProfile } from '../features/userdetails/profileSlice';
 import ReasonModal from './ReasonModal';
 import RescheduleDateModal from './rescheduleDateModal';
 import dayjs from 'dayjs';
+import RaiseTicket from './RaiseTicket';
+import { getAxios } from '../../../admin/src/utils/api';
 
 
 
@@ -24,12 +26,13 @@ const PastBookings = () => {
     const storedUser = localStorage.getItem('user');
     const userData = JSON.parse(storedUser);
     const userId = userData?.id;
+    const navigate = useNavigate();
 
     const [pastOrders, setPastOrders] = useState([]);
 
     const fetchPastOrders = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/orders/past/${userId}`);
+            const res = await getAxios().get(`/orders/past/${userId}`);
             console.log('Past Orders:', res.data.data);
             setPastOrders(res.data.data);
         } catch (error) {
@@ -40,6 +43,10 @@ const PastBookings = () => {
     useEffect(() => {
         if (userId) fetchPastOrders();
     }, [userId]);
+
+    const handleCardClick = (id) => {
+        navigate(`/orderDetails/${id}`);
+    };
 
     return (
         <div className='h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5 scrollbar-hide'>
@@ -53,11 +60,11 @@ const PastBookings = () => {
                         const mainService = order.items.find(item => item.categoryType === 'Service') || order.items[0];
                         const serviceName = mainService?.serviceName || 'No Service Name';
                         const serviceImage = mainService?.image
-                            ? `http://localhost:5000/uploads/${mainService.image}`
-                            : 'https://th.bing.com/th/id/R.aa6627cec345231b8cc69736c2cfa851?rik=VJh5IRdLTL4Hmg&riu=http%3a%2f%2fyoumeandtrends.com%2fwp-content%2fuploads%2f2015%2f11%2fwedding-stage-decoration-with-flowers.jpg&ehk=2h9J7oqWffAAjaUSGprqOEf3OPcl3khR%2fN4IgWpGRis%3d&risl=&pid=ImgRaw&r=0';
+                            ? `http://localhost:5000/images/${mainService.image}`
+                            : '';
 
                         return (
-                            <div key={index} className='border border-gray-300 lg:p-4 p-2 rounded my-4'>
+                            <div key={order._id} className='border border-gray-300 lg:p-4 p-2 rounded my-4 cursor-pointer' onClick={() => handleCardClick(order._id)} >
                                 <div className='flex lg:gap-4 gap-2 lg:items-center'>
                                     <img
                                         src={serviceImage}
@@ -93,13 +100,14 @@ const PastBookings = () => {
 };
 
 
-
-
 const UpcomingBookings = () => {
     const storedUser = localStorage.getItem("user");
     const userData = JSON.parse(storedUser);
     const userId = userData?.id;
-
+    const navigate = useNavigate();
+    const handleCardClick = (id) => {
+        navigate(`/orderDetails/${id}`);
+    };
     const timeSlotsBasic = [
         "06:00 AM - 11:00 AM",
         "10:00 AM - 01:00 PM",
@@ -175,7 +183,7 @@ const UpcomingBookings = () => {
     };
 
     return (
-        <div className="h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5 scrollbar-hide">
+        <div className="h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5 scrollbar-hide ">
             <div className="lg:w-[60%]">
                 <h1 className="font-bold poppins lg:my-6">Upcoming Bookings</h1>
 
@@ -211,7 +219,7 @@ const UpcomingBookings = () => {
                         const canCancel = hoursLeft >= 24 && (order.orderStatus === 'created' || order.orderStatus === 'rescheduled');
 
                         return (
-                            <div key={index} className="border border-gray-300 lg:p-4 p-2 rounded my-4">
+                            <div key={order._id} className="border border-gray-300 lg:p-4 p-2 rounded my-4 cursor-pointer" onClick={() => handleCardClick(order._id)}>
                                 <div className="flex lg:gap-4 gap-2 lg:items-center">
                                     <img
                                         src={serviceImage}
@@ -246,7 +254,10 @@ const UpcomingBookings = () => {
                                         <div className="flex gap-2">
                                             {canReschedule && (
                                                 <button
-                                                    onClick={() => handleRescheduleClick(order)}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleRescheduleClick(order);
+                                                    }}
                                                     className="mt-2 px-4 py-1 text-sm bg-purple-800 text-white rounded hover:bg-purple-600"
                                                 >
                                                     Reschedule
@@ -254,7 +265,8 @@ const UpcomingBookings = () => {
                                             )}
                                             {canCancel && (
                                                 <button
-                                                    onClick={() => {
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
                                                         setSelectedOrder(order);
                                                         setIsCancelling(true);
                                                         setShowReasonModal(true);
@@ -313,18 +325,6 @@ const UpcomingBookings = () => {
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 const ProfileForm = () => {
 
     const dispatch = useDispatch();
@@ -340,13 +340,13 @@ const ProfileForm = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             const token = localStorage.getItem("accessToken");
-            const response = await axios.get("http://localhost:5000/api/admin/users/user/profile", {
+            const response = await getAxios().get("http://localhost:5000/api/admin/users/user/profile", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
             });
 
-            const { firstName, lastName, mobile, alternateMobile, addressLine1, addressLine2, city, state, pincode, landmark } = response.data.user;
+            const { firstName, lastName, mobile, alternateMobile, addressLine1, addressLine2, city, pincode } = response.data.user;
             dispatch(setProfile({
                 firstName,
                 lastName,
@@ -355,9 +355,9 @@ const ProfileForm = () => {
                 addressLine1,
                 addressLine2,
                 city,
-                state,
+                // state,
                 pincode,
-                landmark,
+                // landmark,
             }));
         };
         fetchProfile();
@@ -472,7 +472,7 @@ const ProfileForm = () => {
                             required
                         />
                     </label>
-                    <label>
+                    {/* <label>
                         <p>State</p>
                         <input
                             type="text"
@@ -481,7 +481,7 @@ const ProfileForm = () => {
                             onChange={handleChange}
                             className='border border-gray-300 outline-none rounded my-2 p-2 py-1 w-[90%]'
                         />
-                    </label>
+                    </label> */}
                     <label>
                         <p>Pincode</p>
                         <input
@@ -493,7 +493,7 @@ const ProfileForm = () => {
                             required
                         />
                     </label>
-                    <label>
+                    {/* <label>
                         <p>Landmark (Optional)</p>
                         <input
                             type="text"
@@ -502,7 +502,7 @@ const ProfileForm = () => {
                             onChange={handleChange}
                             className='border border-gray-300 outline-none rounded my-2 p-2 py-1 w-[90%]'
                         />
-                    </label>
+                    </label> */}
                 </div>
                 <input
                     type='submit'
@@ -514,70 +514,12 @@ const ProfileForm = () => {
     );
 };
 
-
-
-// const Vouchers = () => {
-//     return (
-//         <div className='h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5  scrollbar-hide'>
-//             <h1 className='font-bold poppins my-6'>Vouchers</h1>
-
-//             <div className="flex border border-primary rounded-md h-[150px] my-3">
-//                 {/* Left Side - Offer Tag */}
-//                 <div className="flex items-center justify-center bg-primary text-white p-4  h-full w-[70px]">
-//                     <h1 className="-rotate-90  font-bold">{'10% OFF'}</h1>
-//                 </div>
-//                 {/* Right Side - Offer Details */}
-//                 <div className="flex flex-col justify-center px-4 ">
-//                     <h1 className="text-xl font-semibold">NEWUSER</h1>
-//                     <p className="text-gray-700 mt-2">Save 10% off on this offer on purchases above Rs. 2,000</p>
-//                     <small className="text-gray-500 mt-1">Apply NEWUSER and get up to Rs. 200 off on your order!</small>
-//                 </div>
-//             </div>
-
-
-//             <div className="flex border border-primary rounded-md h-[150px] my-3">
-//                 {/* Left Side - Offer Tag */}
-//                 <div className="flex items-center justify-center bg-primary text-white p-4  h-full w-[70px]">
-//                     <h1 className="-rotate-90  font-bold">{'10% OFF'}</h1>
-//                 </div>
-//                 {/* Right Side - Offer Details */}
-//                 <div className="flex flex-col justify-center px-4 ">
-//                     <h1 className="text-xl font-semibold">NEWUSER</h1>
-//                     <p className="text-gray-700 mt-2">Save 10% off on this offer on purchases above Rs. 2,000</p>
-//                     <small className="text-gray-500 mt-1">Apply NEWUSER and get up to Rs. 200 off on your order!</small>
-//                 </div>
-//             </div>
-
-//         </div>
-//     )
-// }
-
-// const Referral = () => {
-//     return (
-//         <div className='h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5  scrollbar-hide'>
-//             <div className='w-[70%]'>
-//                 <h1 className='font-bold poppins my-6'>Referral</h1>
-
-//                 <div className='my-8'>
-//                     <h2 className='text-[#AA6300] text-2xl font-semibold playfair-display'>Give with love, receive happiness!</h2>
-//                     <p >Refer a friend and they’ll get awesome vouchers! Plus, earn ₹500 wallet cash when
-//                         they complete a booking!</p>
-//                 </div>
-
-//                 <p className='font-bold text-xl py-2 '>LXE7489</p>
-//                 <button className=' flex gap-2 p-4 py-2 items-center rounded text-white bg-[#AA6300]'> <FaShareAlt /> Share</button>
-//             </div>
-//         </div>
-//     )
-// }
-
 const sideBarlinks = [
     { icon: <FaUserLarge />, title: "Profile", link: "/profile", component: <ProfileForm /> },
     { icon: <IoTicketSharp />, title: "Upcoming Bookings", link: "/upcomingbookings", component: <UpcomingBookings /> },
     { icon: <FaHistory />, title: "Past Bookings", link: "/pastbookings", component: <PastBookings /> },
-    // { icon: <IoWalletSharp />, title: "Wallet", link: "/wallet", component: <Wallet /> },
-    // { icon: <BiSolidDiscount />, title: "Vouchers", link: "/vouchers", component: <Vouchers /> },
-    // { icon: <FaUserGroup />, title: "Referral", link: "/referral", component: <Referral /> },
+    // { icon: <FaHistory />, title: "Raise Ticket", link: "/raiseticket", component: <RaiseTicket /> },
+
 ];
 
 const Profile = () => {
@@ -587,7 +529,7 @@ const Profile = () => {
 
     const navigate = useNavigate();
     const profile = useSelector((state) => state.profile);
-
+    const dispatch = useDispatch();
 
     // Effect to update the screen size on window resize
     useEffect(() => {
@@ -604,7 +546,6 @@ const Profile = () => {
     }, []);
 
     const handleLogout = async () => {
-        // console.log(localStorage.getItem("accessToken"));
         try {
             // Get the access token from localStorage or wherever it is stored
             const token = localStorage.getItem("accessToken");
@@ -626,8 +567,8 @@ const Profile = () => {
 
             // Check if logout was successful
             if (response.status === 200) {
-                localStorage.removeItem("accessToken");
-                localStorage.removeItem("user");
+                localStorage.clear();
+                dispatch(resetProfile());
                 navigate("/login");
             }
         } catch (error) {
@@ -635,8 +576,6 @@ const Profile = () => {
             alert("Logout failed. Please try again.");
         }
     };
-
-
 
 
     return (
@@ -755,3 +694,64 @@ const Profile = () => {
 
 export default Profile;
 
+
+
+
+// { icon: <IoWalletSharp />, title: "Wallet", link: "/wallet", component: <Wallet /> },
+// { icon: <BiSolidDiscount />, title: "Vouchers", link: "/vouchers", component: <Vouchers /> },
+// { icon: <FaUserGroup />, title: "Referral", link: "/referral", component: <Referral /> },
+
+// const Vouchers = () => {
+//     return (
+//         <div className='h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5  scrollbar-hide'>
+//             <h1 className='font-bold poppins my-6'>Vouchers</h1>
+
+//             <div className="flex border border-primary rounded-md h-[150px] my-3">
+//                 {/* Left Side - Offer Tag */}
+//                 <div className="flex items-center justify-center bg-primary text-white p-4  h-full w-[70px]">
+//                     <h1 className="-rotate-90  font-bold">{'10% OFF'}</h1>
+//                 </div>
+//                 {/* Right Side - Offer Details */}
+//                 <div className="flex flex-col justify-center px-4 ">
+//                     <h1 className="text-xl font-semibold">NEWUSER</h1>
+//                     <p className="text-gray-700 mt-2">Save 10% off on this offer on purchases above Rs. 2,000</p>
+//                     <small className="text-gray-500 mt-1">Apply NEWUSER and get up to Rs. 200 off on your order!</small>
+//                 </div>
+//             </div>
+
+
+//             <div className="flex border border-primary rounded-md h-[150px] my-3">
+//                 {/* Left Side - Offer Tag */}
+//                 <div className="flex items-center justify-center bg-primary text-white p-4  h-full w-[70px]">
+//                     <h1 className="-rotate-90  font-bold">{'10% OFF'}</h1>
+//                 </div>
+//                 {/* Right Side - Offer Details */}
+//                 <div className="flex flex-col justify-center px-4 ">
+//                     <h1 className="text-xl font-semibold">NEWUSER</h1>
+//                     <p className="text-gray-700 mt-2">Save 10% off on this offer on purchases above Rs. 2,000</p>
+//                     <small className="text-gray-500 mt-1">Apply NEWUSER and get up to Rs. 200 off on your order!</small>
+//                 </div>
+//             </div>
+
+//         </div>
+//     )
+// }
+
+// const Referral = () => {
+//     return (
+//         <div className='h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5  scrollbar-hide'>
+//             <div className='w-[70%]'>
+//                 <h1 className='font-bold poppins my-6'>Referral</h1>
+
+//                 <div className='my-8'>
+//                     <h2 className='text-[#AA6300] text-2xl font-semibold playfair-display'>Give with love, receive happiness!</h2>
+//                     <p >Refer a friend and they’ll get awesome vouchers! Plus, earn ₹500 wallet cash when
+//                         they complete a booking!</p>
+//                 </div>
+
+//                 <p className='font-bold text-xl py-2 '>LXE7489</p>
+//                 <button className=' flex gap-2 p-4 py-2 items-center rounded text-white bg-[#AA6300]'> <FaShareAlt /> Share</button>
+//             </div>
+//         </div>
+//     )
+// }

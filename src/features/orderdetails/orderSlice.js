@@ -51,8 +51,7 @@ const initialState = {
     subTotal: 0,
     deliveryCharges: 0,
     couponDiscount: 0,
-    gstAmount: 0,
-    // paymentType: 'full', // 'full' or 'half'
+    // gstAmount: 0,
     paidAmount: 0,
     dueAmount: 0,
     address: '',
@@ -63,7 +62,10 @@ const initialState = {
     venueAddress: '',
     source: '',
     occasion: '',
+    decorLocation: '',
     altMobile: '',
+    otherOccasion: '',
+    otherDecorLocation: '',
   },
   selectedTimeSlot: null,
   isPincodeValid: false,
@@ -250,10 +252,19 @@ const orderSlice = createSlice({
     setOccasion: (state, action) => {
       state.currentOrder.occasion = action.payload;
     },
+    setDecorLocation: (state, action) => {
+      state.currentOrder.decorLocation = action.payload;
+    },
     setAltMobile: (state, action) => {
       state.currentOrder.altMobile = action.payload;
     },
-    
+    setOtherOcassion: (state, action) => {
+      state.currentOrder.otherOccasion = action.payload;
+    },
+    setOtherDecorLocation: (state, action) => {
+      state.currentOrder.otherDecorLocation = action.payload;
+    },
+
     completeOrder: (state) => {
       state.orders.push({ ...state.currentOrder });
 
@@ -302,12 +313,105 @@ const orderSlice = createSlice({
 });
 
 // Updated helper function for all calculations
+// const updateTotals = (state) => {
+//   const hasItems = state.currentOrder.items.length > 0;
+
+//   if (!hasItems) {
+//     state.currentOrder.subTotal = 0;
+//     // state.currentOrder.gstAmount = 0;
+//     state.currentOrder.grandTotal = 0;
+//     state.currentOrder.paidAmount = 0;
+//     state.currentOrder.dueAmount = 0;
+//     return;
+//   }
+
+//   // 1. Total all items (price * quantity)
+//   const itemsTotal = state.currentOrder.items.reduce((total, item) => {
+//     return total + (item.price * item.quantity);
+//   }, 0);
+
+//   // 2. Add delivery charges only if pincode is valid
+//   const deliveryAmount = state.isPincodeValid ? state.currentOrder.deliveryCharges : 0;
+
+//   // 3. Subtotal before GST and discount
+//   const subtotalBeforeDiscount = itemsTotal + deliveryAmount;
+
+//   // 4. Apply coupon if available and paymentType is 'full'
+//   const couponAmount =
+//     state.currentOrder.paymentType === 'half' ? 0 : state.currentOrder.couponDiscount || 0;
+
+//   // 5. Subtotal after discount
+//   const subtotalAfterDiscount = subtotalBeforeDiscount - couponAmount;
+//   state.currentOrder.subTotal = subtotalAfterDiscount;
+
+//   // 6. GST = 18% of subtotal
+//   const gstAmount = Math.round((subtotalAfterDiscount * GST_PERCENTAGE) / 100);
+//   state.currentOrder.gstAmount = gstAmount;
+
+//   // 7. Grand Total = subtotal + GST
+//   const grandTotal = subtotalAfterDiscount + gstAmount;
+//   state.currentOrder.grandTotal = grandTotal;
+
+//   // 8. Payment calculations
+//   if (state.currentOrder.paymentType === 'half') {
+//     state.currentOrder.paidAmount = Math.round(grandTotal / 2);
+//     state.currentOrder.dueAmount = grandTotal - state.currentOrder.paidAmount;
+//   } else {
+//     state.currentOrder.paidAmount = grandTotal;
+//     state.currentOrder.dueAmount = 0;
+//   }
+// };
+
+// const updateTotals = (state) => {
+//   const hasItems = state.currentOrder.items.length > 0;
+
+//   if (!hasItems) {
+//     state.currentOrder.subTotal = 0;
+//     state.currentOrder.grandTotal = 0;
+//     state.currentOrder.paidAmount = 0;
+//     state.currentOrder.dueAmount = 0;
+//     return;
+//   }
+
+//   // 1. Total all items (price * quantity)
+//   const itemsTotal = state.currentOrder.items.reduce((total, item) => {
+//     return total + (item.price * item.quantity);
+//   }, 0);
+
+//   // 2. Add delivery charges only if pincode is valid
+//   const deliveryAmount = state.isPincodeValid ? state.currentOrder.deliveryCharges : 0;
+
+//   // 3. Subtotal before discount
+//   const subtotalBeforeDiscount = itemsTotal + deliveryAmount;
+
+//   // 4. Apply coupon if available and paymentType is 'full'
+//   const couponAmount =
+//     state.currentOrder.paymentType === 'half' ? 0 : state.currentOrder.couponDiscount || 0;
+
+//   // 5. Subtotal after discount
+//   const subtotalAfterDiscount = subtotalBeforeDiscount - couponAmount;
+//   state.currentOrder.subTotal = subtotalAfterDiscount;
+
+//   // 6. Set grand total (no GST)
+//   const grandTotal = subtotalAfterDiscount;
+//   state.currentOrder.grandTotal = grandTotal;
+
+//   // 7. Payment calculations
+//   if (state.currentOrder.paymentType === 'half') {
+//     state.currentOrder.paidAmount = Math.round(grandTotal / 2);
+//     state.currentOrder.dueAmount = grandTotal - state.currentOrder.paidAmount;
+//   } else {
+//     state.currentOrder.paidAmount = grandTotal;
+//     state.currentOrder.dueAmount = 0;
+//   }
+// };
+
+
 const updateTotals = (state) => {
   const hasItems = state.currentOrder.items.length > 0;
 
   if (!hasItems) {
     state.currentOrder.subTotal = 0;
-    state.currentOrder.gstAmount = 0;
     state.currentOrder.grandTotal = 0;
     state.currentOrder.paidAmount = 0;
     state.currentOrder.dueAmount = 0;
@@ -322,26 +426,19 @@ const updateTotals = (state) => {
   // 2. Add delivery charges only if pincode is valid
   const deliveryAmount = state.isPincodeValid ? state.currentOrder.deliveryCharges : 0;
 
-  // 3. Subtotal before GST and discount
-  const subtotalBeforeDiscount = itemsTotal + deliveryAmount;
+  // 3. Subtotal includes item prices + delivery charges
+  const subTotal = itemsTotal + deliveryAmount;
+  state.currentOrder.subTotal = subTotal;
 
-  // 4. Apply coupon if available and paymentType is 'full'
-  const couponAmount =
+  // 4. Apply coupon discount only for 'full' payment type
+  const couponDiscount =
     state.currentOrder.paymentType === 'half' ? 0 : state.currentOrder.couponDiscount || 0;
 
-  // 5. Subtotal after discount
-  const subtotalAfterDiscount = subtotalBeforeDiscount - couponAmount;
-  state.currentOrder.subTotal = subtotalAfterDiscount;
-
-  // 6. GST = 18% of subtotal
-  const gstAmount = Math.round((subtotalAfterDiscount * GST_PERCENTAGE) / 100);
-  state.currentOrder.gstAmount = gstAmount;
-
-  // 7. Grand Total = subtotal + GST
-  const grandTotal = subtotalAfterDiscount + gstAmount;
+  // 5. Grand total = subTotal - coupon discount
+  const grandTotal = subTotal - couponDiscount;
   state.currentOrder.grandTotal = grandTotal;
 
-  // 8. Payment calculations
+  // 6. Payment calculations
   if (state.currentOrder.paymentType === 'half') {
     state.currentOrder.paidAmount = Math.round(grandTotal / 2);
     state.currentOrder.dueAmount = grandTotal - state.currentOrder.paidAmount;
@@ -374,6 +471,9 @@ export const {
   setVenueAddress,
   setSource,
   setOccasion,
+  setDecorLocation,
+  setOtherOcassion,
+  setOtherDecorLocation,
   setAltMobile
 } = orderSlice.actions;
 

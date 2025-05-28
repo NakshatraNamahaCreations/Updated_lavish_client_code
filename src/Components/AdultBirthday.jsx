@@ -4,15 +4,6 @@ import adultBanner2 from "../assets/banner/photoshootBday.png";
 import adultBanner3 from "../assets/banner/trustedBanner.png";
 import adultBanner4 from "../assets/banner/adultbanner4.png";
 
-import decor1 from "../assets/bday/adultbday/decor1.png";
-import decor2 from "../assets/bday/adultbday/decor2.png";
-import decor3 from "../assets/bday/adultbday/decor3.png";
-import decor4 from "../assets/bday/adultbday/decor4.png";
-import decor5 from "../assets/bday/adultbday/decor5.png";
-import decor6 from "../assets/bday/adultbday/decor6.png";
-import decor7 from "../assets/bday/adultbday/decor7.png";
-import decor8 from "../assets/bday/adultbday/decor8.png";
-
 import bdayGallery1 from "../assets/bday/adultbday/gallery1.png";
 import bdayGallery2 from "../assets/bday/adultbday/gallery2.png";
 
@@ -21,13 +12,6 @@ import bdayGallery4 from "../assets/bday/adultbday/gallery4.png";
 import bdayGallery5 from "../assets/bday/adultbday/gallery5.png";
 import bdayGallery6 from "../assets/bday/adultbday/gallery6.png";
 import bdayGallery7 from "../assets/bday/adultbday/gallery7.png";
-
-import img1 from "../assets/butterfly_theme.png";
-import img2 from "../assets/candleImg3.png";
-import img3 from "../assets/categoryimg1.png";
-import img4 from "../assets/categoryimg8.png";
-import img5 from "../assets/momentsgallery7.png";
-import img6 from "../assets/navImg4.png";
 
 import sash from "../assets/bday/add_ons/sash.png";
 import welcomeboard from "../assets/bday/add_ons/welcomeboard.png";
@@ -38,12 +22,8 @@ import FAQ from "./FAQ";
 import video from "../assets/services/video.mp4";
 import Testimonials from "./Testimonials";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import BasicSlider from "./BasicSlider";
-import FAQServices from "./FAQServices";
-import CancellationPolicy from "./CancellationPolicy";
 import { getAuthAxios, getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
-import { MdArrowRightAlt } from "react-icons/md";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
 
 const addOns = [
@@ -68,7 +48,6 @@ const addOns = [
     title: "Cakes",
   },
 ];
-
 
 const AdultBirthday = () => {
 

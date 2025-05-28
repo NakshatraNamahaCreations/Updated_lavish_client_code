@@ -1,27 +1,18 @@
 import React, { useEffect, useState } from "react";
 import groomtobeBanner from "../assets/banner/groomtobeBanner.png";
+import groomBanner from "../assets/banner/groomBanner.jpg";
 import groomtobeBanner2 from "../assets/banner/photoshootgroom.png";
 import adultBanner3 from "../assets/banner/trustedBanner.png";
 import addonsbanner from "../assets/banner/addonsbanner.png";
 
-import img1 from "../assets/butterfly_theme.png";
-import img2 from "../assets/candleImg3.png";
-import img3 from "../assets/categoryimg1.png";
-import img4 from "../assets/categoryimg8.png";
-import img5 from "../assets/momentsgallery7.png";
-import img6 from "../assets/navImg4.png";
-import decor1 from "../assets/services/groomdecor1.jpg";
-import decor2 from "../assets/services/groomdecor2.jpg";
-
 import gallery1 from "../assets/services/groomtobe1.png";
 import gallery2 from "../assets/services/groomtobe2.png";
-// import gallery3 from "../assets/services/gallery3.png"
 import gallery3 from "../assets/services/gallery3.png";
 import gallery4 from "../assets/services/groomtobe4.png";
 import gallery5 from "../assets/services/groomtobe5.png";
 import gallery6 from "../assets/services/groomtobe6.png";
 import gallery7 from "../assets/services/groomtobe7.png";
-import BasicSlider from "./BasicSlider";
+
 
 import sash from "../assets/services/sash.png";
 import cakes from "../assets/services/cakes.png";
@@ -35,11 +26,8 @@ import video from "../assets/services/video.mp4";
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { service } from "../json/services";
-import { MdArrowRightAlt } from "react-icons/md";
-import ServiceSlider from "./ServiceSlider";
-import CancellationPolicy from "./CancellationPolicy";
-import { getAuthAxios } from "../utils/api";
+
+import { getAuthAxios, getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import axios from "axios";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
@@ -104,7 +92,7 @@ const GroomtoBe = () => {
 
   const fetchRecentPurchase = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/orders/recent-orders/${customerId}`);
+      const response = await getAxios().get(`/orders/recent-orders/${customerId}`);
       const data = await response.data;
       setRecentPurchase(data.services);
     } catch (error) {
@@ -126,52 +114,51 @@ const GroomtoBe = () => {
     }
   };
 
+
   const fetchServices = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/services/filter/${subcat_id}`
+      const response = await getAxios().get(
+        `/services/filter/${subcat_id}`
       );
-
-      const data = await response.json();
-
-      // If the response is not OK but contains a known 404 message, treat it gracefully
-      if (!response.ok && response.status === 404) {
-        console.warn("No services found for this subcategory.");
+  
+      const data = response.data;
+  
+      if (!data.success) {
+        console.warn("API returned success: false");
         setSimpledata([]);
         setPremiumdata([]);
         return;
       }
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch services: ${response.statusText}`);
-      }
-
-      if (data.success) {
-        console.log("data", data.data);
-
-        const simpleData = data.data.filter(
-          (item) =>
-            item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
-            "simple decoration"
-        );
-
-        const premiumData = data.data.filter(
-          (item) =>
-            item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
-            "premium decoration"
-        );
-
-        setSimpledata(simpleData);
-        setPremiumdata(premiumData);
-      } else {
-        // API responded but without success — treat it as "no data"
-        console.warn("API returned success: false");
-        setSimpledata([]);
-        setPremiumdata([]);
-      }
+  
+      console.log("data", data.data);
+  
+      const simpleData = data.data.filter(
+        (item) =>
+          item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
+          "simple decoration"
+      );
+  
+      const premiumData = data.data.filter(
+        (item) =>
+          item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
+          "premium decoration"
+      );
+  
+      setSimpledata(simpleData);
+      setPremiumdata(premiumData);
     } catch (error) {
-      console.error("Error fetching services:", error);
-      // Optional: Show a user-friendly message to the UI
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 404) {
+          console.warn("No services found for this subcategory.");
+          setSimpledata([]);
+          setPremiumdata([]);
+          return;
+        }
+        console.error("Axios error:", error.message);
+      } else {
+        console.error("Unexpected error:", error);
+      }
+  
       setSimpledata([]);
       setPremiumdata([]);
     }
@@ -202,7 +189,7 @@ const GroomtoBe = () => {
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
       <div>
-        <img src={groomtobeBanner} className="mx-auto w-[1600px] " />
+        <img src={groomBanner} className="mx-auto w-[1600px] " />
       </div>
 
       <div className="grid grid-cols-2 md:gap-10 gap-3   md:my-16 mt-4 md:mx-10">

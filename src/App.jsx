@@ -32,6 +32,10 @@ import Themes from './Components/Themes';
 import Thankyou from "./Components/Thankyou";
 import ScrollToTop from "./Components/ScrollToTop";
 import AllServices from "./Components/AllServices";
+import OrderDetails from "./Components/OrderDetails";
+import PrivacyPolicy from "./Components/PrivacyPolicy";
+import TermsConditions from "./Components/TermsConditions";
+import Invoice from "./Components/Invoice";
 
 
 function App() {
@@ -65,6 +69,10 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/themes/:subSubCategoryId" element={<Themes />} />
           <Route path="/all-services" element={<AllServices />} />
+          <Route path="/orderDetails/:id" element={<OrderDetails />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-conditions" element={<TermsConditions />} />
+          <Route path="/invoice/:id" element={<Invoice />} />
           <Route path="*" element={<HomePage />} />
         </Route>
       </Routes>

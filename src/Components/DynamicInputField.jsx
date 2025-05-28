@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { getAxios } from "../utils/api";
 
 const DynamicInputField = ({ item, index, onChange }) => {
   const [balloonColors, setBalloonColors] = useState([]);
@@ -7,7 +8,7 @@ const DynamicInputField = ({ item, index, onChange }) => {
   // Fetch balloon colors from backend
   const fetchBalloons = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/balloons/");
+      const res = await getAxios().get("/balloons/");
       if (res.status !== 200) throw new Error("Something went wrong");
 
       const balloonColorList = res.data.data.map((item) => item.balloonColor);

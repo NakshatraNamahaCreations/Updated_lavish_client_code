@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import ServiceCard from "./ServiceCard";
+import { getAxios } from "../utils/api";
 
 const AllServices = () => {
   const [services, setServices] = useState([]);
@@ -15,7 +15,7 @@ const AllServices = () => {
   const fetchAllServices = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:5000/api/services/");
+      const response = await getAxios().get("/services/");
       const { data } = response.data;
       setServices(data);
     } catch (error) {

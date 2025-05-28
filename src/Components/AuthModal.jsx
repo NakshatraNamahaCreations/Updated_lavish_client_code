@@ -5,6 +5,7 @@ import { FaFacebookSquare, FaGoogle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../features/auth/authSlice";
+import { getAuthAxios } from "../utils/api";
 
 export default function AuthModal({ setIsModalOpen, onLoginSuccess }) {
   const [isSignup, setIsSignup] = useState(false);
@@ -24,13 +25,13 @@ export default function AuthModal({ setIsModalOpen, onLoginSuccess }) {
     setLoading(true);
 
     const endpoint = isSignup
-      ? "http://localhost:5000/api/auth/register"  // Registration endpoint
-      : "http://localhost:5000/api/auth/login";    // Login endpoint
+      ? "/auth/register"  // Registration endpoint
+      : "/auth/login";    // Login endpoint
 
     const payload = isSignup ? { email, mobile, password } : { email, password };
 
     try {
-      const response = await axios.post(endpoint, payload, { withCredentials: true });
+      const response = await getAuthAxios().post(endpoint, payload, { withCredentials: true });
 
       if (isSignup) {
         setIsSignup(false);
@@ -40,7 +41,7 @@ export default function AuthModal({ setIsModalOpen, onLoginSuccess }) {
         localStorage.setItem("user", JSON.stringify(user));
         dispatch(setCredentials({ user, accessToken }));
         setIsModalOpen(false);
-        
+
         // Call onLoginSuccess callback if provided
         if (onLoginSuccess) {
           onLoginSuccess();
@@ -87,13 +88,14 @@ export default function AuthModal({ setIsModalOpen, onLoginSuccess }) {
           <hr className="flex-grow border-gray-300" />
         </div>
 
-      
 
-        {/* <p className="text-center text-sm mt-4">
+
+        <p className="text-center text-sm mt-4">
           By {isSignup ? "Signing up " : "Logging in"} you agree to our
-          <a href="#" className="text-blue-600 hover:underline"> Terms and Conditions</a> and
-          <a href="#" className="text-blue-600 hover:underline"> Privacy Policy</a>.
-        </p> */}
+          <a href="/terms-conditions" target="_blank" className="text-blue-600 hover:underline"> Terms and Conditions</a> and
+          <a href="/privacy-policy" target="_blank" className="text-blue-600 hover:underline"> Privacy Policy</a>.
+        </p>
+
 
         <p className="text-center text-sm mt-1">
           {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}

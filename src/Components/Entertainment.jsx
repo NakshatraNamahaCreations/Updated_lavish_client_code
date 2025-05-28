@@ -1,13 +1,9 @@
 
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect,  useState } from 'react'
 import entertainmentBanner from "../assets/banner/entertainmentBanner.png"
 import entertainmentBanner2 from "../assets/banner/photoshootactivity.png"
 import adultBanner3 from "../assets/banner/trustedBanner.png"
-import addonsbanner from "../assets/banner/addonsbanner.png"
 import video from "../assets/services/video.mp4"
-
-import decor1 from "../assets/services/activitysimple.png"
-import decor2 from "../assets/services/activityPremimum.png"
 
 import gallery1 from "../assets/services/activity1.png"
 import gallery2 from "../assets/services/activity2.png"
@@ -16,22 +12,55 @@ import gallery4 from "../assets/services/activity4.png"
 import gallery5 from "../assets/services/activity5.png"
 import gallery6 from "../assets/services/activity6.png"
 import gallery7 from "../assets/services/activity7.png"
-import BasicSlider from './BasicSlider'
-
-import kidsactivity1 from "../assets/bday/kidsbday/kidsactivity1.png"
-import kidsactivity2 from "../assets/bday/kidsbday/kidsactivity2.png"
-import kidsactivity3 from "../assets/bday/kidsbday/kidsactivity3.png"
-import kidsactivity4 from "../assets/bday/kidsbday/kidsactivity4.png"
 
 import FAQ from './FAQ'
 import Testimonials from './Testimonials'
-import { Link, useNavigate } from 'react-router-dom'
-import CancellationPolicy from './CancellationPolicy'
+import { useNavigate } from 'react-router-dom'
 import CardCarousel from './CardCarousel'
 import { getAxios } from '../utils/api'
 import { navigateToSubcategory } from '../utils/navigationsUtils'
 
+import Caricature from "../assets/entertainment/Caricature.png"
+import chocolatefountain from "../assets/entertainment/chocolatefountain.png"
+import cottonCandy from "../assets/entertainment/cottonCandy.png"
+import keychainMaking from "../assets/entertainment/Keychain Making.png"
+import pottery from "../assets/entertainment/pottery.png"
+import tattoo from "../assets/entertainment/tattoo.png"
 
+
+const imagelist = [
+    {
+        src: Caricature,
+        title: "Caricature",
+
+    },
+    {
+        src: chocolatefountain,
+        title: "Chocolate Fountain",
+
+    },
+    {
+        src: cottonCandy,
+        title: "Cotton Candy",
+
+    },
+    {
+        src: keychainMaking,
+        title: "Keychain Making",
+
+    },
+    {
+        src: pottery,
+        title: "Pottery",
+
+    },
+    {
+        src: tattoo,
+        title: "Tattoo",
+
+    },
+   
+]
 
 const Entertainment = () => {
     const [recentPurchase, setRecentPurchase] = useState([]);
@@ -82,6 +111,32 @@ const Entertainment = () => {
         <div className='lg:py-24 md:pt-20 pt-32  p-3  mx-auto'>
             <div>
                 <img src={entertainmentBanner} className='mx-auto w-[1600px]' />
+            </div>
+
+            <div className="grid grid-cols-2 gap-x-2 md:gap-y-14 gap-y-5 md:place-items-center lg:mt-20 mt-10">
+                {imagelist.map((item, index) => (
+                    <div
+                        key={index}
+                        className={`flex flex-col items-center ${imagelist.length % 2 !== 0 && index === imagelist.length - 1
+                            ? "col-span-2"
+                            : ""
+                            }`}
+                        onClick={() => handleWhatsappRedirect(item.title)}
+                    >
+
+                        <img
+                            src={item.src}
+                            alt={item.title}
+                            className="rounded-3xl md:w-[500px] md:h-auto w-48 h-40"
+                        />
+                        <p className="text-purple-800  md:text-3xl  text-center font-medium carter">
+                            {item.title}
+                        </p>
+
+
+                    </div>
+
+                ))}
             </div>
 
             {/* gallery */}
@@ -135,7 +190,6 @@ const Entertainment = () => {
                 <div className='lg:w-[70%]  md:w-[80%] mx-auto my-6'>
                     <p className='font-bold poppins py-8 '>Pick a query related to your issue</p>
                     <FAQ />
-                    {/* <FAQServices/> */}
                 </div>
             </div>
             <div>

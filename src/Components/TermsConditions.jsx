@@ -1,0 +1,164 @@
+// import React from "react";
+
+// const TermsConditions = () => {
+//     return (
+//         <div className="max-w-6xl mx-auto px-6 py-10 bg-white text-gray-800">
+//             <h1 className="text-3xl font-bold mb-6 text-purple-800">Cancellation Policy</h1>
+
+//             <section className="mb-8">
+//                 <h2 className="text-xl font-semibold mb-2 text-gray-700">Cancellation Rules:</h2>
+//                 <ul className="list-disc list-inside space-y-1">
+//                     <li>Less than 24 Hours: No refund.</li>
+//                     <li>24 to 72 hours: ₹1000 or 50% cancellation fee, whichever is lower.</li>
+//                     <li>3 to 7 days: ₹500 cancellation charge.</li>
+//                     <li>
+//                         More than 7 days: No charge.<br />
+//                         Weather or unavoidable circumstances? Reschedule only.<br />
+//                         Special days and perishable items have special rules.
+//                     </li>
+//                     <li>Valentine's Day, New Year's Eve, and select dates have no cancellations.</li>
+//                     <li>Special Packages incur 100% forfeiture.</li>
+//                 </ul>
+//             </section>
+
+//             <section className="mb-8">
+//                 <h2 className="text-xl font-semibold mb-2 text-gray-700">Reschedule Policy:</h2>
+//                 <ul className="list-disc list-inside space-y-1">
+//                     <li>Less than 24 Hours: Generally not permitted.</li>
+//                     <li>24 hours to 3 days: Free rescheduling.</li>
+//                     <li>More than 3 days: Free rescheduling.</li>
+//                     <li>No rescheduling on Valentine's Day, Christmas, and other special dates.</li>
+//                     <li>Special Packages incur 100% forfeiture.</li>
+//                 </ul>
+//             </section>
+
+//             <section>
+//                 <h2 className="text-xl font-semibold mb-2 text-gray-700">Other Info:</h2>
+//                 <ul className="list-disc list-inside space-y-1">
+//                     <li>No same-day cancellations for cakes and bouquets.</li>
+//                 </ul>
+//             </section>
+//         </div>
+//     );
+// };
+
+// export default TermsConditions;
+
+
+import React from "react";
+
+const TermsConditions = () => {
+    return (
+        <div className="max-w-6xl mx-auto px-6 py-10 bg-white text-gray-800 mt-20">
+            <h1 className="text-3xl font-bold mb-6 text-purple-800">Terms and Conditions</h1>
+            <p className="mb-6 italic text-sm text-gray-600">Effective Date: 26/05/2025</p>
+
+            <p className="mb-6">
+                Welcome to LavishEventzz.com. These Terms and Conditions ("Terms") govern your use of our website and
+                services. By accessing or using our website and services, you agree to comply with and be bound by these
+                Terms. If you do not agree to these Terms, please do not use our website or services.
+            </p>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-2">1. Use of Services</h2>
+                <ul className="list-disc list-inside space-y-1">
+                    <li>You must be at least 18 years old to use our website and services or have legal consent from a guardian.</li>
+                    <li>You agree to provide accurate, current, and complete information when using our services.</li>
+                    <li>You are responsible for maintaining the confidentiality of your account details and for any activities under your account.</li>
+                </ul>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-2">2. Event Planning Services</h2>
+                <ul className="list-disc list-inside space-y-1">
+                    <li>LavishEventzz offers event planning services, which may include venue selection, catering, entertainment, decoration, and coordination with vendors.</li>
+                    <li>All event details, including costs and timelines, will be agreed upon in writing between you and LavishEventzz prior to the event.</li>
+                    <li>While we strive to provide high-quality services, we do not guarantee specific results or outcomes beyond our reasonable control.</li>
+                </ul>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-2">3. Payment Terms</h2>
+                <ul className="list-disc list-inside space-y-1">
+                    <li>All fees and payment schedules will be detailed in the event agreement or booking confirmation.</li>
+                    <li>Payments must be made in accordance with the agreed schedule to avoid delays or cancellation.</li>
+                    <li>Any late payments may incur additional fees or penalties as outlined in your event agreement.</li>
+                </ul>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-2">4. Cancellation and Refunds</h2>
+                <ul className="list-disc list-inside space-y-1">
+                    <li>Cancellation policies, including deadlines and any applicable fees, will be specified in the event agreement.</li>
+                    <li>Refund eligibility depends on the timing of your cancellation and the terms of your agreement.</li>
+                    <li>Non-refundable deposits may apply, as stated in the event contract.</li>
+                </ul>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-2">5. Intellectual Property</h2>
+                <ul className="list-disc list-inside space-y-1">
+                    <li>All content on our website, including but not limited to logos, images, text, and designs, is the property of LavishEventzz or its partners and is protected by intellectual property laws.</li>
+                    <li>You are prohibited from copying, distributing, or using any of our website's content without prior written permission.</li>
+                </ul>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-2">6. User Conduct</h2>
+                <ul className="list-disc list-inside space-y-1">
+                    <li>Use our website or services for any unlawful purpose.</li>
+                    <li>Disrupt or interfere with the proper functioning of our website.</li>
+                    <li>Upload or transmit harmful, illegal, or infringing content.</li>
+                    <li>Impersonate any individual or entity or misrepresent your affiliation with any party.</li>
+                </ul>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-2">7. Limitation of Liability</h2>
+                <p>
+                    To the fullest extent permitted by law, LavishEventzz is not liable for any indirect, incidental, or
+                    consequential damages arising from your use or inability to use our services. Our total liability for any
+                    claim related to our services will not exceed the total amount you paid for those services.
+                </p>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-2">8. Indemnification</h2>
+                <p>
+                    You agree to indemnify and hold harmless LavishEventzz and its affiliates, officers, employees, and agents
+                    from any claims, damages, or liabilities arising from your use of our services or violation of these Terms.
+                </p>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-2">9. Changes to Terms and Conditions</h2>
+                <p>
+                    LavishEventzz reserves the right to update or modify these Terms at any time. Any changes will be posted on
+                    this page, and the updated Terms will be effective as of the new date.
+                </p>
+            </section>
+
+            <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-2">10. Governing Law</h2>
+                <p>
+                    These Terms will be governed by the laws of India. Any disputes arising from these Terms will
+                    be resolved in the courts of India.
+                </p>
+            </section>
+
+            <section>
+                <h2 className="text-2xl font-semibold mb-2 text-purple-700">9. Contact Us</h2>
+                <p className="mb-2">If you have questions or concerns about this Privacy Policy or your personal data, please contact us:</p>
+                <ul className="list-disc list-inside">
+                    <li><strong>Lavish Eventzz</strong></li>
+                    <li>Email: <a href="mailto:lavisheventzz@gmail.com" className="text-blue-600 underline">lavisheventzz@gmail.com</a></li>
+                    <li>Phone: [+91 9620558000]</li>
+                    <li>Address:  #55 17th main road JC Nagar Kurubharahalli bangalore 560086</li>
+                </ul>
+            </section>
+            <p className="mt-10 text-purple-800 font-medium">Thank you for choosing Lavish Eventzz. We look forward to making your event a success!</p>
+        </div>
+    );
+};
+
+export default TermsConditions;

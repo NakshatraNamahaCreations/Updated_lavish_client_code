@@ -2,31 +2,22 @@ import React, { useEffect, useLayoutEffect, useState } from 'react'
 import kidsBanner1 from "../assets/banner/kidsbdayBanner1.png"
 import kidsBanner2 from "../assets/banner/photoshootkidsBday.png"
 import kidsBanner3 from "../assets/banner/kidsbdayBanner3.png"
-import simpledecor from "../assets/bday/kidsbday/simpledecor.png"
-import babyboyDecor from "../assets/bday/kidsbday/babyboyDecor.png"
-import babyGirlDeocr from "../assets/bday/kidsbday/babyGirlDeocr.png"
-import halfyrbabyDecor from "../assets/bday/kidsbday/halfyrbabyDecor.png"
 import kidscake from "../assets/bday/kidsbday/kidscake.png"
 import bdayGallery1 from "../assets/bday/kidsbday/bdayGallery1.png"
 import bdayGallery2 from "../assets/bday/kidsbday/bdayGallery2.png"
 import bdayGallery3 from "../assets/services/gallery3.png"
-// import bdayGallery3 from "../assets/bday/kidsbday/bdayGallery3.png"
 import bdayGallery4 from "../assets/bday/kidsbday/bdayGallery4.png"
 import bdayGallery5 from "../assets/bday/kidsbday/bdayGallery5.png"
 import bdayGallery6 from "../assets/bday/kidsbday/bdayGallery6.png"
 import bdayGallery7 from "../assets/bday/kidsbday/bdayGallery7.png"
 import BasicSlider from './BasicSlider'
 
-import kidsactivity1 from "../assets/bday/kidsbday/kidsactivity1.png"
-import kidsactivity2 from "../assets/bday/kidsbday/kidsactivity2.png"
-import kidsactivity3 from "../assets/bday/kidsbday/kidsactivity3.png"
-import kidsactivity4 from "../assets/bday/kidsbday/kidsactivity4.png"
 import FAQ from './FAQ'
 import video from "../assets/services/video.mp4"
 import Testimonials from './Testimonials'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import CancellationPolicy from './CancellationPolicy'
-import { getAuthAxios, getAxios } from '../utils/api'
+
+import { getAxios } from '../utils/api'
 import CardCarousel from './CardCarousel'
 import { navigateToSubcategory } from '../utils/navigationsUtils'
 
@@ -84,39 +75,53 @@ const Kidsbirthday = () => {
     };
     const fetchServices = async () => {
         try {
-            const response = await fetch(
-                `http://localhost:5000/api/services/filter/${subcat_id}`
-            );
-
-            const data = await response.json();
-
-            // If the response is not OK but contains a known 404 message, treat it gracefully
-            if (!response.ok && response.status === 404) {
-                console.warn("No services found for this subcategory.");
-                setAllServices([]);
-                return;
-            }
-
-            if (!response.ok) {
-                throw new Error(`Failed to fetch services: ${response.statusText}`);
-            }
-
-            if (data.success) {
-                console.log("data", data.data);
-
-                setAllServices(data.data);
-                // setPremiumdata(premiumData);
-            } else {
-                // API responded but without success — treat it as "no data"
-                console.warn("API returned success: false");
-                setAllServices([]);
-            }
+          const response = await getAxios().get(
+            `/services/filter/${subcat_id}`
+          );
+      
+          const data = response.data;
+      
+          if (!data.success) {
+            console.warn("API returned success: false");
+            setSimpledata([]);
+            setPremiumdata([]);
+            return;
+          }
+      
+          console.log("data", data.data);
+      
+          const simpleData = data.data.filter(
+            (item) =>
+              item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
+              "simple decoration"
+          );
+      
+          const premiumData = data.data.filter(
+            (item) =>
+              item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
+              "premium decoration"
+          );
+      
+          setSimpledata(simpleData);
+          setPremiumdata(premiumData);
         } catch (error) {
-            console.error("Error fetching services:", error);
-
-
+          if (axios.isAxiosError(error)) {
+            if (error.response?.status === 404) {
+              console.warn("No services found for this subcategory.");
+              setSimpledata([]);
+              setPremiumdata([]);
+              return;
+            }
+            console.error("Axios error:", error.message);
+          } else {
+            console.error("Unexpected error:", error);
+          }
+      
+          setSimpledata([]);
+          setPremiumdata([]);
         }
-    };
+      };
+      
     const checkForThemes = async (subSubCategoryId) => {
         try {
             const res = await getAxios().get(

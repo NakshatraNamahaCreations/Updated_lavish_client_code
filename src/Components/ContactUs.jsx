@@ -3,6 +3,7 @@ import axios from 'axios';
 import { MdLocationOn } from "react-icons/md";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
+import { getAxios } from '../utils/api';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -71,7 +72,7 @@ const ContactUs = () => {
               <div>
                 <h2 className='text-2xl font-semibold'>Address</h2>
                 <p className='text-xl py-4'>
-                  No.26 Veeranjaneya Layout, Turahalli, Bangalore-560061
+                #55 17th main road JC Nagar Kurubharahalli Bangalore 560086
                 </p>
               </div>
             </div>
@@ -81,7 +82,6 @@ const ContactUs = () => {
               </div>
               <div>
                 <h2 className='text-2xl font-semibold'>Phone</h2>
-                {/* <p className='text-xl pt-4'>797668688979</p> */}
                 <p className='text-xl pb-4'>9620558000</p>
               </div>
             </div>

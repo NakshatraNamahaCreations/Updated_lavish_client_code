@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import SingleCarousel from './SingleCarousel'
 
+
+import ganesha from "../assets/ganesha.jpg"
+import independence from "../assets/independence.webp"
 import CardCarousel from './CardCarousel';
 import PhotoGrid from './PhotoGrid';
 import Testimonials from './Testimonials';
@@ -64,6 +67,7 @@ import PurchasePopup from './PurchasePopup';
 import axios from 'axios';
 
 import { navigateToSubcategory } from '../utils/navigationsUtils';
+import { getAxios } from '../utils/api';
 
 
 const occasions = [
@@ -209,8 +213,8 @@ const HomePage = () => {
   const fetchServices = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/services/`
+      const response = await getAxios().get(
+        `/services/`
       );
       const { data } = response.data;
       setServices(data);
@@ -227,8 +231,8 @@ const HomePage = () => {
   const fetchServivesbySubcategory = async (subcategory) => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/services/by-subcategory/${subcategory}`
+      const response = await getAxios().get(
+        `/services/by-subcategory/${subcategory}`
       );
       const { data } = response.data;
       setServicesbySubcategory(data);
@@ -245,8 +249,8 @@ const HomePage = () => {
 
   const fetchBanner = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/banners/`
+      const response = await getAxios().get(
+        `/banners/`
       );
       const { data } = response.data;
       setBanner(data);
@@ -281,7 +285,7 @@ const HomePage = () => {
     const encodedMessage = encodeURIComponent(message);
     const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
     window.open(WhatsAppLink, "_blank")
-    
+
   }
 
   return (
@@ -298,25 +302,26 @@ const HomePage = () => {
         <h1 className=' font-bold text-center text-primary playfair-display lg:text-5xl text-2xl'>Upcoming Festivals</h1>
         <div className="relative flex justify-center md:py-10 py-4 cursor-pointer" onClick={() => handleNavigation("Festival Decoration", "/service/")} >
           <img src={`http://localhost:5000/images/${upcomingBanner[0]?.bannerImage}`} alt="banner" className="w-full lg:h-[400px] md:h-[250px] h-[180px] object-cover rounded-2xl" />
+
           <div className="absolute top-1/2 lg:left-28 left-4 transform -translate-y-1/2  lg:w-[375px] md:w-[280px] w-[140px]  ">
             <div className='bg-white p-1 rounded-lg'>
               <div className='border-2 border-primary border-dashed p-1 rounded-lg'>
-                <img src={valentine} alt="office decor" className=" lg:h-[300px] md:h-[150px] h-[100px] object-cover w-full  rounded-lg " />
-                <img src={love} className='absolute lg:bottom-0 lg:-left-20 bottom-4  -left-4 lg:w-36 lg:h-36 w-14 h-14' />
+                <img src={independence} alt="office decor" className=" lg:h-[300px] md:h-[150px] h-[100px] object-cover w-full  rounded-lg " />
+                {/* <img src={love} className='absolute lg:bottom-0 lg:-left-20 bottom-4  -left-4 lg:w-36 lg:h-36 w-14 h-14' /> */}
               </div>
             </div>
-            <p className="lg:text-2xl  text-[10px] text-center carter text-white md:font-bold md:pt-4 pt-2">Valentine's day Decoration</p>
+            <p className="lg:text-2xl  text-[10px] text-center carter text-green-800 md:font-medium md:pt-4 pt-2">Independence's day Decoration</p>
           </div>
-  
-            <div className="absolute top-1/2 lg:right-28 right-4 transform -translate-y-1/2  lg:w-[375px] md:w-[280px] w-[140px] ">
-              <div className='bg-white p-1 rounded-lg'>
-                <div className='border-2 border-primary border-dashed p-1 rounded-lg'>
-                  <img src={mahashivratri} alt="office decor" className=" lg:h-[300px] md:h-[150px] h-[100px] object-cover w-full  rounded-lg " />
-                </div>
+
+          <div className="absolute top-1/2 lg:right-28 right-4 transform -translate-y-1/2  lg:w-[375px] md:w-[280px] w-[140px] ">
+            <div className='bg-white p-1 rounded-lg'>
+              <div className='border-2 border-primary border-dashed p-1 rounded-lg'>
+                <img src={ganesha} alt="office decor" className=" lg:h-[300px] md:h-[150px] h-[100px] object-cover w-full  rounded-lg " />
               </div>
-              <p className="lg:text-2xl text-[10px]  text-center md:pt-4 pt-2 carter text-white md:font-bold">Mahashivratri Decoration</p>
             </div>
-      
+            <p className="lg:text-2xl text-[10px]  text-center md:pt-4 pt-2 carter text-pink-800 md:font-medium">Ganesha Chaturthi Decoration</p>
+          </div>
+
         </div>
 
         <div>
@@ -390,7 +395,7 @@ const HomePage = () => {
 
         <div className="relative flex justify-center lg:py-10" >
           <img src={banner6} alt="banner" className="w-full" />
-   
+
           <div className="absolute top-1/2 lg:left-44 md:left-24 left-12 transform -translate-y-1/2     " onClick={() => handleWhatsappRedirect("Shop")}>
             <div className=' md:p-2 p-1  lg:w-[350px] md:w-[240px] w-[120px]  mx-auto'>
               <img src={shopDecor} alt="Shop decor" className="w-full max-h-full object-contain  " />
@@ -398,14 +403,14 @@ const HomePage = () => {
 
             <p className="carter lg:text-3xl md:text-2xl text-xs text-center text-black ">Shop Opening Decoration</p>
           </div>
-         
+
           <div className="absolute top-1/2 lg:right-44 md:right-24 right-12 transform -translate-y-1/2 " onClick={() => handleWhatsappRedirect("Office")} >
             <div className=' md:p-2 p-1  lg:w-[350px] md:w-[240px] w-[120px]  mx-auto'>
               <img src={officeDecor} alt="office decor" className="w-full max-h-full object-contain" />
             </div>
             <p className="carter lg:text-3xl md:text-2xl text-xs text-center text-black ">Office Decoration</p>
           </div>
- 
+
         </div>
       </section>
 

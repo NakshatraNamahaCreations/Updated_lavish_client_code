@@ -94,17 +94,13 @@ const Login = () => {
 
                 <p className="text-center text-sm mt-4">
                     By logging in, you agree to our
-                    <a href="#" className="text-blue-600 hover:underline">
-                        Terms and Conditions
-                    </a>{" "}
-                    and
-                    <a href="#" className="text-blue-600 hover:underline">
-                        Privacy Policy
-                    </a>.
+                    <a href="/terms-conditions" target="_blank" className="text-blue-600 hover:underline"> Terms and Conditions</a> and
+                    <a href="/privacy-policy" target="_blank" className="text-blue-600 hover:underline"> Privacy Policy</a>.
                 </p>
 
+
                 <p className="text-center text-sm mt-1">
-                    Don't have an account? 
+                    Don't have an account?
                     <Link to="/signup" className="text-blue-600 hover:underline px-1">
                         Signup
                     </Link>

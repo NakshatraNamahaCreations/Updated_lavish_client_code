@@ -27,7 +27,7 @@ const Footer = () => {
 
     const handleNavigation = (path) => {
         navigate(path);
-        window.scrollTo(0, 0); // scroll to top
+        window.scrollTo(0, 0); 
     };
 
     const toggleModal = () => {
@@ -78,7 +78,9 @@ const Footer = () => {
                             <li onClick={() => handleNavigation("/about")}>About Us</li>
                             <li onClick={() => handleNavigation("/contactus")}>Contact Us</li>
                             <li onClick={() => handleNavigation("/profile")}>Profile</li>
-                            <li onClick={toggleModal}>Policy</li>
+                            {/* <li onClick={toggleModal}>Terms & Conditions</li> */}
+                            <li onClick={() => handleNavigation("/terms-conditions")}>Terms & Conditions</li>
+                            <li onClick={() => handleNavigation("/privacy-policy")}>Privacy Policy</li>
                         </ul>
 
                         <CancellationPolicy isOpen={isOpen} toggleModal={toggleModal} />
@@ -99,7 +101,7 @@ const Footer = () => {
                             <IoCallSharp /> +91 9620558000
                         </a>
                         <a href="" className=' mb-8 flex gap-2 items-center text-sm sm:text-base text-black hover:text-blue-600'>
-                            <FaLocationDot /> #55 17th main road JC Nagar Kurubharahalli bangalore 560086
+                            <FaLocationDot /> #55 17th main road JC Nagar Kurubharahalli Bangalore 560086
                         </a>
 
                     </div>

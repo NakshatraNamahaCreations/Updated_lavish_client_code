@@ -5,15 +5,6 @@ import adultBanner3 from "../assets/banner/trustedBanner.png";
 import adultBanner4 from "../assets/banner/adultbanner4.png";
 import video from "../assets/services/video.mp4";
 
-import img1 from "../assets/butterfly_theme.png";
-import img2 from "../assets/candleImg3.png";
-import img3 from "../assets/categoryimg1.png";
-import img4 from "../assets/categoryimg8.png";
-import img5 from "../assets/momentsgallery7.png";
-import img6 from "../assets/navImg4.png";
-
-import decor1 from "../assets/services/decor1.png";
-import decor2 from "../assets/services/decor2.png";
 
 import gallery1 from "../assets/services/anniversary1.png";
 import gallery2 from "../assets/services/anniversary2.png";
@@ -31,12 +22,8 @@ import cakes from "../assets/bday/add_ons/cakes.png";
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { service } from "../json/services";
-import { MdArrowRightAlt } from "react-icons/md";
-import ServiceSlider from "./ServiceSlider";
-import BasicSlider from "./BasicSlider";
 import CancellationPolicy from "./CancellationPolicy";
-import { getAuthAxios, getAxios } from "../utils/api";
+import {  getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
 

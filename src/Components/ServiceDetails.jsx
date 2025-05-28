@@ -417,7 +417,7 @@ const ServiceDetails = () => {
 
   // For WhatsApp contact
   const city = "Bangalore";
-  const price = serviceDetails?.offerPrice || 4999;
+  const price = serviceDetails?.offerPrice ;
   const currentPageUrl = window.location.href;
   const message = `URL: ${currentPageUrl}\nCity: ${city},\nPrice: ${price}\nCan I get more details?`;
   const encodedMessage = encodeURIComponent(message);
@@ -551,7 +551,14 @@ const ServiceDetails = () => {
                           placeholder="Enter Pincode"
                           className="outline-none"
                           value={pincode}
-                          onChange={(e) => setPincodeLocal(e.target.value)}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            // Allow only digits and limit to 6 characters
+                            if (/^\d{0,6}$/.test(value)) {
+                              setPincodeLocal(value);
+                            }
+                          }}
+                          maxLength={6}
                         />
                       </div>
                       <small>Don't know PINCODE?</small>
@@ -621,7 +628,7 @@ const ServiceDetails = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 justify-between items-center py-10 border rounded-lg border-gray-400 bg-gradient-to-t from-green-200 to-white">
+                <div className="grid grid-cols-3 justify-between items-center py-10 border rounded-lg border-gray-400 bg-gradient-to-t from-purple-400 to-white">
                   <div className="text-lg">
                     <div className="mx-auto border-2 border-primary w-12 h-12 place-items-center place-content-center rounded-full">
                       <TbCurrencyRupee className="text-primary" size={30} />

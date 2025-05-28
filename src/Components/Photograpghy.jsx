@@ -14,12 +14,6 @@ import gallery4 from "../assets/services/photography4.png"
 import gallery5 from "../assets/services/photography5.png"
 import gallery6 from "../assets/services/photography6.png"
 import gallery7 from "../assets/services/photography7.png"
-import BasicSlider from './BasicSlider'
-
-import kidsactivity1 from "../assets/bday/kidsbday/kidsactivity1.png"
-import kidsactivity2 from "../assets/bday/kidsbday/kidsactivity2.png"
-import kidsactivity3 from "../assets/bday/kidsbday/kidsactivity3.png"
-import kidsactivity4 from "../assets/bday/kidsbday/kidsactivity4.png"
 
 
 import maternaityShoot from "../assets/services/maternityShoot.png"
@@ -170,7 +164,7 @@ const Photograpghy = () => {
                             alt={item.title}
                             className="rounded-3xl md:w-[500px] md:h-auto w-48 h-40"
                         />
-                        <p className="text-primary  md:text-3xl  text-center font-medium carter">
+                        <p className="text-purple-800  md:text-3xl  text-center font-medium carter">
                             {item.title}
                         </p>
 
