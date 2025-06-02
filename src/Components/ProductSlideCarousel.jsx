@@ -76,7 +76,7 @@ const ProductImageSlider = ({ images = [] }) => {
       <div className="w-full md:w-3/4 flex justify-center">
         <AnimatePresence mode="wait">
           <motion.img
-            src={`http://localhost:5000/images/${selectedImage}`}
+            src={`${selectedImage}`}
             alt="Selected Product"
             className="w-full max-h-[400px] md:max-h-[500px] object-cover rounded-2xl shadow-lg"
             key={selectedImage}
@@ -101,7 +101,7 @@ const ProductImageSlider = ({ images = [] }) => {
           {images.map((image, index) => (
             <div key={index} className="p-1">
               <img
-                src={`http://localhost:5000/images/${image}`}
+                src={`${image}`}
                 alt={`Thumbnail ${index + 1}`}
                 className={`mx-auto w-24 h-24 object-cover border-2 cursor-pointer rounded-lg transition-all 
                   ${selectedImage === image

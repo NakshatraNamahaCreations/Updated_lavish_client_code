@@ -27,7 +27,7 @@ const Footer = () => {
 
     const handleNavigation = (path) => {
         navigate(path);
-        window.scrollTo(0, 0); 
+        window.scrollTo(0, 0);
     };
 
     const toggleModal = () => {
@@ -88,21 +88,21 @@ const Footer = () => {
                 </div>
 
                 <div className='flex flex-col justify-between'>
-                        <p className='font-bold text-black montserrat pb-3 text-lg sm:text-xl'>Contact with us!</p>
+                    <p className='font-bold text-black montserrat pb-3 text-lg sm:text-xl'>Contact with us!</p>
                     <div className='flex flex-col gap-2'>
                         <a
                             href="mailto:lavisheventzz@gmail.com?subject=Enquiry%20about%20Services&body=Hi%20Lavish%20Events%2C%0A%0AI'm%20interested%20in%20your%20event%20decor%20services.%20Please%20get%20back%20to%20me.%0A%0AThanks!"
                             className='flex gap-2 items-center text-sm sm:text-base text-black hover:text-blue-600'
                         >
-                            <IoMailSharp /> lavisheventzz@gmail.com
+                            <IoMailSharp /> infolavisheventzz@gmail.com
                         </a>
 
                         <a href="tel:+919620558000" className='flex gap-2 items-center text-sm sm:text-base text-black hover:text-blue-600'>
                             <IoCallSharp /> +91 9620558000
                         </a>
-                        <a href="" className=' mb-8 flex gap-2 items-center text-sm sm:text-base text-black hover:text-blue-600'>
+                        {/* <a href="" className=' mb-8 flex gap-2 items-center text-sm sm:text-base text-black hover:text-blue-600'>
                             <FaLocationDot /> #55 17th main road JC Nagar Kurubharahalli Bangalore 560086
-                        </a>
+                        </a> */}
 
                     </div>
                     <div className='mt-4 sm:mt-0'>

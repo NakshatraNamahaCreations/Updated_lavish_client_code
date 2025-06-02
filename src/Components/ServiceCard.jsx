@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { GoHeartFill, GoHeart } from "react-icons/go";
 import { IoIosStar } from "react-icons/io";
 import axios from "axios";
+import { getAuthAxios, getAxios } from "../utils/api";
 
 const ServiceCard = ({ service }) => {
   const [isInWishlist, setIsInWishlist] = useState(false);
@@ -11,13 +12,13 @@ const ServiceCard = ({ service }) => {
   const storedUser = localStorage.getItem('user');
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
-
+const authAxios = getAuthAxios()
   useEffect(() => {
     const checkWishlistStatus = async () => {
       if (!customerId || !service?._id) return;
       
       try {
-        const response = await axios.get(`http://localhost:5000/api/wishlist/${customerId}`);
+        const response = await getAxios().get(`/wishlist/${customerId}`);
         const wishlistItems = response.data.wishlist;
         const isServiceInWishlist = wishlistItems.some(item => item.serviceId._id === service._id);
         setIsInWishlist(isServiceInWishlist);
@@ -41,11 +42,11 @@ const ServiceCard = ({ service }) => {
     try {
       if (isInWishlist) {
         // Remove from wishlist
-        await axios.delete(`http://localhost:5000/api/wishlist/remove-item/${customerId}/${service._id}`);
+        await authAxios.delete(`/wishlist/remove-item/${customerId}/${service._id}`);
         setIsInWishlist(false);
       } else {
         // Add to wishlist with all required fields
-        await axios.post(`http://localhost:5000/api/wishlist/create/`, {
+        await authAxios.post(`/wishlist/create/`, {
           serviceId: service._id,
           serviceName: service.serviceName,
           customerId,
@@ -89,7 +90,7 @@ const ServiceCard = ({ service }) => {
         <div>
           <div>
             <img
-              src={service.cardImg || (service.images && `http://localhost:5000/images/${service.images[0]}`) || "https://via.placeholder.com/300x200?text=No+Image"}
+              src={`${service?.images[0]}`}
               className="object-cover h-40 lg:h-56 w-full"
               alt={service.serviceName || "Service"}
             />
@@ -102,7 +103,7 @@ const ServiceCard = ({ service }) => {
 
             <div className="flex justify-between pt-3 pb-1 absolute bottom-0 left-0 w-full md:px-4 px-1">
               <p className="font-medium text-gray-600">
-                Rs. {service.offerPrice || service.price || "0"}
+                Rs. {service.offerPrice}
               </p>
               <p className="flex gap-1 text-primary items-center">
                 <IoIosStar /> 4.5

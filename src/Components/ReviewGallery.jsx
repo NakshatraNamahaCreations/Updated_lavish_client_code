@@ -58,7 +58,7 @@ const ReviewGallery = ({ images = [] }) => {
         {images.slice(0, 13).map((img, index) => (
           <img
             key={index}
-            src={`http://localhost:5000/images/${img}`}
+            src={`${img}`}
             alt={`Review ${index}`}
             className="w-24 h-24 object-cover cursor-pointer rounded-lg"
             onClick={() => handleOpenModal(index)}
@@ -72,7 +72,7 @@ const ReviewGallery = ({ images = [] }) => {
             onClick={() => handleOpenModal(13)}
           >
             <img
-              src={`http://localhost:5000/images/${images[13]}`}
+              src={`${images[13]}`}
               alt="Review 13"
               className="absolute top-0 left-0 w-full h-full object-cover opacity-50 rounded-lg"
             />
@@ -89,7 +89,7 @@ const ReviewGallery = ({ images = [] }) => {
               {images.map((img, index) => (
                 <div key={index} className="flex justify-center mx-auto px-20">
                   <img
-                    src={`http://localhost:5000/images/${img}`}
+                    src={`${img}`}
                     alt={`Review ${index}`}
                     className="w-[300px] h-auto rounded-lg"
                   />

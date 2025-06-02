@@ -41,7 +41,7 @@ import { persistor } from "../app/store";
 
 
 import { setProfile, resetProfile } from '../features/userdetails/profileSlice';
-import { getAxios, getUploadAxios } from '../utils/api';
+import { getAuthAxios, getAxios, getUploadAxios } from '../utils/api';
 
 
 const ProfileForm = () => {
@@ -86,7 +86,7 @@ const ProfileForm = () => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("accessToken");
-            const response = await getUploadAxios().put("/admin/users/user/profile", profile, {
+            const response = await getAuthAxios().put("/admin/users/user/profile", profile, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -546,8 +546,8 @@ const Checkout = () => {
             const storedUser = localStorage.getItem('user');
             const storedToken = localStorage.getItem('accessToken');
 
-            console.log('Stored User Data:', storedUser);
-            console.log('Stored Token:', storedToken);
+            // console.log('Stored User Data:', storedUser);
+            // console.log('Stored Token:', storedToken);
 
             if (!storedUser || !storedToken) {
                 setShowLoginModal(true);
@@ -661,11 +661,7 @@ const Checkout = () => {
             console.log('Order Data being sent:', orderData);
 
             // Create order with authentication token
-            const response = await getAxios().post('/orders/create', orderData, {
-                headers: {
-                    Authorization: `Bearer ${storedToken}`
-                }
-            });
+            const response = await getAuthAxios().post('/orders/create', orderData);
 
             if (response.data.success) {
                 console.log("Order created successfully:", response.data.data);
@@ -705,14 +701,11 @@ const Checkout = () => {
         if (persistor && persistor.purge) {
             await persistor.purge();
         }
-        // Optionally, dispatch resets for your slices
+    
         dispatch(resetCurrentOrder());
-        // You can also clear localStorage if needed
-        // localStorage.clear();
-        // Navigate to home
+        
         navigate("/");
-        // Optionally reload for a clean state
-        // window.location.reload();
+    
     };
 
     return (

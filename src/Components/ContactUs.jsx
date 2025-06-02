@@ -65,7 +65,7 @@ const ContactUs = () => {
         <div className='mt-10'>
           <h1 className='md:text-7xl text-6xl font-bold'>Contact Info</h1>
           <div className='my-16 space-y-10'>
-            <div className='flex gap-10 md:px-10'>
+            {/* <div className='flex gap-10 md:px-10'>
               <div className='border border-double border-primary p-1 rounded-full'>
                 <MdLocationOn size={60} className='border border-primary text-primary rounded-full p-2' />
               </div>
@@ -75,7 +75,7 @@ const ContactUs = () => {
                 #55 17th main road JC Nagar Kurubharahalli Bangalore 560086
                 </p>
               </div>
-            </div>
+            </div> */}
             <div className='flex gap-10 md:px-10'>
               <div className='border border-double border-primary p-1 rounded-full'>
                 <FaPhoneAlt size={60} className='border border-primary text-primary rounded-full p-2' />
@@ -91,7 +91,7 @@ const ContactUs = () => {
               </div>
               <div>
                 <h2 className='text-2xl font-semibold'>Email</h2>
-                <p className='text-xl py-4'>lavisheventzz@gmail.com</p>
+                <p className='text-xl py-4'>infolavisheventzz@gmail.com</p>
               </div>
             </div>
           </div>

@@ -20,7 +20,7 @@ import gallery4 from "../assets/services/ringcer4.png";
 import gallery5 from "../assets/services/ringcer5.png";
 import gallery6 from "../assets/services/ringcer6.png";
 import gallery7 from "../assets/services/ringcer7.png";
-import BasicSlider from "./BasicSlider";
+
 
 import sash from "../assets/services/sash.png";
 import cakes from "../assets/services/cakes.png";

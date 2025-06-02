@@ -204,7 +204,7 @@ const BabyShower = () => {
                             {/* <Link to={subSubAvailable ? `/service/${item.sub_SubId}` : `/service/${item.subId}`}> */}
                             <Link to={`/service/${item._id}`}>
                                 <img
-                                    src={`http://localhost:5000/images/${item.image}`}
+                                    src={`${item?.image}`}
                                     alt={item.subSubCategory}
                                     className="rounded-3xl w-[500px] "
                                 />

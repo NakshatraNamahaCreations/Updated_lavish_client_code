@@ -1,12 +1,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { GoHeartFill, GoHeart } from "react-icons/go";
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { getAuthAxios, getAxios } from '../utils/api';
 
 // WishlistCard Component
 const WishlistCard = ({ item, onRemove }) => {
     const navigate = useNavigate();
+    const authAxios = getAuthAxios()
     if (!item?.serviceId) return null;
 
     const { serviceId, customerId, serviceName, servicePrice, serviceImages } = item;
@@ -17,7 +18,7 @@ const WishlistCard = ({ item, onRemove }) => {
             const serviceIdToUse = serviceId?._id;
             const customerIdToUse = customerId?._id;
 
-            const res = await axios.delete(`http://localhost:5000/api/wishlist/remove-item/${customerIdToUse}/${serviceIdToUse}`);
+            const res = await authAxios.delete(`/wishlist/remove-item/${customerIdToUse}/${serviceIdToUse}`);
 
             if (res.status === 200) {
                 onRemove(serviceIdToUse);
@@ -31,9 +32,9 @@ const WishlistCard = ({ item, onRemove }) => {
         <div className="group relative mb-4 shadow-lg rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300 break-inside-avoid md:p-3 md:py-4 md:w-[300px] w-[170px] border border-gray-300">
             <img
                 src={serviceImages?.[0]
-                    ? `http://localhost:5000/images/${serviceImages[0]}`
+                    ? `${serviceImages[0]}`
                     : serviceId.images?.[0]
-                        ? `http://localhost:5000/images/${serviceId.images[0]}`
+                        ? `${serviceId.images[0]}`
                         : 'https://via.placeholder.com/300x200?text=No+Image'}
                 className="object-cover w-full h-56"
                 alt={serviceName || serviceId.name || 'Service'}
@@ -78,7 +79,7 @@ const Wishlist = () => {
         const checkWishlistStatus = async () => {
             if (!customerId) return;
             try {
-                const response = await axios.get(`http://localhost:5000/api/wishlist/${customerId}`);
+                const response = await getAxios().get(`/api/wishlist/${customerId}`);
                 const wishlistItems = response.data.wishlist;
                 setWishlistItems(wishlistItems);
                 console.log("wishlistItems", wishlistItems);

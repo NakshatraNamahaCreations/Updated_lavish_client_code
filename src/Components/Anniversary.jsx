@@ -22,7 +22,6 @@ import cakes from "../assets/bday/add_ons/cakes.png";
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import CancellationPolicy from "./CancellationPolicy";
 import {  getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
@@ -93,50 +92,36 @@ const Anniversary = () => {
 
   const fetchServices = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/services/filter/${subcat_id}`
+      const { data, status } = await getAxios().get(
+        `/services/filter/${subcat_id}`
       );
-
-      const data = await response.json();
-
-      // If the response is not OK but contains a known 404 message, treat it gracefully
-      if (!response.ok && response.status === 404) {
-        console.warn("No services found for this subcategory.");
+  
+      // Handle 404 Not Found
+      if (status === 404 || !data.success || !Array.isArray(data.data)) {
+        console.warn("No valid services found.");
         setSimpledata([]);
         setPremiumdata([]);
         return;
       }
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch services: ${response.statusText}`);
-      }
-
-      if (data.success) {
-        console.log("data", data.data);
-
-        const simpleData = data.data.filter(
-          (item) =>
-            item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
-            "simple decoration"
-        );
-
-        const premiumData = data.data.filter(
-          (item) =>
-            item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
-            "premium decoration"
-        );
-
-        setSimpledata(simpleData);
-        setPremiumdata(premiumData);
-      } else {
-        // API responded but without success — treat it as "no data"
-        console.warn("API returned success: false");
-        setSimpledata([]);
-        setPremiumdata([]);
-      }
+  
+      const services = data.data;
+  
+      // Filter decorations by type
+      const simpleData = services.filter(
+        item =>
+          item.subSubCategoryId?.subSubCategory?.toLowerCase() === 'simple decoration'
+      );
+  
+      const premiumData = services.filter(
+        item =>
+          item.subSubCategoryId?.subSubCategory?.toLowerCase() === 'premium decoration'
+      );
+  
+      setSimpledata(simpleData);
+      setPremiumdata(premiumData);
+  
     } catch (error) {
-      console.error("Error fetching services:", error);
-      // Optional: Show a user-friendly message to the UI
+      console.error("Error fetching services:", error?.response?.data?.message || error.message);
       setSimpledata([]);
       setPremiumdata([]);
     }
@@ -183,7 +168,7 @@ const Anniversary = () => {
             <Link to={`/service/${item._id}`}>
               {" "}
               <img
-                src={`http://localhost:5000/images/${item.image}`}
+                src={`${item?.image}`}
                 alt={item.subSubCategory}
                 className="rounded-3xl w-[500px] "
               />
@@ -304,13 +289,7 @@ const Anniversary = () => {
 
       <div className="my-4">
         <p className="text-center font-bold poppins text-2xl">FAQs</p>
-        <p
-          className="text-right text-lg underline cursor-pointer"
-          onClick={toggleModal}
-        >
-          Cancellation Policy
-        </p>
-        <CancellationPolicy isOpen={isOpen} toggleModal={toggleModal} />
+       
         <p className="text-center font-bold poppins text-sm">
           Need help? Contact us for any queries related to us
         </p>

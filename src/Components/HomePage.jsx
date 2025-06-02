@@ -291,9 +291,9 @@ const HomePage = () => {
   return (
     <div className='container md:pt-24 pt-32  mx-auto'>
       {/* // Whatsapp and call Icons */}
-      <div className=" fixed bottom-5 right-5 lg:flex flex-col gap-3 z-50">
+      {/* <div className=" fixed bottom-5 right-5 lg:flex flex-col gap-3 z-50">
         <WhatsappandCallFeature />
-      </div>
+      </div> */}
 
       <PurchasePopup />
 
@@ -301,27 +301,7 @@ const HomePage = () => {
       <section className='lg:py-20 p-2 '>
         <h1 className=' font-bold text-center text-primary playfair-display lg:text-5xl text-2xl'>Upcoming Festivals</h1>
         <div className="relative flex justify-center md:py-10 py-4 cursor-pointer" onClick={() => handleNavigation("Festival Decoration", "/service/")} >
-          <img src={`http://localhost:5000/images/${upcomingBanner[0]?.bannerImage}`} alt="banner" className="w-full lg:h-[400px] md:h-[250px] h-[180px] object-cover rounded-2xl" />
-
-          <div className="absolute top-1/2 lg:left-28 left-4 transform -translate-y-1/2  lg:w-[375px] md:w-[280px] w-[140px]  ">
-            <div className='bg-white p-1 rounded-lg'>
-              <div className='border-2 border-primary border-dashed p-1 rounded-lg'>
-                <img src={independence} alt="office decor" className=" lg:h-[300px] md:h-[150px] h-[100px] object-cover w-full  rounded-lg " />
-                {/* <img src={love} className='absolute lg:bottom-0 lg:-left-20 bottom-4  -left-4 lg:w-36 lg:h-36 w-14 h-14' /> */}
-              </div>
-            </div>
-            <p className="lg:text-2xl  text-[10px] text-center carter text-green-800 md:font-medium md:pt-4 pt-2">Independence's day Decoration</p>
-          </div>
-
-          <div className="absolute top-1/2 lg:right-28 right-4 transform -translate-y-1/2  lg:w-[375px] md:w-[280px] w-[140px] ">
-            <div className='bg-white p-1 rounded-lg'>
-              <div className='border-2 border-primary border-dashed p-1 rounded-lg'>
-                <img src={ganesha} alt="office decor" className=" lg:h-[300px] md:h-[150px] h-[100px] object-cover w-full  rounded-lg " />
-              </div>
-            </div>
-            <p className="lg:text-2xl text-[10px]  text-center md:pt-4 pt-2 carter text-pink-800 md:font-medium">Ganesha Chaturthi Decoration</p>
-          </div>
-
+          <img src={`${upcomingBanner[0]?.bannerImage}`} alt="banner" className="w-full lg:h-[400px] md:h-[250px] h-[180px] object-cover rounded-2xl" />
         </div>
 
         <div>

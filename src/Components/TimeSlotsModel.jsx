@@ -7,22 +7,6 @@ import { SlCalender } from "react-icons/sl";
 
 const TimeSlotsModel = ({ setShowAddonsModal, setShowTimeSlots, hasAddons, timeSlots }) => {
     const [showCalendar, setShowCalendar] = useState(false);
-    
-    // const timeSlots = [
-    //     "06:00 AM - 11:00 AM",
-    //     "10:00 AM - 01:00 PM",
-    //     "01:00 PM - 04:00 PM",
-    //     "04:00 PM - 07:00 PM",
-    //     "07:00 PM - 10:00 PM",
-    //     "09:00 PM - 12:00 PM (15%)",
-    // ];
-    // const timeSlots2 = [
-    //     "08:00 AM - 12:00 PM (10%)",
-    //     "10:00 AM - 02:00 PM",
-    //     "02:00 PM - 06:00 PM",
-    //     "06:00 PM - 10:00 PM",
-        
-    // ];
 
     const dispatch = useDispatch();
     const selectedTimeSlot = useSelector((state) => state.order.selectedTimeSlot);
@@ -55,32 +39,7 @@ const TimeSlotsModel = ({ setShowAddonsModal, setShowTimeSlots, hasAddons, timeS
 
     return (
         <div className="p-4 md:w-[400px] w-[320px] border shadow-md bg-white max-h-[500px] overflow-y-auto">
-            {/* Date Selection */}
-            {/* <div className="mb-4">
-                <h2 className="text-lg font-semibold mb-2">Select Date</h2>
-                <div 
-                    onClick={() => setShowCalendar(!showCalendar)}
-                    className="flex items-center justify-between border border-gray-300 p-2 px-4 cursor-pointer rounded-md"
-                >
-                    <p className={`${selectedDate ? 'text-black' : 'text-gray-400'}`}>
-                        {formatDate(selectedDate)}
-                    </p>
-                    <SlCalender />
-                </div>
-                
-                {showCalendar && (
-                    <div className="mt-2">
-                        <Calendar
-                            onChange={handleDateChange}
-                            value={selectedDate}
-                            minDate={new Date()}
-                            className="w-full outline-none"
-                        />
-                    </div>
-                )}
-            </div> */}
-
-            {/* Time Slot Selection */}
+                    {/* Time Slot Selection */}
             <h2 className="text-lg font-semibold mb-2">Select a Time Slot</h2>
             <form>
                 {timeSlots.map((slot, index) => (

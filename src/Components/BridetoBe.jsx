@@ -192,7 +192,7 @@ const BridetoBe = () => {
             <Link to={`/service/${item._id}`}>
 
               <img
-                src={`http://localhost:5000/images/${item.image}`}
+                src={`${item?.image}`}
                 alt={item.subSubCategory}
                 className="rounded-3xl w-[500px] "
               />
@@ -228,9 +228,6 @@ const BridetoBe = () => {
             <p className="lg:text-2xl text-primary font-bold playfair-display">
               Premium Decoration Service
             </p>
-            {/* <div className="text-secondary font-bold flex items-center text-sm md:text-base">
-              View All <MdArrowRightAlt className="md:text-2xl text-xl" />
-            </div> */}
           </div>
 
           {premiumData.length > 0 ? (

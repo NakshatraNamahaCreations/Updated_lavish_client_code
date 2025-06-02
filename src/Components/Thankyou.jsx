@@ -11,13 +11,7 @@ const Thankyou = () => {
                 <FaCheckCircle className="text-green-500 text-5xl mx-auto mb-4" />
                 <h1 className="text-2xl font-bold text-gray-800 mb-2">Thank you for your order!</h1>
                 <p className="text-gray-600 mb-4">Your booking has been successfully placed.</p>
-{/* 
-                {orderId && (
-                    <div className="bg-gray-100 text-sm p-3 rounded mb-4">
-                        <p className="text-gray-500">Order ID:</p>
-                        <p className="font-medium text-gray-800">{orderId}</p>
-                    </div>
-                )} */}
+
 
                 <div className="flex justify-center gap-4 mt-6">
                     <button

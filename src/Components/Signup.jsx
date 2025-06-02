@@ -4,6 +4,7 @@ import { FaFacebookSquare, FaGoogle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../features/auth/authSlice";
+import { getAuthAxios } from "../utils/api";
 
 const Signup = () => {
     const [email, setEmail] = useState("");
@@ -13,17 +14,18 @@ const Signup = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+     const authAxios = getAuthAxios()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
         setLoading(true);
 
-        const endpoint = "http://localhost:5000/api/auth/register";
+        // const endpoint = "http://localhost:5000/api/auth/register";
         const payload = { email, mobile, password };
 
         try {
-            const response = await axios.post(endpoint, payload, { withCredentials: true });
+            const response = await authAxios.post("/auth/register", payload, { withCredentials: true });
             const { accessToken, user } = response.data;
 
             if (response.status === 201) {

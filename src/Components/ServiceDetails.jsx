@@ -40,7 +40,7 @@ import img6 from "../assets/navImg4.png";
 import TimeSlotsModel from "./TimeSlotsModel";
 import RecommenedAddon from "./RecommenedAddon";
 import { GoHeartFill, GoHeart } from "react-icons/go";
-import BasicSlider from "./BasicSlider";
+
 import FAQ from "./FAQ";
 import RecommenedAddonSlider from "./RecommenedAddonSlider";
 import { MdOutlineCurrencyRupee } from "react-icons/md";
@@ -54,7 +54,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Review from "./Review";
 import CardCarousel from "./CardCarousel";
-import { getAxios } from "../utils/api";
+import { getAuthAxios, getAxios } from "../utils/api";
 
 // Static images for carousel
 const images = [
@@ -214,6 +214,8 @@ const ServiceDetails = () => {
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isWishlistLoading, setIsWishlistLoading] = useState(false);
 
+  const authAxios = getAuthAxios()
+
   useEffect(() => {
     console.log("Redux Order State:", reduxOrderState);
   }, [reduxOrderState]);
@@ -244,7 +246,7 @@ const ServiceDetails = () => {
     const fetchServiceDetails = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:5000/api/services/${serviceId}`);
+        const response = await getAxios().get(`/services/${serviceId}`);
         const details = response.data.data;
         setServiceDetails(details);
         console.log("Service Details:", details);
@@ -289,8 +291,8 @@ const ServiceDetails = () => {
 
       try {
         setLoadingAddons(true);
-        const response = await axios.get(
-          `http://localhost:5000/api/addons/subcategory/${serviceDetails.subCategoryId._id}`
+        const response = await getAxios().get(
+          `/addons/subcategory/${serviceDetails.subCategoryId._id}`
         );
         const result = response.data?.data.addons;
 
@@ -441,7 +443,7 @@ const ServiceDetails = () => {
       if (!customerId || !serviceId) return;
 
       try {
-        const response = await axios.get(`http://localhost:5000/api/wishlist/${customerId}`);
+        const response = await getAxios().get(`/wishlist/${customerId}`);
         const wishlistItems = response.data.wishlist;
         const isServiceInWishlist = wishlistItems.some(item => item.serviceId._id === serviceId);
         setIsInWishlist(isServiceInWishlist);
@@ -464,11 +466,11 @@ const ServiceDetails = () => {
     try {
       if (isInWishlist) {
         // Remove from wishlist
-        await axios.delete(`http://localhost:5000/api/wishlist/remove-item/${customerId}/${serviceId}`);
+        await authAxios().delete(`/wishlist/remove-item/${customerId}/${serviceId}`);
         setIsInWishlist(false);
       } else {
         // Add to wishlist
-        await axios.post(`http://localhost:5000/api/wishlist/create/`, {
+        await authAxios.post(`/wishlist/create/`, {
           serviceId: serviceId,
           serviceName: serviceDetails?.serviceName,
           customerId,

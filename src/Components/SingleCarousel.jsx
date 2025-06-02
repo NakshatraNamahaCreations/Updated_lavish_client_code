@@ -25,16 +25,12 @@ export default function SingleCarousel({ banner }) {
             {filteredBanner.map((item) => (
                 <div className="relative">
                     <img
-                        src={`http://localhost:5000/images/${item?.bannerImage}`}
+                        src={`${item?.bannerImage}`}
                         alt="banner1"
                         className="w-full "
                     />
                 </div>
             ))}
-
-
-     
-
         </Slider>
 
     );

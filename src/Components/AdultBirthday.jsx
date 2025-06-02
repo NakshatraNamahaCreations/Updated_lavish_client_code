@@ -90,40 +90,34 @@ const AdultBirthday = () => {
 
   const fetchServices = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/services/filter/${subcat_id}`
-      );
-
-      const data = await response.json();
-
-      // If the response is not OK but contains a known 404 message, treat it gracefully
-      if (!response.ok && response.status === 404) {
+      const response = await getAxios().get(`/services/filter/${subcat_id}`);
+  
+      const data = response.data;
+  
+      if (response.status === 404) {
         console.warn("No services found for this subcategory.");
         setAllServices([]);
         return;
       }
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch services: ${response.statusText}`);
-      }
-
+  
       if (data.success) {
         console.log("data", data.data);
-
         setAllServices(data.data);
-        // setPremiumdata(premiumData);
       } else {
-        // API responded but without success — treat it as "no data"
         console.warn("API returned success: false");
         setAllServices([]);
       }
+  
     } catch (error) {
-      console.error("Error fetching services:", error);
-
-
+      if (error.response && error.response.status === 404) {
+        console.warn("No services found (404).");
+        setAllServices([]);
+      } else {
+        console.error("Error fetching services:", error.message);
+      }
     }
   };
-
+  
   const handleNavigation = (text, baseRoute) => {
     navigateToSubcategory({
       text,
@@ -165,7 +159,7 @@ const AdultBirthday = () => {
             <Link to={`/service/${item._id}`}>
 
               <img
-                src={`http://localhost:5000/images/${item.image}`}
+                src={`${item.image}`}
                 alt={item.subSubCategory}
                 className="rounded-3xl "
               />

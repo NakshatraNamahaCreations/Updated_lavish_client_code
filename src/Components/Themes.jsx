@@ -120,7 +120,7 @@ const Themes = () => {
                         className=" cursor-pointer hover:shadow-lg transition-shadow duration-300"
                     >
                         <img
-                            src={`http://localhost:5000/images/${theme.image}`}
+                            src={`${theme.image}`}
                             alt={theme.theme}
                             className="rounded-3xl"
                         />

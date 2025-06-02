@@ -10,7 +10,7 @@ import bdayGallery4 from "../assets/bday/kidsbday/bdayGallery4.png"
 import bdayGallery5 from "../assets/bday/kidsbday/bdayGallery5.png"
 import bdayGallery6 from "../assets/bday/kidsbday/bdayGallery6.png"
 import bdayGallery7 from "../assets/bday/kidsbday/bdayGallery7.png"
-import BasicSlider from './BasicSlider'
+
 
 import FAQ from './FAQ'
 import video from "../assets/services/video.mp4"

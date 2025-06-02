@@ -18,22 +18,18 @@ const CenterCarousalCard = ({ item }) => {
     <div className="mx-auto h-[420px] bg-white max-w-xs shadow-xl rounded-lg mt-5 z-10">
       <div className="md:px-4 md:pt-4 p-2 border-2 rounded-lg  h-full">
         <img
-          src={
-            item.cardImg ||
-            (item.images && item.images.length > 0 && `http://localhost:5000/images/${item.images[0]}`) ||
-            "https://via.placeholder.com/300x200?text=No+Image"
-          }
+          src={item?.images[0]}
           alt={item.serviceName}
           className="rounded-lg mb-2 w-full h-[70%] object-cover"
         />
         <div className="poppins text-center">
           <p className="text-sm md:text-base">{item.serviceName}</p>
           <div className=" flex gap-1 md:justify-start justify-center items-center py-2 text-yellow-500">
-            <IoIosStar size={16}/>
-            <IoIosStar size={16}/>
-            <IoIosStar size={16}/>
-            <IoIosStar size={16}/>
-            <IoIosStar size={16}/>
+            <IoIosStar size={16} />
+            <IoIosStar size={16} />
+            <IoIosStar size={16} />
+            <IoIosStar size={16} />
+            <IoIosStar size={16} />
           </div>
           <div className="lg:flex gap-2 justify-between items-center">
             <p className="font-bold text-sm md:text-xl">Rs. {item.offerPrice}</p>

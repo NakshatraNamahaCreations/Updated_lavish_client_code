@@ -84,8 +84,15 @@ const RecommenedAddonSlider = ({ subCat, addons }) => {
     }
   };
 
+  
+  // Filter out addons where samedaydelivery is "Not Possible" if event date is today
+  const filteredAddons = isSameDay
+    ? addons.filter((addon) => addon.samedaydelivery !== "Not Possible")
+    : addons;
+
+
   const settings = {
-    infinite: true,
+    infinite: filteredAddons.length > 4,
     slidesToShow: 4,
     slidesToScroll: 1,
     speed: 500,
@@ -106,11 +113,6 @@ const RecommenedAddonSlider = ({ subCat, addons }) => {
     return null;
   }
 
-  // Filter out addons where samedaydelivery is "Not Possible" if event date is today
-  const filteredAddons = isSameDay
-    ? addons.filter((addon) => addon.samedaydelivery !== "Not Possible")
-    : addons;
-
   return (
     <div className="md:my-10 my-3">
       <Slider {...settings}>
@@ -123,7 +125,7 @@ const RecommenedAddonSlider = ({ subCat, addons }) => {
             <div key={addon._id} className="rounded-md">
               <div className="relative p-2 border rounded-md bg-gray-200 md:mx-3 mx-1 pb-10 flex flex-col justify-between">
                 <img
-                  src={`http://localhost:5000/images/${addon.image}`}
+                  src={`${addon?.image}`}
                   alt={addon.addonsName}
                   className="mx-auto h-56 object-contain"
                 />

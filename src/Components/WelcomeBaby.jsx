@@ -33,7 +33,7 @@ import FAQ from './FAQ'
 import video from "../assets/services/video.mp4"
 import Testimonials from './Testimonials'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import BasicSlider from './BasicSlider'
+
 import CancellationPolicy from './CancellationPolicy'
 import { getAuthAxios, getAxios } from '../utils/api'
 import CardCarousel from './CardCarousel'
@@ -109,42 +109,32 @@ const WelcomeBaby = () => {
         }
     };
 
-
     const fetchServices = async () => {
         try {
-            const response = await fetch(
-                `http://localhost:5000/api/services/filter/${subcat_id}`
-            );
-
-            const data = await response.json();
-
-            // If the response is not OK but contains a known 404 message, treat it gracefully
-            if (!response.ok && response.status === 404) {
-                console.warn("No services found for this subcategory.");
-                setAllServices([]);
-                return;
-            }
-
-            if (!response.ok) {
-                throw new Error(`Failed to fetch services: ${response.statusText}`);
-            }
-
-            if (data.success) {
-                console.log("data", data.data);
-
-                setAllServices(data.data);
-                // setPremiumdata(premiumData);
-            } else {
-                // API responded but without success — treat it as "no data"
-                console.warn("API returned success: false");
-                setAllServices([]);
-            }
+          const response = await getAxios().get(
+            `/services/filter/${subcat_id}`
+          );
+      
+          const data = response.data;
+      
+          if (response.status === 404 || !data.success) {
+            console.warn("No services found for this subcategory.");
+            setAllServices([]);
+            return;
+          }
+      
+          console.log("data", data.data);
+          setAllServices(data.data);
+      
         } catch (error) {
-            console.error("Error fetching services:", error);
-
-
+          if (error.response?.status === 404) {
+            console.warn("No services found for this subcategory (404).");
+          } else {
+            console.error("Error fetching services:", error.message || error);
+          }
+          setAllServices([]);
         }
-    };
+      };
 
     const handleNavigation = (text, baseRoute) => {
         navigateToSubcategory({
@@ -188,7 +178,7 @@ const WelcomeBaby = () => {
                         <Link to={`/service/${item._id}`}>
 
                             <img
-                                src={`http://localhost:5000/images/${item.image}`}
+                                src={`${item.image}`}
                                 alt={item.subSubCategory}
                                 className='rounded-3xl mx-auto md:w-[400px] w-auto'
                             />
