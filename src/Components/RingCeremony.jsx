@@ -106,55 +106,47 @@ const RingCermony = () => {
     }
   }
 
+
   const fetchServices = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/services/filter/${subcat_id}`
+      const response = await getAxios().get(
+        `/services/filter/${subcat_id}`
       );
-
-      const data = await response.json();
-
-      // If the response is not OK but contains a known 404 message, treat it gracefully
-      if (!response.ok && response.status === 404) {
-        console.warn("No services found for this subcategory.");
-        setSimpledata([]);
-        setPremiumdata([]);
-        return;
-      }
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch services: ${response.statusText}`);
-      }
-
+  
+      const data = response.data;
+  
       if (data.success) {
         const simpleData = data.data.filter(
           (item) =>
             item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
-            "simple decoration"
+            'simple decoration'
         );
-
+  
         const premiumData = data.data.filter(
           (item) =>
             item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
-            "premium decoration"
+            'premium decoration'
         );
-
+  
         setSimpledata(simpleData);
         setPremiumdata(premiumData);
       } else {
-        // API responded but without success — treat it as "no data"
-        console.warn("API returned success: false");
+        console.warn('API returned success: false');
         setSimpledata([]);
         setPremiumdata([]);
       }
     } catch (error) {
-      console.error("Error fetching services:", error);
-      // Optional: Show a user-friendly message to the UI
+      if (error.response && error.response.status === 404) {
+        console.warn('No services found for this subcategory.');
+      } else {
+        console.error('Error fetching services:', error.message);
+      }
+  
       setSimpledata([]);
       setPremiumdata([]);
     }
   };
-
+  
 
   const fetchSubSubcategoriesBySubCategory = async () => {
     if (!subcat_id) return;
@@ -209,7 +201,7 @@ const RingCermony = () => {
               {/* <Link to={subSubAvailable ? `/service/${item.sub_SubId}` : `/service/${item.subId}`}> */}
               <Link to={`/service/${item._id}`}>
                 <img
-                  src={`http://localhost:5000/images/${item.image}`}
+                  src={`${item.image}`}
                   alt={item.subSubCategory}
                   className="rounded-3xl w-[500px] "
                 />

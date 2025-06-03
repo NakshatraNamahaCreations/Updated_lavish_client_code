@@ -96,7 +96,7 @@ const RecommenedAddon = ({ subCat, addons }) => {
                 )}
 
                 <img
-                  src={`http://localhost:5000/images/${addon.image}`}
+                  src={`${addon.image}`}
                   alt={addon.addonsName}
                   className="mx-auto w-44 h-48 object-contain"
                 />

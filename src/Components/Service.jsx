@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ServiceCard from "./ServiceCard";
+import { getAxios } from "../utils/api";
 
 // Only show banner for these exact subcategories
 const banners = {
@@ -24,16 +25,16 @@ const Service = () => {
     const fetchServices = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:5000/api/services/filter/${id}`);
-        const data = await response.json();
-
-        if (response.ok && data.success && Array.isArray(data.data)) {
+        const response = await getAxios().get(`/services/filter/${id}`);
+        const data = response.data;
+  
+        if (data.success && Array.isArray(data.data)) {
           setServices(data.data);
-
+  
           const firstService = data.data[0];
           const subCategoryName = firstService?.subCategoryId?.subCategory;
           setSubCatTitle(subCategoryName || "Services");
-
+  
           // Only set banner if subcategory name exists in our predefined list
           if (subCategoryName && banners[subCategoryName]) {
             setBannerImg(banners[subCategoryName]);
@@ -46,7 +47,7 @@ const Service = () => {
           setBannerImg(null);
         }
       } catch (error) {
-        console.error("Error fetching services:", error);
+        console.error("Error fetching services:", error.message);
         setServices([]);
         setSubCatTitle("Error Loading Services");
         setBannerImg(null);
@@ -54,7 +55,7 @@ const Service = () => {
         setLoading(false);
       }
     };
-
+  
     fetchServices();
   }, [id]);
 

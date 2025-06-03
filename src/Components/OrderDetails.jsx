@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import RaiseTicketModal from './RaiseTicket';
+import { getAxios } from '../utils/api';
 
 const OrderDetails = () => {
     const { id } = useParams();
@@ -16,7 +17,7 @@ const OrderDetails = () => {
     useEffect(() => {
         const fetchOrder = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/orders/orderDetails/${id}`);
+                const res = await getAxios().get(`/orders/orderDetails/${id}`);
                 setOrder(res.data.data);
                 console.log("orderdetails", res.data.data);
             } catch (err) {

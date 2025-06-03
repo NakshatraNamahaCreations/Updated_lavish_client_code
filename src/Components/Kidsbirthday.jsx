@@ -208,7 +208,7 @@ const Kidsbirthday = () => {
                             className="cursor-pointer transition-shadow duration-300"
                         >
                             <img
-                                src={`http://localhost:5000/images/${item.image}`}
+                                src={`${item.image}`}
                                 alt={item.subSubCategory}
                                 className="rounded-3xl border-4 border-primary md:w-auto md:h-auto w-40 h-40"
                             />

@@ -103,7 +103,7 @@ const GroomtoBe = () => {
   const fetchSubSubcategoriesBySubCategory = async () => {
     if (!subcat_id) return;
     try {
-      const res = await getAuthAxios().get(
+      const res = await getAxios().get(
         `subsubcategories/subcategory/${subcat_id}`
       );
       setSubSubCategories(res.data.data);
@@ -199,7 +199,7 @@ const GroomtoBe = () => {
             <Link to={`/service/${item._id}`}>
 
               <img
-                src={`http://localhost:5000/images/${item.image}`}
+                src={`${item.image}`}
                 alt={item.subSubCategory}
                 className="rounded-tl-[100px] rounded-br-[100px] w-[500px] h-[340px] mx-auto"
               />

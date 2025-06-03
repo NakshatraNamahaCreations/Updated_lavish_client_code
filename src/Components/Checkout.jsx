@@ -306,6 +306,8 @@ const Checkout = () => {
     const customerId = userData?.id;
     console.log("Customer ID", customerId)
 
+
+
     useEffect(() => {
         if (!customerId) {
             setShowLoginModal(true)
@@ -708,6 +710,7 @@ const Checkout = () => {
     
     };
 
+    const selctedServiceImage = items.find(item => item.categoryType === 'service')?.image
     return (
         <div className="min-h-screen bg-gray-100 py-8">
             {/* Login Modal */}
@@ -925,7 +928,7 @@ const Checkout = () => {
                             <div className="flex flex-col md:flex-row justify-between items-start rounded-2xl gap-6">
                                 {/* Left Section - Product Image & Details */}
                                 <div className="flex gap-4 w-full">
-                                    <img src={img} className="w-32 h-32 rounded-xl object-cover shadow-sm" alt="Product" />
+                                    <img src={selctedServiceImage} className="w-32 h-32 rounded-xl object-cover shadow-sm" alt="Product" />
                                     <div className="space-y-2 w-full">
                                         <p className="text-lg md:text-xl font-semibold text-gray-900">{items.find(item => item.categoryType === 'service')?.serviceName}</p>
 

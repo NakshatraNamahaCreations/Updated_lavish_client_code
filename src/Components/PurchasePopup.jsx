@@ -10,6 +10,7 @@ import kid from "../assets/butterfly_theme.png";
 import adult from "../assets/grid7.png";
 import ring from "../assets/bridetobe_decorImg1.png";
 import candle from "../assets/candleImg1.png";
+import { getAxios } from "../utils/api";
 
 const getImageForService = (serviceName) => {
   const lower = serviceName.toLowerCase();
@@ -41,7 +42,7 @@ const PurchasePopup = () => {
   useEffect(() => {
     const fetchRecentOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/orders/recent-orders");
+        const response = await getAxios().get("/orders/recent-orders");
         const { orders } = response.data;
 
         // Extract customer name, service name, createdAt and assign image

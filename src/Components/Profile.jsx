@@ -18,7 +18,7 @@ import ReasonModal from './ReasonModal';
 import RescheduleDateModal from './rescheduleDateModal';
 import dayjs from 'dayjs';
 import RaiseTicket from './RaiseTicket';
-import { getAxios } from '../../../admin/src/utils/api';
+import { getAuthAxios, getAxios } from '../utils/api';
 
 
 
@@ -60,7 +60,7 @@ const PastBookings = () => {
                         const mainService = order.items.find(item => item.categoryType === 'Service') || order.items[0];
                         const serviceName = mainService?.serviceName || 'No Service Name';
                         const serviceImage = mainService?.image
-                            ? `http://localhost:5000/images/${mainService.image}`
+                            ? `${mainService.image}`
                             : '';
 
                         return (
@@ -135,7 +135,7 @@ const UpcomingBookings = () => {
 
     const fetchUpcomingOrders = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/orders/upcoming/${userId}`);
+            const res = await getAxios().get(`/orders/upcoming/${userId}`);
             setUpcomingOrders(res.data.data);
             console.log(res.data.data);
         } catch (error) {
@@ -202,7 +202,7 @@ const UpcomingBookings = () => {
 
                         const serviceName = mainService?.serviceName || "No Service Name";
                         const serviceImage = mainService?.image
-                            ? `http://localhost:5000/images/${mainService.image}`
+                            ? `/${mainService.image}`
                             : "";
 
                         const isRescheduled = !!order.rescheduledEventDate;
@@ -340,7 +340,7 @@ const ProfileForm = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             const token = localStorage.getItem("accessToken");
-            const response = await getAxios().get("http://localhost:5000/api/admin/users/user/profile", {
+            const response = await getAxios().get("/admin/users/user/profile", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
@@ -368,7 +368,7 @@ const ProfileForm = () => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("accessToken");
-            const response = await axios.put("http://localhost:5000/api/admin/users/user/profile", profile, {
+            const response = await getAuthAxios().put("/admin/users/user/profile", profile, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -555,15 +555,7 @@ const Profile = () => {
             }
 
             // Send logout request to backend
-            const response = await axios.post(
-                "http://localhost:5000/api/auth/logout",
-                {},
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    }
-                }
-            );
+            const response = await getAuthAxios().post("/auth/logout",);
 
             // Check if logout was successful
             if (response.status === 200) {
@@ -695,63 +687,3 @@ const Profile = () => {
 export default Profile;
 
 
-
-
-// { icon: <IoWalletSharp />, title: "Wallet", link: "/wallet", component: <Wallet /> },
-// { icon: <BiSolidDiscount />, title: "Vouchers", link: "/vouchers", component: <Vouchers /> },
-// { icon: <FaUserGroup />, title: "Referral", link: "/referral", component: <Referral /> },
-
-// const Vouchers = () => {
-//     return (
-//         <div className='h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5  scrollbar-hide'>
-//             <h1 className='font-bold poppins my-6'>Vouchers</h1>
-
-//             <div className="flex border border-primary rounded-md h-[150px] my-3">
-//                 {/* Left Side - Offer Tag */}
-//                 <div className="flex items-center justify-center bg-primary text-white p-4  h-full w-[70px]">
-//                     <h1 className="-rotate-90  font-bold">{'10% OFF'}</h1>
-//                 </div>
-//                 {/* Right Side - Offer Details */}
-//                 <div className="flex flex-col justify-center px-4 ">
-//                     <h1 className="text-xl font-semibold">NEWUSER</h1>
-//                     <p className="text-gray-700 mt-2">Save 10% off on this offer on purchases above Rs. 2,000</p>
-//                     <small className="text-gray-500 mt-1">Apply NEWUSER and get up to Rs. 200 off on your order!</small>
-//                 </div>
-//             </div>
-
-
-//             <div className="flex border border-primary rounded-md h-[150px] my-3">
-//                 {/* Left Side - Offer Tag */}
-//                 <div className="flex items-center justify-center bg-primary text-white p-4  h-full w-[70px]">
-//                     <h1 className="-rotate-90  font-bold">{'10% OFF'}</h1>
-//                 </div>
-//                 {/* Right Side - Offer Details */}
-//                 <div className="flex flex-col justify-center px-4 ">
-//                     <h1 className="text-xl font-semibold">NEWUSER</h1>
-//                     <p className="text-gray-700 mt-2">Save 10% off on this offer on purchases above Rs. 2,000</p>
-//                     <small className="text-gray-500 mt-1">Apply NEWUSER and get up to Rs. 200 off on your order!</small>
-//                 </div>
-//             </div>
-
-//         </div>
-//     )
-// }
-
-// const Referral = () => {
-//     return (
-//         <div className='h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5  scrollbar-hide'>
-//             <div className='w-[70%]'>
-//                 <h1 className='font-bold poppins my-6'>Referral</h1>
-
-//                 <div className='my-8'>
-//                     <h2 className='text-[#AA6300] text-2xl font-semibold playfair-display'>Give with love, receive happiness!</h2>
-//                     <p >Refer a friend and they’ll get awesome vouchers! Plus, earn ₹500 wallet cash when
-//                         they complete a booking!</p>
-//                 </div>
-
-//                 <p className='font-bold text-xl py-2 '>LXE7489</p>
-//                 <button className=' flex gap-2 p-4 py-2 items-center rounded text-white bg-[#AA6300]'> <FaShareAlt /> Share</button>
-//             </div>
-//         </div>
-//     )
-// }

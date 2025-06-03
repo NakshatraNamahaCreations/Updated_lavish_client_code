@@ -4,6 +4,7 @@ import { FaFacebookSquare, FaGoogle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../features/auth/authSlice";
+import { getAuthAxios } from "../utils/api";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -18,11 +19,11 @@ const Login = () => {
         setError("");
         setLoading(true);
 
-        const endpoint = "http://localhost:5000/api/auth/login";
+        const endpoint = "/auth/login";
         const payload = { email, password };
 
         try {
-            const response = await axios.post(endpoint, payload, { withCredentials: true });
+            const response = await getAuthAxios().post(endpoint, payload, { withCredentials: true });
 
             // Handling response status and setting access token
             if (response.status === 200) {

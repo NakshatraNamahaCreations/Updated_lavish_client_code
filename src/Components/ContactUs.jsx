@@ -3,7 +3,7 @@ import axios from 'axios';
 import { MdLocationOn } from "react-icons/md";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
-import { getAxios } from '../utils/api';
+import { getAuthAxios, getAxios } from '../utils/api';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -28,7 +28,7 @@ const ContactUs = () => {
     setStatus({ success: null, message: '' });
 
     try {
-      const res = await getAxios().post('/enquiries/create', formData);
+      const res = await getAuthAxios().post('/enquiries/create', formData);
       if (res.data.success) {
         setStatus({ success: true, message: 'Inquiry submitted successfully!' });
         setFormData({ name: '', phone: '', email: '', service: '', message: '' });

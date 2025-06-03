@@ -1,80 +1,6 @@
-// import React, { useState } from 'react';
 
-// const ReasonModal = ({ setShowModal, selectedOrder, newDate, newTime, fetchUpcomingOrders }) => {
-//   const [reason, setReason] = useState('');
-//   const [venue, setVenue] = useState('');
-
-//   const handleSubmit = async () => {
-//     if (!reason || !venue) {
-//       alert('Please fill in both reason and venue address.');
-//       return;
-//     }
-  
-//     const payload = {
-//       rescheduledDate: newDate,
-//       rescheduledSlot: newTime,
-//       rescheduledAddress: venue,
-//       reason,
-//     };
-  
-//     try {
-//       await fetch(`http://localhost:5000/api/orders/rescheduleOrder/${selectedOrder._id}`, {
-//         method: 'PUT',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(payload),
-//       });
-  
-//       alert('Booking rescheduled successfully!');
-//       setShowModal(false);
-//       fetchUpcomingOrders();
-//     } catch (error) {
-//       console.error('Rescheduling failed:', error);
-//       alert('Something went wrong while rescheduling.');
-//     }
-//   };
-  
-//   return (
-//     <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex justify-center items-center">
-//       <div className="bg-white rounded-lg p-6 w-[90%] max-w-md">
-//         <h2 className="text-xl font-bold mb-4">Reason & Venue</h2>
-
-//         <textarea
-//           rows={4}
-//           className="w-full border px-3 py-2 rounded mb-4"
-//           placeholder="Enter reason for rescheduling..."
-//           value={reason}
-//           onChange={(e) => setReason(e.target.value)}
-//         />
-
-//         <input
-//           type="text"
-//           className="w-full border px-3 py-2 rounded mb-4"
-//           placeholder="Enter new venue address"
-//           value={venue}
-//           onChange={(e) => setVenue(e.target.value)}
-//         />
-
-//         <div className="flex justify-end gap-3">
-//           <button
-//             className="px-4 py-2 border rounded"
-//             onClick={() => setShowModal(false)}
-//           >
-//             Cancel
-//           </button>
-//           <button
-//             className="px-4 py-2 bg-purple-700 text-white rounded"
-//             onClick={handleSubmit}
-//           >
-//             Submit
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ReasonModal;
 import React, { useState } from "react";
+import { getAuthAxios } from "../utils/api";
 
 const ReasonModal = ({
   setShowModal,
@@ -106,36 +32,34 @@ const ReasonModal = ({
     const payload = isCancelling
       ? { reason }
       : {
-          rescheduledDate: newDate || null,
-          rescheduledTime: newTime || null,
-          rescheduledAddress: venue.trim() || null,
-          reason,
-        };
+        rescheduledDate: newDate || null,
+        rescheduledTime: newTime || null,
+        rescheduledAddress: venue.trim() || null,
+        reason,
+      };
 
     const endpoint = isCancelling
-      ? `http://localhost:5000/api/orders/cancelOrder/${selectedOrder._id}`
-      : `http://localhost:5000/api/orders/rescheduleOrder/${selectedOrder._id}`;
+      ? `/orders/cancelOrder/${selectedOrder._id}`
+      : `/api/orders/rescheduleOrder/${selectedOrder._id}`;
 
     try {
-      const response = await fetch(endpoint, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        alert(errorData.message || "Something went wrong. Please try again.");
-        return;
-      }
+      const response = await getAuthAxios().put(endpoint, payload);
 
       alert(isCancelling ? "Booking cancelled successfully!" : "Booking rescheduled successfully!");
       setShowModal(false);
       fetchUpcomingOrders();
     } catch (error) {
-      console.error("Operation failed:", error);
-      alert("Something went wrong. Please try again.");
+      if (error.response) {
+        // Server responded with a status code outside 2xx
+        const errorMessage = error.response.data?.message || "Something went wrong. Please try again.";
+        alert(errorMessage);
+      } else {
+        // Network or other unexpected errors
+        console.error("Operation failed:", error);
+        alert("Something went wrong. Please try again.");
+      }
     }
+
   };
 
   return (
