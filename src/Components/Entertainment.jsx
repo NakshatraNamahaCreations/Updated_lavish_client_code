@@ -1,5 +1,5 @@
 
-import React, { useEffect,  useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import entertainmentBanner from "../assets/banner/entertainmentBanner.png"
 import entertainmentBanner2 from "../assets/banner/photoshootactivity.png"
 import adultBanner3 from "../assets/banner/trustedBanner.png"
@@ -26,6 +26,12 @@ import cottonCandy from "../assets/entertainment/cottonCandy.png"
 import keychainMaking from "../assets/entertainment/Keychain Making.png"
 import pottery from "../assets/entertainment/pottery.png"
 import tattoo from "../assets/entertainment/tattoo.png"
+import BalloonShooting from "../assets/entertainment/BalloonShooting.png"
+import BirthdayPool from "../assets/entertainment/birthdayPool.png"
+import coordinator from "../assets/entertainment/coordinator.png"
+import NailArtist from "../assets/entertainment/NailArtist.png"
+import popcorn from "../assets/entertainment/popcorn.png"
+import Magician from "../assets/entertainment/Magician.png"
 
 
 const imagelist = [
@@ -59,7 +65,47 @@ const imagelist = [
         title: "Tattoo",
 
     },
-   
+    {
+        src: BirthdayPool,
+        title: "Birthday Party Ball Pool",
+
+    },
+    {
+        src: popcorn,
+        title: "Popcorn Counter",
+
+    },
+    {
+        src: BalloonShooting,
+        title: "Balloon Shooting",
+
+    },
+    {
+        src: Magician,
+        title: "Magician",
+
+    },
+    {
+        src: coordinator,
+        title: "Game Coordinator",
+
+    },
+    {
+        src: NailArtist,
+        title: "Nail Artist",
+
+    },
+    // {
+    //     src: M,
+    //     title: "Hoopla Game",
+
+    // },
+    // {
+    //     src: M,
+    //     title: "Balloon Modelling",
+
+    // },
+
 ]
 
 const Entertainment = () => {
@@ -86,15 +132,15 @@ const Entertainment = () => {
 
     const handleNavigation = (text, baseRoute) => {
         navigateToSubcategory({
-          text,
-          baseRoute,
-          navigate,
-          setLoading,
-          setError,
+            text,
+            baseRoute,
+            navigate,
+            setLoading,
+            setError,
         });
-      };
+    };
 
-      
+
 
     useEffect(() => {
         const serviceDetails = recentPurchase?.map((item) => item.serviceDetails);
@@ -171,11 +217,11 @@ const Entertainment = () => {
                 </div>
                 <p className='lg:absolute bottom-10 right-2 [text-shadow:_-4px_4px_3px_#7D7C7C] playfair-display md:text-7xl text-4xl font-bold text-[#FFD1D1]'>Wonderful Moments</p>
             </div>
-         
-                <div className='md:pt-20 pt-10' onClick={() => handleNavigation("photography", "/photography")}>
-                    <img src={entertainmentBanner2} className='mx-auto w-[2000px]' />
-                </div>
-      
+
+            <div className='md:pt-20 pt-10' onClick={() => handleNavigation("photography", "/photography")}>
+                <img src={entertainmentBanner2} className='mx-auto w-[2000px]' />
+            </div>
+
             <div className='md:pt-20 pt-10'>
                 <p className='font-bold poppins md:py-6 pb-4 md:text-2xl'>Why Celebrate With Lavisheventzz</p>
                 <img src={adultBanner3} className='mx-auto w-[1600px]' />
