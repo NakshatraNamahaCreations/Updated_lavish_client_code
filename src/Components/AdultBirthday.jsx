@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import adultBanner1 from "../assets/banner/adultbanner1.png";
+import adultBanner1 from "../assets/banner/adultBanner1.png";
 import adultBanner2 from "../assets/banner/photoshootBday.png";
 import adultBanner3 from "../assets/banner/trustedBanner.png";
 import adultBanner4 from "../assets/banner/adultbanner4.png";
