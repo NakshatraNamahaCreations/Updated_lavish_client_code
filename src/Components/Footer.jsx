@@ -3,10 +3,10 @@ import Logo from "../assets/logo.png";
 import { IoMailSharp, IoCallSharp } from "react-icons/io5";
 import facebook from "../assets/icons/Facebook.png";
 import instagram from "../assets/icons/Instagram.png";
-import linkedin from "../assets/icons/Linkedin.png";
+import linkedin from "../assets/icons/LinkedIn.png";
 import pintrest from "../assets/icons/Pinterest.png";
 import x from "../assets/icons/twitter.png";
-import youtube from "../assets/icons/Youtube.png";
+import youtube from "../assets/icons/YouTube.png";
 import { useNavigate } from 'react-router-dom';
 import CancellationPolicy from './CancellationPolicy';
 

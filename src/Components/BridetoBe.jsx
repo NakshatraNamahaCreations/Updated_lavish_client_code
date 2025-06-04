@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import bridetobebanner from "../assets/banner/bridetobebanner.png";
 import bridetobeBanner2 from "../assets/banner/photoshootbride.png";
-import adultBanner3 from "../assets/banner/trustedBanner.png";
+import adultBanner3 from "../assets/banner/trustedBanner.png"
 import addonsbanner from "../assets/banner/addonsbanner.png";
 
 import gallery1 from "../assets/services/bridetobe1.png";

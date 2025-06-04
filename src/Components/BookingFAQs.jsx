@@ -5,8 +5,6 @@ import { MdClose } from "react-icons/md";
 const BookingFAQs = ({ isOpen, toggleModal }) => {
 
     const [activeIndex, setActiveIndex] = useState(null);
-
-
     const toggleAccordion = (index) => {
         setActiveIndex(index === activeIndex ? null : index);
     };

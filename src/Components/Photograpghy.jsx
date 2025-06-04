@@ -16,17 +16,17 @@ import gallery6 from "../assets/services/photography6.png"
 import gallery7 from "../assets/services/photography7.png"
 
 
-import maternaityShoot from "../assets/services/maternityShoot.png"
-import babyshowerShoot from "../assets/services/babyshowerShoot.png"
+import maternaityShoot from "../assets/services/maternityshoot.png"
+import babyshowerShoot from "../assets/services/babyshowershoot.png"
 import kidsbdayShoot from "../assets/services/kidsbdayShoot.png"
-import adultbdayShoot from "../assets/services/adultbdayShoot.png"
+import adultbdayShoot from "../assets/services/kidsbdayshoot.png"
 import engagementShoot from "../assets/services/engagementShoot.png"
-import housewarmingShoot from "../assets/services/housewarmingShoot.png"
-import namingceremonyShoot from "../assets/services/namingceremonyShoot.png"
-import upanayanamShoot from "../assets/services/upanayanamShoot.png"
-import coupleShoot from "../assets/services/coupleShoot.png"
-import baptismShoot from "../assets/services/baptismShoot.png"
-import bornbabyShoot from "../assets/services/bornbabyShoot.png"
+import housewarmingShoot from "../assets/services/engagementshoot.png"
+import namingceremonyShoot from "../assets/services/namingceremonyshoot.png"
+import upanayanamShoot from "../assets/services/upanayanamshoot.png"
+import coupleShoot from "../assets/services/coupleshoot.png"
+import baptismShoot from "../assets/services/baptismshoot.png"
+import bornbabyShoot from "../assets/services/bornbabyshoot.png"
 
 
 import FAQ from './FAQ'
