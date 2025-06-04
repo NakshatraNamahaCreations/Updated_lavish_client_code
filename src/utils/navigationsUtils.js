@@ -13,7 +13,7 @@ export const navigateToSubcategory = async ({
       console.log('Searching for:', searchWords);
   
       const response = await fetch(
-        `http://localhost:5000/api/subcategories/search/${encodeURIComponent(searchWords)}`,
+        `https://api.lavisheventzz.com/api/subcategories/search/${encodeURIComponent(searchWords)}`,
         {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
