@@ -21,7 +21,6 @@ import gallery5 from "../assets/services/ringcer5.png";
 import gallery6 from "../assets/services/ringcer6.png";
 import gallery7 from "../assets/services/ringcer7.png";
 
-
 import sash from "../assets/services/sash.png";
 import cakes from "../assets/services/cakes.png";
 import chairs from "../assets/services/chairs.png";
@@ -32,16 +31,10 @@ import flwrbouqt from "../assets/services/flwrbouqt.png";
 import activity from "../assets/services/activity.png";
 import video from "../assets/services/video.mp4";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { service } from "../json/services";
-import { MdArrowRightAlt } from "react-icons/md";
-import ServiceSlider from "./ServiceSlider";
-
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
-import CancellationPolicy from "./CancellationPolicy";
-import { getAuthAxios, getAxios } from "../utils/api";
+import { getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
-import axios from "axios";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
 
 const addOns = [
@@ -79,8 +72,6 @@ const addOns = [
   },
 ];
 
-
-
 const RingCermony = () => {
   const [premiumData, setPremiumdata] = useState([]);
   const [simpleData, setSimpledata] = useState([]);
@@ -89,64 +80,61 @@ const RingCermony = () => {
   const [serviceDetails, setServiceDetails] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { subcat_id } = useParams();
-  const storedUser = localStorage.getItem('user');
+  const storedUser = localStorage.getItem("user");
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
 
-
   const fetchRecentPurchase = async () => {
     try {
-      const response = await getAxios().get(`/orders/recent-orders/${customerId}`);
+      const response = await getAxios().get(
+        `/orders/recent-orders/${customerId}`
+      );
       const data = await response.data;
       setRecentPurchase(data.services);
     } catch (error) {
       console.error("Error fetching recent purchase:", error);
     }
-  }
-
+  };
 
   const fetchServices = async () => {
     try {
-      const response = await getAxios().get(
-        `/services/filter/${subcat_id}`
-      );
-  
+      const response = await getAxios().get(`/services/filter/${subcat_id}`);
+
       const data = response.data;
-  
+
       if (data.success) {
         const simpleData = data.data.filter(
           (item) =>
             item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
-            'simple decoration'
+            "simple decoration"
         );
-  
+
         const premiumData = data.data.filter(
           (item) =>
             item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
-            'premium decoration'
+            "premium decoration"
         );
-  
+
         setSimpledata(simpleData);
         setPremiumdata(premiumData);
       } else {
-        console.warn('API returned success: false');
+        console.warn("API returned success: false");
         setSimpledata([]);
         setPremiumdata([]);
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        console.warn('No services found for this subcategory.');
+        console.warn("No services found for this subcategory.");
       } else {
-        console.error('Error fetching services:', error.message);
+        console.error("Error fetching services:", error.message);
       }
-  
+
       setSimpledata([]);
       setPremiumdata([]);
     }
   };
-  
 
   const fetchSubSubcategoriesBySubCategory = async () => {
     if (!subcat_id) return;
@@ -176,17 +164,14 @@ const RingCermony = () => {
     fetchServices();
   }, [subcat_id]);
 
-
   useEffect(() => {
     const serviceDetails = recentPurchase?.map((item) => item.serviceDetails);
     setServiceDetails(serviceDetails);
   }, [recentPurchase]);
 
-
   useEffect(() => {
     fetchRecentPurchase();
   }, [customerId]);
-
 
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
@@ -214,22 +199,21 @@ const RingCermony = () => {
         })}
       </div>
 
-
       <div className="px-10">
-
         {/* Simple Decoration Section */}
         <div className="mt-5">
           <div className="flex justify-between">
             <p className="lg:text-2xl text-primary font-bold playfair-display">
               Simple Decoration Service
             </p>
-
           </div>
 
           {simpleData.length > 0 ? (
             <CardCarousel centercardData={simpleData} />
           ) : (
-            <p className="text-gray-500 text-center mt-4">Simple Decoration Service Not Found</p>
+            <p className="text-gray-500 text-center mt-4">
+              Simple Decoration Service Not Found
+            </p>
           )}
         </div>
 
@@ -239,16 +223,16 @@ const RingCermony = () => {
             <p className="lg:text-2xl text-primary font-bold playfair-display">
               Premium Decoration Service
             </p>
-
           </div>
 
           {premiumData.length > 0 ? (
             <CardCarousel centercardData={premiumData} />
           ) : (
-            <p className="text-gray-500 text-center mt-4">Premium Decoration Service Not Found</p>
+            <p className="text-gray-500 text-center mt-4">
+              Premium Decoration Service Not Found
+            </p>
           )}
         </div>
-
       </div>
 
       {/* Add ons */}
@@ -308,14 +292,19 @@ const RingCermony = () => {
         </p>
       </div>
 
-      <div className="md:pt-20 py-5" onClick={() => handleNavigation("photography", "/photography")}>
+      <div
+        className="md:pt-20 py-5"
+        onClick={() => handleNavigation("photography", "/photography")}
+      >
         <img src={engagementBanner2} className="mx-auto w-[2000px]" />
       </div>
 
-      {customerId && <div className="md:pt-10 pt-7">
-        <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
-        <CardCarousel centercardData={serviceDetails} />
-      </div>}
+      {customerId && (
+        <div className="md:pt-10 pt-7">
+          <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+          <CardCarousel centercardData={serviceDetails} />
+        </div>
+      )}
       <div className="">
         <p className="font-bold poppins md:py-6 pb-4 md:text-2xl">
           Why Celebrate With Lavisheventzz
@@ -325,7 +314,7 @@ const RingCermony = () => {
 
       <div className="my-4">
         <p className="text-center font-bold poppins text-2xl">FAQs</p>
-        
+
         <p className="text-center font-bold poppins text-sm">
           Need help? Contact us for any queries related to us
         </p>

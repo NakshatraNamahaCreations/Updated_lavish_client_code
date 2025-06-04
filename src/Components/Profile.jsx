@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { FaUserGroup, FaUserLarge, FaClockRotateLeft } from "react-icons/fa6";
-import { FaHistory, FaShareAlt } from "react-icons/fa";
-import { IoTicketSharp, IoWalletSharp } from "react-icons/io5";
-import { BiSolidDiscount, BiLogOut } from "react-icons/bi";
+import {  FaUserLarge } from "react-icons/fa6";
+import { FaHistory } from "react-icons/fa";
+import { IoTicketSharp } from "react-icons/io5";
+import {  BiLogOut } from "react-icons/bi";
 import { CiMoneyCheck1 } from "react-icons/ci";
 import { HiOutlineCalendarDateRange } from "react-icons/hi2";
 import { IoMdTime } from "react-icons/io";
-import img from "../assets/img/img1.jpg"
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { TfiAlignLeft } from "react-icons/tfi";
 import { IoMdClose } from "react-icons/io";
@@ -15,9 +13,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { setProfile, resetProfile } from '../features/userdetails/profileSlice';
 import ReasonModal from './ReasonModal';
-import RescheduleDateModal from './rescheduleDateModal';
+import RescheduleDateModal from './RescheduleDateModal';
 import dayjs from 'dayjs';
-import RaiseTicket from './RaiseTicket';
 import { getAuthAxios, getAxios } from '../utils/api';
 
 

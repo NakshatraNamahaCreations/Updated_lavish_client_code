@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import SingleCarousel from './SingleCarousel'
 
-
-import ganesha from "../assets/ganesha.jpg"
-import independence from "../assets/independence.webp"
 import CardCarousel from './CardCarousel';
 import PhotoGrid from './PhotoGrid';
 import Testimonials from './Testimonials';
@@ -55,17 +52,11 @@ import haldi from "../assets/haldi.png"
 import Mehendi from "../assets/Mehendi.png"
 import decor1 from "../assets/decor1.png"
 import decor2 from "../assets/decor2.png"
-import love from "../assets/love.png"
-import mahashivratri from "../assets/mahashivratri.png"
-import valentine from "../assets/valentine.png"
-import banner4 from "../assets/banner/banner4.jpg"
 import { MdArrowRightAlt } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion";
 import WhatsappandCallFeature from './WhatsappandCallFeature';
 import PurchasePopup from './PurchasePopup';
-import axios from 'axios';
-
 import { navigateToSubcategory } from '../utils/navigationsUtils';
 import { getAxios } from '../utils/api';
 

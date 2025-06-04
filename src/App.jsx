@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import React from "react";
 import "./App.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -21,7 +20,7 @@ import BabyShower from "./Components/BabyShower";
 import NamingCeremony from "./Components/NamingCeremony";
 import BridetoBe from "./Components/BridetoBe";
 import RingCermony from "./Components/RingCeremony";
-import GroomtoBe from "./Components/Groomtobe";
+import GroomtoBe from "./Components/GroomtoBe";
 import Entertainment from "./Components/Entertainment";
 import Photograpghy from "./Components/Photograpghy";
 import Profile from "./Components/Profile";

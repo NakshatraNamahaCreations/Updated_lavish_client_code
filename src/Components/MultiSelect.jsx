@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 import { FaRegCircle, FaCircle } from "react-icons/fa";
-import axios from "axios";
 import { getAxios } from "../utils/api";
 
 const MultiSelect = ({ disabled, defaulyballoonsColors, onSelectionChange }) => {

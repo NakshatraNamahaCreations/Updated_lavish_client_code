@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import { FaFacebookSquare, FaGoogle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../features/auth/authSlice";

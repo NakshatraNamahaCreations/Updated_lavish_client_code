@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedTimeSlot, setEventDate } from "../features/orderdetails/orderSlice";
-import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { SlCalender } from "react-icons/sl";
+
 
 const TimeSlotsModel = ({ setShowAddonsModal, setShowTimeSlots, hasAddons, timeSlots }) => {
     const [showCalendar, setShowCalendar] = useState(false);

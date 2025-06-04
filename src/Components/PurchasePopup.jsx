@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AiOutlineClose } from "react-icons/ai";
-import axios from "axios";
 
 // Image mapping based on keywords (customize as needed)
 import car from "../assets/car.png";

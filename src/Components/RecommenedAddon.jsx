@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IoCloseSharp } from "react-icons/io5";
+
 import {
   addAddonItem,
   updateAddonQuantity,

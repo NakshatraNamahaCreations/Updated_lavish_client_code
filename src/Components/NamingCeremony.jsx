@@ -25,11 +25,10 @@ import flwrbouqt from "../assets/services/flwrbouqt.png";
 import activity from "../assets/services/activity.png";
 
 import FAQ from './FAQ';
-import CancellationPolicy from './CancellationPolicy';
 import Testimonials from './Testimonials';
 import CardCarousel from './CardCarousel';
 
-import { getAuthAxios, getAxios } from '../utils/api';
+import { getAxios } from '../utils/api';
 import { navigateToSubcategory } from "../utils/navigationsUtils";
 
 const addOns = [

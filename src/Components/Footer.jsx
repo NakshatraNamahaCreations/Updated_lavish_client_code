@@ -9,7 +9,7 @@ import x from "../assets/icons/twitter.png";
 import youtube from "../assets/icons/Youtube.png";
 import { useNavigate } from 'react-router-dom';
 import CancellationPolicy from './CancellationPolicy';
-import { FaLocationDot } from "react-icons/fa6";
+
 
 
 const iconsArray = [

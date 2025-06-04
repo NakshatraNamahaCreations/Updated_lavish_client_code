@@ -1,7 +1,7 @@
 
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import photograpghyBanner from "../assets/banner/photograpghyBanner.png"
-import photographyBanner2 from "../assets/banner/photoShootPhotograpghy.png"
+import photographyBanner2 from "../assets/banner/photoshootPhotograpghy.png"
 import adultBanner3 from "../assets/banner/trustedBanner.png"
 import addonsbanner from "../assets/banner/addonsbanner.png"
 import video from "../assets/services/video.mp4"
@@ -30,10 +30,8 @@ import bornbabyShoot from "../assets/services/bornbabyShoot.png"
 
 
 import FAQ from './FAQ'
-import PhotograpghySlider from './PhotograpghySlider'
 import Testimonials from './Testimonials'
 import { Link } from 'react-router-dom'
-import CancellationPolicy from './CancellationPolicy'
 import { getAxios } from '../utils/api'
 import CardCarousel from './CardCarousel'
 

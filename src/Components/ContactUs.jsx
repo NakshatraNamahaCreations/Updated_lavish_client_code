@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { MdLocationOn } from "react-icons/md";
+
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
 import { getAuthAxios, getAxios } from '../utils/api';

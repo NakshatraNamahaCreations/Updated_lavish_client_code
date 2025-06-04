@@ -3,8 +3,6 @@ import support from "../assets/support.png"
 import phone from "../assets/phone.png"
 import whatsapp from "../assets/whatsapp.png"
 import { IoMdTime } from "react-icons/io";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import img from "../assets/img/img1.jpg"
 import { CiMoneyCheck1 } from "react-icons/ci";
 import { HiOutlineCalendarDateRange } from "react-icons/hi2";
 import DateTimeModal from './DateTimeModal';
@@ -19,7 +17,7 @@ import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 import { FaRegCircle, FaCircle } from "react-icons/fa";
 import BookingFAQs from './BookingFAQs';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+
 import {
     completeOrder,
     resetCurrentOrder,
