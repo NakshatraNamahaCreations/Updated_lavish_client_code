@@ -1,19 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import babyshowerbanner from "../assets/banner/babyshowerbanner.png"
-import babyshowerBanner2 from "../assets/banner/photoshootshower.png"
-import adultBanner3 from "../assets/banner/trustedBanner.png"
-import addonsbanner from "../assets/banner/addonsbanner.png"
-
-import decor3 from "../assets/services/babyshowerdecor3.png"
-
-import gallery1 from "../assets/services/babyshower1.png"
-import gallery2 from "../assets/services/babyshower2.png"
-import gallery3 from "../assets/services/gallery3.png"
-import gallery4 from "../assets/services/gallery4.png"
-import gallery5 from "../assets/services/babyshower5.png"
-import gallery6 from "../assets/services/babyshower6.png"
-import gallery7 from "../assets/services/gallery7.png"
-
 
 import sash from "../assets/services/sash.png"
 import cakes from "../assets/services/cakes.png"
@@ -23,9 +8,6 @@ import photography from "../assets/services/photography.png"
 import welcomeboard from "../assets/services/welcomeboard.png"
 import flwrbouqt from "../assets/services/flwrbouqt.png"
 import activity from "../assets/services/activity.png"
-
-import video from "../assets/services/video.mp4"
-
 
 import FAQ from './FAQ'
 import Testimonials from './Testimonials'
@@ -193,7 +175,7 @@ const BabyShower = () => {
     return (
         <div className='lg:py-24  pt-32  p-3  mx-auto'>
             <div>
-                <img src={babyshowerbanner} className='mx-auto w-[1600px]' />
+                <img src="https://lavisheventzz-bangalore.b-cdn.net/banner/babyshowerbanner.png" className='mx-auto w-[1600px]' />
             </div>
 
 
@@ -219,7 +201,7 @@ const BabyShower = () => {
             <Link to={WhatsAppLink} target="_blank" rel="noopener noreferrer">
                 <div className="md:my-10 my-4">
                     <img
-                        src={decor3}
+                        src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/babyshowerdecor3.png"
                         alt="Kid's Birthday Cakes"
                         className="rounded-3xl  md:w-auto md:h-auto w-48 h-40 mx-auto"
                     />
@@ -267,7 +249,7 @@ const BabyShower = () => {
 
             {/* Add ons */}
             <div className="relative inset-0 flex flex-col items-center justify-center text-center gap-5 md:my-10 my-4">
-                <img src={addonsbanner} alt="adultBanner4" className="w-[2000px] mx-auto max-h-[650px]" />
+                <img src="https://lavisheventzz-bangalore.b-cdn.net/banner/addonsbanner.png" alt="adultBanner4" className="w-[2000px] mx-auto max-h-[650px]" />
                 <h1 className="absolute top-4 md:text-4xl  text-sm font-bold text-[#1C256C] playfair-display lg:w-[50%]">
                     Make It Unforgettable with Our Exclusive Add-Ons!
                 </h1>
@@ -287,13 +269,13 @@ const BabyShower = () => {
                 <p className='md:py-8 py-4 font-bold poppins md:text-2xl'>#BabyShowerDecorationBestMovements</p>
                 <div className='flex justify-center items-center gap-1'>
                     <div className='place-items-end lg:space-y-2  space-y-1'>
-                        <img src={gallery1} className=' lg:h-40 md:h-28 h-10' />
-                        <img src={gallery2} className=' lg:h-64  ' />
+                        <img src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/babyshower1.png" className=' lg:h-40 md:h-28 h-10' />
+                        <img src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/babyshower2.png" className=' lg:h-64  ' />
                         <div className=' bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16'>
-                            <img src={gallery3} className='rounded' />
+                            <img src="https://lavisheventzz-bangalore.b-cdn.net/KidsBirthday/bdayGallery3.png" className='rounded' />
                             <video
                                 className='absolute top-0 left-0 w-full h-full object-cover opacity-80'
-                                src={video}
+                                 src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/video.mp4"
                                 autoPlay
                                 loop
                                 muted
@@ -302,14 +284,14 @@ const BabyShower = () => {
 
                     </div>
                     <div>
-                        <img src={gallery4} />
+                        <img src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/gallery4.png" />
                     </div>
                     <div className='lg:space-y-2 space-y-1'>
-                        <img src={gallery5} />
-                        <img src={gallery6} />
+                        <img src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/babyshower5.png" />
+                        <img src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/babyshower6.png"/>
                     </div>
                     <div>
-                        <img src={gallery7} />
+                        <img src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/gallery7.png" />
                     </div>
                 </div>
                 <p className='lg:absolute bottom-10 right-2 [text-shadow:_-4px_4px_3px_#7D7C7C] playfair-display md:text-7xl text-4xl font-bold text-[#FFD1D1]'>Wonderful Moments</p>
@@ -318,7 +300,7 @@ const BabyShower = () => {
 
 
             <div className='md:pt-20 py-5' onClick={() => handleNavigation("photography", "/photography")}>
-                <img src={babyshowerBanner2} className='mx-auto w-[2000px]' />
+                <img src="https://lavisheventzz-bangalore.b-cdn.net/banner/photoshootshower.png" className='mx-auto w-[2000px]' />
             </div>
 
             {customerId && <div className="md:pt-10 pt-7">
@@ -327,7 +309,7 @@ const BabyShower = () => {
             </div>}
             <div className=' '>
                 <p className='font-bold poppins md:py-6 pb-4 md:text-2xl'>Why Celebrate With Lavisheventzz</p>
-                <img src={adultBanner3} className='mx-auto w-[1600px]' />
+                <img src="https://lavisheventzz-bangalore.b-cdn.net/banner/trustedBanner.png" className='mx-auto w-[1600px]' />
             </div>
 
             <div className='my-4'>

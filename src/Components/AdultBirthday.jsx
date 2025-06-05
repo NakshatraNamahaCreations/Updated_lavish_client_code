@@ -1,25 +1,11 @@
 import React, { useEffect, useState } from "react";
-import adultBanner1 from "../assets/banner/adultBanner1.png";
-import adultBanner2 from "../assets/banner/photoshootBday.png";
-import adultBanner3 from "../assets/banner/trustedBanner.png";
-import adultBanner4 from "../assets/banner/adultbanner4.png";
-
-import bdayGallery1 from "../assets/bday/adultbday/gallery1.png";
-import bdayGallery2 from "../assets/bday/adultbday/gallery2.png";
-
-import bdayGallery3 from "../assets/services/gallery3.png";
-import bdayGallery4 from "../assets/bday/adultbday/gallery4.png";
-import bdayGallery5 from "../assets/bday/adultbday/gallery5.png";
-import bdayGallery6 from "../assets/bday/adultbday/gallery6.png";
-import bdayGallery7 from "../assets/bday/adultbday/gallery7.png";
-
 import sash from "../assets/bday/add_ons/sash.png";
 import welcomeboard from "../assets/bday/add_ons/welcomeboard.png";
 import flwrbouqt from "../assets/bday/add_ons/flwrbouqt.png";
 import photography from "../assets/bday/add_ons/photography.png";
 import cakes from "../assets/bday/add_ons/cakes.png";
 import FAQ from "./FAQ";
-import video from "../assets/services/video.mp4";
+
 import Testimonials from "./Testimonials";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAuthAxios, getAxios } from "../utils/api";
@@ -149,7 +135,7 @@ const AdultBirthday = () => {
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
       <div>
-        <img src={adultBanner1} className="mx-auto w-[1600px]" />
+        <img src="https://lavisheventzz-bangalore.b-cdn.net/banner/adultBanner1.png" className="mx-auto w-[1600px]" />
       </div>
 
       <div className="grid grid-cols-2 md:gap-10 gap-3  place-items-center lg:my-10 my-5 ">
@@ -189,7 +175,7 @@ const AdultBirthday = () => {
       {/* Add ons */}
       <div className="relative inset-0 flex flex-col items-center justify-center text-center gap-5 my-10">
         <img
-          src={adultBanner4}
+          src="https://lavisheventzz-bangalore.b-cdn.net/banner/adultbanner4.png"
           alt="adultBanner4"
           className="w-[2000px] mx-auto "
         />
@@ -216,13 +202,13 @@ const AdultBirthday = () => {
         </p>
         <div className="flex justify-center items-center gap-1">
           <div className="place-items-end lg:space-y-2  space-y-1">
-            <img src={bdayGallery1} className=" lg:h-40 md:h-28 h-10" />
-            <img src={bdayGallery2} className=" lg:h-64  " />
+            <img src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery1.png" className=" lg:h-40 md:h-28 h-10" />
+            <img src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery2.png" className=" lg:h-64  " />
             <div className=" bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
-              <img src={bdayGallery3} className="rounded" />
+              <img src="https://lavisheventzz-bangalore.b-cdn.net/KidsBirthday/bdayGallery3.png" className="rounded" />
               <video
                 className="absolute top-0 left-0 w-full h-full object-cover opacity-80"
-                src={video}
+                src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/video.mp4"
                 autoPlay
                 loop
                 muted
@@ -230,14 +216,14 @@ const AdultBirthday = () => {
             </div>
           </div>
           <div>
-            <img src={bdayGallery4} />
+            <img src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery4.png" />
           </div>
           <div className="lg:space-y-2 space-y-1">
-            <img src={bdayGallery5} />
-            <img src={bdayGallery6} />
+            <img src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery5.png" />
+            <img src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery6.png" />
           </div>
           <div>
-            <img src={bdayGallery7} />
+            <img src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery7.png" />
           </div>
         </div>
         <p className="lg:absolute bottom-10 right-2 [text-shadow:_-4px_4px_3px_#7D7C7C] playfair-display md:text-7xl text-4xl font-bold text-[#FFD1D1]">
@@ -247,7 +233,7 @@ const AdultBirthday = () => {
 
 
       <div className="md:pt-20 py-5" onClick={() => handleNavigation("photography", "/photography")}>
-        <img src={adultBanner2} className="mx-auto w-[2000px]" />
+        <img src="https://lavisheventzz-bangalore.b-cdn.net/banner/photoshootBday.png" className="mx-auto w-[2000px]" />
       </div>
 
 
@@ -260,7 +246,7 @@ const AdultBirthday = () => {
         <p className="font-bold poppins md:py-6 pb-4 md:text-2xl">
           Why Celebrate With Lavisheventzz
         </p>
-        <img src={adultBanner3} className="mx-auto w-[1600px]" />
+        <img src="https://lavisheventzz-bangalore.b-cdn.net/banner/trustedBanner.png" className="mx-auto w-[1600px]" />
       </div>
 
       <div className="my-4">

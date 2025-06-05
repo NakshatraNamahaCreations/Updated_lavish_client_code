@@ -1,19 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-
-import namingcermonyBanner from "../assets/banner/namingcermonyBanner.png";
-import namingceremonyBanner2 from "../assets/banner/photoshootnaming.png";
-import adultBanner3 from "../assets/banner/trustedBanner.png";
-import addonsbanner from "../assets/banner/addonsbanner.png";
-import decor3 from "../assets/services/namingceremonycake.png";
-import gallery1 from "../assets/services/namingcer1.png";
-import gallery2 from "../assets/services/namingcer2.png";
-import gallery3 from "../assets/services/gallery3.png";
-import gallery4 from "../assets/services/namingcer4.png";
-import gallery5 from "../assets/services/namingcer5.png";
-import gallery6 from "../assets/services/namingcer6.png";
-import gallery7 from "../assets/services/namingcer7.png";
-import video from "../assets/services/video.mp4";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import sash from "../assets/services/sash.png";
 import cakes from "../assets/services/cakes.png";
@@ -24,11 +10,11 @@ import welcomeboard from "../assets/services/welcomeboard.png";
 import flwrbouqt from "../assets/services/flwrbouqt.png";
 import activity from "../assets/services/activity.png";
 
-import FAQ from './FAQ';
-import Testimonials from './Testimonials';
-import CardCarousel from './CardCarousel';
+import FAQ from "./FAQ";
+import Testimonials from "./Testimonials";
+import CardCarousel from "./CardCarousel";
 
-import { getAxios } from '../utils/api';
+import { getAxios } from "../utils/api";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
 
 const addOns = [
@@ -53,14 +39,16 @@ const NamingCeremony = () => {
   const { subcat_id } = useParams();
   const navigate = useNavigate();
 
-  const storedUser = localStorage.getItem('user');
+  const storedUser = localStorage.getItem("user");
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
 
   const fetchSubSubcategories = async () => {
     if (!subcat_id) return;
     try {
-      const res = await getAxios().get(`subsubcategories/subcategory/${subcat_id}`);
+      const res = await getAxios().get(
+        `subsubcategories/subcategory/${subcat_id}`
+      );
       setSubSubCategories(res.data.data);
     } catch (err) {
       console.error("Error fetching sub-subcategories", err);
@@ -72,16 +60,20 @@ const NamingCeremony = () => {
     try {
       const res = await getAxios().get(`/services/filter/${subcat_id}`);
       const data = res.data;
-  
+
       if (!data.success) throw new Error("Failed to fetch services");
-  
-      const simple = data.data.filter(d =>
-        d.subSubCategoryId?.subSubCategory?.toLowerCase() === "simple decoration"
+
+      const simple = data.data.filter(
+        (d) =>
+          d.subSubCategoryId?.subSubCategory?.toLowerCase() ===
+          "simple decoration"
       );
-      const premium = data.data.filter(d =>
-        d.subSubCategoryId?.subSubCategory?.toLowerCase() === "premium decoration"
+      const premium = data.data.filter(
+        (d) =>
+          d.subSubCategoryId?.subSubCategory?.toLowerCase() ===
+          "premium decoration"
       );
-  
+
       setSimpleData(simple);
       setPremiumData(premium);
     } catch (err) {
@@ -90,13 +82,12 @@ const NamingCeremony = () => {
       setPremiumData([]);
     }
   };
-  
 
   const fetchRecentPurchase = async () => {
     try {
       const res = await getAxios().get(`/orders/recent-orders/${customerId}`);
       const purchases = res.data.services || [];
-      setServiceDetails(purchases.map(item => item.serviceDetails));
+      setServiceDetails(purchases.map((item) => item.serviceDetails));
     } catch (err) {
       console.error("Error fetching recent purchases", err);
     }
@@ -112,7 +103,6 @@ const NamingCeremony = () => {
     });
   };
 
-
   useEffect(() => {
     fetchSubSubcategories();
     fetchServices();
@@ -127,15 +117,22 @@ const NamingCeremony = () => {
   const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
 
   return (
-    <div className='lg:py-24 md:pt-20 pt-32 p-3 mx-auto'>
-
-      <img src={namingcermonyBanner} className='mx-auto w-[1600px]' alt="Naming Ceremony Banner" />
+    <div className="lg:py-24 md:pt-20 pt-32 p-3 mx-auto">
+      <img
+        src="https://lavisheventzz-bangalore.b-cdn.net/banner/namingcermonyBanner.png"
+        className="mx-auto w-[1600px]"
+        alt="Naming Ceremony Banner"
+      />
 
       <div className="grid grid-cols-2 gap-x-8 md:gap-y-14 gap-y-5 md:place-items-center lg:mt-20 mt-10">
         {subSubCategories.map((item) => (
           <div className="relative" key={item._id}>
             <Link to={`/service/${item._id}`}>
-              <img src={`${item.image}`} alt={item.subSubCategory} className="rounded-3xl w-[500px]" />
+              <img
+                src={`${item.image}`}
+                alt={item.subSubCategory}
+                className="rounded-3xl w-[500px]"
+              />
             </Link>
             <p className="text-primary pt-4 md:text-3xl text-xl text-center font-medium carter">
               {item.subSubCategory}
@@ -146,96 +143,173 @@ const NamingCeremony = () => {
 
       <Link to={WhatsAppLink} target="_blank" rel="noopener noreferrer">
         <div className="md:my-10 my-5 text-center">
-          <img src={decor3} className="rounded-3xl md:w-[500px] h-auto w-44 mx-auto" alt="Naming Ceremony Cake" />
-          <p className="text-primary md:pt-4 md:text-3xl text-center font-medium carter">Naming ceremony cake</p>
+          <img
+            src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingceremonycake.png"
+            className="rounded-3xl md:w-[500px] h-auto w-44 mx-auto"
+            alt="Naming Ceremony Cake"
+          />
+          <p className="text-primary md:pt-4 md:text-3xl text-center font-medium carter">
+            Naming ceremony cake
+          </p>
         </div>
       </Link>
 
       <div className="px-10">
         {/* Simple Decoration */}
         <div className="mt-5">
-          <p className="lg:text-2xl text-primary font-bold playfair-display">Simple Decoration Service</p>
-          {simpleData.length ? <CardCarousel centercardData={simpleData} /> : <p className="text-gray-500 text-center mt-4">Simple Decoration Service Not Found</p>}
+          <p className="lg:text-2xl text-primary font-bold playfair-display">
+            Simple Decoration Service
+          </p>
+          {simpleData.length ? (
+            <CardCarousel centercardData={simpleData} />
+          ) : (
+            <p className="text-gray-500 text-center mt-4">
+              Simple Decoration Service Not Found
+            </p>
+          )}
         </div>
 
         {/* Premium Decoration */}
         <div className="mt-10">
-          <p className="lg:text-2xl text-primary font-bold playfair-display">Premium Decoration Service</p>
-          {premiumData.length ? <CardCarousel centercardData={premiumData} /> : <p className="text-gray-500 text-center mt-4">Premium Decoration Service Not Found</p>}
+          <p className="lg:text-2xl text-primary font-bold playfair-display">
+            Premium Decoration Service
+          </p>
+          {premiumData.length ? (
+            <CardCarousel centercardData={premiumData} />
+          ) : (
+            <p className="text-gray-500 text-center mt-4">
+              Premium Decoration Service Not Found
+            </p>
+          )}
         </div>
       </div>
 
       {/* Add-ons */}
       <div className="relative text-center md:my-10 my-4">
-        <img src={addonsbanner} className="w-[2000px] mx-auto max-h-[650px]" alt="Addons Banner" />
-        <h1 className="absolute top-4 md:text-4xl text-sm font-bold text-[#1C256C] playfair-display lg:w-[50%]">Make It Unforgettable with Our Exclusive Add-Ons!</h1>
+        <img
+          src="https://lavisheventzz-bangalore.b-cdn.net/banner/addonsbanner.png"
+          className="w-[2000px] mx-auto max-h-[650px]"
+          alt="Addons Banner"
+        />
+        <h1 className="absolute top-4 md:text-4xl text-sm font-bold text-[#1C256C] playfair-display lg:w-[50%]">
+          Make It Unforgettable with Our Exclusive Add-Ons!
+        </h1>
         <div className="absolute top-14 md:top-36 grid grid-cols-4 lg:gap-10 gap-2 place-items-center">
           {addOns.map((item, idx) => (
-            <img key={idx} src={item.src} alt={item.title} className="cursor-pointer object-cover lg:px-10 md:px-4 px-1" />
+            <img
+              key={idx}
+              src={item.src}
+              alt={item.title}
+              className="cursor-pointer object-cover lg:px-10 md:px-4 px-1"
+            />
           ))}
         </div>
       </div>
 
       {/* Gallery */}
-      <div className='relative mx-auto text-center md:mt-10'>
-        <p className='py-8 font-bold poppins md:text-2xl'>#NamingCeremonyDecorationBestMovements</p>
-        <div className='flex justify-center items-center gap-1'>
-          <div className='lg:space-y-2 space-y-1'>
-            <img src={gallery1} className='lg:h-40 md:h-28 h-10' />
-            <img src={gallery2} className='lg:h-64' />
-            <div className='relative bg-gray-600 overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16'>
-              <img src={gallery3} className='rounded' />
-              <video className='absolute top-0 left-0 w-full h-full object-cover opacity-80' src={video} autoPlay loop muted />
+      <div className="relative mx-auto text-center md:mt-10">
+        <p className="py-8 font-bold poppins md:text-2xl">
+          #NamingCeremonyDecorationBestMovements
+        </p>
+        <div className="flex justify-center items-center gap-1">
+          <div className="lg:space-y-2 space-y-1">
+            <img
+              src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer1.png"
+              className="lg:h-40 md:h-28 h-10"
+            />
+            <img
+              src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer2.png"
+              className="lg:h-64"
+            />
+            <div className="relative bg-gray-600 overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
+              <img
+                src="https://lavisheventzz-bangalore.b-cdn.net/KidsBirthday/bdayGallery3.png"
+                className="rounded"
+              />
+              <video
+                className="absolute top-0 left-0 w-full h-full object-cover opacity-80"
+                src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/video.mp4"
+                autoPlay
+                loop
+                muted
+              />
             </div>
           </div>
-          <img src={gallery4} />
-          <div className='lg:space-y-2 space-y-1'>
-            <img src={gallery5} />
-            <img src={gallery6} />
+          <img src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer4.png" />
+          <div className="lg:space-y-2 space-y-1">
+            <img src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer5.png" />
+            <img src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer6.png" />
           </div>
-          <img src={gallery7} />
+          <img src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer7.png" />
         </div>
-        <p className='lg:absolute bottom-10 right-2 [text-shadow:_-4px_4px_3px_#7D7C7C] playfair-display md:text-7xl text-4xl font-bold text-[#FFD1D1]'>Wonderful Moments</p>
+        <p className="lg:absolute bottom-10 right-2 [text-shadow:_-4px_4px_3px_#7D7C7C] playfair-display md:text-7xl text-4xl font-bold text-[#FFD1D1]">
+          Wonderful Moments
+        </p>
       </div>
 
       {/* Redirect to photography */}
-      <div className='md:pt-20 py-5' onClick={() => handleNavigation("photography", "/photography")}>
-        <img src={namingceremonyBanner2} className='mx-auto w-[2000px]' alt="Photography Banner" />
+      <div
+        className="md:pt-20 py-5"
+        onClick={() => handleNavigation("photography", "/photography")}
+      >
+        <img
+          src="https://lavisheventzz-bangalore.b-cdn.net/banner/photoshootnaming.png"
+          className="mx-auto w-[2000px]"
+          alt="Photography Banner"
+        />
       </div>
 
       {/* Recently Purchased */}
-      {customerId && <div className="md:pt-10 pt-7">
-        <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
-        <CardCarousel centercardData={serviceDetails} />
-      </div>}
+      {customerId && (
+        <div className="md:pt-10 pt-7">
+          <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+          <CardCarousel centercardData={serviceDetails} />
+        </div>
+      )}
 
       {/* Why Celebrate */}
       <div>
-        <p className='font-bold poppins md:py-6 pb-4 md:text-2xl'>Why Celebrate With Lavisheventzz</p>
-        <img src={adultBanner3} className='mx-auto w-[1600px]' alt="Why Celebrate" />
+        <p className="font-bold poppins md:py-6 pb-4 md:text-2xl">
+          Why Celebrate With Lavisheventzz
+        </p>
+        <img
+          src="https://lavisheventzz-bangalore.b-cdn.net/banner/trustedBanner.png"
+          className="mx-auto w-[1600px]"
+          alt="Why Celebrate"
+        />
       </div>
 
       {/* FAQs & Cancellation Policy */}
-      <div className='my-4'>
-        <p className='text-center font-bold poppins text-2xl'>FAQs</p>
-       
-        <div className='lg:w-[70%] md:w-[80%] mx-auto my-6'>
-          <p className='font-bold poppins py-8'>Pick a query related to your issue</p>
+      <div className="my-4">
+        <p className="text-center font-bold poppins text-2xl">FAQs</p>
+
+        <div className="lg:w-[70%] md:w-[80%] mx-auto my-6">
+          <p className="font-bold poppins py-8">
+            Pick a query related to your issue
+          </p>
           <FAQ />
         </div>
       </div>
 
       {/* Testimonials */}
       <div>
-        <p className='font-bold poppins md:text-2xl'>Recent Customer Reviews</p>
+        <p className="font-bold poppins md:text-2xl">Recent Customer Reviews</p>
         <Testimonials />
       </div>
 
       {/* Final CTA */}
-      <div className='md:px-10 px-4'>
-        <p className='font-bold poppins py-8 text-2xl'>Hire the Best Balloon Decorators for Your Child’s Naming Ceremony Celebration.</p>
-        <p className='font-bold'>
-          Make your little one's naming ceremony extra special with elegant and heartwarming balloon décor! Our expert decorators create stunning balloon arches, charming centerpieces, and personalized arrangements to match your chosen theme and venue. Whether it’s an intimate home gathering or a grand celebration, we ensure every detail adds a touch of joy and elegance to this precious occasion.
+      <div className="md:px-10 px-4">
+        <p className="font-bold poppins py-8 text-2xl">
+          Hire the Best Balloon Decorators for Your Child’s Naming Ceremony
+          Celebration.
+        </p>
+        <p className="font-bold">
+          Make your little one's naming ceremony extra special with elegant and
+          heartwarming balloon décor! Our expert decorators create stunning
+          balloon arches, charming centerpieces, and personalized arrangements
+          to match your chosen theme and venue. Whether it’s an intimate home
+          gathering or a grand celebration, we ensure every detail adds a touch
+          of joy and elegance to this precious occasion.
         </p>
       </div>
     </div>

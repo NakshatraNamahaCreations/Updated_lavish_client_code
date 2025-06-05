@@ -15,13 +15,7 @@ import {
   recalculateTotals
 } from "../features/orderdetails/orderSlice";
 
-// Import assets
-import barbieTheme from "../assets/barbie_theme.png";
-import junlgletheme from "../assets/jungle_theme.png";
-import mermaidTheme from "../assets/Mermaid_theme.png";
-import butterflyTheme from "../assets/butterfly_theme.png";
-import traditionalTheme from "../assets/traditional_theme.png";
-import pastelTheme from "../assets/pastel_theme.png";
+
 import { GrLocation } from "react-icons/gr";
 import { SlCalender } from "react-icons/sl";
 
@@ -31,12 +25,6 @@ import support from "../assets/support.png";
 import phone from "../assets/phone.png";
 import whatsapp from "../assets/whatsapp.png";
 
-import img1 from "../assets/butterfly_theme.png";
-import img2 from "../assets/candleImg3.png";
-import img3 from "../assets/categoryimg1.png";
-import img4 from "../assets/categoryimg8.png";
-import img5 from "../assets/momentsgallery7.png";
-import img6 from "../assets/navImg4.png";
 import TimeSlotsModel from "./TimeSlotsModel";
 import RecommenedAddon from "./RecommenedAddon";
 import { GoHeartFill, GoHeart } from "react-icons/go";
@@ -56,55 +44,7 @@ import Review from "./Review";
 import CardCarousel from "./CardCarousel";
 import { getAuthAxios, getAxios } from "../utils/api";
 
-// Static images for carousel
-const images = [
-  barbieTheme,
-  junlgletheme,
-  mermaidTheme,
-  butterflyTheme,
-  traditionalTheme,
-  pastelTheme,
-];
 
-// Static data for recently viewed - fixed to include _id property
-const recentlyViewed = [
-  {
-    _id: "1", // Added _id property
-    serviceName: "Male Anchor for Entertainment",
-    price: "1,499",
-    cardImg: img1,
-  },
-  {
-    _id: "2", // Added _id property
-    serviceName: "Caricature Artist",
-    price: "1,499",
-    cardImg: img2,
-  },
-  {
-    _id: "3", // Added _id property
-    serviceName: "Cartoon Mascot",
-    price: "1,499",
-    cardImg: img3,
-  },
-  {
-    _id: "4", // Added _id property
-    serviceName: "Cotton Candy",
-    price: "1,499",
-    cardImg: img4,
-  },
-  {
-    _id: "5", // Added _id property
-    serviceName: "Cartoon Mascot",
-    price: "1,499",
-    cardImg: img5,
-  },
-  {
-    _id: "6", // Added _id property
-    serviceName: "Caricature Artist",
-    price: "1,499",
-    cardImg: img6,
-  },
-];
 
 
 const timeSlotsBasic = [

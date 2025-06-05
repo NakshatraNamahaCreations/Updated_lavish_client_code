@@ -5,11 +5,11 @@ import { getAxios } from "../utils/api";
 
 // Only show banner for these exact subcategories
 const banners = {
-  "Candlelight Decoration": "/images/candlelight.png",
-  "Balloon Bouquet": "/images/bouquetBanner.png",
-  "House warming Decoration": "/images/housewarming.png",
-  "Surprise Gifts": "/images/giftbanner.png",
-  "Proposal Decoration": "/images/proposalbanner.png",
+  "Candlelight Decoration": "https://lavisheventzz-bangalore.b-cdn.net/banner/candlelight.png",
+  "Balloon Bouquet": "https://lavisheventzz-bangalore.b-cdn.net/banner/bouquetBanner.png",
+  "House warming Decoration": "https://lavisheventzz-bangalore.b-cdn.net/banner/housewarming.png",
+  "Surprise Gifts": "https://lavisheventzz-bangalore.b-cdn.net/banner/giftbanner.png",
+  "Proposal Decoration": "https://lavisheventzz-bangalore.b-cdn.net/banner/proposalbanner.png",
 };
 
 const Service = () => {

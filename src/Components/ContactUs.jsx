@@ -52,7 +52,7 @@ const ContactUs = () => {
         </div>
         <div className='place-items-center p-4 md:p-10 lg:p-0'>
           <img
-            src="https://plus.unsplash.com/premium_photo-1674644777961-0bbb1fde69d9?q=80&w=1384&auto=format&fit=crop"
+            src="https://lavisheventzz-bangalore.b-cdn.net/contact.avif"
             className="shadow-[15px_20px_2px_black] md:w-[80%] md:h-[500px] object-cover"
             alt="Contact"
           />

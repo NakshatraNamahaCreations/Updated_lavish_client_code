@@ -1,12 +1,12 @@
 import React from 'react'
-import banner from "../assets/banner/aboutBanner.png"
+
 
 const About = () => {
 
     return (
         <div className='lg:pt-24 pt-28 mx-auto'>
             <div className='relative mx-auto w-full lg:h-[500px] '>
-                <img src={banner} className='w-full h-full object-cover' />
+                <img src="https://lavisheventzz-bangalore.b-cdn.net/banner/aboutBanner.png" className='w-full h-full object-cover' />
                 <div className='w-56 md:w-auto absolute top-1/2 transform -translate-y-1/2 lg:right-48 right-0 text-center playfair-display  text-white md:space-y-6'>
                     <p className='md:text-7xl [text-shadow:_-4px_2px_2px_#AA6300] '> Lavish Eventzz </p>
                     <p className='md:text-4xl italic'>Spread the Smile </p>
