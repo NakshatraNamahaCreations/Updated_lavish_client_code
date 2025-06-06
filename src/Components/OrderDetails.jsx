@@ -168,7 +168,7 @@ const OrderDetails = () => {
                         </h1>
                         <ul className="list-disc">
                             <li> If the vendor did not show up after the booking amount is paid, on those unfortunate occasions we do refund the full amount paid by the customer.</li>
-                            <li> The refund amount for the service orders paid via online or credit/debit card will be refunded within 5–7 working days from the date of initiating the refund through the online account. </li>
+                            <li> If the refund is approved, it will get credited in the respective payment source within 7-10 days. </li>
                             <li> Please carefully review the Cancellation and Refund policies before making a purchase, as you will be held accountable to these policies. To cancel or reschedule, please email us at lavisheventzz@gmail.com or reach out to us via call or WhatsApp number at +91 9620558000. </li>
                         </ul>
                         <h1 className="font-bold text-black">

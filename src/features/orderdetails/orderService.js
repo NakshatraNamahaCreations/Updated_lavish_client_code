@@ -1,6 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
 const API_URL = 'https://api.lavisheventzz.com/api/orders';
+// const API_URL = "http://localhost:5000/api/orders";
 
 // Create new order
 const createOrder = async (orderData, token) => {
@@ -31,4 +32,4 @@ const orderService = {
   getMyOrders,
 };
 
-export default orderService; 
+export default orderService;

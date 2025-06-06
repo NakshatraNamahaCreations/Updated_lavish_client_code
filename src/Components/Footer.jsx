@@ -81,6 +81,8 @@ const Footer = () => {
                             {/* <li onClick={toggleModal}>Terms & Conditions</li> */}
                             <li onClick={() => handleNavigation("/terms-conditions")}>Terms & Conditions</li>
                             <li onClick={() => handleNavigation("/privacy-policy")}>Privacy Policy</li>
+                            <li onClick={() => handleNavigation("/return-refund")}>Return & Refund Policy</li>
+                            <li onClick={() => handleNavigation("/shipping-delivery")}>Shipping & delivery Policy</li>
                         </ul>
 
                         <CancellationPolicy isOpen={isOpen} toggleModal={toggleModal} />

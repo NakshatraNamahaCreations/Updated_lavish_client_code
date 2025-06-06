@@ -32,7 +32,7 @@ const Login = () => {
                 localStorage.setItem("user", JSON.stringify(user));
                 dispatch(setCredentials({ user, accessToken }));
                 console.log("Logged in User :", response.data);
-                navigate("/profile");
+                navigate("/");
             } else {
                 setError("Something went wrong");
             }

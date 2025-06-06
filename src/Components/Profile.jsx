@@ -347,15 +347,35 @@ const UpcomingBookings = () => {
 };
 
 const ProfileForm = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile);
   const [error, setError] = useState(null);
 
-  // Handle input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    dispatch(setProfile({ [name]: value }));
-  };
+
+const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  // Validate alternateMobile: digits only, max 10 digits
+  if (name === "alternateMobile") {
+    if (!/^\d*$/.test(value)) return;
+    if (value.length > 10) return;
+  }
+
+  // Validate pincode: digits only, exactly 6 digits max
+  if (name === "pincode") {
+    if (!/^\d*$/.test(value)) return;
+    if (value.length > 6) return;
+  }
+
+  // Validate names: letters only
+  if ((name === "firstName" || name === "lastName") && !/^[a-zA-Z]*$/.test(value)) {
+    return;
+  }
+
+  dispatch(setProfile({ [name]: value }));
+};
+
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -411,6 +431,7 @@ const ProfileForm = () => {
 
       if (response.status === 200) {
         alert("Profile updated successfully");
+        navigate("/");
       } else {
         setError(response.data.message || "Error updating profile");
       }
@@ -457,6 +478,7 @@ const ProfileForm = () => {
               onChange={handleChange}
               className="border border-gray-300 outline-none rounded my-2 p-2 py-1 w-[90%]"
               required
+              disabled
             />
           </label>
           <label>
@@ -620,14 +642,15 @@ const Profile = () => {
 
   const handleLogout = async () => {
     try {
-      // Get the access token from localStorage
+      const confirmLogout = window.confirm("Are you sure you want to log out?");
+      if (!confirmLogout) return; // User cancelled
+
       const token = localStorage.getItem("accessToken");
       if (!token) {
         alert("You are not logged in.");
         return;
       }
 
-      // Include the token in the Authorization header
       const response = await getAxios().post(
         "/auth/logout",
         {},

@@ -3,7 +3,7 @@ import React from "react";
 
 const TermsConditions = () => {
     return (
-        <div className="max-w-6xl mx-auto px-6 py-10 bg-white text-gray-800 mt-20">
+        <div className="max-w-6xl mx-auto px-6 py-10 bg-white text-gray-800 md:mt-16 mt-24">
             <h1 className="text-3xl font-bold mb-6 text-purple-800">Terms and Conditions</h1>
             <p className="mb-6 italic text-sm text-gray-600">Effective Date: 26/05/2025</p>
 
@@ -44,7 +44,7 @@ const TermsConditions = () => {
                 <h2 className="text-xl font-semibold mb-2">4. Cancellation and Refunds</h2>
                 <ul className="list-disc list-inside space-y-1">
                     <li>Cancellation policies, including deadlines and any applicable fees, will be specified in the event agreement.</li>
-                    <li>Refund eligibility depends on the timing of your cancellation and the terms of your agreement.</li>
+                    <li>If the refund is approved, it will get credited in the respective payment source within 7-10 days.</li>
                     <li>Non-refundable deposits may apply, as stated in the event contract.</li>
                 </ul>
             </section>

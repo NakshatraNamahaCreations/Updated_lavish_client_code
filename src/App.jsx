@@ -35,6 +35,8 @@ import OrderDetails from "./Components/OrderDetails";
 import PrivacyPolicy from "./Components/PrivacyPolicy";
 import TermsConditions from "./Components/TermsConditions";
 import Invoice from "./Components/Invoice";
+import ReturnRefund from "./Components/ReturnRefund";
+import ShippingDelivery from "./Components/ShippingDelivery";
 
 
 function App() {
@@ -70,6 +72,8 @@ function App() {
           <Route path="/all-services" element={<AllServices />} />
           <Route path="/orderDetails/:id" element={<OrderDetails />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/return-refund" element={<ReturnRefund />} />
+          <Route path="/shipping-delivery" element={<ShippingDelivery />} />
           <Route path="/terms-conditions" element={<TermsConditions />} />
           <Route path="/invoice/:id" element={<Invoice />} />
           <Route path="*" element={<HomePage />} />
