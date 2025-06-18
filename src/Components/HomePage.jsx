@@ -223,6 +223,8 @@ const HomePage = () => {
         <WhatsappandCallFeature />
       </div> */}
 
+      
+
       <PurchasePopup />
 
       <SingleCarousel banner={banner} />

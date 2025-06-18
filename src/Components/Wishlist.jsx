@@ -1,7 +1,7 @@
-
 import React, { useEffect, useState } from 'react';
 import { GoHeartFill, GoHeart } from "react-icons/go";
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { getAuthAxios, getAxios } from '../utils/api';
 
 // WishlistCard Component
@@ -14,6 +14,8 @@ const WishlistCard = ({ item, onRemove }) => {
 
 
     const handleRemove = async () => {
+        const loadingToast = toast.loading("Removing from wishlist...");
+        
         try {
             const serviceIdToUse = serviceId?._id;
             const customerIdToUse = customerId?._id;
@@ -22,9 +24,11 @@ const WishlistCard = ({ item, onRemove }) => {
 
             if (res.status === 200) {
                 onRemove(serviceIdToUse);
+                toast.success("Item removed from wishlist", { id: loadingToast });
             }
         } catch (error) {
             console.error('Error removing from wishlist:', error);
+            toast.error("Error removing item from wishlist", { id: loadingToast });
         }
     };
 

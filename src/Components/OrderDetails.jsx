@@ -9,6 +9,9 @@ const OrderDetails = () => {
     const [loading, setLoading] = useState(true);
     // Tickets state
     const [tickets, setTickets] = useState([]);
+    const [ticketStatus, setTicketStatus] = useState(null);
+    const [hasTicket, setHasTicket] = useState(false);
+    const [checkingTicket, setCheckingTicket] = useState(false);
 
     // Modal open state
     const [showTicketModal, setShowTicketModal] = useState(false);
@@ -19,6 +22,9 @@ const OrderDetails = () => {
                 const res = await getAxios().get(`/orders/orderDetails/${id}`);
                 setOrder(res.data.data);
                 console.log("orderdetails", res.data.data);
+                
+                // Check ticket status for this order
+                await checkTicketStatus(res.data.data.orderId);
             } catch (err) {
                 console.error('Failed to fetch order:', err.message);
             } finally {
@@ -27,6 +33,21 @@ const OrderDetails = () => {
         };
         fetchOrder();
     }, [id]);
+
+    const checkTicketStatus = async (orderId) => {
+        try {
+            setCheckingTicket(true);
+            const response = await getAxios().get(`/tickets/check-status/${orderId}`);
+            if (response.data.success) {
+                setHasTicket(response.data.data.hasTicket);
+                setTicketStatus(response.data.data.ticketStatus);
+            }
+        } catch (error) {
+            console.error('Error checking ticket status:', error);
+        } finally {
+            setCheckingTicket(false);
+        }
+    };
 
     if (loading) return <div className="p-10 text-center text-xl font-medium">Loading...</div>;
     if (!order) return <div className="p-10 text-center text-red-600 text-xl font-semibold">Order not found.</div>;
@@ -59,10 +80,32 @@ const OrderDetails = () => {
                     <div className={`px-3 py-1 rounded-full text-sm font-medium ${statusColors[order.orderStatus] || 'bg-gray-200 text-gray-800'}`}>
                         {order.orderStatus}
                     </div>
-                    {order.orderStatus === "completed" && <button className={`mt-2 px-3 py-1 rounded-full text-sm font-medium bg-primary text-white`}
-                        onClick={() => setShowTicketModal(true)}>
-                        Raise Ticket
-                    </button>}
+                    {order.orderStatus === "completed" && (
+                        <div className="mt-2">
+                            {checkingTicket ? (
+                                <div className="text-sm text-gray-500">Checking ticket status...</div>
+                            ) : hasTicket ? (
+                                <div className="flex flex-col gap-1">
+                                    <button 
+                                        className="px-3 py-1 rounded-full text-sm font-medium bg-gray-400 text-white cursor-not-allowed"
+                                        disabled
+                                    >
+                                        Already Raised
+                                    </button>
+                                    <div className="text-xs text-gray-600">
+                                        Status: {ticketStatus || 'Unknown'}
+                                    </div>
+                                </div>
+                            ) : (
+                                <button 
+                                    className="px-3 py-1 rounded-full text-sm font-medium bg-primary text-white hover:bg-primary/90 transition-colors"
+                                    onClick={() => setShowTicketModal(true)}
+                                >
+                                    Raise Ticket
+                                </button>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -71,7 +114,10 @@ const OrderDetails = () => {
                 <h2 className="font-semibold text-lg mb-2">Customer & Event Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
                     <div><strong>Customer Name:</strong> {order.customerName}</div>
-                    <div><strong>Alt Mobile:</strong> {order.altMobile || 'N/A'}</div>
+                    <div><strong>Email:</strong> {order.customerId?.email || 'N/A'}</div>
+                    <div><strong>Alter Mobile:</strong> {order.customerId?.alternateMobile || 'N/A'}</div>
+                    <div><strong>Mobile:</strong> {order.customerId?.mobile || 'N/A'}</div>
+
                     <div>
                         <strong>Occasion:</strong> {order.occasion}
                         {order.occasion === 'others' && order.otherOccasion ? ` (${order.otherOccasion})` : ''}
@@ -90,7 +136,22 @@ const OrderDetails = () => {
                 </div>
             </div>
 
-
+            {/* Balloon Colors */}
+            {order.balloonsColor && order.balloonsColor.length > 0 && (
+                <div className="bg-white p-4 shadow rounded">
+                    <h2 className="font-semibold text-lg mb-2">Balloon Colors</h2>
+                    <div className="flex flex-wrap gap-2">
+                        {order.balloonsColor.map((color, index) => (
+                            <span
+                                key={index}
+                                className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium"
+                            >
+                                {color}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {/* Items Details - Services & Addons */}
             <section className="bg-white p-6 rounded-lg shadow-md">
@@ -99,7 +160,7 @@ const OrderDetails = () => {
                     {order.items.map((item, index) => (
                         <div key={item._id} className="flex flex-col md:flex-row gap-4 border-b pb-4 last:border-0">
                             <img
-                                src={`http://localhost:5000/images/${item.image}`}
+                                src={`${item.image}`}
                                 alt={item.serviceName}
                                 className="w-full md:w-48 h-36 object-cover rounded-lg shadow-sm"
                             />
@@ -191,6 +252,11 @@ const OrderDetails = () => {
                 isOpen={showTicketModal}
                 onClose={() => setShowTicketModal(false)}
                 orderId={order.orderId}
+                onTicketCreated={() => {
+                    setHasTicket(true);
+                    setTicketStatus('raised');
+                    setShowTicketModal(false);
+                }}
             />
         </div>
     );

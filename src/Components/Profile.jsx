@@ -207,7 +207,7 @@ const UpcomingBookings = () => {
 
             const serviceName = mainService?.serviceName || "No Service Name";
             const serviceImage = mainService?.image
-              ? `/${mainService.image}`
+              ? `${mainService.image}`
               : "";
 
             const isRescheduled = !!order.rescheduledEventDate;

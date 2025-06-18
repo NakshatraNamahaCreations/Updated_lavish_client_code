@@ -39,6 +39,7 @@ import { persistor } from "../app/store";
 
 import { setProfile, resetProfile } from "../features/userdetails/profileSlice";
 import { getAuthAxios, getAxios, getUploadAxios } from "../utils/api";
+import { store } from "../app/store";
 
 const ProfileForm = () => {
   const dispatch = useDispatch();
@@ -507,17 +508,6 @@ const Checkout = () => {
     };
   }, [showModal]);
 
-  // const handleChange = (e) => {
-  //     const { name, value, type } = e.target;
-
-  //     if (type === "radio") {
-  //         dispatch(setSource(value));
-  //     } else {
-  //         dispatch(setVenueAddress(value));
-  //         dispatch(setAddress(value));
-  //     }
-  // };
-
   // Format date for display
 
   const formatDate = (date) => {
@@ -657,8 +647,8 @@ const Checkout = () => {
           item.categoryType === "service"
             ? "Service"
             : item.categoryType === "addon"
-            ? "Addon"
-            : item.categoryType;
+              ? "Addon"
+              : item.categoryType;
 
         // Get the refId based on item type
         let refId;
@@ -740,11 +730,22 @@ const Checkout = () => {
       if (response.data.success) {
         console.log("Order created successfully:", response.data.data);
         alert("Order created successfully");
+        
         // Clear form and state
         dispatch(resetCurrentOrder());
         setSelectedCoupon("");
         setSelectedNotification(false);
         dispatch(completeOrder());
+
+        // Reset persist:root data
+        try {
+          localStorage.removeItem('persist:root');
+          if (persistor && persistor.purge) {
+            await persistor.purge();
+          }
+        } catch (error) {
+          console.error("Error resetting persisted data:", error);
+        }
 
         // Redirect to order confirmation page
         navigate(`/thank-you`);
@@ -776,7 +777,7 @@ const Checkout = () => {
     }
   };
 
-  const handleDeleteAll = async () => {
+  const hanlderesetCurrentOrder = async () => {
     // Purge redux-persist storage if used
     if (persistor && persistor.purge) {
       await persistor.purge();
@@ -1063,7 +1064,7 @@ const Checkout = () => {
                 </h2>
                 <button
                   className="text-primary bg-red-500 text-white px-4 py-1 rounded-md"
-                  onClick={handleDeleteAll}
+                  onClick={hanlderesetCurrentOrder}
                 >
                   Cancel Order
                 </button>
@@ -1119,25 +1120,25 @@ const Checkout = () => {
                     {/* Add-ons Section */}
                     {items.filter((item) => item.categoryType === "addon")
                       .length > 0 && (
-                      <div className="mt-2 border border-gray-200 p-2 rounded-lg bg-gray-50">
-                        <h3 className="text-sm font-semibold text-gray-800">
-                          Add-ons:
-                        </h3>
-                        {items
-                          .filter((item) => item.categoryType === "addon")
-                          .map((addon, index) => (
-                            <div
-                              key={index}
-                              className="flex justify-between items-center text-sm text-gray-700"
-                            >
-                              <span>{addon.serviceName}</span>
-                              <span>
-                                {addon.price} x {addon.quantity}
-                              </span>
-                            </div>
-                          ))}
-                      </div>
-                    )}
+                        <div className="mt-2 border border-gray-200 p-2 rounded-lg bg-gray-50">
+                          <h3 className="text-sm font-semibold text-gray-800">
+                            Add-ons:
+                          </h3>
+                          {items
+                            .filter((item) => item.categoryType === "addon")
+                            .map((addon, index) => (
+                              <div
+                                key={index}
+                                className="flex justify-between items-center text-sm text-gray-700"
+                              >
+                                <span>{addon.serviceName}</span>
+                                <span>
+                                  {addon.price} x {addon.quantity}
+                                </span>
+                              </div>
+                            ))}
+                        </div>
+                      )}
                   </div>
                 </div>
 
@@ -1201,20 +1202,20 @@ const Checkout = () => {
                   {/* Add-ons Total */}
                   {items.filter((item) => item.categoryType === "addon")
                     .length > 0 && (
-                    <div className="flex justify-between items-center">
-                      <p className="">Add-ons Total</p>
-                      <p className="text-right">
-                        Rs.{" "}
-                        {items
-                          .filter((item) => item.categoryType === "addon")
-                          .reduce(
-                            (total, addon) =>
-                              total + addon.price * addon.quantity,
-                            0
-                          )}
-                      </p>
-                    </div>
-                  )}
+                      <div className="flex justify-between items-center">
+                        <p className="">Add-ons Total</p>
+                        <p className="text-right">
+                          Rs.{" "}
+                          {items
+                            .filter((item) => item.categoryType === "addon")
+                            .reduce(
+                              (total, addon) =>
+                                total + addon.price * addon.quantity,
+                              0
+                            )}
+                        </p>
+                      </div>
+                    )}
 
                   {/* Delivery Charges */}
                   <div className="flex justify-between items-center">
@@ -1246,11 +1247,10 @@ const Checkout = () => {
                   {selectedPayPercentage === "100" &&
                     (selectedCoupon !== "" ? (
                       <div
-                        className={`flex gap-4 text-lg ${
-                          selectedPayPercentage === "50"
+                        className={`flex gap-4 text-lg ${selectedPayPercentage === "50"
                             ? "text-gray-400"
                             : "text-black"
-                        }`}
+                          }`}
                       >
                         <div className="w-full">
                           <div className="w-full flex items-center">
@@ -1380,7 +1380,7 @@ const Checkout = () => {
               setShowModal={setShowModal}
               timeSlots={
                 items.find((item) => item.categoryType === "service")?.price >
-                4000
+                  4000
                   ? timeSlotsPremium
                   : timeSlotsBasic
               }

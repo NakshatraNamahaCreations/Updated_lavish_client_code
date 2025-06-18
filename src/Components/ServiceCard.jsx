@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { GoHeartFill, GoHeart } from "react-icons/go";
 import { IoIosStar } from "react-icons/io";
 import axios from "axios";
+import toast from "react-hot-toast";
 import { getAuthAxios, getAxios } from "../utils/api";
 
 const ServiceCard = ({ service }) => {
@@ -12,17 +13,19 @@ const ServiceCard = ({ service }) => {
   const storedUser = localStorage.getItem('user');
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
-const authAxios = getAuthAxios()
+  const authAxios = getAuthAxios()
+
+
   useEffect(() => {
     const checkWishlistStatus = async () => {
       if (!customerId || !service?._id) return;
-      
+
       try {
         const response = await getAxios().get(`/wishlist/${customerId}`);
         const wishlistItems = response.data.wishlist;
         const isServiceInWishlist = wishlistItems.some(item => item.serviceId._id === service._id);
         setIsInWishlist(isServiceInWishlist);
-        
+
       } catch (error) {
         console.error("Error checking wishlist status:", error);
       }
@@ -34,16 +37,19 @@ const authAxios = getAuthAxios()
   const handleWishlist = async () => {
     if (!customerId) {
       // Handle case when user is not logged in
-      alert("Please login to add items to wishlist");
+      toast.error("Please login to add items to wishlist");
       return;
     }
 
     setIsLoading(true);
+    const loadingToast = toast.loading(isInWishlist ? "Removing from wishlist..." : "Adding to wishlist...");
+    
     try {
       if (isInWishlist) {
         // Remove from wishlist
         await authAxios.delete(`/wishlist/remove-item/${customerId}/${service._id}`);
         setIsInWishlist(false);
+        toast.success("Item removed from wishlist", { id: loadingToast });
       } else {
         // Add to wishlist with all required fields
         await authAxios.post(`/wishlist/create/`, {
@@ -54,10 +60,11 @@ const authAxios = getAuthAxios()
           serviceImages: service.images || []
         });
         setIsInWishlist(true);
+        toast.success("Item added to wishlist", { id: loadingToast });
       }
     } catch (error) {
       console.error("Error updating wishlist:", error);
-      alert(error.response?.data?.message || "Error updating wishlist");
+      toast.error(error.response?.data?.message || "Error updating wishlist", { id: loadingToast });
     } finally {
       setIsLoading(false);
     }

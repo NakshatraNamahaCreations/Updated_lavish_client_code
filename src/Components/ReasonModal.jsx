@@ -40,7 +40,7 @@ const ReasonModal = ({
 
     const endpoint = isCancelling
       ? `/orders/cancelOrder/${selectedOrder._id}`
-      : `/api/orders/rescheduleOrder/${selectedOrder._id}`;
+      : `/orders/rescheduleOrder/${selectedOrder._id}`;
 
     try {
       const response = await getAuthAxios().put(endpoint, payload);

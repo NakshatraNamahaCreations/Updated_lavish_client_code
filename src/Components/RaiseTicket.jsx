@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { getAuthAxios } from '../utils/api';
 
-const RaiseTicketModal = ({ isOpen, onClose, orderId }) => {
+const RaiseTicketModal = ({ isOpen, onClose, orderId, onTicketCreated }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -27,6 +26,10 @@ const RaiseTicketModal = ({ isOpen, onClose, orderId }) => {
         alert('Ticket raised successfully!');
         setFormData({ title: '', description: '', mobileNumber: '' });
         onClose();
+        // Call the callback to update parent component state
+        if (onTicketCreated) {
+          onTicketCreated();
+        }
       } else {
         alert('Failed to raise ticket.');
       }
