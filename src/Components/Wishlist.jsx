@@ -77,21 +77,29 @@ const Wishlist = () => {
     const userData = JSON.parse(storedUser);
     const customerId = userData?.id;
     const [wishlistItems, setWishlistItems] = useState([]);
-
+    const [isLoggedIn, setIsLoggedIn] = useState(!!customerId);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        if (!customerId) {
+            setIsLoggedIn(false);
+            setLoading(false);
+            toast.error("Please log in to see your wishlist.");
+            return;
+        }
+        setIsLoggedIn(true);
         const checkWishlistStatus = async () => {
-            if (!customerId) return;
             try {
-                const response = await getAxios().get(`/api/wishlist/${customerId}`);
+                const response = await getAxios().get(`/wishlist/${customerId}`);
                 const wishlistItems = response.data.wishlist;
                 setWishlistItems(wishlistItems);
+                setLoading(false);
                 console.log("wishlistItems", wishlistItems);
             } catch (error) {
+                setLoading(false);
                 console.error("Error checking wishlist status:", error);
             }
         };
-
         checkWishlistStatus();
     }, [customerId]);
 
@@ -108,7 +116,11 @@ const Wishlist = () => {
         <div className='lg:p-2 lg:pt-24 pt-32 p-4 mx-auto'>
             <h1 className='text-3xl text-center font-bold  py-6'>Your wishlist</h1>
             <div className='flex md:space-x-16 lg:gap-8 flex-wrap md:justify-center justify-between'>
-                {wishlistItems.length > 0 ? wishlistItems.map((item) => (
+                {loading ? (
+                    <p className='text-center text-xl mt-10'>Loading...</p>
+                ) : !isLoggedIn ? (
+                    <p className='text-center text-xl mt-10 text-red-500'>Please log in to see your wishlist.</p>
+                ) : wishlistItems.length > 0 ? wishlistItems.map((item) => (
                     <WishlistCard key={item._id} item={item} onRemove={handleRemove} />
                 )) : <p className='text-center text-2xl  mt-10'>No items in wishlist</p>}
             </div>

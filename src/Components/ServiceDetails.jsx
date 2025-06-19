@@ -434,6 +434,22 @@ const ServiceDetails = () => {
     }
   };
 
+  // Calculate extra charge for special time slots
+  let extraSlotCharge = 0;
+  let extraSlotLabel = '';
+  if (serviceDetails && selectedTimeSlot) {
+    if (selectedTimeSlot === "09:00 PM - 12:00 PM (15%)") {
+      extraSlotCharge = Math.round((serviceDetails.offerPrice || 0) * 0.15);
+      extraSlotLabel = 'Night Slot Extra (15%)';
+    } else if (selectedTimeSlot === "08:00 AM - 12:00 PM (10%)") {
+      extraSlotCharge = Math.round((serviceDetails.offerPrice || 0) * 0.10);
+      extraSlotLabel = 'Morning Slot Extra (10%)';
+    }
+  }
+
+  // Calculate total price for display
+  const totalPrice = (serviceDetails?.offerPrice || 0) + addonTotal + (deliveryCharges || 0) + extraSlotCharge;
+
   return (
     <div className="lg:py-28 lg:px-10 p-4 pt-32 mx-auto">
       {loading ? (
@@ -565,8 +581,13 @@ const ServiceDetails = () => {
                     <div className="flex justify-end items-end flex-col">
                       <p>Total Price</p>
                       <p className="font-bold">
-                        {formatCurrency(serviceDetails?.offerPrice + addonTotal + (deliveryCharges || 0))}
+                        {formatCurrency((serviceDetails?.offerPrice || 0) + addonTotal + (deliveryCharges || 0) + extraSlotCharge)}
                       </p>
+                      {extraSlotCharge > 0 && (
+                        <div className="text-sm text-orange-600 mt-1">
+                          <p>+ {extraSlotLabel}: {formatCurrency(extraSlotCharge)}</p>
+                        </div>
+                      )}
                       {deliveryCharges > 0 && (
                         <div className="text-sm text-gray-500 mt-1">
                           <p>(Including delivery Chareges)</p>
@@ -747,13 +768,13 @@ const ServiceDetails = () => {
                   <div>
                     <p>Total Price</p>
                     <p className="font-bold">
-                      {formatCurrency(serviceDetails?.offerPrice + addonTotal + (deliveryCharges || 0))}
+                      {formatCurrency((serviceDetails?.offerPrice || 0) + addonTotal + (deliveryCharges || 0) + extraSlotCharge)}
                     </p>
-                    {/* {deliveryCharges > 0 && (
-                      <div className="text-sm text-gray-500 mt-1">
-                        <p>Including delivery</p>
+                    {extraSlotCharge > 0 && (
+                      <div className="text-sm text-orange-600 mt-1">
+                        <p>+ {extraSlotLabel}: {formatCurrency(extraSlotCharge)}</p>
                       </div>
-                    )} */}
+                    )}
                   </div>
 
                   {/* Buttons */}

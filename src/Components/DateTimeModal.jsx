@@ -87,7 +87,21 @@ const DateTimeModal = ({ setShowModal, timeSlots }) => {
                                     selected={selectedDate}
                                     onChange={handleDateChange}
                                     placeholderText='Select Date & Time'
-                                    minDate={new Date()}
+                                    minDate={(() => {
+                                      const today = new Date();
+                                      today.setHours(0,0,0,0);
+                                      if (selectedDate) {
+                                        const selected = new Date(selectedDate);
+                                        selected.setHours(0,0,0,0);
+                                        if (selected.getTime() === today.getTime()) {
+                                          return today; // allow today
+                                        }
+                                      }
+                                      const tomorrow = new Date();
+                                      tomorrow.setDate(today.getDate() + 1);
+                                      tomorrow.setHours(0,0,0,0);
+                                      return tomorrow;
+                                    })()}
                                     className='w-full outline-none'
                                     dateFormat="dd-MM-yyyy"
                                     inline

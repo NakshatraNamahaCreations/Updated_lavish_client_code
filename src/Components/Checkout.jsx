@@ -592,6 +592,25 @@ const Checkout = () => {
     fetchCoupons();
   }, []);
 
+  // Calculate extra charge for special time slots
+  let extraSlotCharge = 0;
+  let extraSlotLabel = '';
+  const mainService = items.find((item) => item.categoryType === "service");
+  if (mainService && selectedTimeSlot) {
+    if (selectedTimeSlot === "09:00 PM - 12:00 PM (15%)") {
+      extraSlotCharge = Math.round(mainService.price * 0.15);
+      extraSlotLabel = 'Night Slot Extra (15%)';
+    } else if (selectedTimeSlot === "08:00 AM - 12:00 PM (10%)") {
+      extraSlotCharge = Math.round(mainService.price * 0.10);
+      extraSlotLabel = 'Morning Slot Extra (10%)';
+    }
+  }
+
+  // When calculating grandTotal and subTotal, add extraSlotCharge
+  // We'll override the values for display and for orderData
+  const displaySubTotal = Number(subTotal || 0) + extraSlotCharge;
+  const displayGrandTotal = Number(grandTotal || 0) + extraSlotCharge;
+
   const handleProceedToPay = async () => {
     try {
       // Check if user is logged in
@@ -695,8 +714,8 @@ const Checkout = () => {
         eventTime: selectedTimeSlot,
         pincode: pincode,
         balloonsColor: balloonsColor || [],
-        subTotal: Number(subTotal || 0),
-        grandTotal: Number(grandTotal || 0),
+        subTotal: displaySubTotal,
+        grandTotal: displayGrandTotal,
         paidAmount: Number(amountToPay || 0),
         dueAmount: Number(duePayment || 0),
         deliveryCharges: Number(deliveryCharges || 0),
@@ -1151,7 +1170,7 @@ const Checkout = () => {
                                     /> */}
 
                   <h1 className="font-semibold text-xl text-gray-900">
-                    Rs. {grandTotal}
+                    Rs. {displayGrandTotal}
                   </h1>
                 </div>
               </div>
@@ -1193,9 +1212,7 @@ const Checkout = () => {
                   <div className="flex justify-between items-center">
                     <p className="">Base Service</p>
                     <p className="text-right">
-                      Rs.{" "}
-                      {items.find((item) => item.categoryType === "service")
-                        ?.price || 0}
+                      Rs. {mainService?.price || 0}
                     </p>
                   </div>
 
@@ -1205,8 +1222,7 @@ const Checkout = () => {
                       <div className="flex justify-between items-center">
                         <p className="">Add-ons Total</p>
                         <p className="text-right">
-                          Rs.{" "}
-                          {items
+                          Rs. {items
                             .filter((item) => item.categoryType === "addon")
                             .reduce(
                               (total, addon) =>
@@ -1217,6 +1233,14 @@ const Checkout = () => {
                       </div>
                     )}
 
+                  {/* Extra Slot Charge */}
+                  {extraSlotCharge > 0 && (
+                    <div className="flex justify-between items-center text-orange-600 font-semibold">
+                      <p>{extraSlotLabel}</p>
+                      <p>+ Rs. {extraSlotCharge}</p>
+                    </div>
+                  )}
+
                   {/* Delivery Charges */}
                   <div className="flex justify-between items-center">
                     <p className="">Delivery Charges</p>
@@ -1226,7 +1250,7 @@ const Checkout = () => {
                   {/* Subtotal before GST */}
                   <div className="flex justify-between items-center font-medium">
                     <p className="">Subtotal </p>
-                    <p className="text-right">Rs. {subTotal}</p>
+                    <p className="text-right">Rs. {displaySubTotal}</p>
                   </div>
 
                   {/* Coupon Discount */}
@@ -1244,85 +1268,92 @@ const Checkout = () => {
                                     </div> */}
 
                   {/* Coupon Section */}
-                  {selectedPayPercentage === "100" &&
-                    (selectedCoupon !== "" ? (
-                      <div
-                        className={`flex gap-4 text-lg ${selectedPayPercentage === "50"
-                            ? "text-gray-400"
-                            : "text-black"
-                          }`}
-                      >
-                        <div className="w-full">
-                          <div className="w-full flex items-center">
-                            <p className="text-sm">
-                              Coupon {selectedCoupon} (
-                              {selectedCouponData?.discount}% OFF)
-                            </p>
-                            <button onClick={handleRemoveCoupon}>
-                              <MdDelete className="cursor-pointer" size={20} />
-                            </button>
+                  {selectedPayPercentage === "100" && (
+                    <div>
+                      {selectedCoupon !== "" ? (
+                        <div
+                          className={`flex gap-4 text-lg ${selectedPayPercentage === "50"
+                              ? "text-gray-400"
+                              : "text-black"
+                            }`}
+                        >
+                          <div className="w-full">
+                            <div className="w-full flex items-center">
+                              <p className="text-sm">
+                                Coupon {selectedCoupon} (
+                                {selectedCouponData?.discount}% OFF)
+                              </p>
+                              <button onClick={handleRemoveCoupon}>
+                                <MdDelete className="cursor-pointer" size={20} />
+                              </button>
+                            </div>
+                            {selectedPayPercentage === "50" && (
+                              <small className="text-red-400">
+                                Coupon not applicable for 50% Payment
+                              </small>
+                            )}
                           </div>
-                          {selectedPayPercentage === "50" && (
-                            <small className="text-red-400">
-                              Coupon not applicable for 50% Payment
-                            </small>
+                          <p className="text-red-400">
+                            {selectedPayPercentage === "50"
+                              ? "-0"
+                              : `-${couponDiscount}`}
+                          </p>
+                        </div>
+                      ) : (
+                        <div>
+                          <div
+                            className="flex items-center gap-4 md:mx-4 md:px-4 px-2 py-2 rounded-md text-black bg-purple-400 cursor-pointer"
+                            onClick={() => setShowCoupon(!showCoupon)}
+                          >
+                            <div className="w-full flex items-center gap-2">
+                              <TbRosetteDiscount /> Coupon
+                            </div>
+                            <button className="underline">View</button>
+                          </div>
+                          {showCoupon && (
+                            coupons.length > 0 ? (
+                              <div className="max-h-[240px] overflow-y-scroll my-2 md:w-[90%] mx-auto scrollbar-hide">
+                                {coupons.map((coupon, idx) => (
+                                  <div
+                                    key={idx}
+                                    className="flex border border-primary rounded-md h-auto mt-2 cursor-pointer hover:shadow-sm transition text-xs"
+                                    onClick={() => {
+                                      applyCoupon(coupon.couponCode);
+                                      setShowCoupon(false);
+                                    }}
+                                  >
+                                    {/* Left - Discount */}
+                                    <div className="flex items-center justify-center bg-primary text-white px-2 py-1 w-[60px]">
+                                      <h1 className="-rotate-90 font-bold whitespace-nowrap text-[10px]">
+                                        {coupon.discount}% OFF
+                                      </h1>
+                                    </div>
+
+                                    {/* Right - Coupon Details */}
+                                    <div className="flex flex-col justify-center px-3 py-0">
+                                      <h1 className="font-semibold text-sm text-primary">
+                                        {coupon.couponName}
+                                      </h1>
+                                      <p className="text-gray-700 mt-1">
+                                        {coupon.couponDetails}
+                                      </p>
+                                      <small className="text-gray-500 mt-1">
+                                        Use code{" "}
+                                        <span className="font-medium text-black">
+                                          {coupon.couponCode}
+                                        </span>{" "}
+                                        and save {coupon.discount}%!
+                                      </small>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            ) : (
+                              <div className="text-center text-gray-500 mt-2">No coupons available</div>
+                            )
                           )}
                         </div>
-                        <p className="text-red-400">
-                          {selectedPayPercentage === "50"
-                            ? "-0"
-                            : `-${couponDiscount}`}
-                        </p>
-                      </div>
-                    ) : (
-                      <div>
-                        <div
-                          className="flex items-center gap-4 md:mx-4 md:px-4 px-2 py-2 rounded-md text-black bg-purple-400 cursor-pointer"
-                          onClick={() => setShowCoupon(!showCoupon)}
-                        >
-                          <div className="w-full flex items-center gap-2">
-                            <TbRosetteDiscount /> Coupon
-                          </div>
-                          <button className="underline">View</button>
-                        </div>
-                      </div>
-                    ))}
-                  {showCoupon && coupons.length > 0 && (
-                    <div className="max-h-[240px] overflow-y-scroll my-2 md:w-[90%] mx-auto scrollbar-hide">
-                      {coupons.map((coupon, idx) => (
-                        <div
-                          key={idx}
-                          className="flex border border-primary rounded-md h-auto mt-2 cursor-pointer hover:shadow-sm transition text-xs"
-                          onClick={() => {
-                            applyCoupon(coupon.couponCode);
-                            setShowCoupon(false);
-                          }}
-                        >
-                          {/* Left - Discount */}
-                          <div className="flex items-center justify-center bg-primary text-white px-2 py-1 w-[60px]">
-                            <h1 className="-rotate-90 font-bold whitespace-nowrap text-[10px]">
-                              {coupon.discount}% OFF
-                            </h1>
-                          </div>
-
-                          {/* Right - Coupon Details */}
-                          <div className="flex flex-col justify-center px-3 py-0">
-                            <h1 className="font-semibold text-sm text-primary">
-                              {coupon.couponName}
-                            </h1>
-                            <p className="text-gray-700 mt-1">
-                              {coupon.couponDetails}
-                            </p>
-                            <small className="text-gray-500 mt-1">
-                              Use code{" "}
-                              <span className="font-medium text-black">
-                                {coupon.couponCode}
-                              </span>{" "}
-                              and save {coupon.discount}%!
-                            </small>
-                          </div>
-                        </div>
-                      ))}
+                      )}
                     </div>
                   )}
                 </div>
@@ -1333,7 +1364,7 @@ const Checkout = () => {
                     <p className="">Grand Total</p>
                     <p className="flex items-center font-semibold text-right text-black">
                       <BiRupee size={24} />
-                      {grandTotal}
+                      {displayGrandTotal}
                     </p>
                   </div>
                   {/* {selectedPayPercentage === "50" && (

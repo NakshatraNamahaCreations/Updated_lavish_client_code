@@ -7,7 +7,7 @@ import { getAxios } from "../utils/api";
 const banners = {
   "Candlelight Decoration": "https://lavisheventzz-bangalore.b-cdn.net/banner/candlelight.png",
   "Balloon Bouquet": "https://lavisheventzz-bangalore.b-cdn.net/banner/bouquetBanner.png",
-  "House warming Decoration": "https://lavisheventzz-bangalore.b-cdn.net/banner/housewarming.png",
+  "House Warming Decoration": "https://lavisheventzz-bangalore.b-cdn.net/banner/housewarming.png",
   "Surprise Gifts": "https://lavisheventzz-bangalore.b-cdn.net/banner/giftbanner.png",
   "Proposal Decoration": "https://lavisheventzz-bangalore.b-cdn.net/banner/proposalbanner.png",
 };

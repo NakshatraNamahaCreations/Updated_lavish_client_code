@@ -67,15 +67,6 @@ const TimeSlotsModel = ({
             />
             <div>
               <span>{slot}</span>
-              <br />
-              <span className="text-red-500 text-sm">
-                {slot === "09:00 PM - 12:00 PM (15%)" &&
-                  "Chances of getting this slot is 15%"}
-              </span>
-              <span className="text-red-500 text-sm">
-                {slot === "08:00 AM - 12:00 PM (10%)" &&
-                  "Chances of getting this slot is 10%"}
-              </span>
             </div>
           </label>
         ))}

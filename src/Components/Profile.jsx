@@ -17,6 +17,7 @@ import RescheduleDateModal from "./RescheduleDateModal";
 import dayjs from "dayjs";
 import { getAuthAxios, getAxios } from "../utils/api";
 import { logout, reset } from "../features/auth/authSlice";
+
 import axios from "axios";
 
 const PastBookings = () => {
@@ -664,6 +665,7 @@ const Profile = () => {
       if (response.status === 200) {
         dispatch(logout());
         dispatch(reset());
+        dispatch(resetProfile());
         navigate("/login");
       }
     } catch (error) {
