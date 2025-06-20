@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import PurchasePopup from "./PurchasePopup";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
 import { getAxios } from "../utils/api";
-
+import WhatsappandCallFeature from "./WhatsappandCallFeature"
 const occasions = [
   {
     src: "https://lavisheventzz-bangalore.b-cdn.net/better_together.png",
@@ -219,9 +219,9 @@ const HomePage = () => {
   return (
     <div className="container md:pt-24 pt-32  mx-auto">
       {/* // Whatsapp and call Icons */}
-      {/* <div className=" fixed bottom-5 right-5 lg:flex flex-col gap-3 z-50">
+      {/* <div className=" fixed bottom-[100px] right-5 lg:flex flex-col gap-3 z-50"> */}
         <WhatsappandCallFeature />
-      </div> */}
+      {/* </div> */}
 
       
 

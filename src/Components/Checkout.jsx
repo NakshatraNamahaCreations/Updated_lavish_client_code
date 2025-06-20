@@ -724,7 +724,9 @@ const Checkout = () => {
         paymentType: selectedPayPercentage === "50" ? "half" : "full",
         address: address.trim(),
         items: processedItems,
-        customerName: userData.firstName + " " + userData.lastName || "Guest",
+        customerName: userData?.firstName && userData?.lastName
+          ? userData.firstName + " " + userData.lastName
+          : "Guest",
         customerId: userData.id,
         occasion: currentOrder.occasion,
         decorLocation: currentOrder.decorLocation,
@@ -749,7 +751,7 @@ const Checkout = () => {
       if (response.data.success) {
         console.log("Order created successfully:", response.data.data);
         alert("Order created successfully");
-        
+
         // Clear form and state
         dispatch(resetCurrentOrder());
         setSelectedCoupon("");
@@ -1273,8 +1275,8 @@ const Checkout = () => {
                       {selectedCoupon !== "" ? (
                         <div
                           className={`flex gap-4 text-lg ${selectedPayPercentage === "50"
-                              ? "text-gray-400"
-                              : "text-black"
+                            ? "text-gray-400"
+                            : "text-black"
                             }`}
                         >
                           <div className="w-full">

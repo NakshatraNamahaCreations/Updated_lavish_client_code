@@ -75,7 +75,7 @@ const Photograpghy = () => {
   const handleWhatsappRedirect = (value) => {
     const message = `Hello, I want to know more about ${value}.`;
     const encodedMessage = encodeURIComponent(message);
-    const WhatsAppLink = `https://wa.me/919611430158?text=${encodedMessage}`;
+    const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
     window.open(WhatsAppLink, "_blank");
     console.log(WhatsAppLink);
   };

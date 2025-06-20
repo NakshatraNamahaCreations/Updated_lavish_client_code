@@ -67,6 +67,11 @@ const imagelist = [
   // },
 ];
 
+const handleWhatsappRedirect = (activity) => {
+  const message = encodeURIComponent(`Hi, I'm interested in the ${activity} entertainment activity. Please provide more details.`);
+  window.open(`https://wa.me/919620558000?text=${message}`, '_blank');
+};
+
 const Entertainment = () => {
   const [recentPurchase, setRecentPurchase] = useState([]);
   const [serviceDetails, setServiceDetails] = useState([]);
@@ -229,7 +234,7 @@ const Entertainment = () => {
       </div>
       <div className="md:px-10 px-4">
         <p className="font-bold poppins py-8 text-2xl">
-          Hire the Best Balloon Decorators for Your Child’s Entertainment &
+          Hire the Best Balloon Decorators for Your Child's Entertainment &
           Activities Party
         </p>
         <p className="font-bold">
@@ -237,7 +242,7 @@ const Entertainment = () => {
           vibrant and creative balloon décor! Our expert decorators transform
           any venue into a lively and dynamic space with eye-catching balloon
           arches, playful centerpieces, and interactive balloon sculptures.
-          Whether it’s a game night, carnival-themed party, or a fun-filled
+          Whether it's a game night, carnival-themed party, or a fun-filled
           celebration, we customize every detail to match your theme and keep
           the energy high. Let us bring the wow factor while you and your guests
           enjoy an unforgettable experience. Book your party balloon décor today

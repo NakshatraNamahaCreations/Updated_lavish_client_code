@@ -144,7 +144,7 @@ const PurchasePopup = () => {
       try {
         const response = await getAxios().get("/orders/recent-orders");
         const { orders } = response.data;
-
+        console.log("orders popup:", orders)
         //First filter the items to only include those with categoryType "Service"
         const formatted = orders.flatMap((order) =>
           order.items

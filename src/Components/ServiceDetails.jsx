@@ -557,8 +557,8 @@ const ServiceDetails = () => {
                               }`}
                           >
                             {selectedDate
-                              ? selectedDate.toLocaleDateString()
-                              : "Select Date & Time"}
+                              ? selectedDate.toLocaleDateString('en-GB').replace(/\//g, '-')
+                              : 'Select Date'}
                           </p>
                           <SlCalender />
                         </div>
