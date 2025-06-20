@@ -735,6 +735,7 @@ const Checkout = () => {
         addNote: currentOrder.addNote || "",
         orderStatus: "created",
         venueAddress: address.trim(),
+        slotExtraCharge: extraSlotCharge,
         ...(currentOrder.occasion === "others" && {
           otherOccasion: currentOrder.otherOccasion,
         }),

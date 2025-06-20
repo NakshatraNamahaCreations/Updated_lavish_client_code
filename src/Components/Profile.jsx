@@ -239,7 +239,7 @@ const UpcomingBookings = () => {
               <div
                 key={order._id}
                 className="border border-gray-300 lg:p-4 p-2 rounded my-4 cursor-pointer"
-                onClick={() => handleCardClick(order._id)}
+         
               >
                 <div className="flex lg:gap-4 gap-2 lg:items-center">
                   <img
@@ -273,7 +273,7 @@ const UpcomingBookings = () => {
                       Package Amount: ₹{packageAmount || "N/A"}
                     </p>
 
-                    <div className="flex gap-2">
+                    {/* <div className="flex gap-2">
                       {canReschedule && (
                         <button
                           onClick={(e) => {
@@ -298,6 +298,31 @@ const UpcomingBookings = () => {
                           Cancel
                         </button>
                       )}
+                    </div> */}
+
+
+                    <div className="flex gap-2">
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation() 
+                          handleCardClick(order._id)
+                        }}
+                        className="mt-2 px-4 py-1 text-sm bg-purple-800 text-white rounded hover:bg-purple-600"
+                      >
+                        Order Details
+                      </button>
+
+
+                      <button
+                        onClick={(e) => {
+                          navigate(`/service/details/${order._id}`)
+                        }}
+                        className="mt-2 px-4 py-1 text-sm bg-gray-500 text-white rounded hover:bg-gray-600"
+                      >
+                        Re-order
+                      </button>
+
                     </div>
                   </div>
                 </div>
@@ -354,28 +379,28 @@ const ProfileForm = () => {
   const [error, setError] = useState(null);
 
 
-const handleChange = (e) => {
-  const { name, value } = e.target;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
-  // Validate alternateMobile: digits only, max 10 digits
-  if (name === "alternateMobile") {
-    if (!/^\d*$/.test(value)) return;
-    if (value.length > 10) return;
-  }
+    // Validate alternateMobile: digits only, max 10 digits
+    if (name === "alternateMobile") {
+      if (!/^\d*$/.test(value)) return;
+      if (value.length > 10) return;
+    }
 
-  // Validate pincode: digits only, exactly 6 digits max
-  if (name === "pincode") {
-    if (!/^\d*$/.test(value)) return;
-    if (value.length > 6) return;
-  }
+    // Validate pincode: digits only, exactly 6 digits max
+    if (name === "pincode") {
+      if (!/^\d*$/.test(value)) return;
+      if (value.length > 6) return;
+    }
 
-  // Validate names: letters only
-  if ((name === "firstName" || name === "lastName") && !/^[a-zA-Z]*$/.test(value)) {
-    return;
-  }
+    // Validate names: letters only
+    if ((name === "firstName" || name === "lastName") && !/^[a-zA-Z]*$/.test(value)) {
+      return;
+    }
 
-  dispatch(setProfile({ [name]: value }));
-};
+    dispatch(setProfile({ [name]: value }));
+  };
 
 
   useEffect(() => {
@@ -676,9 +701,8 @@ const Profile = () => {
   return (
     <div className="flex lg:mt-24 mt-32 lg:px-4 overflow-y-hidden h-[86vh]">
       <div
-        className={`lg:w-[25%] border  bg-white mr-4 border-gray-300 lg:rounded-xl rounded-e-lg p-4 pt-6 lg:shadow-md fixed h-[86vh] ${
-          isMobile ? "hidden" : "block"
-        }`}
+        className={`lg:w-[25%] border  bg-white mr-4 border-gray-300 lg:rounded-xl rounded-e-lg p-4 pt-6 lg:shadow-md fixed h-[86vh] ${isMobile ? "hidden" : "block"
+          }`}
       >
         <div className="text-center">
           <img
@@ -695,9 +719,8 @@ const Profile = () => {
             {sideBarlinks.map((item, index) => (
               <li
                 key={index}
-                className={`flex gap-4 items-center text-lg cursor-pointer ${
-                  currentRoute === item.link ? "text-primary font-semibold" : ""
-                }`}
+                className={`flex gap-4 items-center text-lg cursor-pointer ${currentRoute === item.link ? "text-primary font-semibold" : ""
+                  }`}
                 onClick={() => setCurrentRoute(item.link)}
               >
                 {item.icon}
@@ -744,11 +767,10 @@ const Profile = () => {
                 {sideBarlinks.map((item, index) => (
                   <li
                     key={index}
-                    className={`flex gap-4 items-center text-lg cursor-pointer ${
-                      currentRoute === item.link
+                    className={`flex gap-4 items-center text-lg cursor-pointer ${currentRoute === item.link
                         ? "text-primary font-semibold"
                         : ""
-                    }`}
+                      }`}
                     onClick={() => {
                       setCurrentRoute(item.link);
                       setShowSidebar(false);
@@ -782,9 +804,8 @@ const Profile = () => {
             {sideBarlinks.map((item, index) => (
               <li
                 key={index}
-                className={`flex gap-4 items-center cursor-pointer text-2xl ${
-                  currentRoute === item.link ? "text-primary font-semibold" : ""
-                }`}
+                className={`flex gap-4 items-center cursor-pointer text-2xl ${currentRoute === item.link ? "text-primary font-semibold" : ""
+                  }`}
                 onClick={() => setCurrentRoute(item.link)}
               >
                 {item.icon}

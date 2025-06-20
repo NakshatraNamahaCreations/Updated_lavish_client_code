@@ -62,7 +62,7 @@ const OrderDetails = () => {
 
 
     return (
-        <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
+        <div className="max-w-6xl mx-auto px-4 lg:py-8 py-20 space-y-8">
             <h1 className="text-3xl font-bold text-gray-800 mb-6">Order Details</h1>
             <Link to={`/invoice/${order._id}`} >
                 <div className='text-end mt-10' >
@@ -208,6 +208,9 @@ const OrderDetails = () => {
                     {/* <div><strong>GST:</strong> ₹{order.gstAmount}</div> */}
                     <div><strong>Paid:</strong> ₹{order.paidAmount}</div>
                     {/* <div><strong>Due:</strong> ₹{order.dueAmount}</div> */}
+                    {order.slotExtraCharge > 0 && (
+                      <div><strong>Slot Extra Charge:</strong> ₹{order.slotExtraCharge}</div>
+                    )}
                     <div><strong>Grand Total:</strong> ₹{order.grandTotal}</div>
                 </div>
 

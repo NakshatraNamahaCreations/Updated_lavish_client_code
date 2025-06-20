@@ -52,7 +52,7 @@ const Invoice = () => {
     const grandTotal = order.grandTotal || 0;
 
     return (
-        <div className="mt-24 p-4 max-w-4xl mx-auto">
+        <div className="lg:mt-24 mt-32 p-4 max-w-4xl mx-auto">
             {/* Buttons */}
             <div className="mb-4 flex justify-end space-x-4">
                 <button
@@ -136,13 +136,14 @@ const Invoice = () => {
                     </>
                 )}
 
-
-
                 {/* Summary */}
                 <div className="text-sm text-right space-y-2">
                     <div><strong>Subtotal:</strong> ₹{subtotal}</div>
                     <div><strong>Delivery Charges:</strong> ₹{deliveryCharges}</div>
                     <div><strong>Coupon Discount:</strong> -₹{couponDiscount}</div>
+                    {order.slotExtraCharge > 0 && (
+                      <div><strong>Slot Extra Charge:</strong> ₹{order.slotExtraCharge}</div>
+                    )}
                     <div className="border-t pt-2 font-semibold">
                         <span className="mr-2">Grand Total:</span> ₹{grandTotal}
                     </div>
