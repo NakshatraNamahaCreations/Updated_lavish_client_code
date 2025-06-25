@@ -10,6 +10,11 @@ const banners = {
   "House Warming Decoration": "https://lavisheventzz-bangalore.b-cdn.net/banner/housewarming.png",
   "Surprise Gifts": "https://lavisheventzz-bangalore.b-cdn.net/banner/giftbanner.png",
   "Proposal Decoration": "https://lavisheventzz-bangalore.b-cdn.net/banner/proposalbanner.png",
+  "Mundan Ceremony":"https://lavisheventzz-bangalore.b-cdn.net/banner/mundan.jpg",
+  "Haldi Decor":"https://lavisheventzz-bangalore.b-cdn.net/banner/haldi.jpg",
+  "Mehendi Decor":"https://lavisheventzz-bangalore.b-cdn.net/banner/mendhi.jpg",
+  "Rice Ceremony Decor":"https://lavisheventzz-bangalore.b-cdn.net/banner/riceceremony.jpg",
+  "Retirement Decoration":"https://lavisheventzz-bangalore.b-cdn.net/banner/retirment.jpg",
 };
 
 const Service = () => {
@@ -49,7 +54,7 @@ const Service = () => {
       } catch (error) {
         console.error("Error fetching services:", error.message);
         setServices([]);
-        setSubCatTitle("Error Loading Services");
+        // setSubCatTitle("Error Loading Services");
         setBannerImg(null);
       } finally {
         setLoading(false);
@@ -89,7 +94,7 @@ const Service = () => {
 
       <div className="flex justify-between items-center mb-5 md:px-10">
         <div>
-          <h1 className="text-2xl font-bold">{subCatTitle} Services</h1>
+          <h1 className="text-2xl font-bold">{subCatTitle} </h1>
         </div>
 
         {services.length > 0 && (

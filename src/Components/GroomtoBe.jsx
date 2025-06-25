@@ -262,7 +262,7 @@ const GroomtoBe = () => {
           <div className="place-items-end lg:space-y-2  space-y-1">
             <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/groomtobe1.png" className=" lg:h-40 md:h-28 h-10" />
             <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/groomtobe2.png" className=" lg:h-64  " />
-            <div className=" bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
+            {/* <div className=" bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
               <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/gallery3.png" className="rounded" />
               <video
                 className="absolute top-0 left-0 w-full h-full object-cover opacity-80"
@@ -271,7 +271,8 @@ const GroomtoBe = () => {
                 loop
                 muted
               />
-            </div>
+            </div> */}
+               <img src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg" className=" lg:h-40 md:h-28 h-10 rounded-xl" />
           </div>
           <div>
             <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/groomtobe4.png"/>

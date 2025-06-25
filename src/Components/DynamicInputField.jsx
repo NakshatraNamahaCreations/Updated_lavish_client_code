@@ -93,7 +93,7 @@ const DynamicInputField = ({ item, index, onChange }) => {
 
       case "radio":
         return options.length > 0 ? (
-          <div className="grid grid-cols-4 ">
+          <div className="grid md:grid-cols-4 grid-cols-2 ">
             {options.map((opt, i) => (
               <label key={i} className="bg-white flex items-center gap-2 bg-gray-100 px-3 py-1 rounded cursor-pointer">
                 <input

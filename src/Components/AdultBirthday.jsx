@@ -12,6 +12,7 @@ import { getAuthAxios, getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
 
+
 const addOns = [
   {
     src: sash,
@@ -59,7 +60,7 @@ const AdultBirthday = () => {
       console.error("Error fetching recent purchase:", error);
     }
   }
-  
+
   const fetchSubSubcategoriesBySubCategory = async () => {
     if (!subcat_id) return;
     try {
@@ -77,15 +78,15 @@ const AdultBirthday = () => {
   const fetchServices = async () => {
     try {
       const response = await getAxios().get(`/services/filter/${subcat_id}`);
-  
+
       const data = response.data;
-  
+
       if (response.status === 404) {
         console.warn("No services found for this subcategory.");
         setAllServices([]);
         return;
       }
-  
+
       if (data.success) {
         console.log("data", data.data);
         setAllServices(data.data);
@@ -93,7 +94,7 @@ const AdultBirthday = () => {
         console.warn("API returned success: false");
         setAllServices([]);
       }
-  
+
     } catch (error) {
       if (error.response && error.response.status === 404) {
         console.warn("No services found (404).");
@@ -103,7 +104,7 @@ const AdultBirthday = () => {
       }
     }
   };
-  
+
   const handleNavigation = (text, baseRoute) => {
     navigateToSubcategory({
       text,
@@ -204,7 +205,8 @@ const AdultBirthday = () => {
           <div className="place-items-end lg:space-y-2  space-y-1">
             <img src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery1.png" className=" lg:h-40 md:h-28 h-10" />
             <img src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery2.png" className=" lg:h-64  " />
-            <div className=" bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
+            <img src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg" className=" lg:h-40 md:h-28 h-10 rounded-xl" />
+            {/* <div className=" bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
               <img src="https://lavisheventzz-bangalore.b-cdn.net/KidsBirthday/bdayGallery3.png" className="rounded" />
               <video
                 className="absolute top-0 left-0 w-full h-full object-cover opacity-80"
@@ -213,7 +215,7 @@ const AdultBirthday = () => {
                 loop
                 muted
               />
-            </div>
+            </div> */}
           </div>
           <div>
             <img src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery4.png" />

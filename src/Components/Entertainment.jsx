@@ -161,7 +161,7 @@ const Entertainment = () => {
               src="https://lavisheventzz-bangalore.b-cdn.net/Entertainment/activity2.png"
               className=" lg:h-64  "
             />
-            <div className=" bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
+            {/* <div className=" bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
               <img
                 src="https://lavisheventzz-bangalore.b-cdn.net/KidsBirthday/bdayGallery3.png"
                 className="rounded"
@@ -173,7 +173,8 @@ const Entertainment = () => {
                 loop
                 muted
               />
-            </div>
+            </div> */}
+               <img src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg" className=" lg:h-40 md:h-28 h-10 rounded-xl" />
           </div>
           <div>
             <img src="https://lavisheventzz-bangalore.b-cdn.net/Entertainment/activity4.png" />

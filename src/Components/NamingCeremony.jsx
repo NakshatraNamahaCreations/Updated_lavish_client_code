@@ -221,7 +221,7 @@ const NamingCeremony = () => {
               src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer2.png"
               className="lg:h-64"
             />
-            <div className="relative bg-gray-600 overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
+            {/* <div className="relative bg-gray-600 overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
               <img
                 src="https://lavisheventzz-bangalore.b-cdn.net/KidsBirthday/bdayGallery3.png"
                 className="rounded"
@@ -233,7 +233,8 @@ const NamingCeremony = () => {
                 loop
                 muted
               />
-            </div>
+            </div> */}
+               <img src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg" className=" lg:h-40 md:h-28 h-10 rounded-xl" />
           </div>
           <img src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer4.png" />
           <div className="lg:space-y-2 space-y-1">

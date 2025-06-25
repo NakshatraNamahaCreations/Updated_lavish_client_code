@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "../assets/logo.png";
-// import bgImage from "../assets/bg.png";
+import bgImage from "../assets/bgImage.jpg";
 import call from "../assets/icons/call.png";
 import whatsapp from "../assets/icons/whatsapp.png";
 import { FaWhatsapp } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
+
 
 
 const WhatsappCard = ({ onClose }) => {
@@ -73,7 +74,7 @@ const WhatsappandCallFeature = () => {
   const [isCardOpen, setIsCardOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-20 right-4 flex flex-col gap-3 z-50">
+    <div className="fixed bottom-5 right-4 flex flex-col gap-3 z-50">
       {/* Call Button */}
       <a href="tel:+919620558000">
         <div className="bg-white rounded-full p-2 shadow-lg">
@@ -82,12 +83,12 @@ const WhatsappandCallFeature = () => {
       </a>
 
       {/* WhatsApp Button */}
-      {/* <div
+      <div
         className="bg-white rounded-full p-2 shadow-lg"
         onClick={() => setIsCardOpen(!isCardOpen)}
       >
         <img src={whatsapp} alt="WhatsApp" className="w-12 h-12 cursor-pointer" />
-      </div> */}
+      </div>
 
       {/* WhatsApp Card with Animation */}
       <AnimatePresence>

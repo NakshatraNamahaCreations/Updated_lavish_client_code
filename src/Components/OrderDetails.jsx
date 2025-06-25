@@ -162,7 +162,7 @@ const OrderDetails = () => {
                             <img
                                 src={`${item.image}`}
                                 alt={item.serviceName}
-                                className="w-full md:w-48 h-36 object-cover rounded-lg shadow-sm"
+                                className="w-full md:w-48 md:h-38 w-auto rounded-lg shadow-sm"
                             />
                             <div className="flex-1 space-y-2 text-sm text-gray-700">
                                 <div className="flex justify-between items-center">
