@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import html2pdf from 'html2pdf.js';
 import { getAxios } from '../utils/api';
-
+import logo from "../assets/logo.png"
 const Invoice = () => {
     const { id } = useParams();
     const [order, setOrder] = useState(null);

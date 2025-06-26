@@ -59,7 +59,7 @@ function App() {
             <Route path="/profile" element={<ProtectedRoute> <Profile /></ProtectedRoute>} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/checkout/:serviceId" element={<Checkout />} />
-            <Route path="/thank-you" element={<Thankyou />} />
+            <Route path="/payment/success" element={<Thankyou />} />
             <Route path="/kidsBirthdaydecor/:subcat_id" element={<Kidsbirthday />} />
             <Route path="/adultBirthdaydecor/:subcat_id" element={<AdultBirthday />} />
             <Route path="/anniversarydecor/:subcat_id" element={<Anniversary />} />
@@ -82,7 +82,7 @@ function App() {
             <Route path="/terms-conditions" element={<TermsConditions />} />
             <Route path="/invoice/:id" element={<Invoice />} />
             <Route path="*" element={<HomePage />} />
-            <Route path="/paymentfailure" element={<PaymentFailure />} />
+            <Route path="/payment/failure" element={<PaymentFailure />} />
             <Route path="/phonepe" element={<PhonepePage />} />
 
           </Route>

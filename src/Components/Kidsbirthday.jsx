@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
 import { Link, useParams, useNavigate } from "react-router-dom";
-
+import axios from "axios";
 import { getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
@@ -21,6 +21,8 @@ const Kidsbirthday = () => {
   const storedUser = localStorage.getItem("user");
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
+
+  console.log("subSubCategories",subSubCategories)
 
   const fetchRecentPurchase = async () => {
     try {
@@ -54,52 +56,33 @@ const Kidsbirthday = () => {
       setLoading(false);
     }
   };
-  const fetchServices = async () => {
-    try {
-      const response = await getAxios().get(`/services/filter/${subcat_id}`);
+ const fetchServices = async () => {
+  try {
+    const response = await getAxios().get(`/services/filter/${subcat_id}`);
+    const data = response.data;
 
-      const data = response.data;
+    if (data.success) {
+      setAllServices(data.data); // <-- Set the array of services here
+    } else {
+      console.warn("API returned success: false");
+      setAllServices([]); // Set to empty array if not successful
+    }
 
-      if (!data.success) {
-        console.warn("API returned success: false");
-        setSimpledata([]);
-        setPremiumdata([]);
+    console.log("all data", data.data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 404) {
+        console.warn("No services found for this subcategory.");
+        setAllServices([]); // Set to empty array on 404
         return;
       }
-
-      console.log("data", data.data);
-
-      const simpleData = data.data.filter(
-        (item) =>
-          item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
-          "simple decoration"
-      );
-
-      const premiumData = data.data.filter(
-        (item) =>
-          item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
-          "premium decoration"
-      );
-
-      setSimpledata(simpleData);
-      setPremiumdata(premiumData);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 404) {
-          console.warn("No services found for this subcategory.");
-          setSimpledata([]);
-          setPremiumdata([]);
-          return;
-        }
-        console.error("Axios error:", error.message);
-      } else {
-        console.error("Unexpected error:", error);
-      }
-
-      setSimpledata([]);
-      setPremiumdata([]);
+      console.error("Axios error:", error.message);
+    } else {
+      console.error("Unexpected error:", error);
     }
-  };
+    setAllServices([]); // Set to empty array on error
+  }
+};
 
   const checkForThemes = async (subSubCategoryId) => {
     try {

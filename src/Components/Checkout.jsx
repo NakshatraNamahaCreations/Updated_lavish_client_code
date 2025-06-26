@@ -39,7 +39,7 @@ import AuthModal from "./AuthModal";
 import { persistor } from "../app/store";
 
 import { setProfile, resetProfile } from "../features/userdetails/profileSlice";
-import { getAuthAxios, getAxios, getUploadAxios } from "../utils/api";
+import { API_BASE_URL, getAuthAxios, getAxios, getUploadAxios } from "../utils/api";
 import { store } from "../app/store";
 
 const ProfileForm = () => {
@@ -614,7 +614,7 @@ const Checkout = () => {
     setError(null);
     setPaymentUrl(null);
 
-    const merchantOrderId = `TX${Date.now()}`;
+    // const merchantOrderId = `TX${Date.now()}`;
 
     try {
       // Check if user is logged in
@@ -742,7 +742,8 @@ const Checkout = () => {
         console.log("Order Data being sent:", orderData);
 
         // Create order with authentication token
-        const response = await axios.post("https://api.lavisheventzz.com/api/payment/initiate-payment", orderData);
+        // const response = await axios.post("https://api.lavisheventzz.com/api/payment/initiate-payment", orderData);
+        const response = await axios.post(`${API_BASE_URL}/payment/initiate-payment`, orderData);
   
        
           // alert("Order created successfully");
@@ -755,7 +756,7 @@ const Checkout = () => {
   
       
 
-      console.log('Backend response:', response.data); // Debug log
+      console.log('Backend response:', response.data); 
 
       const { success, data } = response.data;
 
