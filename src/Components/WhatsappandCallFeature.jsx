@@ -55,7 +55,7 @@ const WhatsappCard = ({ onClose }) => {
         }}
       >
         <div className="p-2 bg-white">
-          <p className="text-sm text-gray-500">Lavisheventz</p>
+          <p className="text-sm text-gray-500">Lavisheventzz.com</p>
           <p className="pt-2">Hi there! <br />Welcome to Lavishevents, How can we help you today?</p>
         </div>
       </div>

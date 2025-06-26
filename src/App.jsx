@@ -9,7 +9,7 @@ import Layout from "./Components/Layout";
 import HomePage from "./Components/HomePage";
 import ScrollToTop from "./Components/ScrollToTop";
 import PaymentFailure from "./Components/PaymentFailure";
-import PhonepePage from "./Components/phonepePage";
+
 
 // Lazy load all other route components
 const About = lazy(() => import("./Components/About"));
@@ -83,7 +83,7 @@ function App() {
             <Route path="/invoice/:id" element={<Invoice />} />
             <Route path="*" element={<HomePage />} />
             <Route path="/payment/failure" element={<PaymentFailure />} />
-            <Route path="/phonepe" element={<PhonepePage />} />
+      
 
           </Route>
         </Routes>

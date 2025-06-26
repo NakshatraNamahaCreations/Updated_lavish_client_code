@@ -23,12 +23,12 @@ const PaymentSuccess = () => {
         <p className="text-gray-600 mb-4">Your payment has been successfully processed.</p>
         
         {/* Display payment details */}
-        <div className="mb-4">
+        {/* <div className="mb-4"> */}
           {/* <p className="text-md text-gray-800 font-semibold">Transaction ID: {paymentData.transactionId}</p>
           <p className="text-md text-gray-800 font-semibold">Amount: ₹{paymentData.amount}</p> */}
-          <p className="text-md text-gray-800 font-semibold">Transaction ID: 345353454354</p>
+          {/* <p className="text-md text-gray-800 font-semibold">Transaction ID: 345353454354</p>
           <p className="text-md text-gray-800 font-semibold">Amount: ₹20000</p>
-        </div>
+        </div> */}
 
         {/* Buttons to go home or view order */}
         <div className="flex justify-center gap-4 mt-6">

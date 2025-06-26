@@ -239,7 +239,6 @@ const UpcomingBookings = () => {
               <div
                 key={order._id}
                 className="border border-gray-300 lg:p-4 p-2 rounded my-4 cursor-pointer"
-         
               >
                 <div className="flex lg:gap-4 gap-2 lg:items-center">
                   <img
@@ -300,29 +299,32 @@ const UpcomingBookings = () => {
                       )}
                     </div> */}
 
-
                     <div className="flex gap-2">
-
                       <button
                         onClick={(e) => {
-                          e.stopPropagation() 
-                          handleCardClick(order._id)
+                          e.stopPropagation();
+                          handleCardClick(order._id);
                         }}
                         className="mt-2 px-4 py-1 text-sm bg-purple-800 text-white rounded hover:bg-purple-600"
                       >
                         Order Details
                       </button>
 
-
                       <button
                         onClick={(e) => {
-                          navigate(`/service/details/${order._id}`)
+                          e.stopPropagation();
+                          // Use the first item's refId as the service id
+                          const serviceId = order.items[0]?.refId;
+                          if (serviceId) {
+                            navigate(`/service/details/${serviceId}`);
+                          } else {
+                            alert("Service not found in this order.");
+                          }
                         }}
                         className="mt-2 px-4 py-1 text-sm bg-gray-500 text-white rounded hover:bg-gray-600"
                       >
                         Re-order
                       </button>
-
                     </div>
                   </div>
                 </div>
@@ -378,7 +380,6 @@ const ProfileForm = () => {
   const profile = useSelector((state) => state.profile);
   const [error, setError] = useState(null);
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -395,13 +396,15 @@ const ProfileForm = () => {
     }
 
     // Validate names: letters only
-    if ((name === "firstName" || name === "lastName") && !/^[a-zA-Z]*$/.test(value)) {
+    if (
+      (name === "firstName" || name === "lastName") &&
+      !/^[a-zA-Z]*$/.test(value)
+    ) {
       return;
     }
 
     dispatch(setProfile({ [name]: value }));
   };
-
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -701,8 +704,9 @@ const Profile = () => {
   return (
     <div className="flex lg:mt-24 mt-32 lg:px-4 overflow-y-hidden h-[86vh]">
       <div
-        className={`lg:w-[25%] border  bg-white mr-4 border-gray-300 lg:rounded-xl rounded-e-lg p-4 pt-6 lg:shadow-md fixed h-[86vh] ${isMobile ? "hidden" : "block"
-          }`}
+        className={`lg:w-[25%] border  bg-white mr-4 border-gray-300 lg:rounded-xl rounded-e-lg p-4 pt-6 lg:shadow-md fixed h-[86vh] ${
+          isMobile ? "hidden" : "block"
+        }`}
       >
         <div className="text-center">
           <img
@@ -719,8 +723,9 @@ const Profile = () => {
             {sideBarlinks.map((item, index) => (
               <li
                 key={index}
-                className={`flex gap-4 items-center text-lg cursor-pointer ${currentRoute === item.link ? "text-primary font-semibold" : ""
-                  }`}
+                className={`flex gap-4 items-center text-lg cursor-pointer ${
+                  currentRoute === item.link ? "text-primary font-semibold" : ""
+                }`}
                 onClick={() => setCurrentRoute(item.link)}
               >
                 {item.icon}
@@ -756,21 +761,24 @@ const Profile = () => {
 
             <div className="text-center">
               <img
-                src="https://img.freepik.com/free-vector/smiling-young-man-illustration_1308-173524.jpg"
+                src="https://static.vecteezy.com/system/resources/thumbnails/018/742/015/small_2x/minimal-profile-account-symbol-user-interface-theme-3d-icon-rendering-illustration-isolated-in-transparent-background-png.png"
                 className="w-20 h-20 mx-auto rounded-full shadow-md"
                 alt="User"
               />
-              <p className="text-2xl py-3 font-medium">John Smith</p>
+              <p className="text-2xl py-3 font-medium">
+                {profile.firstName} {profile.lastName}
+              </p>
             </div>
             <div className="mt-5">
               <ul className="flex flex-col gap-4 px-5">
                 {sideBarlinks.map((item, index) => (
                   <li
                     key={index}
-                    className={`flex gap-4 items-center text-lg cursor-pointer ${currentRoute === item.link
+                    className={`flex gap-4 items-center text-lg cursor-pointer ${
+                      currentRoute === item.link
                         ? "text-primary font-semibold"
                         : ""
-                      }`}
+                    }`}
                     onClick={() => {
                       setCurrentRoute(item.link);
                       setShowSidebar(false);
@@ -804,8 +812,9 @@ const Profile = () => {
             {sideBarlinks.map((item, index) => (
               <li
                 key={index}
-                className={`flex gap-4 items-center cursor-pointer text-2xl ${currentRoute === item.link ? "text-primary font-semibold" : ""
-                  }`}
+                className={`flex gap-4 items-center cursor-pointer text-2xl ${
+                  currentRoute === item.link ? "text-primary font-semibold" : ""
+                }`}
                 onClick={() => setCurrentRoute(item.link)}
               >
                 {item.icon}
