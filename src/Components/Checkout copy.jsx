@@ -18,7 +18,6 @@ import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 import { FaRegCircle, FaCircle } from "react-icons/fa";
 import BookingFAQs from "./BookingFAQs";
 import { useNavigate, useParams } from "react-router-dom";
-import {API_URL} from "../utils/api"
 
 import {
   completeOrder,
@@ -40,7 +39,7 @@ import AuthModal from "./AuthModal";
 import { persistor } from "../app/store";
 
 import { setProfile, resetProfile } from "../features/userdetails/profileSlice";
-import { getAuthAxios, getAxios, getUploadAxios } from "../utils/api";
+import { API_BASE_URL, getAuthAxios, getAxios, getUploadAxios } from "../utils/api";
 import { store } from "../app/store";
 
 const ProfileForm = () => {
@@ -608,193 +607,14 @@ const Checkout = () => {
   const displaySubTotal = Number(subTotal || 0) + extraSlotCharge;
   const displayGrandTotal = Number(grandTotal || 0) + extraSlotCharge;
 
-  // Old code
-  // const handleProceedToPay = async () => {
-  //   try {
-  // // Check if user is logged in
-  // const storedUser = localStorage.getItem("user");
-  // const storedToken = localStorage.getItem("accessToken");
 
-  // // console.log('Stored User Data:', storedUser);
-  // // console.log('Stored Token:', storedToken);
-
-  // if (!storedUser || !storedToken) {
-  //   setShowLoginModal(true);
-  //   return;
-  // }
-
-  // // Parse stored user data
-  // const userData = JSON.parse(storedUser);
-  // console.log("Parsed User Data:", userData);
-
-  // // Form validation
-  // if (!address.trim()) {
-  //   alert("Please enter venue address");
-  //   return;
-  // }
-  // if (!currentOrder.source) {
-  //   alert("Please select how you came to know about us");
-  //   return;
-  // }
-  // if (!currentOrder.occasion) {
-  //   alert("Please select an occasion");
-  //   return;
-  // }
-  // if (!eventDate) {
-  //   alert("Please select a date");
-  //   return;
-  // }
-  // if (!selectedTimeSlot) {
-  //   alert("Please select a time slot");
-  //   return;
-  // }
-
-
-
-  // // Process items to match schema requirements
-  // const processedItems = items.map((item) => {
-  //   // Ensure categoryType is properly capitalized
-  //   const categoryType =
-  //     item.categoryType === "service"
-  //       ? "Service"
-  //       : item.categoryType === "addon"
-  //         ? "Addon"
-  //         : item.categoryType;
-
-  //   // Get the refId based on item type
-  //   let refId;
-  //   if (item.categoryType === "service") {
-  //     refId = serviceDetails?._id;
-  //     if (!refId) {
-  //       throw new Error(`Service ID not found for ${item.serviceName}`);
-  //     }
-  //   } else if (item.categoryType === "addon") {
-  //     // Try to get from addonDetails, fallback to item.id/_id
-  //     const addonDetail = addonDetails[item._id || item.id];
-  //     refId = addonDetail ? addonDetail._id : item._id || item.id;
-  //     // No error thrown if not found!
-  //   }
-
-  //   // Build customizedInputs for this item
-  //   let customizedInputs = [];
-  //   if (item.customizedInputs && item.customizedInputs.length > 0) {
-  //     customizedInputs = item.customizedInputs.map((input) => ({
-  //       label: input.label,
-  //       value:
-  //         customizedValues[`${item.id || item._id}_${input.label}`] || "",
-  //     }));
-  //   }
-
-  //   return {
-  //     refId: refId,
-  //     serviceName: item.serviceName,
-  //     price: Number(item.price) || 0,
-  //     originalPrice: Number(item.originalPrice || item.price) || 0,
-  //     quantity: Number(item.quantity || 1),
-  //     image: item.image || "",
-  //     categoryType: categoryType,
-  //     customizedInputs,
-  //     id: item.id,
-  //     _id: item._id,
-  //   };
-  // });
-
-  //     // Create order data
-  //     const orderData = {
-  //       orderId: `ORD${Date.now()}`,
-  //       eventDate: formatDate(new Date(eventDate)),
-  //       eventTime: selectedTimeSlot,
-  //       pincode: pincode,
-  //       balloonsColor: balloonsColor || [],
-  //       subTotal: displaySubTotal,
-  //       grandTotal: displayGrandTotal,
-  //       paidAmount: displayGrandTotal,
-  //       couponDiscount: Number(couponDiscount || 0),
-  //       gstAmount: Number(gstAmount || 0),
-  //       paymentType: "full",
-  //       address: address.trim(),
-  //       items: processedItems,
-  //       customerName: userData?.firstName && userData?.lastName
-  //         ? userData.firstName + " " + userData.lastName
-  //         : "Guest",
-  //       customerId: userData.id,
-  //       occasion: currentOrder.occasion,
-  //       decorLocation: currentOrder.decorLocation,
-  //       source: currentOrder.source,
-  //       altMobile: currentOrder.altMobile || "",
-  //       addNote: currentOrder.addNote || "",
-  //       orderStatus: "created",
-  //       venueAddress: address.trim(),
-  //       slotExtraCharge: extraSlotCharge,
-  //       ...(currentOrder.occasion === "others" && {
-  //         otherOccasion: currentOrder.otherOccasion,
-  //       }),
-  //       ...(currentOrder.decorLocation === "others" && {
-  //         otherDecorLocation: currentOrder.otherDecorLocation,
-  //       }),
-  //     };
-
-  //     console.log("Order Data being sent:", orderData);
-
-  //     // Create order with authentication token
-  //     const response = await getAuthAxios().post("/orders/create", orderData);
-
-  //     if (response.data.success) {
-  //       console.log("Order created successfully:", response.data.data);
-  //       alert("Order created successfully");
-
-  //       // Clear form and state
-  //       dispatch(resetCurrentOrder());
-  //       setSelectedCoupon("");
-  //       setSelectedNotification(false);
-  //       dispatch(completeOrder());
-
-  //       // Reset persist:root data
-  //       try {
-  //         localStorage.removeItem('persist:root');
-  //         if (persistor && persistor.purge) {
-  //           await persistor.purge();
-  //         }
-  //       } catch (error) {
-  //         console.error("Error resetting persisted data:", error);
-  //       }
-
-  //       // Redirect to order confirmation page
-  //       navigate(`/thank-you`);
-  //     } else {
-  //       alert(
-  //         response.data.message || "Failed to create order. Please try again."
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.error("Error processing order:", error);
-  //     if (error.response) {
-  //       const errorMessage =
-  //         error.response.data.message ||
-  //         "Failed to create order. Please check all required fields.";
-  //       const missingFields = error.response.data.required;
-  //       if (missingFields) {
-  //         const missingFieldNames = Object.entries(missingFields)
-  //           .filter(([_, value]) => value === false)
-  //           .map(([key]) => key);
-  //         alert(
-  //           `${errorMessage}\nMissing fields: ${missingFieldNames.join(", ")}`
-  //         );
-  //       } else {
-  //         alert(errorMessage);
-  //       }
-  //     } else {
-  //       alert(error.message || "Error creating order. Please try again.");
-  //     }
-  //   }
-  // };
 
   const handleProceedToPay = async () => {
     setLoading(true);
     setError(null);
     setPaymentUrl(null);
 
-    const merchantOrderId = `TX${Date.now()}`;
+    // const merchantOrderId = `TX${Date.now()}`;
 
     try {
       // Check if user is logged in
@@ -883,13 +703,60 @@ const Checkout = () => {
         };
       });
 
+         // Create order data
+         const orderData = {
+          orderId: `ORD${Date.now()}`,
+          eventDate: formatDate(new Date(eventDate)),
+          eventTime: selectedTimeSlot,
+          pincode: pincode,
+          balloonsColor: balloonsColor || [],
+          subTotal: displaySubTotal,
+          grandTotal: displayGrandTotal,
+          paidAmount: displayGrandTotal,
+          couponDiscount: Number(couponDiscount || 0),
+          gstAmount: Number(gstAmount || 0),
+          paymentType: "full",
+          address: address.trim(),
+          items: processedItems,
+          customerName: userData?.firstName && userData?.lastName
+            ? userData.firstName + " " + userData.lastName
+            : "Guest",
+          customerId: userData.id,
+          occasion: currentOrder.occasion,
+          decorLocation: currentOrder.decorLocation,
+          source: currentOrder.source,
+          altMobile: currentOrder.altMobile || "",
+          addNote: currentOrder.addNote || "",
+          orderStatus: "created",
+          venueAddress: address.trim(),
+          slotExtraCharge: extraSlotCharge,
+          ...(currentOrder.occasion === "others" && {
+            otherOccasion: currentOrder.otherOccasion,
+          }),
+          ...(currentOrder.decorLocation === "others" && {
+            otherDecorLocation: currentOrder.otherDecorLocation,
+          }),
+          merchantOrderId :`TX${Date.now()}`
+        };
 
-      const response = await axios.post(`${API_URL}/payment/initiate-payment`, {
-        amount: parseInt(amount, 10),
-        merchantOrderId,
-      });
+        console.log("Order Data being sent:", orderData);
 
-      console.log('Backend response:', response.data); // Debug log
+        // Create order with authentication token
+        // const response = await axios.post("https://api.lavisheventzz.com/api/payment/initiate-payment", orderData);
+        const response = await axios.post(`${API_BASE_URL}/payment/initiate-payment`, orderData);
+  
+       
+          // alert("Order created successfully");
+  
+          // Clear form and state
+          dispatch(resetCurrentOrder());
+          setSelectedCoupon("");
+          setSelectedNotification(false);
+          dispatch(completeOrder());
+  
+      
+
+      console.log('Backend response:', response.data); 
 
       const { success, data } = response.data;
 

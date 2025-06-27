@@ -114,7 +114,31 @@ const ProfileForm = () => {
   }, [dispatch]);
 
   // Handle form submit
-  const handleSubmit = async (e) => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const token = localStorage.getItem("accessToken");
+  //     const response = await getAuthAxios().put(
+  //       "/admin/users/user/profile",
+  //       profile,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+
+  //     if (response.status === 200) {
+  //       alert("Profile updated successfully");
+  //     } else {
+  //       setError(response.data.message || "Error updating profile");
+  //     }
+  //   } catch (error) {
+  //     setError(error.response?.data?.message || "Error updating profile");
+  //   }
+  // };
+  
+   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("accessToken");
@@ -130,6 +154,17 @@ const ProfileForm = () => {
 
       if (response.status === 200) {
         alert("Profile updated successfully");
+        // Update localStorage user object with new profile data
+        const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+        const updatedUser = {
+          ...storedUser,
+          firstName: profile.firstName,
+          lastName: profile.lastName,
+          mobile: profile.mobile,
+          email: storedUser.email, 
+          id: storedUser.id,       
+        };
+        localStorage.setItem("user", JSON.stringify(updatedUser));
       } else {
         setError(response.data.message || "Error updating profile");
       }

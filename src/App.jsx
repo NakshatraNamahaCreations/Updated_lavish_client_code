@@ -9,8 +9,9 @@ import Layout from "./Components/Layout";
 import HomePage from "./Components/HomePage";
 import ScrollToTop from "./Components/ScrollToTop";
 import PaymentFailure from "./Components/PaymentFailure";
-
-
+// import Login from "./Components/Login";
+// import Signup from "./Components/Signup";
+import LoginwithNumber from "./Components/LoginwithNumber"
 // Lazy load all other route components
 const About = lazy(() => import("./Components/About"));
 const Service = lazy(() => import("./Components/Service"));
@@ -30,8 +31,6 @@ const GroomtoBe = lazy(() => import("./Components/GroomtoBe"));
 const Entertainment = lazy(() => import("./Components/Entertainment"));
 const Photograpghy = lazy(() => import("./Components/Photograpghy"));
 const Profile = lazy(() => import("./Components/Profile"));
-const Login = lazy(() => import("./Components/Login"));
-const Signup = lazy(() => import("./Components/Signup"));
 const ProtectedRoute = lazy(() => import("./Components/ProtectedRoute"));
 const Themes = lazy(() => import("./Components/Themes"));
 const Thankyou = lazy(() => import("./Components/Thankyou"));
@@ -71,8 +70,9 @@ function App() {
             <Route path="/ringceremonydecor/:subcat_id" element={<RingCermony />} />
             <Route path="/entertainmentdecor/:subcat_id" element={<Entertainment />} />
             <Route path="/photography/:subcat_id" element={<Photograpghy />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+            {/* <Route path="/login" element={<Login />} /> */}
+            <Route path="/login" element={<LoginwithNumber />} />
+            {/* <Route path="/signup" element={<Signup />} /> */}
             <Route path="/themes/:subSubCategoryId" element={<Themes />} />
             <Route path="/all-services" element={<AllServices />} />
             <Route path="/orderDetails/:id" element={<OrderDetails />} />
