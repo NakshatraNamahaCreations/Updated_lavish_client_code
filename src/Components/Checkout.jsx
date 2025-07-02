@@ -39,7 +39,12 @@ import AuthModal from "./AuthModal";
 import { persistor } from "../app/store";
 
 import { setProfile, resetProfile } from "../features/userdetails/profileSlice";
-import { API_BASE_URL, getAuthAxios, getAxios, getUploadAxios } from "../utils/api";
+import {
+  API_BASE_URL,
+  getAuthAxios,
+  getAxios,
+  getUploadAxios,
+} from "../utils/api";
 import { store } from "../app/store";
 
 const ProfileForm = () => {
@@ -113,32 +118,7 @@ const ProfileForm = () => {
     fetchProfile();
   }, [dispatch]);
 
-  // Handle form submit
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const token = localStorage.getItem("accessToken");
-  //     const response = await getAuthAxios().put(
-  //       "/admin/users/user/profile",
-  //       profile,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-
-  //     if (response.status === 200) {
-  //       alert("Profile updated successfully");
-  //     } else {
-  //       setError(response.data.message || "Error updating profile");
-  //     }
-  //   } catch (error) {
-  //     setError(error.response?.data?.message || "Error updating profile");
-  //   }
-  // };
-  
-   const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("accessToken");
@@ -161,8 +141,8 @@ const ProfileForm = () => {
           firstName: profile.firstName,
           lastName: profile.lastName,
           mobile: profile.mobile,
-          email: storedUser.email, 
-          id: storedUser.id,       
+          email: storedUser.email,
+          id: storedUser.id,
         };
         localStorage.setItem("user", JSON.stringify(updatedUser));
       } else {
@@ -340,7 +320,7 @@ const Checkout = () => {
     "02:00 PM - 06:00 PM",
     "06:00 PM - 10:00 PM",
   ];
-  const [amount, setAmount] = useState('100');
+  const [amount, setAmount] = useState("100");
   const [paymentUrl, setPaymentUrl] = useState(null);
 
   const [showModal, setShowModal] = useState(false);
@@ -589,10 +569,7 @@ const Checkout = () => {
   };
 
   useEffect(() => {
-    if (
-      selectedCoupon &&
-      selectedCouponData
-    ) {
+    if (selectedCoupon && selectedCouponData) {
       // Recalculate discount when subtotal changes
       const discount = Math.round(
         subTotal * (selectedCouponData.discount / 100)
@@ -625,15 +602,15 @@ const Checkout = () => {
 
   // Calculate extra charge for special time slots
   let extraSlotCharge = 0;
-  let extraSlotLabel = '';
+  let extraSlotLabel = "";
   const mainService = items.find((item) => item.categoryType === "service");
   if (mainService && selectedTimeSlot) {
     if (selectedTimeSlot === "09:00 PM - 12:00 PM (15%)") {
       extraSlotCharge = Math.round(mainService.price * 0.15);
-      extraSlotLabel = 'Night Slot Extra (15%)';
+      extraSlotLabel = "Night Slot Extra (15%)";
     } else if (selectedTimeSlot === "08:00 AM - 12:00 PM (10%)") {
-      extraSlotCharge = Math.round(mainService.price * 0.10);
-      extraSlotLabel = 'Morning Slot Extra (10%)';
+      extraSlotCharge = Math.round(mainService.price * 0.1);
+      extraSlotLabel = "Morning Slot Extra (10%)";
     }
   }
 
@@ -642,14 +619,17 @@ const Checkout = () => {
   const displaySubTotal = Number(subTotal || 0) + extraSlotCharge;
   const displayGrandTotal = Number(grandTotal || 0) + extraSlotCharge;
 
-// Helper to get and increment order number in localStorage
-function getNextOrderId() {
-  const lastOrderNum = parseInt(localStorage.getItem("lastOrderNum") || "0", 10);
-  const nextOrderNum = lastOrderNum + 1;
-  localStorage.setItem("lastOrderNum", nextOrderNum);
-  // Pad with zeros to 4 digits
-  return `ORD${nextOrderNum.toString().padStart(4, "0")}`;
-}
+  // Helper to get and increment order number in localStorage
+  function getNextOrderId() {
+    const lastOrderNum = parseInt(
+      localStorage.getItem("lastOrderNum") || "0",
+      10
+    );
+    const nextOrderNum = lastOrderNum + 1;
+    localStorage.setItem("lastOrderNum", nextOrderNum);
+    // Pad with zeros to 4 digits
+    return `ORD${nextOrderNum.toString().padStart(4, "0")}`;
+  }
 
   const handleProceedToPay = async () => {
     setLoading(true);
@@ -696,7 +676,7 @@ function getNextOrderId() {
         alert("Please select a time slot");
         return;
       }
-  
+
       // Process items to match schema requirements
       const processedItems = items.map((item) => {
         // Ensure categoryType is properly capitalized
@@ -704,8 +684,8 @@ function getNextOrderId() {
           item.categoryType === "service"
             ? "Service"
             : item.categoryType === "addon"
-              ? "Addon"
-              : item.categoryType;
+            ? "Addon"
+            : item.categoryType;
 
         // Get the refId based on item type
         let refId;
@@ -745,81 +725,87 @@ function getNextOrderId() {
         };
       });
 
-         // Create order data
-         const orderData = {
-          // orderId: `ORD${Date.now()}`,
-           orderId: getNextOrderId(),
-          eventDate: formatDate(new Date(eventDate)),
-          eventTime: selectedTimeSlot,
-          pincode: pincode,
-          balloonsColor: balloonsColor || [],
-          subTotal: displaySubTotal,
-          grandTotal: displayGrandTotal,
-          paidAmount: displayGrandTotal,
-          couponDiscount: Number(couponDiscount || 0),
-          gstAmount: Number(gstAmount || 0),
-          paymentType: "full",
-          address: address.trim(),
-          items: processedItems,
-          customerName: userData?.firstName && userData?.lastName
+      // Create order data
+      const orderData = {
+        // orderId: `ORD${Date.now()}`,
+        orderId: getNextOrderId(),
+        eventDate: formatDate(new Date(eventDate)),
+        eventTime: selectedTimeSlot,
+        pincode: pincode,
+        balloonsColor: balloonsColor || [],
+        subTotal: displaySubTotal,
+        grandTotal: displayGrandTotal,
+        paidAmount: displayGrandTotal,
+        couponDiscount: Number(couponDiscount || 0),
+        gstAmount: Number(gstAmount || 0),
+        paymentType: "full",
+        address: address.trim(),
+        items: processedItems,
+        customerName:
+          userData?.firstName && userData?.lastName
             ? userData.firstName + " " + userData.lastName
             : "Guest",
-          customerId: userData.id,
-          occasion: currentOrder.occasion,
-          decorLocation: currentOrder.decorLocation,
-          source: currentOrder.source,
-          altMobile: currentOrder.altMobile || "",
-          addNote: currentOrder.addNote || "",
-          orderStatus: "created",
-          venueAddress: address.trim(),
-          slotExtraCharge: extraSlotCharge,
-          ...(currentOrder.occasion === "others" && {
-            otherOccasion: currentOrder.otherOccasion,
-          }),
-          ...(currentOrder.decorLocation === "others" && {
-            otherDecorLocation: currentOrder.otherDecorLocation,
-          }),
-          merchantOrderId :`TX${Date.now()}`
-        };
+        customerId: userData.id,
+        occasion: currentOrder.occasion,
+        decorLocation: currentOrder.decorLocation,
+        source: currentOrder.source,
+        altMobile: currentOrder.altMobile || "",
+        addNote: currentOrder.addNote || "",
+        orderStatus: "created",
+        venueAddress: address.trim(),
+        slotExtraCharge: extraSlotCharge,
+        ...(currentOrder.occasion === "others" && {
+          otherOccasion: currentOrder.otherOccasion,
+        }),
+        ...(currentOrder.decorLocation === "others" && {
+          otherDecorLocation: currentOrder.otherDecorLocation,
+        }),
+        merchantOrderId: `TX${Date.now()}`,
+      };
 
-        console.log("Order Data being sent:", orderData);
+      console.log("Order Data being sent:", orderData);
 
-        // Create order with authentication token
-        // const response = await axios.post("https://api.lavisheventzz.com/api/payment/initiate-payment", orderData);
-        const response = await axios.post(`${API_BASE_URL}/payment/initiate-payment`, orderData);
-  
-       
-          // alert("Order created successfully");
-  
-          // Clear form and state
-          dispatch(resetCurrentOrder());
-          setSelectedCoupon("");
-          setSelectedNotification(false);
-          dispatch(completeOrder());
-  
-      
+      // Create order with authentication token
+      // const response = await axios.post("https://api.lavisheventzz.com/api/payment/initiate-payment", orderData);
+      const response = await axios.post(
+        `${API_BASE_URL}/payment/initiate-payment`,
+        orderData
+      );
 
-      console.log('Backend response:', response.data); 
+      // alert("Order created successfully");
+
+      // Clear form and state
+      dispatch(resetCurrentOrder());
+      setSelectedCoupon("");
+      setSelectedNotification(false);
+      dispatch(completeOrder());
+
+      console.log("Backend response:", response.data);
 
       const { success, data } = response.data;
 
       if (success && data?.paymentUrl) {
-        console.log("data.paymentUrl", data.paymentUrl)
+        console.log("data.paymentUrl", data.paymentUrl);
         setPaymentUrl(data.paymentUrl);
         window.location.href = data.paymentUrl;
       } else {
-        setError('Payment initiation failed: Invalid response from server');
+        setError("Payment initiation failed: Invalid response from server");
       }
     } catch (error) {
-      const errorMessage = error.response?.data?.error || error.message || 'Error connecting to server';
+      const errorMessage =
+        error.response?.data?.error ||
+        error.message ||
+        "Error connecting to server";
       setError(errorMessage);
-      console.error('Payment error:', errorMessage, error.response?.data || error);
+      console.error(
+        "Payment error:",
+        errorMessage,
+        error.response?.data || error
+      );
     } finally {
       setLoading(false);
     }
   };
-
-
 
   const hanlderesetCurrentOrder = async () => {
     // Purge redux-persist storage if used
@@ -1049,17 +1035,6 @@ function getNextOrderId() {
                   </div>
                 </div>
 
-                {/* <label className=''>
-                                    Alternate Contact Number
-                                    <input
-                                        placeholder='mobile number'
-                                        className='w-full border p-2 my-2 text-sm'
-                                        name="altMobile"
-                                        value={currentOrder.altMobile}
-                                        onChange={e => dispatch(setAltMobile(e.target.value))}
-                                    />
-                                </label> */}
-
                 {items.some((item) => item.customizedInputs?.length > 0) && (
                   <div className="mt-4">
                     <h3 className="font-medium text-lg mb-4">
@@ -1164,36 +1139,30 @@ function getNextOrderId() {
                     {/* Add-ons Section */}
                     {items.filter((item) => item.categoryType === "addon")
                       .length > 0 && (
-                        <div className="mt-2 border border-gray-200 p-2 rounded-lg bg-gray-50">
-                          <h3 className="text-sm font-semibold text-gray-800">
-                            Add-ons:
-                          </h3>
-                          {items
-                            .filter((item) => item.categoryType === "addon")
-                            .map((addon, index) => (
-                              <div
-                                key={index}
-                                className="flex justify-between items-center text-sm text-gray-700"
-                              >
-                                <span>{addon.serviceName}</span>
-                                <span>
-                                  {addon.price} x {addon.quantity}
-                                </span>
-                              </div>
-                            ))}
-                        </div>
-                      )}
+                      <div className="mt-2 border border-gray-200 p-2 rounded-lg bg-gray-50">
+                        <h3 className="text-sm font-semibold text-gray-800">
+                          Add-ons:
+                        </h3>
+                        {items
+                          .filter((item) => item.categoryType === "addon")
+                          .map((addon, index) => (
+                            <div
+                              key={index}
+                              className="flex justify-between items-center text-sm text-gray-700"
+                            >
+                              <span>{addon.serviceName}</span>
+                              <span>
+                                {addon.price} x {addon.quantity}
+                              </span>
+                            </div>
+                          ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 {/* Right Section - Pricing & Actions */}
                 <div className="flex md:items-end md:flex-col flex-row-reverse items-center justify-between gap-6 md:gap-4 pt-4 md:pt-0">
-                  {/* <RiDeleteBin6Line
-                                        className="cursor-pointer text-red-500 hover:text-red-600 text-2xl transition"
-                                        title="Delete All Data"
-                                        onClick={handleDeleteAll}
-                                    /> */}
-
                   <h1 className="font-semibold text-xl text-gray-900">
                     Rs. {displayGrandTotal}
                   </h1>
@@ -1236,27 +1205,26 @@ function getNextOrderId() {
                   {/* Base Service */}
                   <div className="flex justify-between items-center">
                     <p className="">Base Service</p>
-                    <p className="text-right">
-                      Rs. {mainService?.price || 0}
-                    </p>
+                    <p className="text-right">Rs. {mainService?.price || 0}</p>
                   </div>
 
                   {/* Add-ons Total */}
                   {items.filter((item) => item.categoryType === "addon")
                     .length > 0 && (
-                      <div className="flex justify-between items-center">
-                        <p className="">Add-ons Total</p>
-                        <p className="text-right">
-                          Rs. {items
-                            .filter((item) => item.categoryType === "addon")
-                            .reduce(
-                              (total, addon) =>
-                                total + addon.price * addon.quantity,
-                              0
-                            )}
-                        </p>
-                      </div>
-                    )}
+                    <div className="flex justify-between items-center">
+                      <p className="">Add-ons Total</p>
+                      <p className="text-right">
+                        Rs.{" "}
+                        {items
+                          .filter((item) => item.categoryType === "addon")
+                          .reduce(
+                            (total, addon) =>
+                              total + addon.price * addon.quantity,
+                            0
+                          )}
+                      </p>
+                    </div>
+                  )}
 
                   {/* Extra Slot Charge */}
                   {extraSlotCharge > 0 && (
@@ -1293,7 +1261,8 @@ function getNextOrderId() {
                         <div className="w-full">
                           <div className="w-full flex items-center">
                             <p className="text-sm">
-                              Coupon {selectedCoupon} ({selectedCouponData?.discount}% OFF)
+                              Coupon {selectedCoupon} (
+                              {selectedCouponData?.discount}% OFF)
                             </p>
                             <button onClick={handleRemoveCoupon}>
                               <MdDelete className="cursor-pointer" size={20} />
@@ -1313,8 +1282,8 @@ function getNextOrderId() {
                           </div>
                           <button className="underline">View</button>
                         </div>
-                        {showCoupon && (
-                          coupons.length > 0 ? (
+                        {showCoupon &&
+                          (coupons.length > 0 ? (
                             <div className="max-h-[240px] overflow-y-scroll my-2 md:w-[90%] mx-auto scrollbar-hide">
                               {coupons.map((coupon, idx) => (
                                 <div
@@ -1340,16 +1309,21 @@ function getNextOrderId() {
                                       {coupon.couponDetails}
                                     </p>
                                     <small className="text-gray-500 mt-1">
-                                      Use code <span className="font-medium text-black">{coupon.couponCode}</span> and save {coupon.discount}%!
+                                      Use code{" "}
+                                      <span className="font-medium text-black">
+                                        {coupon.couponCode}
+                                      </span>{" "}
+                                      and save {coupon.discount}%!
                                     </small>
                                   </div>
                                 </div>
                               ))}
                             </div>
                           ) : (
-                            <div className="text-center text-gray-500 mt-2">No coupons available</div>
-                          )
-                        )}
+                            <div className="text-center text-gray-500 mt-2">
+                              No coupons available
+                            </div>
+                          ))}
                       </div>
                     )}
                   </div>
@@ -1364,7 +1338,6 @@ function getNextOrderId() {
                       {displayGrandTotal}
                     </p>
                   </div>
-
                 </div>
                 <div className="py-3 text-center text-white font-semibold">
                   Bangalore's #1 Balloon Decoration Service
@@ -1377,9 +1350,7 @@ function getNextOrderId() {
                 onClick={handleProceedToPay}
                 className="bg-primary text-center py-3 mt-5 w-full text-white rounded-xl font-semibold text-xl"
               >
-                PROCEED TO PAY | Rs.{" "}
-                {displayGrandTotal}
-
+                PROCEED TO PAY | Rs. {displayGrandTotal}
               </button>
               <p className="text-gray-500 py-3 text-center">
                 100% Safe & Secure Payment!
@@ -1392,26 +1363,30 @@ function getNextOrderId() {
               setShowModal={setShowModal}
               timeSlots={
                 items.find((item) => item.categoryType === "service")?.price >
-                  4000
+                4000
                   ? timeSlotsPremium
                   : timeSlotsBasic
               }
             />
           )}
         </div>
-
-        {/* Debug section to display Redux order data */}
-        {/* <div className="mt-8 p-4 border border-gray-300 rounded-lg">
-                    <h2 className="text-xl font-bold mb-2">Current Order Data (Redux Store)</h2>
-                    <div className="bg-gray-100 p-4 rounded overflow-auto max-h-64">
-                        <pre className="text-sm whitespace-pre-wrap">
-                            {JSON.stringify(currentOrder, null, 2)}
-                        </pre>
-                    </div>
-                </div> */}
       </div>
     </div>
   );
 };
 
 export default Checkout;
+
+{
+  /* Debug section to display Redux order data */
+}
+{
+  /* <div className="mt-8 p-4 border border-gray-300 rounded-lg">
+                    <h2 className="text-xl font-bold mb-2">Current Order Data (Redux Store)</h2>
+                    <div className="bg-gray-100 p-4 rounded overflow-auto max-h-64">
+                        <pre className="text-sm whitespace-pre-wrap">
+                            {JSON.stringify(currentOrder, null, 2)}
+                        </pre>
+                    </div>
+                </div> */
+}

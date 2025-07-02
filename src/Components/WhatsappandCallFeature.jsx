@@ -7,31 +7,11 @@ import whatsapp from "../assets/icons/whatsapp.png";
 import { FaWhatsapp } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 
-
-
 const WhatsappCard = ({ onClose }) => {
-
-const currentPageUrl = window.location.href;
-const message = `Hey
-
-Wondering who’s the talk of the town? 😍 It's us!
-
-Trusted by 99% of our customers with a sparkling 5-star rating! 🌟
-
-Serving All Over Bengaluru.
-
-From Balloon Decor 🎈 to Cakes🍰 to Flower Decor 💐 to Photography, we’ve got it all!
-
-Spread The Smile, trust the quality💖
-
-Order Now: lavisheventzz.com
-
-Team lavisheventzz
-
-${currentPageUrl}`;
-const encodedMessage = encodeURIComponent(message);
-const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
-
+  const currentPageUrl = window.location.href;
+  const message = `Hello Lavisheventzz, I want to know more about the services you provide.\n ${currentPageUrl}`;
+  const encodedMessage = encodeURIComponent(message);
+  const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
 
   return (
     <motion.div
@@ -52,11 +32,10 @@ const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
       {/* Header */}
       <div className="p-4 bg-primary text-white flex gap-3 items-center">
         <div className="bg-white rounded-full p-2">
-
           <img src={Logo} className="w-12 h-12" alt="Logo" />
         </div>
         <div>
-          <p className="font-bold">Lavisheventz</p>
+          <p className="font-bold">Lavisheventzz</p>
           <p>Your Event Partner!</p>
         </div>
       </div>
@@ -72,15 +51,23 @@ const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
       >
         <div className="p-2 bg-white">
           <p className="text-sm text-gray-500">Lavisheventzz.com</p>
-          <p className="pt-2">Hi there! <br />Welcome to Lavishevents, How can we help you today?</p>
+          <p className="pt-2">
+            Hi there! <br />
+            Welcome to Lavisheventzz.com, How can we help you today?
+          </p>
         </div>
       </div>
 
       <div className="flex gap-2 items-center bg-gray-300 p-6">
-        <button className="bg-green-500 w-full p-2 flex items-center gap-2 justify-center rounded-3xl text-white" onClick={() => {
-          window.open(WhatsAppLink, "_blank")
-          onClose()
-        }}><FaWhatsapp size={24} /> Start Chat</button>
+        <button
+          className="bg-green-500 w-full p-2 flex items-center gap-2 justify-center rounded-3xl text-white"
+          onClick={() => {
+            window.open(WhatsAppLink, "_blank");
+            onClose();
+          }}
+        >
+          <FaWhatsapp size={24} /> Start Chat
+        </button>
       </div>
     </motion.div>
   );
@@ -103,7 +90,11 @@ const WhatsappandCallFeature = () => {
         className="bg-white rounded-full p-2 shadow-lg"
         onClick={() => setIsCardOpen(!isCardOpen)}
       >
-        <img src={whatsapp} alt="WhatsApp" className="w-12 h-12 cursor-pointer" />
+        <img
+          src={whatsapp}
+          alt="WhatsApp"
+          className="w-12 h-12 cursor-pointer"
+        />
       </div>
 
       {/* WhatsApp Card with Animation */}

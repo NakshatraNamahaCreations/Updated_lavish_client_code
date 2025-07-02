@@ -14,7 +14,7 @@ import CancellationPolicy from './CancellationPolicy';
 
 const iconsArray = [
     { name: "Facebook", icon: facebook, link: "https://www.facebook.com" },
-    { name: "Instagram", icon: instagram, link: "https://www.instagram.com/lavisheventsbangalore/" },
+    { name: "Instagram", icon: instagram, link: "https://www.instagram.com/lavisheventzz.com_/?igsh=Z2I5cGhtcG15dWRr#" },
     { name: "Linkedin", icon: linkedin, link: "https://www.linkedin.com/in/lavish-events-917b43366/" },
     { name: "Pintrest", icon: pintrest, link: "https://www.pinterest.com/lavishevents450/" },
     { name: "X", icon: x, link: "https://x.com/LavishEvents25" },
