@@ -11,10 +11,26 @@ import { IoMdClose } from "react-icons/io";
 
 const WhatsappCard = ({ onClose }) => {
 
-  const currentPageUrl = window.location.href;
-  const message = `${currentPageUrl}`;
-  const encodedMessage = encodeURIComponent(message);
-  const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
+const currentPageUrl = window.location.href;
+const message = `Hey
+
+Wondering who’s the talk of the town? 😍 It's us!
+
+Trusted by 99% of our customers with a sparkling 5-star rating! 🌟
+
+Serving All Over Bengaluru.
+
+From Balloon Decor 🎈 to Cakes🍰 to Flower Decor 💐 to Photography, we’ve got it all!
+
+Spread The Smile, trust the quality💖
+
+Order Now: lavisheventzz.com
+
+Team lavisheventzz
+
+${currentPageUrl}`;
+const encodedMessage = encodeURIComponent(message);
+const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
 
 
   return (

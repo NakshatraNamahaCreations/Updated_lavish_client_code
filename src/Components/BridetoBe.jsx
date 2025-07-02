@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-
 import sash from "../assets/services/sash.png";
 import cakes from "../assets/services/cakes.png";
 import chairs from "../assets/services/chairs.png";
@@ -10,11 +9,10 @@ import welcomeboard from "../assets/services/welcomeboard.png";
 import flwrbouqt from "../assets/services/flwrbouqt.png";
 import activity from "../assets/services/activity.png";
 
-
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import {  getAxios } from "../utils/api";
+import { getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
 
@@ -53,7 +51,6 @@ const addOns = [
   },
 ];
 
-
 const BridetoBe = () => {
   const [premiumData, setPremiumdata] = useState([]);
   const [simpleData, setSimpledata] = useState([]);
@@ -63,11 +60,11 @@ const BridetoBe = () => {
   const [recentPurchase, setRecentPurchase] = useState([]);
   const [serviceDetails, setServiceDetails] = useState([]);
   const { subcat_id } = useParams();
-  const storedUser = localStorage.getItem('user');
+  const storedUser = localStorage.getItem("user");
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const serviceDetails = recentPurchase?.map((item) => item.serviceDetails);
@@ -76,43 +73,43 @@ const BridetoBe = () => {
 
   const fetchRecentPurchase = async () => {
     try {
-      const response = await getAxios().get(`/orders/recent-orders/${customerId}`);
+      const response = await getAxios().get(
+        `/orders/recent-orders/${customerId}`
+      );
       const data = await response.data;
       setRecentPurchase(data.services);
     } catch (error) {
       console.error("Error fetching recent purchase:", error);
     }
-  }
+  };
 
   const fetchServices = async () => {
     try {
-      const response = await getAxios().get(
-        `/services/filter/${subcat_id}`
-      );
-  
+      const response = await getAxios().get(`/services/filter/${subcat_id}`);
+
       const data = response.data;
-  
+
       if (!data.success) {
         console.warn("API returned success: false");
         setSimpledata([]);
         setPremiumdata([]);
         return;
       }
-  
+
       console.log("data", data.data);
-  
+
       const simpleData = data.data.filter(
         (item) =>
           item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
           "simple decoration"
       );
-  
+
       const premiumData = data.data.filter(
         (item) =>
           item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
           "premium decoration"
       );
-  
+
       setSimpledata(simpleData);
       setPremiumdata(premiumData);
     } catch (error) {
@@ -127,13 +124,11 @@ const BridetoBe = () => {
       } else {
         console.error("Unexpected error:", error);
       }
-  
+
       setSimpledata([]);
       setPremiumdata([]);
     }
   };
-  
-
 
   const fetchSubSubcategoriesBySubCategory = async () => {
     if (!subcat_id) return;
@@ -159,7 +154,6 @@ const BridetoBe = () => {
     });
   };
 
-
   useEffect(() => {
     fetchServices();
     fetchSubSubcategoriesBySubCategory();
@@ -172,14 +166,16 @@ const BridetoBe = () => {
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
       <div>
-        <img src="https://lavisheventzz-bangalore.b-cdn.net/banner/bridetobebanner.png" className="mx-auto w-[1600px]" />
+        <img
+          src="https://lavisheventzz-bangalore.b-cdn.net/banner/bridetobebanner.png"
+          className="mx-auto w-[1600px]"
+        />
       </div>
 
       <div className="grid grid-cols-2 md:gap-10 gap-3  place-items-center md:my-16 mt-4 md:mx-10">
         {subSubCategories.map((item, idx) => (
           <div className="relative" key={item._id}>
             <Link to={`/service/${item._id}`}>
-
               <img
                 src={`${item?.image}`}
                 alt={item.subSubCategory}
@@ -194,7 +190,6 @@ const BridetoBe = () => {
       </div>
 
       <div className="px-10">
-
         {/* Simple Decoration Section */}
         <div className="mt-5">
           <div className="flex justify-between">
@@ -202,12 +197,27 @@ const BridetoBe = () => {
               Simple Decoration Service
             </p>
 
+            {(() => {
+              const simpleSub = subSubCategories.find((item) =>
+                item.subSubCategory.toLowerCase().includes("simple")
+              );
+              return simpleSub ? (
+                <Link
+                  to={`/service/${simpleSub._id}`}
+                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                >
+                  View All
+                </Link>
+              ) : null;
+            })()}
           </div>
 
           {simpleData.length > 0 ? (
             <CardCarousel centercardData={simpleData} />
           ) : (
-            <p className="text-gray-500 text-center mt-4">Simple Decoration Service Not Found</p>
+            <p className="text-gray-500 text-center mt-4">
+              Simple Decoration Service Not Found
+            </p>
           )}
         </div>
 
@@ -217,15 +227,30 @@ const BridetoBe = () => {
             <p className="lg:text-2xl text-primary font-bold playfair-display">
               Premium Decoration Service
             </p>
+
+            {(() => {
+              const primumSub = subSubCategories.find((item) =>
+                item.subSubCategory.toLowerCase().includes("premium")
+              );
+              return primumSub ? (
+                <Link
+                  to={`/service/${primumSub._id}`}
+                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                >
+                  View All
+                </Link>
+              ) : null;
+            })()}
           </div>
 
           {premiumData.length > 0 ? (
             <CardCarousel centercardData={premiumData} />
           ) : (
-            <p className="text-gray-500 text-center mt-4">Premium Decoration Service Not Found</p>
+            <p className="text-gray-500 text-center mt-4">
+              Premium Decoration Service Not Found
+            </p>
           )}
         </div>
-
       </div>
 
       {/* Add ons */}
@@ -256,8 +281,14 @@ const BridetoBe = () => {
         </p>
         <div className="flex justify-center items-center gap-1">
           <div className="place-items-end lg:space-y-2  space-y-1">
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/bridetobe1.png" className=" lg:h-40 md:h-28 h-10" />
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/bridetobe2.png" className=" lg:h-64  " />
+            <img
+              src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/bridetobe1.png"
+              className=" lg:h-40 md:h-28 h-10"
+            />
+            <img
+              src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/bridetobe2.png"
+              className=" lg:h-64  "
+            />
             {/* <div className=" bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
               <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/gallery3.png" className="rounded" />
               <video
@@ -268,7 +299,10 @@ const BridetoBe = () => {
                 muted
               />
             </div> */}
-               <img src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg" className=" lg:h-40 md:h-28 h-10 rounded-xl" />
+            <img
+              src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg"
+              className=" lg:h-40 md:h-28 h-10 rounded-xl"
+            />
           </div>
           <div>
             <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/bridetobe4.png" />
@@ -286,20 +320,31 @@ const BridetoBe = () => {
         </p>
       </div>
 
-      <div className="md:pt-20 py-5" onClick={() => handleNavigation("photography", "/photography")}>
-        <img src="https://lavisheventzz-bangalore.b-cdn.net/banner/photoshootbride.png" className="mx-auto w-[2000px]" />
+      <div
+        className="md:pt-20 py-5"
+        onClick={() => handleNavigation("photography", "/photography")}
+      >
+        <img
+          src="https://lavisheventzz-bangalore.b-cdn.net/banner/photoshootbride.png"
+          className="mx-auto w-[2000px]"
+        />
       </div>
 
       <div className="md:pt-20 pt-10">
         <p className="font-bold poppins md:py-6 pb-4 md:text-2xl">
           Why Celebrate With Lavisheventzz
         </p>
-        <img src="https://lavisheventzz-bangalore.b-cdn.net/banner/trustedBanner.png" className="mx-auto w-[1600px]" />
+        <img
+          src="https://lavisheventzz-bangalore.b-cdn.net/banner/trustedBanner.png"
+          className="mx-auto w-[1600px]"
+        />
       </div>
-      {customerId && <div className="md:pt-10 pt-7">
-        <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
-        <CardCarousel centercardData={serviceDetails} />
-      </div>}
+      {customerId && (
+        <div className="md:pt-10 pt-7">
+          <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+          <CardCarousel centercardData={serviceDetails} />
+        </div>
+      )}
       <div className="my-4">
         <p className="text-center font-bold poppins text-2xl">FAQs</p>
 

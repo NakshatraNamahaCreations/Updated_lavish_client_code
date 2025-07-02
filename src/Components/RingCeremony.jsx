@@ -186,6 +186,26 @@ const RingCermony = () => {
             <p className="lg:text-2xl text-primary font-bold playfair-display">
               Simple Decoration Service
             </p>
+            {(() => {
+              const simpleSub = subSubCategories.find((item) =>
+                item.subSubCategory.toLowerCase().includes("simple")
+              );
+              return simpleSub ? (
+                <Link
+                  to={`/service/${simpleSub._id}`}
+                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                >
+                  View All
+                </Link>
+              ) : null;
+            })()}
+            {/* {subSubCategories.filter(item => item.subSubCategory.toLowerCase().includes("simple"))} */}
+            {/* <Link
+              to={`/service/${subcat_id}/simple-decoration`}
+              className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+            >
+              View All
+            </Link> */}
           </div>
 
           {simpleData.length > 0 ? (
@@ -203,6 +223,19 @@ const RingCermony = () => {
             <p className="lg:text-2xl text-primary font-bold playfair-display">
               Premium Decoration Service
             </p>
+            {(() => {
+              const primumSub = subSubCategories.find((item) =>
+                item.subSubCategory.toLowerCase().includes("premium")
+              );
+              return primumSub ? (
+                <Link
+                  to={`/service/${primumSub._id}`}
+                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                >
+                  View All
+                </Link>
+              ) : null;
+            })()}
           </div>
 
           {premiumData.length > 0 ? (
@@ -243,10 +276,19 @@ const RingCermony = () => {
         </p>
         <div className="flex justify-center items-center gap-1">
           <div className="place-items-end lg:space-y-2  space-y-1">
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/RingCeremony/ringcer1.png" className=" lg:h-40 md:h-28 h-10" />
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/RingCeremony/ringcer2.png" className=" lg:h-64  " />
+            <img
+              src="https://lavisheventzz-bangalore.b-cdn.net/RingCeremony/ringcer1.png"
+              className=" lg:h-40 md:h-28 h-10"
+            />
+            <img
+              src="https://lavisheventzz-bangalore.b-cdn.net/RingCeremony/ringcer2.png"
+              className=" lg:h-64  "
+            />
             <div className=" bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
-              <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/gallery3.png" className="rounded" />
+              <img
+                src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/gallery3.png"
+                className="rounded"
+              />
               <video
                 className="absolute top-0 left-0 w-full h-full object-cover opacity-80"
                 src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/video.mp4"

@@ -1,17 +1,15 @@
 import React from 'react';
 import whatsapp from "../assets/whatsapp.png"
 
-function ServiceBottomButtons() {
-  const city = "Bangalore";
-  const price = 5466;
+function ServiceBottomButtons({serviceName, price, city}) {
 
   // Get the current page URL
   const currentPageUrl = window.location.href;
 
   // Create the message
-  const message = `${currentPageUrl}\nCity: ${city},\nPrice: ${price}\nCan I get more details?`;
+  const message = `${currentPageUrl}\nService: ${serviceName}\nCity: ${city},\nPrice: ${price}\nCan I get more details?`;
   const encodedMessage = encodeURIComponent(message);
-  const WhatsAppLink = `https://wa.me/919611430158?text=${encodedMessage}`;
+  const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
 
   const handleScroll = () => {
     window.scrollTo({

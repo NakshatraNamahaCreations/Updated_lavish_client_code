@@ -157,9 +157,24 @@ const NamingCeremony = () => {
       <div className="px-10">
         {/* Simple Decoration */}
         <div className="mt-5">
-          <p className="lg:text-2xl text-primary font-bold playfair-display">
-            Simple Decoration Service
-          </p>
+          <div className="flex justify-between items-center">
+            <p className="lg:text-2xl text-primary font-bold playfair-display">
+              Simple Decoration Service
+            </p>
+            {(() => {
+              const simpleSub = subSubCategories.find((item) =>
+                item.subSubCategory.toLowerCase().includes("simple")
+              );
+              return simpleSub ? (
+                <Link
+                  to={`/service/${simpleSub._id}`}
+                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                >
+                  View All
+                </Link>
+              ) : null;
+            })()}
+          </div>
           {simpleData.length ? (
             <CardCarousel centercardData={simpleData} />
           ) : (
@@ -171,9 +186,25 @@ const NamingCeremony = () => {
 
         {/* Premium Decoration */}
         <div className="mt-10">
+          <div className="flex justify-between">
           <p className="lg:text-2xl text-primary font-bold playfair-display">
             Premium Decoration Service
           </p>
+
+          {(() => {
+            const primumSub = subSubCategories.find((item) =>
+              item.subSubCategory.toLowerCase().includes("premium")
+            );
+            return primumSub ? (
+              <Link
+                to={`/service/${primumSub._id}`}
+                className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+              >
+                View All
+              </Link>
+            ) : null;
+          })()}
+          </div>
           {premiumData.length ? (
             <CardCarousel centercardData={premiumData} />
           ) : (
@@ -234,7 +265,10 @@ const NamingCeremony = () => {
                 muted
               />
             </div> */}
-               <img src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg" className=" lg:h-40 md:h-28 h-10 rounded-xl" />
+            <img
+              src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg"
+              className=" lg:h-40 md:h-28 h-10 rounded-xl"
+            />
           </div>
           <img src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer4.png" />
           <div className="lg:space-y-2 space-y-1">

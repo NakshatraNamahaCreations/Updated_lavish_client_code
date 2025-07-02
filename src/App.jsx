@@ -83,8 +83,6 @@ function App() {
             <Route path="/invoice/:id" element={<Invoice />} />
             <Route path="*" element={<HomePage />} />
             <Route path="/payment/failure" element={<PaymentFailure />} />
-      
-
           </Route>
         </Routes>
       </Suspense>

@@ -162,6 +162,12 @@ const AdultBirthday = () => {
           <p className="lg:text-2xl text-primary font-bold playfair-display">
             All Decoration Service
           </p>
+           <div
+            className="text-purple-600 underline text-sm font-semibold hover:text-blue-800 cursor-pointer"
+            onClick={() => handleNavigation("Adult birthday", "/service/")}
+          >
+            View All
+          </div>
         </div>
 
         {allServices.length > 0 ? (

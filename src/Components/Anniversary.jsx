@@ -8,7 +8,7 @@ import cakes from "../assets/bday/add_ons/cakes.png";
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import {  getAxios } from "../utils/api";
+import { getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
 
@@ -35,8 +35,6 @@ const addOns = [
   },
 ];
 
-
-
 const Anniversary = () => {
   const [premiumData, setPremiumdata] = useState([]);
   const [simpleData, setSimpledata] = useState([]);
@@ -45,22 +43,23 @@ const Anniversary = () => {
   const [serviceDetails, setServiceDetails] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { subcat_id } = useParams();
-  const storedUser = localStorage.getItem('user');
+  const storedUser = localStorage.getItem("user");
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
 
-
   const fetchRecentPurchase = async () => {
     try {
-      const response = await getAxios().get(`/orders/recent-orders/${customerId}`);
+      const response = await getAxios().get(
+        `/orders/recent-orders/${customerId}`
+      );
       const data = await response.data;
       setRecentPurchase(data.services);
     } catch (error) {
       console.error("Error fetching recent purchase:", error);
     }
-  }
+  };
 
   const fetchSubSubcategoriesBySubCategory = async () => {
     if (!subcat_id) return;
@@ -81,7 +80,7 @@ const Anniversary = () => {
       const { data, status } = await getAxios().get(
         `/services/filter/${subcat_id}`
       );
-  
+
       // Handle 404 Not Found
       if (status === 404 || !data.success || !Array.isArray(data.data)) {
         console.warn("No valid services found.");
@@ -89,25 +88,29 @@ const Anniversary = () => {
         setPremiumdata([]);
         return;
       }
-  
+
       const services = data.data;
-  
+
       // Filter decorations by type
       const simpleData = services.filter(
-        item =>
-          item.subSubCategoryId?.subSubCategory?.toLowerCase() === 'simple decoration'
+        (item) =>
+          item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
+          "simple decoration"
       );
-  
+
       const premiumData = services.filter(
-        item =>
-          item.subSubCategoryId?.subSubCategory?.toLowerCase() === 'premium decoration'
+        (item) =>
+          item.subSubCategoryId?.subSubCategory?.toLowerCase() ===
+          "premium decoration"
       );
-  
+
       setSimpledata(simpleData);
       setPremiumdata(premiumData);
-  
     } catch (error) {
-      console.error("Error fetching services:", error?.response?.data?.message || error.message);
+      console.error(
+        "Error fetching services:",
+        error?.response?.data?.message || error.message
+      );
       setSimpledata([]);
       setPremiumdata([]);
     }
@@ -123,7 +126,6 @@ const Anniversary = () => {
     });
   };
 
-
   useEffect(() => {
     fetchServices();
     fetchSubSubcategoriesBySubCategory();
@@ -134,18 +136,17 @@ const Anniversary = () => {
     setServiceDetails(serviceDetails);
   }, [recentPurchase]);
 
-
   useEffect(() => {
     fetchRecentPurchase();
   }, [customerId]);
 
-
-
-
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
       <div>
-        <img src="https://lavisheventzz-bangalore.b-cdn.net/banner/anniversaryBanner1.png" className="mx-auto w-[1600px]" />
+        <img
+          src="https://lavisheventzz-bangalore.b-cdn.net/banner/anniversaryBanner1.png"
+          className="mx-auto w-[1600px]"
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-10  md:place-items-center lg:mt-10 mt-5">
@@ -158,26 +159,38 @@ const Anniversary = () => {
                 alt={item.subSubCategory}
                 className="rounded-3xl w-[500px] "
               />
-
             </Link>
           </div>
         ))}
       </div>
       <div className="px-10">
-
         {/* Simple Decoration Section */}
         <div className="mt-5">
           <div className="flex justify-between">
             <p className="lg:text-2xl text-primary font-bold playfair-display">
               Simple Decoration Service
             </p>
-
+            {(() => {
+              const simpleSub = subSubCategories.find((item) =>
+                item.subSubCategory.toLowerCase().includes("simple")
+              );
+              return simpleSub ? (
+                <Link
+                  to={`/service/${simpleSub._id}`}
+                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                >
+                  View All
+                </Link>
+              ) : null;
+            })()}
           </div>
 
           {simpleData.length > 0 ? (
             <CardCarousel centercardData={simpleData} />
           ) : (
-            <p className="text-gray-500 text-center mt-4">Simple Decoration Service Not Found</p>
+            <p className="text-gray-500 text-center mt-4">
+              Simple Decoration Service Not Found
+            </p>
           )}
         </div>
 
@@ -188,17 +201,30 @@ const Anniversary = () => {
               Premium Decoration Service
             </p>
 
+            {(() => {
+              const primumSub = subSubCategories.find((item) =>
+                item.subSubCategory.toLowerCase().includes("premium")
+              );
+              return primumSub ? (
+                <Link
+                  to={`/service/${primumSub._id}`}
+                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                >
+                  View All
+                </Link>
+              ) : null;
+            })()}
           </div>
 
           {premiumData.length > 0 ? (
             <CardCarousel centercardData={premiumData} />
           ) : (
-            <p className="text-gray-500 text-center mt-4">Premium Decoration Service Not Found</p>
+            <p className="text-gray-500 text-center mt-4">
+              Premium Decoration Service Not Found
+            </p>
           )}
         </div>
-
       </div>
-
 
       {/* Add ons */}
       <div className="relative inset-0 flex flex-col items-center justify-center text-center gap-5 my-10">
@@ -229,9 +255,18 @@ const Anniversary = () => {
         </p>
         <div className="flex justify-center items-center gap-1">
           <div className="place-items-end lg:space-y-2  space-y-1">
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/Anniversary/anniversary1.png" className=" lg:h-40 md:h-28 h-10" />
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/Anniversary/anniversary2.png" className=" lg:h-64  " />
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg" className=" lg:h-40 md:h-28 h-10 rounded-xl" />
+            <img
+              src="https://lavisheventzz-bangalore.b-cdn.net/Anniversary/anniversary1.png"
+              className=" lg:h-40 md:h-28 h-10"
+            />
+            <img
+              src="https://lavisheventzz-bangalore.b-cdn.net/Anniversary/anniversary2.png"
+              className=" lg:h-64  "
+            />
+            <img
+              src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg"
+              className=" lg:h-40 md:h-28 h-10 rounded-xl"
+            />
             {/* <div className=" bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
               <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/gallery3.png" className="rounded" />
               <video
@@ -259,24 +294,35 @@ const Anniversary = () => {
         </p>
       </div>
 
-      <div className="md:pt-20 py-5" onClick={() => handleNavigation("photography", "/photography")}>
-        <img src="https://lavisheventzz-bangalore.b-cdn.net/banner/photoshootAnniversary.png" className="mx-auto w-[2000px]" />
+      <div
+        className="md:pt-20 py-5"
+        onClick={() => handleNavigation("photography", "/photography")}
+      >
+        <img
+          src="https://lavisheventzz-bangalore.b-cdn.net/banner/photoshootAnniversary.png"
+          className="mx-auto w-[2000px]"
+        />
       </div>
 
-      {customerId && <div className="md:pt-10 pt-7">
-        <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
-        <CardCarousel centercardData={serviceDetails} />
-      </div>}
+      {customerId && (
+        <div className="md:pt-10 pt-7">
+          <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+          <CardCarousel centercardData={serviceDetails} />
+        </div>
+      )}
       <div className="">
         <p className="font-bold poppins md:py-6 pb-4 md:text-2xl">
           Why Celebrate With Lavisheventzz
         </p>
-        <img src="https://lavisheventzz-bangalore.b-cdn.net/banner/trustedBanner.png" className="mx-auto w-[1600px]" />
+        <img
+          src="https://lavisheventzz-bangalore.b-cdn.net/banner/trustedBanner.png"
+          className="mx-auto w-[1600px]"
+        />
       </div>
 
       <div className="my-4">
         <p className="text-center font-bold poppins text-2xl">FAQs</p>
-       
+
         <p className="text-center font-bold poppins text-sm">
           Need help? Contact us for any queries related to us
         </p>

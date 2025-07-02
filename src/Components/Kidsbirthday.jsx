@@ -22,7 +22,7 @@ const Kidsbirthday = () => {
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
 
-  console.log("subSubCategories",subSubCategories)
+  console.log("subSubCategories", subSubCategories);
 
   const fetchRecentPurchase = async () => {
     try {
@@ -56,33 +56,33 @@ const Kidsbirthday = () => {
       setLoading(false);
     }
   };
- const fetchServices = async () => {
-  try {
-    const response = await getAxios().get(`/services/filter/${subcat_id}`);
-    const data = response.data;
+  const fetchServices = async () => {
+    try {
+      const response = await getAxios().get(`/services/filter/${subcat_id}`);
+      const data = response.data;
 
-    if (data.success) {
-      setAllServices(data.data); // <-- Set the array of services here
-    } else {
-      console.warn("API returned success: false");
-      setAllServices([]); // Set to empty array if not successful
-    }
-
-    console.log("all data", data.data);
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      if (error.response?.status === 404) {
-        console.warn("No services found for this subcategory.");
-        setAllServices([]); // Set to empty array on 404
-        return;
+      if (data.success) {
+        setAllServices(data.data); // <-- Set the array of services here
+      } else {
+        console.warn("API returned success: false");
+        setAllServices([]); // Set to empty array if not successful
       }
-      console.error("Axios error:", error.message);
-    } else {
-      console.error("Unexpected error:", error);
+
+      console.log("all data", data.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 404) {
+          console.warn("No services found for this subcategory.");
+          setAllServices([]); // Set to empty array on 404
+          return;
+        }
+        console.error("Axios error:", error.message);
+      } else {
+        console.error("Unexpected error:", error);
+      }
+      setAllServices([]); // Set to empty array on error
     }
-    setAllServices([]); // Set to empty array on error
-  }
-};
+  };
 
   const checkForThemes = async (subSubCategoryId) => {
     try {
@@ -142,6 +142,8 @@ const Kidsbirthday = () => {
     fetchRecentPurchase();
   }, [customerId]);
 
+  
+
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
       {loading && (
@@ -197,9 +199,12 @@ const Kidsbirthday = () => {
           <p className="lg:text-2xl text-primary font-bold playfair-display">
             All Decoration Service
           </p>
-          {/* <div className="text-secondary font-bold flex items-center text-sm md:text-base">
-              View All <MdArrowRightAlt className="md:text-2xl text-xl" />
-            </div> */}
+          <div
+            className="text-purple-600 underline text-sm font-semibold hover:text-blue-800 cursor-pointer"
+            onClick={() => handleNavigation("Welcome Baby", "/service/")}
+          >
+            View All
+          </div>
         </div>
 
         {allServices.length > 0 ? (
@@ -238,7 +243,10 @@ const Kidsbirthday = () => {
                 muted
               />
             </div> */}
-               <img src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg" className=" lg:h-40 md:h-28 h-10 rounded-xl" />
+            <img
+              src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg"
+              className=" lg:h-40 md:h-28 h-10 rounded-xl"
+            />
           </div>
           <div>
             <img src="https://lavisheventzz-bangalore.b-cdn.net/KidsBirthday/bdayGallery4.png" />

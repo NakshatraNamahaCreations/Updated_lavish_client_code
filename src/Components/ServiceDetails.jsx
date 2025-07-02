@@ -361,8 +361,9 @@ const ServiceDetails = () => {
   // For WhatsApp contact
   const city = "Bangalore";
   const price = serviceDetails?.offerPrice;
+  const serviceName = serviceDetails?.serviceName
   const currentPageUrl = window.location.href;
-  const message = `URL: ${currentPageUrl}\nCity: ${city},\nPrice: ${price}\nCan I get more details?`;
+  const message = `URL: ${currentPageUrl}\nService: ${serviceName}\nCity: ${city},\nPrice: ${price}\nCan I get more details?`;
   const encodedMessage = encodeURIComponent(message);
   const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
 
@@ -458,7 +459,7 @@ const ServiceDetails = () => {
         <div className="text-center py-10 text-red-500">{error}</div>
       ) : (
         <>
-          <ServiceBottomButtons />
+          <ServiceBottomButtons serviceName={serviceDetails?.serviceName} price={serviceDetails?.offerPrice} city="Bangalore"/>
 
           <div className="relative grid md:grid-cols-2 grid-cols-1 lg:gap-10 gap-4">
             <div>
