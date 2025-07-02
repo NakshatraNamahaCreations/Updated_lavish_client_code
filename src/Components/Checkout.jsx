@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import support from "../assets/support.png";
 import phone from "../assets/phone.png";
 import whatsapp from "../assets/whatsapp.png";
+import phonepe from "../assets/phonepe.png"
 import { IoMdTime } from "react-icons/io";
 import { CiMoneyCheck1 } from "react-icons/ci";
 import { HiOutlineCalendarDateRange } from "react-icons/hi2";
@@ -1352,9 +1353,10 @@ const Checkout = () => {
               >
                 PROCEED TO PAY | Rs. {displayGrandTotal}
               </button>
-              <p className="text-gray-500 py-3 text-center">
+              {/* <p className="text-gray-500 py-3 text-center">
                 100% Safe & Secure Payment!
-              </p>
+              </p> */}
+              <img src={phonepe} className="w-100 h-100"/>
             </div>
           </div>
 
