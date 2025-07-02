@@ -109,7 +109,7 @@ const ContactUs = () => {
               </div>
               <div>
                 <h2 className="text-2xl font-semibold">Email</h2>
-                <p className="text-xl py-4">infolavisheventzz@gmail.com</p>
+                <p className="text-xl py-4">support@lavisheventzz.com</p>
               </div>
             </div>
           </div>

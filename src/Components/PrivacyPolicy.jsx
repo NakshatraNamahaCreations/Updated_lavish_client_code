@@ -106,7 +106,7 @@ const PrivacyPolicy = () => {
         </ul>
         <p className="mt-2">
           To exercise these rights, please contact us at
-          <a href="mailto:infolavisheventzz@gmail.com" className="text-blue-600 underline ml-1">infolavisheventzz@gmail.com</a>.
+          <a href="mailto:support@lavisheventzz.com" className="text-blue-600 underline ml-1">support@lavisheventzz.com</a>.
         </p>
       </section>
 
@@ -136,7 +136,7 @@ const PrivacyPolicy = () => {
         <p className="mb-2">If you have questions or concerns about this Privacy Policy or your personal data, please contact us:</p>
         <ul className="list-disc list-inside">
           <li><strong>Lavish Eventzz</strong></li>
-          <li>Email: <a href="mailto:infolavisheventzz@gmail.com" className="text-blue-600 underline">infolavisheventzz@gmail.com</a></li>
+          <li>Email: <a href="mailto:support@lavisheventzz.com" className="text-blue-600 underline">support@lavisheventzz.com</a></li>
           <li>Phone: [+91 9620558000]</li>
           <li>Address:  #55 17th main road JC Nagar Kurubharahalli bangalore 560086</li>
         </ul>

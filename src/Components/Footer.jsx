@@ -93,10 +93,10 @@ const Footer = () => {
                     <p className='font-bold text-black montserrat pb-3 text-lg sm:text-xl'>Contact with us!</p>
                     <div className='flex flex-col gap-2'>
                         <a
-                            href="mailto:infolavisheventzz@gmail.com?subject=Enquiry%20about%20Services&body=Hi%20Lavish%20Events%2C%0A%0AI'm%20interested%20in%20your%20event%20decor%20services.%20Please%20get%20back%20to%20me.%0A%0AThanks!"
+                            href="mailto:support@lavisheventzz.com?subject=Enquiry%20about%20Services&body=Hi%20Lavish%20Events%2C%0A%0AI'm%20interested%20in%20your%20event%20decor%20services.%20Please%20get%20back%20to%20me.%0A%0AThanks!"
                             className='flex gap-2 items-center text-sm sm:text-base text-black hover:text-blue-600'
                         >
-                            <IoMailSharp /> infolavisheventzz@gmail.com
+                            <IoMailSharp /> support@lavisheventzz.com
                         </a>
 
                         <a href="tel:+919620558000" className='flex gap-2 items-center text-sm sm:text-base text-black hover:text-blue-600'>
