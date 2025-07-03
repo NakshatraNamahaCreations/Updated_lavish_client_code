@@ -10,11 +10,10 @@ const ServiceCard = ({ service }) => {
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const storedUser = localStorage.getItem('user');
+  const storedUser = localStorage.getItem("user");
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
-  const authAxios = getAuthAxios()
-
+  const authAxios = getAuthAxios();
 
   useEffect(() => {
     const checkWishlistStatus = async () => {
@@ -23,9 +22,10 @@ const ServiceCard = ({ service }) => {
       try {
         const response = await getAxios().get(`/wishlist/${customerId}`);
         const wishlistItems = response.data.wishlist;
-        const isServiceInWishlist = wishlistItems.some(item => item.serviceId._id === service._id);
+        const isServiceInWishlist = wishlistItems.some(
+          (item) => item.serviceId._id === service._id
+        );
         setIsInWishlist(isServiceInWishlist);
-
       } catch (error) {
         console.error("Error checking wishlist status:", error);
       }
@@ -42,12 +42,16 @@ const ServiceCard = ({ service }) => {
     }
 
     setIsLoading(true);
-    const loadingToast = toast.loading(isInWishlist ? "Removing from wishlist..." : "Adding to wishlist...");
-    
+    const loadingToast = toast.loading(
+      isInWishlist ? "Removing from wishlist..." : "Adding to wishlist..."
+    );
+
     try {
       if (isInWishlist) {
         // Remove from wishlist
-        await authAxios.delete(`/wishlist/remove-item/${customerId}/${service._id}`);
+        await authAxios.delete(
+          `/wishlist/remove-item/${customerId}/${service._id}`
+        );
         setIsInWishlist(false);
         toast.success("Item removed from wishlist", { id: loadingToast });
       } else {
@@ -57,14 +61,16 @@ const ServiceCard = ({ service }) => {
           serviceName: service.serviceName,
           customerId,
           servicePrice: service.offerPrice || service.price || 0,
-          serviceImages: service.images || []
+          serviceImages: service.images || [],
         });
         setIsInWishlist(true);
         toast.success("Item added to wishlist", { id: loadingToast });
       }
     } catch (error) {
       console.error("Error updating wishlist:", error);
-      toast.error(error.response?.data?.message || "Error updating wishlist", { id: loadingToast });
+      toast.error(error.response?.data?.message || "Error updating wishlist", {
+        id: loadingToast,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -84,7 +90,7 @@ const ServiceCard = ({ service }) => {
       <div
         className="rounded-full bg-white p-2 absolute lg:top-6 lg:right-6 top-2 right-1 text-2xl cursor-pointer"
         onClick={handleWishlist}
-        style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
+        style={{ pointerEvents: isLoading ? "none" : "auto" }}
       >
         {isInWishlist ? (
           <GoHeartFill className="text-red-600" />
@@ -105,7 +111,9 @@ const ServiceCard = ({ service }) => {
           <div className="px-1 flex flex-col justify-between">
             <div>
               <p className="pt-2">At your location</p>
-              <p className="text-md font-semibold">{service.serviceName || "Service Name"}</p>
+              <p className="text-md font-semibold">
+                {service.serviceName || "Service Name"}
+              </p>
             </div>
 
             <div className="flex justify-between pt-3 pb-1 absolute bottom-0 left-0 w-full md:px-4 px-1">
@@ -113,7 +121,13 @@ const ServiceCard = ({ service }) => {
                 Rs. {service.offerPrice}
               </p>
               <p className="flex gap-1 text-primary items-center">
-                <IoIosStar /> 4.5
+                {service.rating ? (
+                  <>
+                    <IoIosStar /> {service.rating}
+                  </>
+                ) : (
+                  "No Reviews Yet"
+                )}
               </p>
             </div>
           </div>
@@ -124,4 +138,3 @@ const ServiceCard = ({ service }) => {
 };
 
 export default ServiceCard;
-
