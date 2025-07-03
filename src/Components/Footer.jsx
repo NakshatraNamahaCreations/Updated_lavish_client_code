@@ -9,6 +9,7 @@ import x from "../assets/icons/twitter.png";
 import youtube from "../assets/icons/YouTube.png";
 import { useNavigate } from "react-router-dom";
 import CancellationPolicy from "./CancellationPolicy";
+import { getAxios } from "../utils/api";
 
 const iconsArray = [
   { name: "Facebook", icon: facebook, link: "https://www.facebook.com" },
@@ -60,13 +61,16 @@ const Footer = () => {
       alert("Please enter a valid email address.");
       return;
     }
+
     try {
-      const response = await fetch("http://localhost:5000/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      if (response.ok) {
+      const response = await getAxios().post(
+        "/send-email",
+        {
+          email,
+        }
+      );
+
+      if (response.status === 200) {
         setSubmitted(true);
         setEmail("");
       } else {
@@ -76,7 +80,6 @@ const Footer = () => {
       alert("Network error. Please try again.");
     }
   };
-
   return (
     <div className="bg-gray-200 relative font-medium">
       {/* Hero section */}
