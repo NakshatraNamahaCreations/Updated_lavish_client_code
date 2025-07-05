@@ -4,9 +4,8 @@ import { FaRegEdit, FaStar } from "react-icons/fa";
 import { MdArrowRightAlt } from "react-icons/md";
 import ReviewGallery from "./ReviewGallery";
 import { getAuthAxios, getAxios } from "../utils/api";
-import AuthModal from "./AuthModal"; // Import the AuthModal component
+import AuthModal from "./AuthModal";
 
-// Helper to render stars with decimal support
 const StarRating = ({ rating }) => {
   const fullStars = Math.floor(rating);
   const hasHalf = rating - fullStars >= 0.25 && rating - fullStars < 0.75;
@@ -84,10 +83,7 @@ const Review = ({ serviceId, customerId, serviceRating }) => {
   const [page, setPage] = useState(1);
   const [imageFiles, setImageFiles] = useState([]);
   const [showAuthModal, setShowAuthModal] = useState(false);
-
-  // Get customerId from localStorage
-  // const user = JSON.parse(localStorage.getItem("user"));
-  // const customerId = user?.id; // Access customerId from user object
+  const [submitting, setSubmitting] = useState(false); // loader
 
   useEffect(() => {
     if (serviceId) fetchReviews();
@@ -110,9 +106,7 @@ const Review = ({ serviceId, customerId, serviceRating }) => {
     }
   };
 
-  const loadMoreReviews = () => {
-    setPage((prev) => prev + 1);
-  };
+  const loadMoreReviews = () => setPage((prev) => prev + 1);
 
   const hasMoreReviews = reviews.length < totalReviews;
 
@@ -136,11 +130,13 @@ const Review = ({ serviceId, customerId, serviceRating }) => {
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
+
     if (!customerId) {
-      setShowAuthModal(true); // Show the auth modal if not logged in
+      setShowAuthModal(true);
       return;
     }
     if (!reviewText.trim()) return alert("Please enter a review");
+
     if (
       rating === "" ||
       isNaN(Number(rating)) ||
@@ -155,16 +151,15 @@ const Review = ({ serviceId, customerId, serviceRating }) => {
     formData.append("serviceId", serviceId);
     formData.append("rating", rating);
     formData.append("reviewText", reviewText);
-
     imageFiles.forEach((file) => {
       formData.append("images", file);
     });
 
+    setSubmitting(true);
     try {
-      const res = await getAuthAxios().post("/reviews/create", formData, {
+      await getAuthAxios().post("/reviews/create", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log(res.data);
       setReviewText("");
       setImageFiles([]);
       setRating("");
@@ -176,6 +171,8 @@ const Review = ({ serviceId, customerId, serviceRating }) => {
         error.response?.data?.message ||
         "Failed to submit review. Please try again.";
       alert(errorMessage);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -188,12 +185,10 @@ const Review = ({ serviceId, customerId, serviceRating }) => {
             {serviceRating ? (
               <h1 className="flex items-center gap-1 justify-center text-4xl font-bold">
                 {serviceRating}
-                {"  "}
                 <IoIosStar className="text-green-600" />
               </h1>
             ) : null}
             <p className="md:text-2xl text-xl text-gray-400">
-              {" "}
               {totalReviews} Ratings
             </p>
           </div>
@@ -264,12 +259,41 @@ const Review = ({ serviceId, customerId, serviceRating }) => {
               )}
             </div>
 
-            <input
+            <button
               type="submit"
-              value="Submit"
-              className="bg-green-600 p-4 text-white text-2xl uppercase"
-              disabled={reviewText.trim() === ""}
-            />
+              disabled={submitting || reviewText.trim() === ""}
+              className={`bg-green-600 p-4 text-white text-2xl uppercase flex items-center justify-center gap-2 ${
+                submitting ? "opacity-70 cursor-not-allowed" : ""
+              }`}
+            >
+              {submitting ? (
+                <>
+                  <svg
+                    className="animate-spin h-6 w-6 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
+                  </svg>
+                  Submitting...
+                </>
+              ) : (
+                "Submit"
+              )}
+            </button>
           </form>
         )}
       </div>
@@ -294,7 +318,6 @@ const Review = ({ serviceId, customerId, serviceRating }) => {
         )}
       </div>
 
-      {/* Show the AuthModal when not logged in */}
       {showAuthModal && (
         <AuthModal
           setIsModalOpen={setShowAuthModal}
@@ -306,6 +329,7 @@ const Review = ({ serviceId, customerId, serviceRating }) => {
 };
 
 export default Review;
+
 
 // import React, { useState, useEffect } from 'react';
 // import { IoIosStar } from "react-icons/io";
