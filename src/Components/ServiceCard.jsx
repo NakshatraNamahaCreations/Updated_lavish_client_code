@@ -121,12 +121,10 @@ const ServiceCard = ({ service }) => {
                 Rs. {service.offerPrice}
               </p>
               <p className="flex gap-1 text-primary items-center">
-                {service.rating ? (
+                {service.rating && (
                   <>
                     <IoIosStar /> {service.rating}
                   </>
-                ) : (
-                  "No Reviews Yet"
                 )}
               </p>
             </div>

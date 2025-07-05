@@ -9,7 +9,7 @@ import x from "../assets/icons/twitter.png";
 import youtube from "../assets/icons/YouTube.png";
 import { useNavigate } from "react-router-dom";
 import CancellationPolicy from "./CancellationPolicy";
-import { getAxios } from "../utils/api";
+import { API_BASE_URL, getAxios } from "../utils/api";
 
 const iconsArray = [
   { name: "Facebook", icon: facebook, link: "https://www.facebook.com" },
@@ -41,6 +41,7 @@ const Footer = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const handleNavigation = (path) => {
     navigate(path);
     window.scrollTo(0, 0);
@@ -55,31 +56,36 @@ const Footer = () => {
     }
   };
 
-  const handleEmailSubmit = async (e) => {
-    e.preventDefault();
-    if (!email || !email.includes("@")) {
-      alert("Please enter a valid email address.");
-      return;
-    }
+const handleEmailSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await getAxios().post(
-        "/send-email",
-        {
-          email,
-        }
-      );
+  if (!email || !email.includes("@")) {
+    alert("Please enter a valid email address.");
+    return;
+  }
 
-      if (response.status === 200) {
-        setSubmitted(true);
-        setEmail("");
-      } else {
-        alert("Failed to send email. Please try again.");
-      }
-    } catch (error) {
-      alert("Network error. Please try again.");
+  setSubmitting(true); // Set submitting to true when the form is submitted
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/send-email`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    if (response.ok) {
+      setSubmitted(true);
+      setEmail("");
+    } else {
+      alert("Failed to send email. Please try again.");
     }
-  };
+  } catch (error) {
+    alert("Network error. Please try again.");
+  } finally {
+    setSubmitting(false); // Set submitting to false once done
+  }
+};
+
   return (
     <div className="bg-gray-200 relative font-medium">
       {/* Hero section */}
@@ -190,7 +196,7 @@ const Footer = () => {
                 type="submit"
                 className="bg-primary text-white px-4 py-1 rounded-lg"
               >
-                Submit
+                    {submitting ? "Submitting..." : "Submit"}
               </button>
             </form>
             {submitted && (

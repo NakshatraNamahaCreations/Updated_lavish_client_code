@@ -621,16 +621,16 @@ const Checkout = () => {
   const displayGrandTotal = Number(grandTotal || 0) + extraSlotCharge;
 
   // Helper to get and increment order number in localStorage
-  function getNextOrderId() {
-    const lastOrderNum = parseInt(
-      localStorage.getItem("lastOrderNum") || "0",
-      10
-    );
-    const nextOrderNum = lastOrderNum + 1;
-    localStorage.setItem("lastOrderNum", nextOrderNum);
-    // Pad with zeros to 4 digits
-    return `ORD${nextOrderNum.toString().padStart(4, "0")}`;
-  }
+  // function getNextOrderId() {
+  //   const lastOrderNum = parseInt(
+  //     localStorage.getItem("lastOrderNum") || "0",
+  //     10
+  //   );
+  //   const nextOrderNum = lastOrderNum + 1;
+  //   localStorage.setItem("lastOrderNum", nextOrderNum);
+  //   // Pad with zeros to 4 digits
+  //   return `ORD${nextOrderNum.toString().padStart(4, "0")}`;
+  // }
 
   const handleProceedToPay = async () => {
     setLoading(true);
@@ -729,7 +729,7 @@ const Checkout = () => {
       // Create order data
       const orderData = {
         // orderId: `ORD${Date.now()}`,
-        orderId: getNextOrderId(),
+        // orderId: getNextOrderId(),
         eventDate: formatDate(new Date(eventDate)),
         eventTime: selectedTimeSlot,
         pincode: pincode,

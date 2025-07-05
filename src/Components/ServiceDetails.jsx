@@ -713,7 +713,7 @@ const ServiceDetails = () => {
             </div>
           </div>
 
-          <Review serviceId={serviceId} customerId={customerId} />
+          <Review serviceId={serviceId} customerId={customerId} serviceRating={serviceDetails?.rating} />
 
           {customerId && <div className="md:pt-10 pt-7">
             <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
