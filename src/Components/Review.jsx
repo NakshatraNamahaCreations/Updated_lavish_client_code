@@ -73,7 +73,7 @@ const ReviewCard = ({ review }) => (
   </div>
 );
 
-const Review = ({ serviceId, customerId, serviceRating }) => {
+const Review = ({ serviceId,  serviceRating }) => {
   const [showReviewBox, setShowReviewBox] = useState(false);
   const [reviewText, setReviewText] = useState("");
   const [reviews, setReviews] = useState([]);
@@ -83,7 +83,12 @@ const Review = ({ serviceId, customerId, serviceRating }) => {
   const [page, setPage] = useState(1);
   const [imageFiles, setImageFiles] = useState([]);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [submitting, setSubmitting] = useState(false); // loader
+  const [submitting, setSubmitting] = useState(false); 
+
+  const storedUser = localStorage.getItem("user");
+  const userData = JSON.parse(storedUser);
+  const customerId = userData?.id;
+  // console.log("Customer ID", customerId);
 
   useEffect(() => {
     if (serviceId) fetchReviews();
@@ -103,6 +108,14 @@ const Review = ({ serviceId, customerId, serviceRating }) => {
       setTotalReviews(res.data.totalReviews || 0);
     } catch (err) {
       console.error("Error fetching reviews:", err);
+    }
+  };
+  const handleShowReviewBox = () => {
+    if (!customerId) {
+      setShowAuthModal(true);
+      return;
+    } else {
+      setShowReviewBox(true);
     }
   };
 
@@ -131,10 +144,6 @@ const Review = ({ serviceId, customerId, serviceRating }) => {
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
 
-    if (!customerId) {
-      setShowAuthModal(true);
-      return;
-    }
     if (!reviewText.trim()) return alert("Please enter a review");
 
     if (
@@ -193,7 +202,7 @@ const Review = ({ serviceId, customerId, serviceRating }) => {
             </p>
           </div>
           <div className="h-20 border border-gray-600" />
-          <div onClick={() => setShowReviewBox(!showReviewBox)}>
+          <div onClick={handleShowReviewBox}>
             <p className="flex items-center gap-3 md:text-2xl text-xl cursor-pointer">
               Write a review <FaRegEdit />
             </p>
@@ -321,7 +330,9 @@ const Review = ({ serviceId, customerId, serviceRating }) => {
       {showAuthModal && (
         <AuthModal
           setIsModalOpen={setShowAuthModal}
-          onLoginSuccess={() => fetchReviews()}
+          onLoginSuccess={() => {
+            setShowAuthModal(false);
+          }}
         />
       )}
     </div>
@@ -329,7 +340,6 @@ const Review = ({ serviceId, customerId, serviceRating }) => {
 };
 
 export default Review;
-
 
 // import React, { useState, useEffect } from 'react';
 // import { IoIosStar } from "react-icons/io";

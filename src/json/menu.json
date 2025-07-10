@@ -9,6 +9,10 @@
         "dropdown": true
       },
       {
+        "name": "Blogs",
+        "link": "/blogs"
+      },
+      {
         "name": "Contact Us",
         "link": "/contact"
       }
