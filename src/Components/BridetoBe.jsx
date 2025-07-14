@@ -8,6 +8,8 @@ import photography from "../assets/services/photography.png";
 import welcomeboard from "../assets/services/welcomeboard.png";
 import flwrbouqt from "../assets/services/flwrbouqt.png";
 import activity from "../assets/services/activity.png";
+import { Helmet } from "react-helmet-async";
+import Breadcrumb from "./Breadcrumb"; // adjust path if needed
 
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
@@ -162,9 +164,103 @@ const BridetoBe = () => {
   useEffect(() => {
     fetchRecentPurchase();
   }, [customerId]);
+const breadcrumbPaths = [
+  { name: "Home", link: "/" },
+  { name: "Bride to be Decor", link: "/bridetobedecor/681b10a5ddb6b3f4663e78cc" },
+];
 
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
+
+      <Helmet>
+        {/* Meta Title & Description */}
+        <title>Bride to be Decoration in Bangalore | Bridal Shower Experts</title>
+        <meta
+          name="description"
+          content="Make her feel special with stylish Bride to be decorations in Bangalore. Lavish Eventzz offers balloons, photo booths, themes, and glam setups for bridal showers"
+        />
+        <link
+          rel="canonical"
+          href="https://www.lavisheventzz.com/bridetobedecor/681b10a5ddb6b3f4663e78cc"
+        />
+
+        {/* Open Graph */}
+        <meta property="og:title" content="Bride to be Decoration in Bangalore | Bridal Shower Experts" />
+        <meta property="og:description" content="Make her feel special with stylish Bride to be decorations in Bangalore. Lavish Eventzz offers balloons, photo booths, themes, and glam setups for bridal showers" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.lavisheventzz.com/bridetobedecor/681b10a5ddb6b3f4663e78cc" />
+        <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/bridetobebanner.png" />
+        <meta property="og:site_name" content="Lavish Eventzz" />
+        <meta property="og:locale" content="en_US" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Bride to be Decoration in Bangalore | Bridal Shower Experts" />
+        <meta name="twitter:description" content="Make her feel special with stylish Bride to be decorations in Bangalore. Lavish Eventzz offers balloons, photo booths, themes, and glam setups for bridal showers" />
+        <meta name="twitter:url" content="https://www.lavisheventzz.com/bridetobedecor/681b10a5ddb6b3f4663e78cc" />
+        <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/bridetobebanner.png" />
+        <meta name="twitter:site" content="@LavishEvents25" />
+
+        {/* JSON-LD Schemas */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Lavish Eventzz",
+            "url": "https://www.lavisheventzz.com",
+            "logo": "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+91-9620558000",
+              "contactType": "Customer Service",
+              "areaServed": "IN",
+              "availableLanguage": "English"
+            },
+            "sameAs": [
+              "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
+              "https://x.com/LavishEvents25",
+              "https://www.youtube.com/@LavishEventzz-2025",
+              "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
+              "https://www.instagram.com/lavisheventzz.com_/",
+              "https://www.instagram.com/lavisheventzz"
+            ]
+          })}
+        </script>
+
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.lavisheventzz.com"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Bride to be Decor",
+                "item": "https://www.lavisheventzz.com/bridetobedecor/681b10a5ddb6b3f4663e78cc"
+              }
+            ]
+          })}
+        </script>
+
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "Bride to be Decor",
+            "url": "https://www.lavisheventzz.com/bridetobedecor/681b10a5ddb6b3f4663e78cc",
+            "description": "Make her feel special with stylish Bride to Be decorations in Bangalore. Lavish Eventzz offers balloons, photo booths, themes, and glam setups for bridal showers"
+          })}
+        </script>
+      </Helmet>
+
+<Breadcrumb paths={breadcrumbPaths} />
+
       <div>
         <img
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/bridetobebanner.png"

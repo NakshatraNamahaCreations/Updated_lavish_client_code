@@ -8,11 +8,12 @@ import cakes from "../assets/bday/add_ons/cakes.png";
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
+import { Helmet } from "react-helmet-async";
 import { getAuthAxios, getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import { MdArrowRightAlt } from "react-icons/md";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
+import Breadcrumb from "./Breadcrumb"; // adjust path if needed
 
 const addOns = [
   {
@@ -128,8 +129,105 @@ const WelcomeBaby = () => {
     fetchRecentPurchase();
   }, [customerId]);
 
+  const breadcrumbPaths = [
+    { name: "Home", link: "/" },
+    { name: "Welcome Baby Decoration", link: "/welcomebabydecor/681b1240ddb6b3f4663e794c" },
+  ];
+
   return (
     <div className="lg:py-24  pt-32  p-3  mx-auto">
+
+
+      <Helmet>
+        {/* Meta Tags */}
+        <title>Welcome Baby Decoration in Bangalore | Adorable Newborn Setup</title>
+        <meta
+          name="description"
+          content="Celebrate your baby’s arrival with welcome baby decoration in Bangalore. Lavish Eventzz offers cute themes, balloon arches, cradles, and naming backdrop setups."
+        />
+        <link
+          rel="canonical"
+          href="https://www.lavisheventzz.com/welcomebabydecor/681b1240ddb6b3f4663e794c"
+        />
+
+        {/* Open Graph Tags */}
+        <meta property="og:title" content="Welcome Baby Decoration in Bangalore | Adorable Newborn Setup" />
+        <meta property="og:description" content="Celebrate your baby’s arrival with welcome baby decoration in Bangalore. Lavish Eventzz offers cute themes, balloon arches, cradles, and naming backdrop setups." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.lavisheventzz.com/welcomebabydecor/681b1240ddb6b3f4663e794c" />
+        <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/welcomeBabybanner1.png" />
+        <meta property="og:site_name" content="Lavish Eventzz" />
+        <meta property="og:locale" content="en_US" />
+
+        {/* Twitter Card Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Welcome Baby Decoration in Bangalore | Adorable Newborn Setup" />
+        <meta name="twitter:description" content="Celebrate your baby’s arrival with welcome baby decoration in Bangalore. Lavish Eventzz offers cute themes, balloon arches, cradles, and naming backdrop setups." />
+        <meta name="twitter:url" content="https://www.lavisheventzz.com/welcomebabydecor/681b1240ddb6b3f4663e794c" />
+        <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/welcomeBabybanner1.png" />
+        <meta name="twitter:site" content="@LavishEvents25" />
+
+        {/* Organization Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Lavish Eventzz",
+            "url": "https://www.lavisheventzz.com",
+            "logo": "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+91-9620558000",
+              "contactType": "Customer Service",
+              "areaServed": "IN",
+              "availableLanguage": "English"
+            },
+            "sameAs": [
+              "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
+              "https://x.com/LavishEvents25",
+              "https://www.youtube.com/@LavishEventzz-2025",
+              "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
+              "https://www.instagram.com/lavisheventzz.com_/",
+              "https://www.instagram.com/lavisheventzz"
+            ]
+          })}
+        </script>
+
+        {/* Breadcrumbs Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.lavisheventzz.com"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Welcome Baby Decoration",
+                "item": "https://www.lavisheventzz.com/welcomebabydecor/681b1240ddb6b3f4663e794c"
+              }
+            ]
+          })}
+        </script>
+
+        {/* Product Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "Welcome Baby Decoration",
+            "url": "https://www.lavisheventzz.com/welcomebabydecor/681b1240ddb6b3f4663e794c",
+            "description": "Celebrate your baby’s arrival with welcome baby decoration in Bangalore. Lavish Eventzz offers cute themes, balloon arches, cradles, and naming backdrop setups."
+          })}
+        </script>
+      </Helmet>
+      <Breadcrumb paths={breadcrumbPaths} />
+
       <div>
         <img
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/welcomeBabybanner1.png"

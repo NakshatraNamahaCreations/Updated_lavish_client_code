@@ -1,8 +1,54 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
+import Breadcrumb from "./Breadcrumb";
 
 const PrivacyPolicy = () => {
+  const breadcrumbPaths = [
+  { name: "Home", link: "/" },
+  { name: "Privacy Policy", link: "/privacy-policy" },
+];
+
   return (
-    <div className="max-w-6xl mx-auto px-6 py-12 bg-white text-gray-800 md:mt-16 mt-24">
+         <>
+       <div className='lg:pt-24 pt-28 mx-auto'>
+           <Breadcrumb paths={breadcrumbPaths} />
+       </div>
+    <div className="max-w-6xl mx-auto px-6  bg-white text-gray-800 md:mt-16 mt-24">
+          <Helmet>
+      {/* ✅ Meta Title & Description */}
+      <title>Event Privacy Policy | Lavish Eventzz Data Protection Notice</title>
+      <meta
+        name="description"
+        content="Read the privacy policy of Lavish Eventzz. Learn how we collect, use, and protect your personal data across event bookings, inquiries, and website interactions."
+      />
+      <meta
+        name="keywords"
+        content="Event Privacy Policy, Event Data Collection Policy, Customer Information Security, Website Privacy Notice, Event Booking Data Protection, User Data Usage Terms"
+      />
+  <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://www.lavisheventzz.com"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Privacy Policy",
+              "item": "https://www.lavisheventzz.com/privacy-policy"
+            }
+          ]
+        })}
+      </script>
+        </Helmet>
+
+      {/* ✅ Canonical URL */}
+      <link rel="canonical" href="https://www.lavisheventzz.com/privacy-policy" />
       <h1 className="text-3xl font-bold mb-6 text-purple-800">Privacy Policy</h1>
       <p className="mb-4 italic text-sm text-gray-600">Effective Date: 26/05/2025</p>
 
@@ -142,6 +188,7 @@ const PrivacyPolicy = () => {
         </ul>
       </section>
     </div>
+    </>
   );
 };
 

@@ -9,13 +9,14 @@ import photography from "../assets/services/photography.png";
 import welcomeboard from "../assets/services/welcomeboard.png";
 import flwrbouqt from "../assets/services/flwrbouqt.png";
 import activity from "../assets/services/activity.png";
-
+import Breadcrumb from "./Breadcrumb"; 
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
 import CardCarousel from "./CardCarousel";
 
 import { getAxios } from "../utils/api";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
+import { Helmet } from "react-helmet-async";
 
 const addOns = [
   { src: sash, title: "Sash" },
@@ -115,9 +116,105 @@ const NamingCeremony = () => {
   const message = "Hello, I want to know more about Naming Ceremony Cakes.";
   const encodedMessage = encodeURIComponent(message);
   const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
+  const breadcrumbPaths = [
+    { name: "Home", link: "/" },
+    { name: "Naming Ceremony Decoration", link: "/namingceremonydecor/681b124bddb6b3f4663e7951" },
+  ];
 
   return (
     <div className="lg:py-24 md:pt-20 pt-32 p-3 mx-auto">
+
+
+      <Helmet>
+        {/* Meta Tags */}
+        <title>Naming Ceremony Decoration in Bangalore | Baby Name Setup</title>
+        <meta
+          name="description"
+          content="Make your child’s special day memorable with naming ceremony decoration in Bangalore. Lavish Eventzz offers themes, balloon decor, and custom name backdrops."
+        />
+        <link
+          rel="canonical"
+          href="https://www.lavisheventzz.com/namingceremonydecor/681b124bddb6b3f4663e7951"
+        />
+
+        {/* Open Graph Tags */}
+        <meta property="og:title" content="Naming Ceremony Decoration in Bangalore | Baby Name Setup" />
+        <meta property="og:description" content="Make your child’s special day memorable with naming ceremony decoration in Bangalore. Lavish Eventzz offers themes, balloon decor, and custom name backdrops." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.lavisheventzz.com/namingceremonydecor/681b124bddb6b3f4663e7951" />
+        <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/namingcermonyBanner.png" />
+        <meta property="og:site_name" content="Lavish Eventzz" />
+        <meta property="og:locale" content="en_US" />
+
+        {/* Twitter Card Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Naming Ceremony Decoration in Bangalore | Baby Name Setup" />
+        <meta name="twitter:description" content="Make your child’s special day memorable with naming ceremony decoration in Bangalore. Lavish Eventzz offers themes, balloon decor, and custom name backdrops." />
+        <meta name="twitter:url" content="https://www.lavisheventzz.com/namingceremonydecor/681b124bddb6b3f4663e7951" />
+        <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/namingcermonyBanner.png" />
+        <meta name="twitter:site" content="@LavishEvents25" />
+
+        {/* Organization Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Lavish Eventzz",
+            "url": "https://www.lavisheventzz.com",
+            "logo": "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+91-9620558000",
+              "contactType": "Customer Service",
+              "areaServed": "IN",
+              "availableLanguage": "English"
+            },
+            "sameAs": [
+              "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
+              "https://x.com/LavishEvents25",
+              "https://www.youtube.com/@LavishEventzz-2025",
+              "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
+              "https://www.instagram.com/lavisheventzz.com_/",
+              "https://www.instagram.com/lavisheventzz"
+            ]
+          })}
+        </script>
+
+        {/* Breadcrumbs Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.lavisheventzz.com"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Naming Ceremony",
+                "item": "https://www.lavisheventzz.com/namingceremonydecor/681b124bddb6b3f4663e7951"
+              }
+            ]
+          })}
+        </script>
+
+        {/* Product Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "Naming Ceremony",
+            "url": "https://www.lavisheventzz.com/namingceremonydecor/681b124bddb6b3f4663e7951",
+            "description": "Make your child’s special day memorable with naming ceremony decoration in Bangalore. Lavish Eventzz offers themes, balloon decor, and custom name backdrops."
+          })}
+        </script>
+      </Helmet>
+      <Breadcrumb paths={breadcrumbPaths} />
+
       <img
         src="https://lavisheventzz-bangalore.b-cdn.net/banner/namingcermonyBanner.png"
         className="mx-auto w-[1600px]"
@@ -187,23 +284,23 @@ const NamingCeremony = () => {
         {/* Premium Decoration */}
         <div className="mt-10">
           <div className="flex justify-between">
-          <p className="lg:text-2xl text-primary font-bold playfair-display">
-            Premium Decoration Service
-          </p>
+            <p className="lg:text-2xl text-primary font-bold playfair-display">
+              Premium Decoration Service
+            </p>
 
-          {(() => {
-            const primumSub = subSubCategories.find((item) =>
-              item.subSubCategory.toLowerCase().includes("premium")
-            );
-            return primumSub ? (
-              <Link
-                to={`/service/${primumSub._id}`}
-                className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
-              >
-                View All
-              </Link>
-            ) : null;
-          })()}
+            {(() => {
+              const primumSub = subSubCategories.find((item) =>
+                item.subSubCategory.toLowerCase().includes("premium")
+              );
+              return primumSub ? (
+                <Link
+                  to={`/service/${primumSub._id}`}
+                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                >
+                  View All
+                </Link>
+              ) : null;
+            })()}
           </div>
           {premiumData.length ? (
             <CardCarousel centercardData={premiumData} />

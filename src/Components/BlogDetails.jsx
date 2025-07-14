@@ -410,6 +410,10 @@ const BlogDetails = () => {
     }
   };
 
+  console.log("alterTitle", alterTitle)
+  console.log("meta", alterTitle)
+  console.log("alterText", alterTitle)
+
   const breadcrumbPaths = [
     { name: "Home", link: "/" },
     { name: "Blog", link: "/blogs" },
@@ -464,7 +468,7 @@ const BlogDetails = () => {
           {`
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "${alterTitle}",
+  "headline": "${blog?.metaTitle}",
   "image": ${blog?.bannerImage},
   "author": {
     "@type": "Person",
@@ -524,7 +528,7 @@ const BlogDetails = () => {
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "${alterTitle}",
+      "name": "${blog?.metaTitle}",
       "item": "https://www.lavisheventzz.com/blogs/${title}"
     }
   ]

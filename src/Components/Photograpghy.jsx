@@ -4,6 +4,8 @@ import Testimonials from "./Testimonials";
 import { Link } from "react-router-dom";
 import { getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
+import { Helmet } from "react-helmet-async";
+import Breadcrumb from "./Breadcrumb";
 
 const imagelist = [
   {
@@ -89,8 +91,137 @@ const Photograpghy = () => {
     fetchRecentPurchase();
   }, [customerId]);
 
+  const breadcrumbPaths = [
+  { name: "Home", link: "/" },
+  { name: "Photography Decoration", link: "/photography/681b1255ddb6b3f4663e7956" },
+];
+
   return (
+
+    <>
+     <Helmet>
+        {/* Meta Title & Description */}
+        <title>Photography Decoration in Bangalore | Creative Backdrops</title>
+        <meta
+          name="description"
+          content="Get picture-perfect setups with photography decoration in Bangalore by Lavish Eventzz. Custom photo zones, floral walls, props, and stylish shoot backdrops."
+        />
+        <link
+          rel="canonical"
+          href="https://www.lavisheventzz.com/photography/681b1255ddb6b3f4663e7956"
+        />
+        <meta
+          name="keywords"
+          content="Photoshoot Backdrop Decor, Event Photography Setup, Floral Photo Zone Bangalore, Creative Shoot Props Decoration, Themed Photography Corners"
+        />
+
+        {/* OG Tags */}
+        <meta
+          property="og:title"
+          content="Photography Decoration in Bangalore | Creative Backdrops"
+        />
+        <meta
+          property="og:description"
+          content="Get picture-perfect setups with photography decoration in Bangalore by Lavish Eventzz. Custom photo zones, floral walls, props, and stylish shoot backdrops."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.lavisheventzz.com/photography/681b1255ddb6b3f4663e7956"
+        />
+        <meta
+          property="og:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/photograpghyBanner.png"
+        />
+        <meta property="og:site_name" content="Lavish Eventzz" />
+        <meta property="og:locale" content="en_US" />
+
+        {/* Twitter Card Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Photography Decoration in Bangalore | Creative Backdrops"
+        />
+        <meta
+          name="twitter:description"
+          content="Get picture-perfect setups with photography decoration in Bangalore by Lavish Eventzz. Custom photo zones, floral walls, props, and stylish shoot backdrops."
+        />
+        <meta
+          name="twitter:url"
+          content="https://www.lavisheventzz.com/photography/681b1255ddb6b3f4663e7956"
+        />
+        <meta
+          name="twitter:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/photograpghyBanner.png"
+        />
+        <meta name="twitter:site" content="@LavishEvents25" />
+
+        {/* Breadcrumb Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.lavisheventzz.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Photography Decoration",
+                item:
+                  "https://www.lavisheventzz.com/photography/681b1255ddb6b3f4663e7956",
+              },
+            ],
+          })}
+        </script>
+
+        {/* Product Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: "Photography Decoration",
+            url: "https://www.lavisheventzz.com/photography/681b1255ddb6b3f4663e7956",
+            description:
+              "Get picture-perfect setups with photography decoration in Bangalore by Lavish Eventzz. Custom photo zones, floral walls, props, and stylish shoot backdrops.",
+          })}
+        </script>
+
+        {/* Organization Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Lavish Eventzz",
+            url: "https://www.lavisheventzz.com",
+            logo: "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+            contactPoint: {
+              "@type": "ContactPoint",
+              telephone: "+91-9620558000",
+              contactType: "Customer Service",
+              areaServed: "IN",
+              availableLanguage: "English",
+            },
+            sameAs: [
+              "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
+              "https://x.com/LavishEvents25",
+              "https://www.youtube.com/@LavishEventzz-2025",
+              "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
+              "https://www.instagram.com/lavisheventzz.com_/",
+              "https://www.instagram.com/lavisheventzz",
+            ],
+          })}
+        </script>
+      </Helmet>
+
+
+
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
+      <Breadcrumb paths={breadcrumbPaths} />
       <div>
         <img
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/photograpghyBanner.png"
@@ -226,6 +357,7 @@ const Photograpghy = () => {
         </p>
       </div>
     </div>
+      </>
   );
 };
 

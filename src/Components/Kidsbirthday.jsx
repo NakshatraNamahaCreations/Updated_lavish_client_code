@@ -7,7 +7,8 @@ import axios from "axios";
 import { getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
-
+import Breadcrumb from "./Breadcrumb"; // adjust path if needed
+import { Helmet } from "react-helmet-async";
 const Kidsbirthday = () => {
   const [subSubCategories, setSubSubCategories] = useState([]);
   const [allServices, setAllServices] = useState([]);
@@ -142,10 +143,106 @@ const Kidsbirthday = () => {
     fetchRecentPurchase();
   }, [customerId]);
 
-  
+  const breadcrumbPaths = [
+    { name: "Home", link: "/" },
+    { name: "Kids Birthday Decor", link: "/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4" },
+  ];
+
 
   return (
+
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
+
+      <Helmet>
+        {/* Meta Tags */}
+        <title>Kids Birthday Decoration in Bangalore | Fun Theme Setups</title>
+        <meta
+          name="description"
+          content="Celebrate your child’s big day with exciting kids birthday decoration in Bangalore. Lavish Eventzz offers balloon arches, cartoon themes, games, and more."
+        />
+        <link
+          rel="canonical"
+          href="https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4"
+        />
+
+        {/* Open Graph */}
+        <meta property="og:title" content="Kids Birthday Decoration in Bangalore | Fun Theme Setups" />
+        <meta property="og:description" content="Celebrate your child’s big day with exciting kids birthday decoration in Bangalore. Lavish Eventzz offers balloon arches, cartoon themes, games, and more." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4" />
+        <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/kidsbdayBanner1.png" />
+        <meta property="og:site_name" content="Lavish Eventzz" />
+        <meta property="og:locale" content="en_US" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Kids Birthday Decoration in Bangalore | Fun Theme Setups" />
+        <meta name="twitter:description" content="Celebrate your child’s big day with exciting kids birthday decoration in Bangalore. Lavish Eventzz offers balloon arches, cartoon themes, games, and more." />
+        <meta name="twitter:url" content="https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4" />
+        <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/kidsbdayBanner1.png" />
+        <meta name="twitter:site" content="@LavishEvents25" />
+
+        {/* Organization Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Lavish Eventzz",
+            "url": "https://www.lavisheventzz.com",
+            "logo": "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+91-9620558000",
+              "contactType": "Customer Service",
+              "areaServed": "IN",
+              "availableLanguage": "English"
+            },
+            "sameAs": [
+              "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
+              "https://x.com/LavishEvents25",
+              "https://www.youtube.com/@LavishEventzz-2025",
+              "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
+              "https://www.instagram.com/lavisheventzz.com_/",
+              "https://www.instagram.com/lavisheventzz"
+            ]
+          })}
+        </script>
+
+        {/* Breadcrumb Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.lavisheventzz.com"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Kids Birthday Decor",
+                "item": "https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4"
+              }
+            ]
+          })}
+        </script>
+
+        {/* Product Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "Kids Birthday Decor",
+            "url": "https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4",
+            "description": "Celebrate your child’s big day with exciting kids birthday decoration in Bangalore. Lavish Eventzz offers balloon arches, cartoon themes, games, and more."
+          })}
+        </script>
+      </Helmet>
+      <Breadcrumb paths={breadcrumbPaths} />
+
       {loading && (
         <div className="flex justify-center items-center min-h-screen">
           <div className="text-xl text-primary">Loading...</div>

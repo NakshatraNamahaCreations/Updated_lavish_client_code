@@ -14,6 +14,7 @@ import WhatsappandCallFeature from "./WhatsappandCallFeature"
 import { useDispatch } from "react-redux";
 import { resetCurrentOrder } from "../features/orderdetails/orderSlice";
 import { persistor } from "../app/store";
+import { Helmet } from "react-helmet-async";
 
 const occasions = [
   {
@@ -142,6 +143,10 @@ const varities = [
 ];
 
 const HomePage = () => {
+
+
+
+
   const [services, setServices] = useState([]);
   const [servicesbySubcategory, setServicesbySubcategory] = useState([]);
   const [banner, setBanner] = useState([]);
@@ -232,6 +237,74 @@ const HomePage = () => {
   };
 
   return (
+
+<>
+<Helmet>
+      {/* Primary Meta Tags */}
+      <title>Event Management Company in Bangalore | Lavish Eventzz</title>
+      <meta
+        name="description"
+        content="Lavish Eventzz is a professional event management company in Bangalore offering services for weddings, birthdays, corporate events, decor, and more."
+      />
+      <link rel="canonical" href="https://www.lavisheventzz.com" />
+      <meta
+        name="keywords"
+        content="Event Management Company in Bangalore, Wedding Event Organizers in Bangalore, Birthday Party Planners Bangalore, Corporate Event Solutions Bangalore, Event Decor Services Bangalore, Luxury Event Planners in Bangalore"
+      />
+
+      {/* Open Graph Tags */}
+      <meta property="og:title" content="Event Management Company in Bangalore | Lavish Eventzz" />
+      <meta property="og:description" content="Lavish Eventzz is a professional event management company in Bangalore offering services for weddings, birthdays, corporate events, decor, and more." />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://www.lavisheventzz.com" />
+      <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/banner5.png" />
+      <meta property="og:site_name" content="Lavish Eventzz" />
+      <meta property="og:locale" content="en_US" />
+
+      {/* Twitter Card Tags */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Event Management Company in Bangalore | Lavish Eventzz" />
+      <meta name="twitter:description" content="Lavish Eventzz is a professional event management company in Bangalore offering services for weddings, birthdays, corporate events, decor, and more." />
+      <meta name="twitter:url" content="https://www.lavisheventzz.com/" />
+      <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/banner5.png" />
+      <meta name="twitter:site" content="@LavishEvents25" />
+
+       {/* Schema.org JSON-LD - LocalBusiness */}
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Lavish Eventzz",
+      "url": "https://www.lavisheventzz.com",
+      "logo": "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+      "description": "Lavish Eventzz is a professional event management company in Bangalore offering services for weddings, birthdays, corporate events, decor, and more.",
+      "telephone": "+91-9620558000",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "55, 17th Main Rd, RIEHS Layout, JC Nagar, Kurubarahalli, Basaweshwara Nagar",
+        "addressLocality": "Bengaluru",
+        "addressRegion": "Karnataka",
+        "postalCode": "560086",
+        "addressCountry": "IN"
+      },
+      "sameAs": [
+        "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
+        "https://x.com/LavishEvents25",
+        "https://www.youtube.com/@LavishEventzz-2025",
+        "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
+        "https://www.instagram.com/lavisheventzz.com_/",
+        "https://www.instagram.com/lavisheventzz"
+      ],
+      "openingHours": "Mo-Su 00:00-23:59",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "12.9155",
+        "longitude": "77.5739"
+      }
+    })}
+  </script>
+    </Helmet>
+    
     <div className="container md:pt-24 pt-32  mx-auto">
       {/* // Whatsapp and call Icons */}
       <div className=" fixed bottom-[100px] right-5 lg:flex flex-col gap-3 z-50">
@@ -244,9 +317,9 @@ const HomePage = () => {
 
       <SingleCarousel banner={banner} />
       <section className="lg:py-20 p-2 ">
-        <h1 className=" font-bold text-center text-primary playfair-display lg:text-5xl text-2xl">
+        <h2 className=" font-bold text-center text-primary playfair-display lg:text-5xl text-2xl">
           Upcoming Festivals
-        </h1>
+        </h2>
         <div
           className="relative flex justify-center md:py-10 py-4 cursor-pointer"
           onClick={() => handleNavigation("Festival Decoration", "/service/")}
@@ -307,9 +380,9 @@ const HomePage = () => {
       </section>
 
       <section className="">
-        <h1 className=" font-bold text-center text-primary poppins text-xl">
+        <h2 className=" font-bold text-center text-primary poppins text-xl">
           Serving All over Bangalores
-        </h1>
+        </h2>
         <h1 className="lg:text-4xl text-3xl tracking-tighter font-bold text-center playfair-display text-primary">
           Make every Occasion Special
         </h1>
@@ -528,12 +601,12 @@ const HomePage = () => {
       </section>
 
       <section className="pb-5">
-        <h1 className="lg:text-4xl text-2xl font-bold text-center  text-primary playfair-display">
+        <h2 className="lg:text-4xl text-2xl font-bold text-center  text-primary playfair-display">
           Curating moments that shine{" "}
-        </h1>
-        <h1 className="text-sm font-bold text-center poppins text-primary">
+        </h2>
+        <h2 className="text-sm font-bold text-center poppins text-primary">
           Love designs, flawless execution, unforgattable results.{" "}
-        </h1>
+        </h2>
 
         {/* <div className='flex justify-end  lg:py-4 py-2 px-3 '>
           <Link to='#' className='text-secondary font-bold flex items-center text-sm md:text-base  '>View All <MdArrowRightAlt className='md:text-2xl text-xl ' /></Link>
@@ -579,14 +652,14 @@ const HomePage = () => {
       </div>
 
       <section className="pt-10 text-primary lg:px-0 px-4">
-        <h1 className="text-xl font-bold  text-pimary">Testimonials </h1>
-        <h1 className="md:text-4xl text-2xl tracking-tighter font-bold lg:py-4  text-pimary">
+        <h2 className="text-xl font-bold  text-pimary">Testimonials </h2>
+        <h2 className="md:text-4xl text-2xl tracking-tighter font-bold lg:py-4  text-pimary">
           Hear from our{" "}
           <span className="md:text-5xl text-3xl italic">Lavish</span> Clients{" "}
-        </h1>
-        <h1 className="text-md tracking-tighter font-bold   text-pimary">
+        </h2>
+        <h2 className="text-md tracking-tighter font-bold   text-pimary">
           Reacl experience from our happy Clients{" "}
-        </h1>
+        </h2>
         <Testimonials />
       </section>
 
@@ -606,6 +679,7 @@ const HomePage = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

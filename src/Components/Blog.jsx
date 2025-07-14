@@ -43,9 +43,9 @@ const Blog = () => {
     <div className="mx-auto px-4 lg:py-24 py-36">
       <Breadcrumb paths={breadcrumbPaths} />
       <div className="max-w-7xl mt-4 mx-auto">
-        <h2 className="text-4xl font-bold mb-8 text-[#FF4286] text-center">
+        <h1 className="text-4xl font-bold mb-8 text-[#FF4286] text-center">
           Our Blogs
-        </h2>
+        </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogs.map((blog) => {

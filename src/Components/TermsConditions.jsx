@@ -1,9 +1,57 @@
 
 import React from "react";
+import { Helmet } from "react-helmet-async";
+import Breadcrumb from "./Breadcrumb";
 
 const TermsConditions = () => {
+    const breadcrumbPaths = [
+        { name: "Home", link: "/" },
+        { name: "Terms and Conditions", link: "/terms-conditions" },
+    ];
+
     return (
-        <div className="max-w-6xl mx-auto px-6 py-10 bg-white text-gray-800 md:mt-16 mt-24">
+             <>
+       <div className='lg:pt-24 pt-28 mx-auto'>
+           <Breadcrumb paths={breadcrumbPaths} />
+       </div>
+        <div className="max-w-6xl mx-auto px-6  bg-white text-gray-800 md:mt-16 mt-24">
+            <Helmet>
+                {/* Meta Tags */}
+                <title>Event Terms and Conditions | Lavish Eventzz Guidelines</title>
+                <meta
+                    name="description"
+                    content="Review the event terms and conditions of Lavish Eventzz. Understand our official policies on bookings, payments, cancellations, liability, and service agreement."
+                />
+                <meta
+                    name="keywords"
+                    content="Event Terms and Conditions, Event Booking Policies, Event Service Agreement, Lavish Eventzz Terms Guide, Event Contract Guidelines, Cancellation and Payment Rules"
+                />
+                <link rel="canonical" href="https://www.lavisheventzz.com/terms-conditions" />
+
+                {/* Breadcrumb Schema */}
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https://www.lavisheventzz.com"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Terms and Conditions",
+                                "item": "https://www.lavisheventzz.com/terms-conditions"
+                            }
+                        ]
+                    })}
+                </script>
+            </Helmet>
+       
+
             <h1 className="text-3xl font-bold mb-6 text-purple-800">Terms and Conditions</h1>
             <p className="mb-6 italic text-sm text-gray-600">Effective Date: 26/05/2025</p>
 
@@ -112,6 +160,7 @@ const TermsConditions = () => {
             </section>
             <p className="mt-10 text-purple-800 font-medium">Thank you for choosing Lavish Eventzz. We look forward to making your event a success!</p>
         </div>
+        </>
     );
 };
 

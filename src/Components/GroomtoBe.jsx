@@ -10,11 +10,12 @@ import activity from "../assets/services/activity.png";
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
+import Breadcrumb from "./Breadcrumb"; // adjust path if needed
 import { getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import axios from "axios";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
+import { Helmet } from "react-helmet-async";
 
 const addOns = [
   {
@@ -162,9 +163,104 @@ const GroomtoBe = () => {
   useEffect(() => {
     fetchRecentPurchase();
   }, [customerId]);
+const breadcrumbPaths = [
+  { name: "Home", link: "/" },
+  { name: "Groom to be Decor", link: "/groomtobedecor/681b10abddb6b3f4663e78d1" },
+];
 
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
+
+<Helmet>
+  {/* Meta Tags */}
+  <title>Groom to be Decoration in Bangalore | Bachelor Bash Decor</title>
+  <meta
+    name="description"
+    content="Celebrate the groom in style with Groom to be decoration in Bangalore. Lavish Eventzz creates bold, fun themes for bachelor parties, sangeet, and pre-wedding."
+  />
+  <link
+    rel="canonical"
+    href="https://www.lavisheventzz.com/groomtobedecor/681b10abddb6b3f4663e78d1"
+  />
+
+  {/* Open Graph */}
+  <meta property="og:title" content="Groom to be Decoration in Bangalore | Bachelor Bash Decor" />
+  <meta property="og:description" content="Celebrate the groom in style with Groom to be decoration in Bangalore. Lavish Eventzz creates bold, fun themes for bachelor parties, sangeet, and pre-wedding." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.lavisheventzz.com/groomtobedecor/681b10abddb6b3f4663e78d1" />
+  <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/groomBanner.jpg" />
+  <meta property="og:site_name" content="Lavish Eventzz" />
+  <meta property="og:locale" content="en_US" />
+
+  {/* Twitter Card */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Groom to be Decoration in Bangalore | Bachelor Bash Decor" />
+  <meta name="twitter:description" content="Celebrate the groom in style with Groom to be decoration in Bangalore. Lavish Eventzz creates bold, fun themes for bachelor parties, sangeet, and pre-wedding." />
+  <meta name="twitter:url" content="https://www.lavisheventzz.com/groomtobedecor/681b10abddb6b3f4663e78d1" />
+  <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/groomBanner.jpg" />
+  <meta name="twitter:site" content="@LavishEvents25" />
+
+  {/* Organization Schema */}
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Lavish Eventzz",
+      "url": "https://www.lavisheventzz.com",
+      "logo": "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91-9620558000",
+        "contactType": "Customer Service",
+        "areaServed": "IN",
+        "availableLanguage": "English"
+      },
+      "sameAs": [
+        "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
+        "https://x.com/LavishEvents25",
+        "https://www.youtube.com/@LavishEventzz-2025",
+        "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
+        "https://www.instagram.com/lavisheventzz.com_/",
+        "https://www.instagram.com/lavisheventzz"
+      ]
+    })}
+  </script>
+
+  {/* Breadcrumb Schema */}
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.lavisheventzz.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Groom to be Decor",
+          "item": "https://www.lavisheventzz.com/groomtobedecor/681b10abddb6b3f4663e78d1"
+        }
+      ]
+    })}
+  </script>
+
+  {/* Product Schema */}
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Groom to be Decor",
+      "url": "https://www.lavisheventzz.com/groomtobedecor/681b10abddb6b3f4663e78d1",
+      "description": "Celebrate the groom in style with Groom to be decoration in Bangalore. Lavish Eventzz creates bold, fun themes for bachelor parties, sangeet, and pre-wedding."
+    })}
+  </script>
+</Helmet>
+<Breadcrumb paths={breadcrumbPaths} />
+
       <div>
         <img
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/groomBanner.jpg"

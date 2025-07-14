@@ -3,6 +3,8 @@ import { GoHeartFill, GoHeart } from "react-icons/go";
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { getAuthAxios, getAxios } from '../utils/api';
+import { Helmet } from "react-helmet-async";
+import Breadcrumb from "./Breadcrumb";
 
 // WishlistCard Component
 const WishlistCard = ({ item, onRemove }) => {
@@ -15,7 +17,7 @@ const WishlistCard = ({ item, onRemove }) => {
 
     const handleRemove = async () => {
         const loadingToast = toast.loading("Removing from wishlist...");
-        
+
         try {
             const serviceIdToUse = serviceId?._id;
             const customerIdToUse = customerId?._id;
@@ -32,8 +34,10 @@ const WishlistCard = ({ item, onRemove }) => {
         }
     };
 
+
     return (
         <div className="group relative mb-4 shadow-lg rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300 break-inside-avoid md:p-3 md:py-4 md:w-[300px] w-[170px] border border-gray-300">
+
             <img
                 src={serviceImages?.[0]
                     ? `${serviceImages[0]}`
@@ -73,6 +77,10 @@ const WishlistCard = ({ item, onRemove }) => {
 
 // Wishlist Component
 const Wishlist = () => {
+    const breadcrumbPaths = [
+  { name: "Home", link: "/" },
+    { name: "Wishlist", link: "/wishlist" },
+    ];
     const storedUser = localStorage.getItem('user');
     const userData = JSON.parse(storedUser);
     const customerId = userData?.id;
@@ -113,7 +121,43 @@ const Wishlist = () => {
     };
 
     return (
+        <>
+              <Helmet>
+                <title>Event Wishlist in Bangalore | Save Your Favorite Decorations</title>
+                <meta
+                    name="description"
+                    content="Build your event wishlist in Bangalore with Lavish Eventzz. Save your favorite decorations, themes, and ideas to plan birthdays, weddings, and special moments."
+                />
+                <meta
+                    name="keywords"
+                    content="Event Wishlist in Bangalore, Save Event Ideas Bangalore, Wedding Wishlist Planner, Birthday Theme Wishlist, Event Style Bookmarking, Personal Decor Favorites Bangalore"
+                />
+                <link rel="canonical" href="https://www.lavisheventzz.com/wishlist" />
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https://www.lavisheventzz.com"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Wishlist",
+                                "item": "https://www.lavisheventzz.com/wishlist"
+                            }
+                        ]
+                    })}
+                </script>
+            </Helmet>
+    
+    
         <div className='lg:p-2 lg:pt-24 pt-32 p-4 mx-auto'>
+            <Breadcrumb paths={breadcrumbPaths} />
             <h1 className='text-3xl text-center font-bold  py-6'>Your wishlist</h1>
             <div className='flex md:space-x-16 lg:gap-8 flex-wrap md:justify-center justify-between'>
                 {loading ? (
@@ -125,6 +169,7 @@ const Wishlist = () => {
                 )) : <p className='text-center text-2xl  mt-10'>No items in wishlist</p>}
             </div>
         </div>
+            </>
     );
 };
 

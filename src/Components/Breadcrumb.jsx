@@ -7,7 +7,7 @@ const Breadcrumb = ({ paths }) => {
       aria-label="breadcrumb"
       className="bg-gray-200 text-gray-700 py-3 shadow-sm "
     >
-      <div className="max-w-screen-xl mx-auto px-4">
+      <div className="max-w-screen-3xl pl-20 mx-auto px-4">
         <ol className="flex flex-wrap items-center text-sm">
           {paths.map((path, index) => (
             <li key={index} className="flex items-center">

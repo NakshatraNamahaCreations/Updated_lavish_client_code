@@ -5,12 +5,13 @@ import flwrbouqt from "../assets/bday/add_ons/flwrbouqt.png";
 import photography from "../assets/bday/add_ons/photography.png";
 import cakes from "../assets/bday/add_ons/cakes.png";
 import FAQ from "./FAQ";
-
+import { Helmet } from "react-helmet-async";
 import Testimonials from "./Testimonials";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAuthAxios, getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
+import Breadcrumb from "./Breadcrumb"; // adjust path if needed
 
 
 const addOns = [
@@ -131,10 +132,106 @@ const AdultBirthday = () => {
   }, [customerId]);
 
 
+  const breadcrumbPaths = [
+    { name: "Home", link: "/" },
+    { name: " Adult Birthday Decor", link: "/adultbirthdaydecor/681b113eddb6b3f4663e78f9" },
+  ];
 
 
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
+
+
+      <Helmet>
+        {/* Meta Tags */}
+        <title>Adult Birthday Decoration in Bangalore | Stylish Party Setup</title>
+        <meta
+          name="description"
+          content="Celebrate in style with adult birthday decoration in Bangalore by Lavish Eventzz. Choose from elegant, bold, or themed setups for a fun, unforgettable night."
+        />
+        <link
+          rel="canonical"
+          href="https://www.lavisheventzz.com/adultbirthdaydecor/681b113eddb6b3f4663e78f9"
+        />
+
+        {/* Open Graph Tags */}
+        <meta property="og:title" content="Adult Birthday Decoration in Bangalore | Stylish Party Setup" />
+        <meta property="og:description" content="Celebrate in style with adult birthday decoration in Bangalore by Lavish Eventzz. Choose from elegant, bold, or themed setups for a fun, unforgettable night." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.lavisheventzz.com/adultbirthdaydecor/681b113eddb6b3f4663e78f9" />
+        <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/adultBanner1.png" />
+        <meta property="og:site_name" content="Lavish Eventzz" />
+        <meta property="og:locale" content="en_US" />
+
+        {/* Twitter Card Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Adult Birthday Decoration in Bangalore | Stylish Party Setup" />
+        <meta name="twitter:description" content="Celebrate in style with adult birthday decoration in Bangalore by Lavish Eventzz. Choose from elegant, bold, or themed setups for a fun, unforgettable night." />
+        <meta name="twitter:url" content="https://www.lavisheventzz.com/adultbirthdaydecor/681b113eddb6b3f4663e78f9" />
+        <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/adultBanner1.png" />
+        <meta name="twitter:site" content="@LavishEvents25" />
+
+        {/* Organization Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Lavish Eventzz",
+            "url": "https://www.lavisheventzz.com",
+            "logo": "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+91-9620558000",
+              "contactType": "Customer Service",
+              "areaServed": "IN",
+              "availableLanguage": "English"
+            },
+            "sameAs": [
+              "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
+              "https://x.com/LavishEvents25",
+              "https://www.youtube.com/@LavishEventzz-2025",
+              "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
+              "https://www.instagram.com/lavisheventzz.com_/",
+              "https://www.instagram.com/lavisheventzz"
+            ]
+          })}
+        </script>
+
+        {/* Breadcrumbs Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.lavisheventzz.com"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Adult Birthday Decor",
+                "item": "https://www.lavisheventzz.com/adultbirthdaydecor/681b113eddb6b3f4663e78f9"
+              }
+            ]
+          })}
+        </script>
+
+        {/* Product Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "Adult Birthday Decor",
+            "url": "https://www.lavisheventzz.com/adultbirthdaydecor/681b113eddb6b3f4663e78f9",
+            "description": "Celebrate in style with adult birthday decoration in Bangalore by Lavish Eventzz. Choose from elegant, bold, or themed setups for a fun, unforgettable night."
+          })}
+        </script>
+      </Helmet>
+      <Breadcrumb paths={breadcrumbPaths} />
+
       <div>
         <img src="https://lavisheventzz-bangalore.b-cdn.net/banner/adultBanner1.png" className="mx-auto w-[1600px]" />
       </div>
@@ -162,7 +259,7 @@ const AdultBirthday = () => {
           <p className="lg:text-2xl text-primary font-bold playfair-display">
             All Decoration Service
           </p>
-           <div
+          <div
             className="text-purple-600 underline text-sm font-semibold hover:text-blue-800 cursor-pointer"
             onClick={() => handleNavigation("Adult birthday", "/service/")}
           >

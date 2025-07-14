@@ -8,7 +8,8 @@ import photography from "../assets/services/photography.png";
 import welcomeboard from "../assets/services/welcomeboard.png";
 import flwrbouqt from "../assets/services/flwrbouqt.png";
 import activity from "../assets/services/activity.png";
-
+import Breadcrumb from "./Breadcrumb"; // adjust path if needed
+import { Helmet } from "react-helmet-async";
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -166,8 +167,105 @@ const BabyShower = () => {
     fetchRecentPurchase();
   }, [customerId]);
 
+  const breadcrumbPaths = [
+    { name: "Home", link: "/" },
+    { name: "Baby Shower Decor", link: "/babyshowerdecor/681b1146ddb6b3f4663e78fe" },
+  ];
+
   return (
     <div className="lg:py-24  pt-32  p-3  mx-auto">
+
+
+      <Helmet>
+        {/* Meta Tags */}
+        <title>Baby Shower Decoration in Bangalore | Elegant Theme Setup</title>
+        <meta
+          name="description"
+          content="Lavish Eventzz creates beautiful baby shower decorations in Bangalore with pastel themes, floral decor, photo corners, and joyful setups to welcome the little one."
+        />
+        <link
+          rel="canonical"
+          href="https://www.lavisheventzz.com/babyshowerdecor/681b1146ddb6b3f4663e78fe"
+        />
+
+        {/* Open Graph Tags */}
+        <meta property="og:title" content="Baby Shower Decoration in Bangalore | Elegant Theme Setup" />
+        <meta property="og:description" content="Lavish Eventzz creates beautiful baby shower decorations in Bangalore with pastel themes, floral decor, photo corners, and joyful setups to welcome the little one." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.lavisheventzz.com/babyshowerdecor/681b1146ddb6b3f4663e78fe" />
+        <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/babyshowerbanner.png" />
+        <meta property="og:site_name" content="Lavish Eventzz" />
+        <meta property="og:locale" content="en_US" />
+
+        {/* Twitter Card Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Baby Shower Decoration in Bangalore | Elegant Theme Setup" />
+        <meta name="twitter:description" content="Lavish Eventzz creates beautiful baby shower decorations in Bangalore with pastel themes, floral decor, photo corners, and joyful setups to welcome the little one." />
+        <meta name="twitter:url" content="https://www.lavisheventzz.com/babyshowerdecor/681b1146ddb6b3f4663e78fe" />
+        <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/babyshowerbanner.png" />
+        <meta name="twitter:site" content="@LavishEvents25" />
+
+        {/* Organization Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Lavish Eventzz",
+            "url": "https://www.lavisheventzz.com",
+            "logo": "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+91-9620558000",
+              "contactType": "Customer Service",
+              "areaServed": "IN",
+              "availableLanguage": "English"
+            },
+            "sameAs": [
+              "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
+              "https://x.com/LavishEvents25",
+              "https://www.youtube.com/@LavishEventzz-2025",
+              "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
+              "https://www.instagram.com/lavisheventzz.com_/",
+              "https://www.instagram.com/lavisheventzz"
+            ]
+          })}
+        </script>
+
+        {/* Breadcrumbs Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.lavisheventzz.com"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Baby Shower Decor",
+                "item": "https://www.lavisheventzz.com/babyshowerdecor/681b1146ddb6b3f4663e78fe"
+              }
+            ]
+          })}
+        </script>
+
+        {/* Product Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "Baby Shower Decor",
+            "url": "https://www.lavisheventzz.com/babyshowerdecor/681b1146ddb6b3f4663e78fe",
+            "description": "Lavish Eventzz creates beautiful baby shower decorations in Bangalore with pastel themes, floral decor, photo corners, and joyful setups to welcome the little one."
+          })}
+        </script>
+      </Helmet>
+      <Breadcrumb paths={breadcrumbPaths} />
+
       <div>
         <img
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/babyshowerbanner.png"
