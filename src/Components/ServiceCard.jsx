@@ -99,7 +99,8 @@ const ServiceCard = ({ service }) => {
         )}
       </div>
 
-      <Link to={`/service/details/${service._id}`}>
+      {/* <Link to={`/service/details/${service._id}`}> */}
+      <Link to={`/service/details/${service.serviceName.toLowerCase().replace(/\s+/g, "-")}/${service._id}`}>
         <div>
           <div>
             <img

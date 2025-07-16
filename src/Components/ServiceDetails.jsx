@@ -13,9 +13,8 @@ import {
   setDeliveryMessage,
   setDeliveryCharges,
   setBalloonsColor,
-  recalculateTotals
+  recalculateTotals,
 } from "../features/orderdetails/orderSlice";
-
 
 import { GrLocation } from "react-icons/gr";
 import { SlCalender } from "react-icons/sl";
@@ -45,9 +44,6 @@ import Review from "./Review";
 import CardCarousel from "./CardCarousel";
 import { getAuthAxios, getAxios } from "../utils/api";
 
-
-
-
 const timeSlotsBasic = [
   "06:00 AM - 11:00 AM",
   "10:00 AM - 01:00 PM",
@@ -61,26 +57,128 @@ const timeSlotsPremium = [
   "10:00 AM - 02:00 PM",
   "02:00 PM - 06:00 PM",
   "06:00 PM - 10:00 PM",
-
 ];
 
 // Pincode lists for delivery charge calculation
 const zerocharges_pin_bangalore = [
   ...new Set([
-    "560001", "560002", "560003", "560004", "560005", "560006", "560007", "560008", "560009",
-    "560010", "560011", "560012", "560013", "560014", "560015", "560016", "560017", "560018",
-    "560019", "560020", "560021", "560022", "560023", "560024", "560025", "560026", "560027",
-    "560028", "560029", "560030", "560031", "560032", "560033", "560034", "560035", "560036",
-    "560037", "560038", "560039", "560040", "560041", "560042", "560043", "560044", "560045",
-    "560046", "560047", "560048", "560049", "560050", "560051", "560052", "560053", "560054",
-    "560055", "560056", "560057", "560058", "560059", "560060", "560061", "560062", "560063",
-    "560064", "560065", "560066", "560067", "560068", "560069", "560070", "560071", "560072",
-    "560073", "560074", "560075", "560076", "560077", "560078", "560079", "560080", "560081",
-    "560082", "560083", "560084", "560085", "560086", "560087", "560088", "560089", "560090",
-    "560091", "560092", "560093", "560094", "560095", "560096", "560097", "560098", "560099",
-    "560100", "560101", "560102", "560103", "560104", "560106", "560107", "560108", "560109",
-    "560110", "560111", "560113", "560114", "560116", "560117", "562125", "560105"
-  ])
+    "560001",
+    "560002",
+    "560003",
+    "560004",
+    "560005",
+    "560006",
+    "560007",
+    "560008",
+    "560009",
+    "560010",
+    "560011",
+    "560012",
+    "560013",
+    "560014",
+    "560015",
+    "560016",
+    "560017",
+    "560018",
+    "560019",
+    "560020",
+    "560021",
+    "560022",
+    "560023",
+    "560024",
+    "560025",
+    "560026",
+    "560027",
+    "560028",
+    "560029",
+    "560030",
+    "560031",
+    "560032",
+    "560033",
+    "560034",
+    "560035",
+    "560036",
+    "560037",
+    "560038",
+    "560039",
+    "560040",
+    "560041",
+    "560042",
+    "560043",
+    "560044",
+    "560045",
+    "560046",
+    "560047",
+    "560048",
+    "560049",
+    "560050",
+    "560051",
+    "560052",
+    "560053",
+    "560054",
+    "560055",
+    "560056",
+    "560057",
+    "560058",
+    "560059",
+    "560060",
+    "560061",
+    "560062",
+    "560063",
+    "560064",
+    "560065",
+    "560066",
+    "560067",
+    "560068",
+    "560069",
+    "560070",
+    "560071",
+    "560072",
+    "560073",
+    "560074",
+    "560075",
+    "560076",
+    "560077",
+    "560078",
+    "560079",
+    "560080",
+    "560081",
+    "560082",
+    "560083",
+    "560084",
+    "560085",
+    "560086",
+    "560087",
+    "560088",
+    "560089",
+    "560090",
+    "560091",
+    "560092",
+    "560093",
+    "560094",
+    "560095",
+    "560096",
+    "560097",
+    "560098",
+    "560099",
+    "560100",
+    "560101",
+    "560102",
+    "560103",
+    "560104",
+    "560106",
+    "560107",
+    "560108",
+    "560109",
+    "560110",
+    "560111",
+    "560113",
+    "560114",
+    "560116",
+    "560117",
+    "562125",
+    "560105",
+  ]),
 ];
 
 const notAvailablePincodes = ["562107", "562110", "561203", "561205", "562109"];
@@ -109,14 +207,14 @@ const careInstructions = [
   "Please Check Decoration Place Climate (Outdoor): Before starting the decoration, check the climate of the decoration area (if outdoors).",
 ];
 
-
 const ServiceDetails = () => {
   const { serviceId } = useParams(); // Get the serviceId from URL params
-  const storedUser = localStorage.getItem('user');
+  const storedUser = localStorage.getItem("user");
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
   const [recentPurchase, setRecentPurchase] = useState([]);
-  const [recentPurchaseServiceDetails, setRecentPurchaseServiceDetails] = useState([]);
+  const [recentPurchaseServiceDetails, setRecentPurchaseServiceDetails] =
+    useState([]);
   const [serviceDetails, setServiceDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -148,14 +246,16 @@ const ServiceDetails = () => {
   const [hasAddons, setHasAddons] = useState(false);
   const [loadingAddons, setLoadingAddons] = useState(true);
 
-  const selectedOptions = useSelector((state) => state.order.currentOrder.balloonsColor);
+  const selectedOptions = useSelector(
+    (state) => state.order.currentOrder.balloonsColor
+  );
 
   const reduxOrderState = useSelector((state) => state.order);
 
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isWishlistLoading, setIsWishlistLoading] = useState(false);
 
-  const authAxios = getAuthAxios()
+  const authAxios = getAuthAxios();
 
   useEffect(() => {
     console.log("Redux Order State:", reduxOrderState);
@@ -163,14 +263,15 @@ const ServiceDetails = () => {
 
   const fetchRecentPurchase = async () => {
     try {
-      const response = await getAxios().get(`/orders/recent-orders/${customerId}`);
+      const response = await getAxios().get(
+        `/orders/recent-orders/${customerId}`
+      );
       const data = await response.data;
       setRecentPurchase(data.services);
     } catch (error) {
       console.error("Error fetching recent purchase:", error);
     }
-  }
-
+  };
 
   useEffect(() => {
     const serviceDetails = recentPurchase?.map((item) => item.serviceDetails);
@@ -180,7 +281,6 @@ const ServiceDetails = () => {
   useEffect(() => {
     fetchRecentPurchase();
   }, [customerId]);
-
 
   // Attempt to fetch service details
   useEffect(() => {
@@ -194,17 +294,22 @@ const ServiceDetails = () => {
 
         // ✅ Step 1: Save the service in the order
         if (details) {
-          dispatch(addServiceItem({
-            serviceName: details.serviceName,
-            price: details.offerPrice,
-            originalPrice: details.originalPrice,
-            image: details.images[0] || '',
-            id: details._id,
-            customizedInputs: details.customizedInputs,
-          }));
+          dispatch(
+            addServiceItem({
+              serviceName: details.serviceName,
+              price: details.offerPrice,
+              originalPrice: details.originalPrice,
+              image: details.images[0] || "",
+              id: details._id,
+              customizedInputs: details.customizedInputs,
+            })
+          );
 
           // ✅ Step 2: Save the default balloon colors to Redux
-          if (Array.isArray(details.balloonColors) && details.balloonColors.length > 0) {
+          if (
+            Array.isArray(details.balloonColors) &&
+            details.balloonColors.length > 0
+          ) {
             dispatch(setBalloonsColor(details.balloonColors));
           }
 
@@ -223,7 +328,6 @@ const ServiceDetails = () => {
       fetchServiceDetails();
     }
   }, [serviceId, dispatch]);
-
 
   // Fetch addons for this service
   useEffect(() => {
@@ -260,7 +364,10 @@ const ServiceDetails = () => {
   // Handle pincode validation
   useEffect(() => {
     if (pincode.length === 6 && (serviceDetails?.offerPrice || 4999)) {
-      const deliveryInfo = getDeliveryCharge(pincode, serviceDetails?.offerPrice || 4999);
+      const deliveryInfo = getDeliveryCharge(
+        pincode,
+        serviceDetails?.offerPrice || 4999
+      );
       dispatch(setDeliveryMessage(deliveryInfo.message));
       dispatch(setIsPincodeValid(deliveryInfo.isValid));
       setDeliveryChargeLocal(deliveryInfo.price);
@@ -354,14 +461,16 @@ const ServiceDetails = () => {
   };
 
   useEffect(() => {
-    console.log("Balloon colors in Redux:", reduxOrderState.currentOrder.balloonsColor);
+    console.log(
+      "Balloon colors in Redux:",
+      reduxOrderState.currentOrder.balloonsColor
+    );
   }, [reduxOrderState.currentOrder.balloonsColor]);
-
 
   // For WhatsApp contact
   const city = "Bangalore";
   const price = serviceDetails?.offerPrice;
-  const serviceName = serviceDetails?.serviceName
+  const serviceName = serviceDetails?.serviceName;
   const currentPageUrl = window.location.href;
   const message = `URL: ${currentPageUrl}\nService: ${serviceName}\nCity: ${city},\nPrice: ${price}\nCan I get more details?`;
   const encodedMessage = encodeURIComponent(message);
@@ -387,7 +496,9 @@ const ServiceDetails = () => {
       try {
         const response = await getAxios().get(`/wishlist/${customerId}`);
         const wishlistItems = response.data.wishlist;
-        const isServiceInWishlist = wishlistItems.some(item => item.serviceId._id === serviceId);
+        const isServiceInWishlist = wishlistItems.some(
+          (item) => item.serviceId._id === serviceId
+        );
         setIsInWishlist(isServiceInWishlist);
       } catch (error) {
         console.error("Error checking wishlist status:", error);
@@ -405,31 +516,42 @@ const ServiceDetails = () => {
     }
 
     setIsWishlistLoading(true);
-    const loadingToast = toast.loading(isInWishlist ? "Removing from wishlist..." : "Adding to wishlist...");
-    
+    const loadingToast = toast.loading(
+      isInWishlist ? "Removing from wishlist..." : "Adding to wishlist..."
+    );
+
     try {
       if (isInWishlist) {
         // Remove from wishlist
         console.log("Removing from wishlist:", { customerId, serviceId });
-        await authAxios.delete(`/wishlist/remove-item/${customerId}/${serviceId}`);
+        await authAxios.delete(
+          `/wishlist/remove-item/${customerId}/${serviceId}`
+        );
         setIsInWishlist(false);
         toast.success("Item removed from wishlist", { id: loadingToast });
       } else {
         // Add to wishlist
-        console.log("Adding to wishlist:", { serviceId, serviceName: serviceDetails?.serviceName, customerId });
+        console.log("Adding to wishlist:", {
+          serviceId,
+          serviceName: serviceDetails?.serviceName,
+          customerId,
+        });
         await authAxios.post(`/wishlist/create/`, {
           serviceId: serviceId,
           serviceName: serviceDetails?.serviceName,
           customerId,
-          servicePrice: serviceDetails?.offerPrice || serviceDetails?.price || 0,
-          serviceImages: serviceDetails?.images || []
+          servicePrice:
+            serviceDetails?.offerPrice || serviceDetails?.price || 0,
+          serviceImages: serviceDetails?.images || [],
         });
         setIsInWishlist(true);
         toast.success("Item added to wishlist", { id: loadingToast });
       }
     } catch (error) {
       console.error("Error updating wishlist:", error);
-      toast.error(error.response?.data?.message || "Error updating wishlist", { id: loadingToast });
+      toast.error(error.response?.data?.message || "Error updating wishlist", {
+        id: loadingToast,
+      });
     } finally {
       setIsWishlistLoading(false);
     }
@@ -437,19 +559,23 @@ const ServiceDetails = () => {
 
   // Calculate extra charge for special time slots
   let extraSlotCharge = 0;
-  let extraSlotLabel = '';
+  let extraSlotLabel = "";
   if (serviceDetails && selectedTimeSlot) {
     if (selectedTimeSlot === "09:00 PM - 12:00 PM (15%)") {
       extraSlotCharge = Math.round((serviceDetails.offerPrice || 0) * 0.15);
-      extraSlotLabel = 'Night Slot Extra (15%)';
+      extraSlotLabel = "Night Slot Extra (15%)";
     } else if (selectedTimeSlot === "08:00 AM - 12:00 PM (10%)") {
-      extraSlotCharge = Math.round((serviceDetails.offerPrice || 0) * 0.10);
-      extraSlotLabel = 'Morning Slot Extra (10%)';
+      extraSlotCharge = Math.round((serviceDetails.offerPrice || 0) * 0.1);
+      extraSlotLabel = "Morning Slot Extra (10%)";
     }
   }
 
   // Calculate total price for display
-  const totalPrice = (serviceDetails?.offerPrice || 0) + addonTotal + (deliveryCharges || 0) + extraSlotCharge;
+  const totalPrice =
+    (serviceDetails?.offerPrice || 0) +
+    addonTotal +
+    (deliveryCharges || 0) +
+    extraSlotCharge;
 
   return (
     <div className="lg:py-28 lg:px-10 p-4 pt-32 mx-auto">
@@ -459,7 +585,11 @@ const ServiceDetails = () => {
         <div className="text-center py-10 text-red-500">{error}</div>
       ) : (
         <>
-          <ServiceBottomButtons serviceName={serviceDetails?.serviceName} price={serviceDetails?.offerPrice} city="Bangalore"/>
+          <ServiceBottomButtons
+            serviceName={serviceDetails?.serviceName}
+            price={serviceDetails?.offerPrice}
+            city="Bangalore"
+          />
 
           <div className="relative grid md:grid-cols-2 grid-cols-1 lg:gap-10 gap-4">
             <div>
@@ -471,7 +601,7 @@ const ServiceDetails = () => {
                     <div
                       className=" text-gray-600"
                       dangerouslySetInnerHTML={{
-                        __html: serviceDetails?.requiredDetails
+                        __html: serviceDetails?.requiredDetails,
                       }}
                     />
                   </p>
@@ -483,7 +613,7 @@ const ServiceDetails = () => {
                 <div
                   className="absolute lg:top-0 md:-top-8 top-5 md:right-0 right-1 rounded-full border border-gray-300 bg-white p-2 text-black text-2xl cursor-pointer"
                   onClick={handleWishlist}
-                  style={{ pointerEvents: isWishlistLoading ? 'none' : 'auto' }}
+                  style={{ pointerEvents: isWishlistLoading ? "none" : "auto" }}
                 >
                   {isInWishlist ? (
                     <GoHeartFill className="text-red-600" />
@@ -498,16 +628,26 @@ const ServiceDetails = () => {
                   <div>
                     <div className="flex gap-3 items-center py-2">
                       <p className="poppins text-2xl text-primary font-bold flex items-center">
-                        <MdOutlineCurrencyRupee /> {serviceDetails?.offerPrice || 4999}
+                        <MdOutlineCurrencyRupee />{" "}
+                        {serviceDetails?.offerPrice || 4999}
                       </p>
                       <p className="poppins text-gray-500 font-medium flex items-center line-through">
-                        <MdOutlineCurrencyRupee /> {serviceDetails?.originalPrice || 5599}
+                        <MdOutlineCurrencyRupee />{" "}
+                        {serviceDetails?.originalPrice || 5599}
                       </p>
                       <p className="py-1 px-2 text-xs bg-green-600 text-white rounded-3xl">
-                        {Math.round(((serviceDetails?.originalPrice || 5599) - (serviceDetails?.offerPrice || 4999)) / (serviceDetails?.originalPrice || 5599) * 100)}% OFF
+                        {Math.round(
+                          (((serviceDetails?.originalPrice || 5599) -
+                            (serviceDetails?.offerPrice || 4999)) /
+                            (serviceDetails?.originalPrice || 5599)) *
+                            100
+                        )}
+                        % OFF
                       </p>
                     </div>
-                    <p className="text-gray-500 p-1">Inclusive of all charges</p>
+                    <p className="text-gray-500 p-1">
+                      Inclusive of all charges
+                    </p>
                   </div>
                   <div className="rounded-md border border-gray-300 p-4 mt-3">
                     <div className="flex justify-between flex-col gap-2">
@@ -530,11 +670,13 @@ const ServiceDetails = () => {
                       <small>Don't know PINCODE?</small>
                       {deliveryMessage && (
                         <p
-                          className={`${deliveryMessage === "Service not available for this pincode" ||
+                          className={`${
+                            deliveryMessage ===
+                              "Service not available for this pincode" ||
                             deliveryMessage === "Invalid Pincode"
-                            ? "text-red-500"
-                            : "text-green-500"
-                            } font-medium`}
+                              ? "text-red-500"
+                              : "text-green-500"
+                          } font-medium`}
                         >
                           {deliveryMessage}
                         </p>
@@ -543,23 +685,29 @@ const ServiceDetails = () => {
                       <MultiSelect
                         disabled={!isPincodeValid}
                         defaulyballoonsColors={serviceDetails.balloonColors}
-                        onSelectionChange={(colors) => dispatch(setBalloonsColor(colors))}
+                        onSelectionChange={(colors) =>
+                          dispatch(setBalloonsColor(colors))
+                        }
                       />
                       <div className="relative">
                         <div
                           onClick={handleDivClick}
-                          className={`flex items-center justify-between border border-gray-300 p-2 px-4 ${isPincodeValid
-                            ? "cursor-pointer"
-                            : "cursor-not-allowed opacity-60"
-                            } rounded-md`}
+                          className={`flex items-center justify-between border border-gray-300 p-2 px-4 ${
+                            isPincodeValid
+                              ? "cursor-pointer"
+                              : "cursor-not-allowed opacity-60"
+                          } rounded-md`}
                         >
                           <p
-                            className={`${selectedDate ? "text-black" : "text-gray-400"
-                              }`}
+                            className={`${
+                              selectedDate ? "text-black" : "text-gray-400"
+                            }`}
                           >
                             {selectedDate
-                              ? selectedDate.toLocaleDateString('en-GB').replace(/\//g, '-')
-                              : 'Select Date'}
+                              ? selectedDate
+                                  .toLocaleDateString("en-GB")
+                                  .replace(/\//g, "-")
+                              : "Select Date"}
                           </p>
                           <SlCalender />
                         </div>
@@ -582,11 +730,19 @@ const ServiceDetails = () => {
                     <div className="flex justify-end items-end flex-col">
                       <p>Total Price</p>
                       <p className="font-bold">
-                        {formatCurrency((serviceDetails?.offerPrice || 0) + addonTotal + (deliveryCharges || 0) + extraSlotCharge)}
+                        {formatCurrency(
+                          (serviceDetails?.offerPrice || 0) +
+                            addonTotal +
+                            (deliveryCharges || 0) +
+                            extraSlotCharge
+                        )}
                       </p>
                       {extraSlotCharge > 0 && (
                         <div className="text-sm text-orange-600 mt-1">
-                          <p>+ {extraSlotLabel}: {formatCurrency(extraSlotCharge)}</p>
+                          <p>
+                            + {extraSlotLabel}:{" "}
+                            {formatCurrency(extraSlotCharge)}
+                          </p>
                         </div>
                       )}
                       {deliveryCharges > 0 && (
@@ -595,7 +751,6 @@ const ServiceDetails = () => {
                         </div>
                       )}
                     </div>
-
                   </div>
                 </div>
 
@@ -627,10 +782,11 @@ const ServiceDetails = () => {
                         <p
                           key={item}
                           onClick={() => setCurrentDetailsTab(item)}
-                          className={`${currentDetailsTab === item
-                            ? "text-primary border-b-2 border-primary"
-                            : "text-black"
-                            } cursor-pointer font-bold`}
+                          className={`${
+                            currentDetailsTab === item
+                              ? "text-primary border-b-2 border-primary"
+                              : "text-black"
+                          } cursor-pointer font-bold`}
                         >
                           {item}
                         </p>
@@ -642,7 +798,7 @@ const ServiceDetails = () => {
                       <div
                         className="mt-2"
                         dangerouslySetInnerHTML={{
-                          __html: serviceDetails?.packageDetails
+                          __html: serviceDetails?.packageDetails,
                         }}
                       />
                     )}
@@ -680,7 +836,10 @@ const ServiceDetails = () => {
               <h1 className="font-bold md:text-3xl text-xl py-4">
                 Make It Extra Special
               </h1>
-              <RecommenedAddonSlider subCat={serviceDetails?.subCategoryId} addons={addonsData} />
+              <RecommenedAddonSlider
+                subCat={serviceDetails?.subCategoryId}
+                addons={addonsData}
+              />
             </>
           )}
 
@@ -709,17 +868,23 @@ const ServiceDetails = () => {
                 <img src={phone} className="w-6" alt="phone" />
                 Call us
               </a>
-
             </div>
           </div>
 
-          <Review serviceId={serviceId} customerId={customerId} serviceRating={serviceDetails?.rating} />
+          <Review
+            serviceId={serviceId}
+            customerId={customerId}
+            serviceRating={serviceDetails?.rating}
+          />
 
-          {customerId && <div className="md:pt-10 pt-7">
-            <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
-            <CardCarousel centercardData={recentPurchaseServiceDetails} />
-          </div>}
-
+          {customerId && (
+            <div className="md:pt-10 pt-7">
+              <p className="font-bold poppins md:text-2xl">
+                Recently Purchased
+              </p>
+              <CardCarousel centercardData={recentPurchaseServiceDetails} />
+            </div>
+          )}
 
           {(showTimeSlots || showAddonsModal) && (
             <div className="absolute top-0 left-0 w-full h-screen bg-black/80 flex justify-center items-center z-50">
@@ -756,12 +921,19 @@ const ServiceDetails = () => {
                     setShowAddonsModal={setShowAddonsModal}
                     setShowTimeSlots={setShowTimeSlots}
                     hasAddons={hasAddons}
-                    timeSlots={serviceDetails?.offerPrice > 4000 ? timeSlotsPremium : timeSlotsBasic}
+                    timeSlots={
+                      serviceDetails?.offerPrice > 4000
+                        ? timeSlotsPremium
+                        : timeSlotsBasic
+                    }
                   />
                 )}
 
                 {showAddonsModal && hasAddons && (
-                  <RecommenedAddon subCat={serviceDetails?.subCategoryId} addons={addonsData} />
+                  <RecommenedAddon
+                    subCat={serviceDetails?.subCategoryId}
+                    addons={addonsData}
+                  />
                 )}
 
                 {/* Footer */}
@@ -769,11 +941,18 @@ const ServiceDetails = () => {
                   <div>
                     <p>Total Price</p>
                     <p className="font-bold">
-                      {formatCurrency((serviceDetails?.offerPrice || 0) + addonTotal + (deliveryCharges || 0) + extraSlotCharge)}
+                      {formatCurrency(
+                        (serviceDetails?.offerPrice || 0) +
+                          addonTotal +
+                          (deliveryCharges || 0) +
+                          extraSlotCharge
+                      )}
                     </p>
                     {extraSlotCharge > 0 && (
                       <div className="text-sm text-orange-600 mt-1">
-                        <p>+ {extraSlotLabel}: {formatCurrency(extraSlotCharge)}</p>
+                        <p>
+                          + {extraSlotLabel}: {formatCurrency(extraSlotCharge)}
+                        </p>
                       </div>
                     )}
                   </div>

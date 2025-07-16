@@ -314,7 +314,9 @@ const Navbar = () => {
                   <p className="font-medium text-[#504B53]">Sub Categories</p>
                   <ul className="flex flex-col gap-x-4 gap-y-2 md:h-[200px] flex-wrap my-4">
                     {subCategories.map((item) => {
-                      let linkPath = `/service/${item._id}`;
+                      let linkPath = `/service/${item.subCategory.replace(/\s+/g, "-")}/${item._id}`;
+
+           
                       let isWhatsAppLink = false;
 
                       // WhatsApp subcategories on desktop
@@ -424,7 +426,7 @@ const Navbar = () => {
                       >
                         <ul className="py-4 pl-4 text-[#504B53]">
                           {subCategories.map((item) => {
-                            let linkPath = `/service/${item._id}`;
+                                             let linkPath = `/service/${item.subCategory.replace(/\s+/g, "-")}/${item._id}`;
                             const isWhatsappLinkMobile =
                               whatsappSubCategories.includes(item.subCategory);
 

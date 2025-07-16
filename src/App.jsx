@@ -66,9 +66,9 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/about" element={<About />} />
-              <Route path="/service/:id" element={<Service />} />
+              <Route path="/service/:subcatgory/:id" element={<Service />} />
               <Route
-                path="/service/details/:serviceId"
+                path="/service/details/:serviceName/:serviceId"
                 element={<ServiceDetails />}
               />
               <Route path="/wishlist" element={<Wishlist />} />
