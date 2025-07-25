@@ -4,7 +4,7 @@ import "./App.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "react-datepicker/dist/react-datepicker.css";
-import { HelmetProvider } from 'react-helmet-async';
+import { HelmetProvider } from "react-helmet-async";
 
 import Layout from "./Components/Layout";
 import HomePage from "./Components/HomePage";
@@ -13,6 +13,8 @@ import PaymentFailure from "./Components/PaymentFailure";
 // import Login from "./Components/Login";
 // import Signup from "./Components/Signup";
 import LoginwithNumber from "./Components/LoginwithNumber";
+import BirthdayLandingpage from "./Components/BirthdayLandingpage";
+import Thankyou from "./Components/Thankyou";
 // Lazy load all other route components
 const About = lazy(() => import("./Components/About"));
 const Service = lazy(() => import("./Components/Service"));
@@ -34,7 +36,7 @@ const Photograpghy = lazy(() => import("./Components/Photograpghy"));
 const Profile = lazy(() => import("./Components/Profile"));
 const ProtectedRoute = lazy(() => import("./Components/ProtectedRoute"));
 const Themes = lazy(() => import("./Components/Themes"));
-const Thankyou = lazy(() => import("./Components/Thankyou"));
+const PaymentSuccess = lazy(() => import("./Components/PaymentSuccess"));
 const AllServices = lazy(() => import("./Components/AllServices"));
 const OrderDetails = lazy(() => import("./Components/OrderDetails"));
 const PrivacyPolicy = lazy(() => import("./Components/PrivacyPolicy"));
@@ -83,7 +85,7 @@ function App() {
               />
               <Route path="/contact" element={<ContactUs />} />
               <Route path="/checkout/:serviceId" element={<Checkout />} />
-              <Route path="/payment/success" element={<Thankyou />} />
+              <Route path="/payment/success" element={<PaymentSuccess />} />
               <Route
                 path="/kidsBirthdaydecor/:subcat_id"
                 element={<Kidsbirthday />}
@@ -108,8 +110,14 @@ function App() {
                 path="/namingceremonydecor/:subcat_id"
                 element={<NamingCeremony />}
               />
-              <Route path="/bridetobedecor/:subcat_id" element={<BridetoBe />} />
-              <Route path="/groomtobedecor/:subcat_id" element={<GroomtoBe />} />
+              <Route
+                path="/bridetobedecor/:subcat_id"
+                element={<BridetoBe />}
+              />
+              <Route
+                path="/groomtobedecor/:subcat_id"
+                element={<GroomtoBe />}
+              />
               <Route
                 path="/ringceremonydecor/:subcat_id"
                 element={<RingCermony />}
@@ -118,7 +126,10 @@ function App() {
                 path="/entertainmentdecor/:subcat_id"
                 element={<Entertainment />}
               />
-              <Route path="/photography/:subcat_id" element={<Photograpghy />} />
+              <Route
+                path="/photography/:subcat_id"
+                element={<Photograpghy />}
+              />
               {/* <Route path="/login" element={<Login />} /> */}
               <Route path="/login" element={<LoginwithNumber />} />
               {/* <Route path="/signup" element={<Signup />} /> */}
@@ -134,6 +145,11 @@ function App() {
               <Route path="/payment/failure" element={<PaymentFailure />} />
               <Route path="/blogs" element={<Blog />} />
               <Route path="/blogs/:title" element={<BlogDetails />} />
+              <Route path="/thankyou" element={<Thankyou />} />
+              <Route
+                path="/birthday-event-planner-in-bangalore"
+                element={<BirthdayLandingpage />}
+              />
             </Route>
           </Routes>
         </Suspense>
