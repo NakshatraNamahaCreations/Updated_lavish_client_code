@@ -238,7 +238,7 @@ const WelcomeBaby = () => {
       <div className="grid grid-cols-2 md:gap-10 gap-3   lg:mt-20 mt-10">
         {subSubCategories.map((item, idx) => (
           <div className="relative" key={item._id}>
-            <Link to={`/service/${item._id}`}>
+            <Link to={`/service/${item.subCategory.subCategory.replace(/\s+/g, "-")}/${item._id}`}>
               <img
                 src={`${item.image}`}
                 alt={item.subSubCategory}

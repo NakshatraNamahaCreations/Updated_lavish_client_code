@@ -249,7 +249,7 @@ const Anniversary = () => {
       <div className="grid grid-cols-2 gap-10  md:place-items-center lg:mt-10 mt-5">
         {subSubCategories.map((item, idx) => (
           <div className="relative" key={item._id}>
-            <Link to={`/service/${item._id}`}>
+            <Link to={`/service/${item.subCategory.subCategory.replace(/\s+/g, "-")}/${item._id}`}>
               {" "}
               <img
                 src={`${item?.image}`}

@@ -240,7 +240,7 @@ const AdultBirthday = () => {
 
         {subSubCategories.map((item, idx) => (
           <div className="relative" key={item._id}>
-            <Link to={`/service/${item._id}`}>
+            <Link to={`/service/${item.subCategory.subCategory.replace(/\s+/g, "-")}/${item._id}`}>
 
               <img
                 src={`${item.image}`}

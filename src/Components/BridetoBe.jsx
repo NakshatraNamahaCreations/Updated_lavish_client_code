@@ -271,7 +271,7 @@ const breadcrumbPaths = [
       <div className="grid grid-cols-2 md:gap-10 gap-3  place-items-center md:my-16 mt-4 md:mx-10">
         {subSubCategories.map((item, idx) => (
           <div className="relative" key={item._id}>
-            <Link to={`/service/${item._id}`}>
+            <Link to={`/service/${item.subCategory.subCategory.replace(/\s+/g, "-")}/${item._id}`}>
               <img
                 src={`${item?.image}`}
                 alt={item.subSubCategory}

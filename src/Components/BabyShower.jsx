@@ -278,7 +278,7 @@ const BabyShower = () => {
           return (
             <div className="relative" key={item._id}>
               {/* <Link to={subSubAvailable ? `/service/${item.sub_SubId}` : `/service/${item.subId}`}> */}
-              <Link to={`/service/${item._id}`}>
+              <Link to={`/service/${item.subCategory.subCategory.replace(/\s+/g, "-")}/${item._id}`}>
                 <img
                   src={`${item?.image}`}
                   alt={item.subSubCategory}

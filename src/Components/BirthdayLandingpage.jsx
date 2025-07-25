@@ -775,10 +775,10 @@ const BirthdayLandingpage = () => {
                 Our Work
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
-                <img src="/images/adults/PartySequenceDecoration.jpeg" alt="Image 1" className="w-full h-80 object-cover rounded-md shadow" />
-                <img src="/images/adults/DazzlingHbdWallDecor.jpeg" alt="Image 2" className="w-full h-80 object-cover rounded-md shadow" />
-                <img src="/images/adults/WallDecoreForBirthday.jpeg" alt="Image 3" className="w-full h-80 object-cover rounded-md shadow" />
-                <img src="/images/adults/roomSurprise.jpeg" alt="Image 4" className="w-full h-80 object-cover rounded-md shadow" />
+                <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/WhatsApp%20Image%202025-06-21%20at%2011.39.23%20PM.jpeg" alt="Image 1" className="w-full h-80 object-cover rounded-md shadow" />
+                <img src="https://lavisheventzz-bangalore.b-cdn.net/House%20Warming%20Main%20Images/WhatsApp%20Image%202025-06-20%20at%2010.49.45%20AM.jpeg" alt="Image 2" className="w-full h-80 object-cover rounded-md shadow" />
+                <img src="https://lavisheventzz-bangalore.b-cdn.net/Kids%20Birthday%20Original%20Images/WhatsApp%20Image%202025-06-16%20at%206.37.54%20AM.jpeg" alt="Image 3" className="w-full h-80 object-cover rounded-md shadow" />
+                <img src="https://lavisheventzz-bangalore.b-cdn.net/Kids%20Birthday%20Original%20Images/WhatsApp%20Image%202025-06-17%20at%204.49.21%20PM.jpeg" alt="Image 4" className="w-full h-80 object-cover rounded-md shadow" />
               </div>
               <br />
 
@@ -1040,7 +1040,7 @@ const BirthdayLandingpage = () => {
             </div>
             <br />
             <p className="text-base text-gray-700 font-bold leading-relaxed font-[Montserrat] text-center">
-              <a href="https://www.lavisheventzz.com/contact">Contact us today for a free consultation and discover why we're one of the best birthday event planners in Bangalore!</a>
+              <a href="https://www.lavisheventzz.com/contact" className="text-blue-500">Contact us today for a free consultation and discover why we're one of the best birthday event planners in Bangalore!</a>
             </p>
             <br />
           </ReadMoreText>

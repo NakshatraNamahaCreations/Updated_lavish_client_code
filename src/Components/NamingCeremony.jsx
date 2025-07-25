@@ -224,7 +224,7 @@ const NamingCeremony = () => {
       <div className="grid grid-cols-2 gap-x-8 md:gap-y-14 gap-y-5 md:place-items-center lg:mt-20 mt-10">
         {subSubCategories.map((item) => (
           <div className="relative" key={item._id}>
-            <Link to={`/service/${item._id}`}>
+            <Link to={`/service/${item.subCategory.subCategory.replace(/\s+/g, "-")}/${item._id}`}>
               <img
                 src={`${item.image}`}
                 alt={item.subSubCategory}

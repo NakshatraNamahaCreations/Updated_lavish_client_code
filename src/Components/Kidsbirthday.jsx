@@ -97,25 +97,24 @@ const Kidsbirthday = () => {
     }
   };
 
-  const handleSubSubCategoryClick = async (subSubCategoryId) => {
+  const handleSubSubCategoryClick = async (item) => {
     try {
-      console.log("Checking themes for subSubCategoryId:", subSubCategoryId);
-      const hasThemes = await checkForThemes(subSubCategoryId);
+      console.log("Checking themes for subSubCategoryId:", item._id);
+      const hasThemes = await checkForThemes(item._id);
       console.log("Has themes:", hasThemes);
 
       if (hasThemes) {
         console.log("Navigating to themes page");
         // If themes exist, navigate to themes page
-        navigate(`/themes/${subSubCategoryId}`);
+        navigate(`/themes/${item._id}`);
       } else {
         console.log("No themes found, navigating to services");
         // If no themes, navigate directly to services
-        navigate(`/service/${subSubCategoryId}`);
+        // navigate(`/service/${subSubCategoryId}`);
+        navigate(`/service/${item.subCategory.subCategory.replace(/\s+/g, "-")}/${item._id} `);
       }
     } catch (err) {
       console.error("Error in navigation:", err);
-      // If error occurs, navigate to services as fallback
-      navigate(`/service/${subSubCategoryId}`);
     }
   };
 
@@ -262,7 +261,7 @@ const Kidsbirthday = () => {
         {subSubCategories.map((item) => (
           <div className="relative" key={item._id}>
             <div
-              onClick={() => handleSubSubCategoryClick(item._id)}
+              onClick={() => handleSubSubCategoryClick(item)}
               className="cursor-pointer transition-shadow duration-300"
             >
               <img
