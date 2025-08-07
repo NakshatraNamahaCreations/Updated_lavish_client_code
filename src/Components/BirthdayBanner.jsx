@@ -51,7 +51,7 @@ export default function BirthdayBanner() {
                     service: "",
                     message: "",
                 });
-                navigate("/thankyou")
+                navigate("/")
                 
             } else {
                 setStatus({

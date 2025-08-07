@@ -4,6 +4,7 @@ import { IoIosStar, IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { getAuthAxios, getAxios } from "../utils/api";
+import { useNavigate } from "react-router-dom";
 
 const BirthdaySliderFrontend = () => {
   const mockItems = [
@@ -224,7 +225,7 @@ const BirthdaySliderFrontend = () => {
   }
 
   const authAxios = getAuthAxios();
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -271,6 +272,7 @@ const BirthdaySliderFrontend = () => {
           service: "",
           message: "",
         });
+        navigate("/")
       } else {
         setStatus({
           success: false,

@@ -7,7 +7,7 @@ import linkedin from "../assets/icons/LinkedIn.png";
 import pintrest from "../assets/icons/Pinterest.png";
 import x from "../assets/icons/twitter.png";
 import youtube from "../assets/icons/YouTube.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CancellationPolicy from "./CancellationPolicy";
 import { API_BASE_URL, getAxios } from "../utils/api";
 
@@ -56,35 +56,35 @@ const Footer = () => {
     }
   };
 
-const handleEmailSubmit = async (e) => {
-  e.preventDefault();
+  const handleEmailSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!email || !email.includes("@")) {
-    alert("Please enter a valid email address.");
-    return;
-  }
-
-  setSubmitting(true); // Set submitting to true when the form is submitted
-
-  try {
-    const response = await fetch(`${API_BASE_URL}/send-email`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
-
-    if (response.ok) {
-      setSubmitted(true);
-      setEmail("");
-    } else {
-      alert("Failed to send email. Please try again.");
+    if (!email || !email.includes("@")) {
+      alert("Please enter a valid email address.");
+      return;
     }
-  } catch (error) {
-    alert("Network error. Please try again.");
-  } finally {
-    setSubmitting(false); // Set submitting to false once done
-  }
-};
+
+    setSubmitting(true); // Set submitting to true when the form is submitted
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/send-email`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        setEmail("");
+      } else {
+        alert("Failed to send email. Please try again.");
+      }
+    } catch (error) {
+      alert("Network error. Please try again.");
+    } finally {
+      setSubmitting(false); // Set submitting to false once done
+    }
+  };
 
   return (
     <div className="bg-gray-200 relative font-medium">
@@ -196,7 +196,7 @@ const handleEmailSubmit = async (e) => {
                 type="submit"
                 className="bg-primary text-white px-4 py-1 rounded-lg"
               >
-                    {submitting ? "Submitting..." : "Submit"}
+                {submitting ? "Submitting..." : "Submit"}
               </button>
             </form>
             {submitted && (
@@ -225,6 +225,7 @@ const handleEmailSubmit = async (e) => {
           ))}
         </div>
       </div>
+      <Link to="https://www.nakshatranamahacreations.com/" target="__blank" ><p className="text-center pb-6">© Nakshatra Namaha Creations. 2025. All rights reserved. </p></Link>
     </div>
   );
 };

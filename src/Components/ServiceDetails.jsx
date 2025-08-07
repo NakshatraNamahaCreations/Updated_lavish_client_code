@@ -15,6 +15,7 @@ import {
   setBalloonsColor,
   recalculateTotals,
 } from "../features/orderdetails/orderSlice";
+import { Helmet } from "react-helmet-async";
 
 import { GrLocation } from "react-icons/gr";
 import { SlCalender } from "react-icons/sl";
@@ -246,6 +247,8 @@ const ServiceDetails = () => {
   const [hasAddons, setHasAddons] = useState(false);
   const [loadingAddons, setLoadingAddons] = useState(true);
 
+  const [seoMeta, setSeoMeta] = useState(null);
+
   const selectedOptions = useSelector(
     (state) => state.order.currentOrder.balloonsColor
   );
@@ -315,6 +318,14 @@ const ServiceDetails = () => {
 
           // ✅ Trigger subtotal + GST calculation after item is added
           dispatch(recalculateTotals());
+
+          setSeoMeta({
+            title: details.metaTitle,
+            description: details.metaDescription,
+            keywords: details.keywords,
+            faqs: details.faqs,
+            createdAt: details.createdAt,
+          });
         }
       } catch (err) {
         console.error("Error fetching service details:", err);
@@ -328,6 +339,8 @@ const ServiceDetails = () => {
       fetchServiceDetails();
     }
   }, [serviceId, dispatch]);
+
+  console.log("seo", seoMeta);
 
   // Fetch addons for this service
   useEffect(() => {
@@ -578,156 +591,403 @@ const ServiceDetails = () => {
     extraSlotCharge;
 
   return (
-    <div className="lg:py-28 lg:px-10 p-4 pt-32 mx-auto">
-      {loading ? (
-        <div className="text-center py-10">Loading service details...</div>
-      ) : error ? (
-        <div className="text-center py-10 text-red-500">{error}</div>
-      ) : (
-        <>
-          <ServiceBottomButtons
-            serviceName={serviceDetails?.serviceName}
-            price={serviceDetails?.offerPrice}
-            city="Bangalore"
+    <>
+      {/* SEO Metadata using Helmet */}
+      {seoMeta && (
+        <Helmet>
+          <title>{seoMeta.title}</title>
+          <meta name="description" content={seoMeta.description} />
+          {seoMeta.keywords && (
+            <meta name="keywords" content={seoMeta.keywords} />
+          )}
+          <link
+            rel="canonical"
+            href={window.location.href}
           />
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: seoMeta.faqs?.map((faq) => ({
+                "@type": "Question",
+                name: faq.question,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: faq.answer,
+                },
+              })),
+              dateCreated: new Date(seoMeta.createdAt).toISOString(),
+            })}
+          </script>
+        </Helmet>
+      )}
 
-          <div className="relative grid md:grid-cols-2 grid-cols-1 lg:gap-10 gap-4">
-            <div>
-              <ProductSlideCarousel images={serviceDetails?.images} />
-              <div className="rounded-md border border-gray-300 lg:my-20 p-4">
-                <div>
-                  <h1 className="font-semibold py-3">Required</h1>
-                  <p>
-                    <div
-                      className=" text-gray-600"
-                      dangerouslySetInnerHTML={{
-                        __html: serviceDetails?.requiredDetails,
-                      }}
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div className="md:relative mt-5 lg:mt-0">
-                <div
-                  className="absolute lg:top-0 md:-top-8 top-5 md:right-0 right-1 rounded-full border border-gray-300 bg-white p-2 text-black text-2xl cursor-pointer"
-                  onClick={handleWishlist}
-                  style={{ pointerEvents: isWishlistLoading ? "none" : "auto" }}
-                >
-                  {isInWishlist ? (
-                    <GoHeartFill className="text-red-600" />
-                  ) : (
-                    <GoHeart className="text-gray-600" />
-                  )}
-                </div>
-                <div id="booking">
-                  <h1 className="text-3xl font-bold max-w-lg">
-                    {serviceDetails?.serviceName || "Golden Star Decoration"}
-                  </h1>
+      <div className="lg:py-28 lg:px-10 p-4 pt-32 mx-auto">
+        {loading ? (
+          <div className="text-center py-10">Loading service details...</div>
+        ) : error ? (
+          <div className="text-center py-10 text-red-500">{error}</div>
+        ) : (
+          <>
+            <ServiceBottomButtons
+              serviceName={serviceDetails?.serviceName}
+              price={serviceDetails?.offerPrice}
+              city="Bangalore"
+            />
+
+            <div className="relative grid md:grid-cols-2 grid-cols-1 lg:gap-10 gap-4">
+              <div>
+                <ProductSlideCarousel images={serviceDetails?.images} />
+                <div className="rounded-md border border-gray-300 lg:my-20 p-4">
                   <div>
-                    <div className="flex gap-3 items-center py-2">
-                      <p className="poppins text-2xl text-primary font-bold flex items-center">
-                        <MdOutlineCurrencyRupee />{" "}
-                        {serviceDetails?.offerPrice || 4999}
-                      </p>
-                      <p className="poppins text-gray-500 font-medium flex items-center line-through">
-                        <MdOutlineCurrencyRupee />{" "}
-                        {serviceDetails?.originalPrice || 5599}
-                      </p>
-                      <p className="py-1 px-2 text-xs bg-green-600 text-white rounded-3xl">
-                        {Math.round(
-                          (((serviceDetails?.originalPrice || 5599) -
-                            (serviceDetails?.offerPrice || 4999)) /
-                            (serviceDetails?.originalPrice || 5599)) *
-                            100
-                        )}
-                        % OFF
-                      </p>
-                    </div>
-                    <p className="text-gray-500 p-1">
-                      Inclusive of all charges
+                    <h1 className="font-semibold py-3">Required</h1>
+                    <p>
+                      <div
+                        className=" text-gray-600"
+                        dangerouslySetInnerHTML={{
+                          __html: serviceDetails?.requiredDetails,
+                        }}
+                      />
                     </p>
                   </div>
-                  <div className="rounded-md border border-gray-300 p-4 mt-3">
-                    <div className="flex justify-between flex-col gap-2">
-                      <div className="flex gap-2 items-center px-3 py-2 rounded-md border border-gray-300">
-                        <GrLocation size={20} />
-                        <input
-                          placeholder="Enter Pincode"
-                          className="outline-none"
-                          value={pincode}
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            // Allow only digits and limit to 6 characters
-                            if (/^\d{0,6}$/.test(value)) {
-                              setPincodeLocal(value);
-                            }
-                          }}
-                          maxLength={6}
-                        />
-                      </div>
-                      <small>Don't know PINCODE?</small>
-                      {deliveryMessage && (
-                        <p
-                          className={`${
-                            deliveryMessage ===
-                              "Service not available for this pincode" ||
-                            deliveryMessage === "Invalid Pincode"
-                              ? "text-red-500"
-                              : "text-green-500"
-                          } font-medium`}
-                        >
-                          {deliveryMessage}
+                </div>
+              </div>
+              <div>
+                <div className="md:relative mt-5 lg:mt-0">
+                  <div
+                    className="absolute lg:top-0 md:-top-8 top-5 md:right-0 right-1 rounded-full border border-gray-300 bg-white p-2 text-black text-2xl cursor-pointer"
+                    onClick={handleWishlist}
+                    style={{
+                      pointerEvents: isWishlistLoading ? "none" : "auto",
+                    }}
+                  >
+                    {isInWishlist ? (
+                      <GoHeartFill className="text-red-600" />
+                    ) : (
+                      <GoHeart className="text-gray-600" />
+                    )}
+                  </div>
+                  <div id="booking">
+                    <h1 className="text-3xl font-bold max-w-lg">
+                      {serviceDetails?.serviceName || "Golden Star Decoration"}
+                    </h1>
+                    <div>
+                      <div className="flex gap-3 items-center py-2">
+                        <p className="poppins text-2xl text-primary font-bold flex items-center">
+                          <MdOutlineCurrencyRupee />{" "}
+                          {serviceDetails?.offerPrice || 4999}
                         </p>
-                      )}
-
-                      <MultiSelect
-                        disabled={!isPincodeValid}
-                        defaulyballoonsColors={serviceDetails.balloonColors}
-                        onSelectionChange={(colors) =>
-                          dispatch(setBalloonsColor(colors))
-                        }
-                      />
-                      <div className="relative">
-                        <div
-                          onClick={handleDivClick}
-                          className={`flex items-center justify-between border border-gray-300 p-2 px-4 ${
-                            isPincodeValid
-                              ? "cursor-pointer"
-                              : "cursor-not-allowed opacity-60"
-                          } rounded-md`}
-                        >
+                        <p className="poppins text-gray-500 font-medium flex items-center line-through">
+                          <MdOutlineCurrencyRupee />{" "}
+                          {serviceDetails?.originalPrice || 5599}
+                        </p>
+                        <p className="py-1 px-2 text-xs bg-green-600 text-white rounded-3xl">
+                          {Math.round(
+                            (((serviceDetails?.originalPrice || 5599) -
+                              (serviceDetails?.offerPrice || 4999)) /
+                              (serviceDetails?.originalPrice || 5599)) *
+                              100
+                          )}
+                          % OFF
+                        </p>
+                      </div>
+                      <p className="text-gray-500 p-1">
+                        Inclusive of all charges
+                      </p>
+                    </div>
+                    <div className="rounded-md border border-gray-300 p-4 mt-3">
+                      <div className="flex justify-between flex-col gap-2">
+                        <div className="flex gap-2 items-center px-3 py-2 rounded-md border border-gray-300">
+                          <GrLocation size={20} />
+                          <input
+                            placeholder="Enter Pincode"
+                            className="outline-none"
+                            value={pincode}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              // Allow only digits and limit to 6 characters
+                              if (/^\d{0,6}$/.test(value)) {
+                                setPincodeLocal(value);
+                              }
+                            }}
+                            maxLength={6}
+                          />
+                        </div>
+                        <small>Don't know PINCODE?</small>
+                        {deliveryMessage && (
                           <p
                             className={`${
-                              selectedDate ? "text-black" : "text-gray-400"
-                            }`}
+                              deliveryMessage ===
+                                "Service not available for this pincode" ||
+                              deliveryMessage === "Invalid Pincode"
+                                ? "text-red-500"
+                                : "text-green-500"
+                            } font-medium`}
                           >
-                            {selectedDate
-                              ? selectedDate
-                                  .toLocaleDateString("en-GB")
-                                  .replace(/\//g, "-")
-                              : "Select Date"}
+                            {deliveryMessage}
                           </p>
-                          <SlCalender />
+                        )}
+
+                        <MultiSelect
+                          disabled={!isPincodeValid}
+                          defaulyballoonsColors={serviceDetails.balloonColors}
+                          onSelectionChange={(colors) =>
+                            dispatch(setBalloonsColor(colors))
+                          }
+                        />
+                        <div className="relative">
+                          <div
+                            onClick={handleDivClick}
+                            className={`flex items-center justify-between border border-gray-300 p-2 px-4 ${
+                              isPincodeValid
+                                ? "cursor-pointer"
+                                : "cursor-not-allowed opacity-60"
+                            } rounded-md`}
+                          >
+                            <p
+                              className={`${
+                                selectedDate ? "text-black" : "text-gray-400"
+                              }`}
+                            >
+                              {selectedDate
+                                ? selectedDate
+                                    .toLocaleDateString("en-GB")
+                                    .replace(/\//g, "-")
+                                : "Select Date"}
+                            </p>
+                            <SlCalender />
+                          </div>
+                          {openCalendar && isPincodeValid && (
+                            <div className="absolute top-10 left-4 z-50">
+                              <Calendar
+                                onChange={handleDateChange}
+                                value={selectedDate}
+                                minDate={new Date()}
+                                className="w-[300px] outline-none text-xl"
+                              />
+                            </div>
+                          )}
                         </div>
-                        {openCalendar && isPincodeValid && (
-                          <div className="absolute top-10 left-4 z-50">
-                            <Calendar
-                              onChange={handleDateChange}
-                              value={selectedDate}
-                              minDate={new Date()}
-                              className="w-[300px] outline-none text-xl"
-                            />
+                      </div>
+                      <div className="mt-8 mb-2 flex gap-2 justify-between items-center text-gray-600">
+                        <p>Delivery Charges</p>
+                        <p>{formatCurrency(deliveryCharge)}</p>
+                      </div>
+                      <div className="flex justify-end items-end flex-col">
+                        <p>Total Price</p>
+                        <p className="font-bold">
+                          {formatCurrency(
+                            (serviceDetails?.offerPrice || 0) +
+                              addonTotal +
+                              (deliveryCharges || 0) +
+                              extraSlotCharge
+                          )}
+                        </p>
+                        {extraSlotCharge > 0 && (
+                          <div className="text-sm text-orange-600 mt-1">
+                            <p>
+                              + {extraSlotLabel}:{" "}
+                              {formatCurrency(extraSlotCharge)}
+                            </p>
+                          </div>
+                        )}
+                        {deliveryCharges > 0 && (
+                          <div className="text-sm text-gray-500 mt-1">
+                            <p>(Including delivery Chareges)</p>
                           </div>
                         )}
                       </div>
                     </div>
-                    <div className="mt-8 mb-2 flex gap-2 justify-between items-center text-gray-600">
-                      <p>Delivery Charges</p>
-                      <p>{formatCurrency(deliveryCharge)}</p>
+                  </div>
+
+                  <div className="grid grid-cols-3 justify-between items-center py-10 border rounded-lg border-gray-400 bg-gradient-to-t from-purple-400 to-white">
+                    <div className="text-lg">
+                      <div className="mx-auto border-2 border-primary w-12 h-12 place-items-center place-content-center rounded-full">
+                        <TbCurrencyRupee className="text-primary" size={30} />
+                      </div>
+                      <p className="text-center pt-3">No Hidden Charges</p>
                     </div>
-                    <div className="flex justify-end items-end flex-col">
+                    <div className="text-lg">
+                      <div className="mx-auto border-2 border-primary w-12 h-12 place-items-center place-content-center rounded-full">
+                        <LuHandHeart className="text-primary" size={30} />
+                      </div>
+                      <p className="text-center pt-3">10k+ Trusted Clients</p>
+                    </div>
+                    <div className="text-lg">
+                      <div className="mx-auto border-2 border-primary w-12 h-12 place-items-center place-content-center rounded-full">
+                        <GoShieldCheck className="text-primary" size={30} />
+                      </div>
+                      <p className="text-center pt-3">100% Secure Payments</p>
+                    </div>
+                  </div>
+
+                  <div className="rounded-md border border-gray-300 p-4 mt-4">
+                    <div className="flex justify-between">
+                      {[
+                        "Inclusion",
+                        "FAQs",
+                        "Delivery details",
+                        "Care Info",
+                      ].map((item) => (
+                        <p
+                          key={item}
+                          onClick={() => setCurrentDetailsTab(item)}
+                          className={`${
+                            currentDetailsTab === item
+                              ? "text-primary border-b-2 border-primary"
+                              : "text-black"
+                          } cursor-pointer font-bold`}
+                        >
+                          {item}
+                        </p>
+                      ))}
+                    </div>
+                    <div className="mt-2 max-h-56 overflow-y-scroll scrollbar-thin">
+                      {currentDetailsTab === "Inclusion" && (
+                        <div
+                          className="mt-2"
+                          dangerouslySetInnerHTML={{
+                            __html: serviceDetails?.packageDetails,
+                          }}
+                        />
+                      )}
+                    </div>
+                    <div className="mt-2 max-h-56 overflow-y-scroll scrollbar-thin">
+                      {currentDetailsTab === "Delivery details" && (
+                        <div>
+                          {deliveryDetails.map((item, idx) => (
+                            <p key={idx}>
+                              {idx + 1}) {item}
+                            </p>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <div className="mt-2 max-h-56 overflow-y-scroll scrollbar-thin">
+                      {currentDetailsTab === "Care Info" && (
+                        <div>
+                          {careInstructions.map((item, idx) => (
+                            <p key={idx}>
+                              {idx + 1}) {item}
+                            </p>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <div>{currentDetailsTab === "FAQs" && <FAQ />}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {hasAddons && (
+              <>
+                <h1 className="font-bold md:text-3xl text-xl py-4">
+                  Make It Extra Special
+                </h1>
+                <RecommenedAddonSlider
+                  subCat={serviceDetails?.subCategoryId}
+                  addons={addonsData}
+                />
+              </>
+            )}
+
+            <div className="hidden md:w-[90%] mx-auto md:flex items-center justify-between gap-2 border border-gray-300 px-2 py-4 my-4 rounded-2xl">
+              <div className="flex gap-2 items-center">
+                <img src={support} className="w-10" alt="support" />
+                <div>
+                  <p className="text-primary text-2xl">
+                    Want to <span>customize</span> this decoration?
+                  </p>
+                  <p className="text-xl">Need assistance?</p>
+                </div>
+              </div>
+              <div className="flex gap-2 items-center text-2xl">
+                <button
+                  className="flex gap-2 items-center border border-green-500 text-green-500 rounded-full px-4 py-1 hover:bg-green-500 hover:text-white"
+                  onClick={() => window.open(WhatsAppLink, "_blank")}
+                >
+                  <img src={whatsapp} className="w-6" alt="whatsapp" />
+                  Whatsapp
+                </button>
+                <a
+                  href="tel:+919620558000"
+                  className="flex gap-2 items-center border border-blue-500 text-blue-500 rounded-full px-6 py-1 hover:bg-blue-500 hover:text-white"
+                >
+                  <img src={phone} className="w-6" alt="phone" />
+                  Call us
+                </a>
+              </div>
+            </div>
+
+            <Review
+              serviceId={serviceId}
+              customerId={customerId}
+              serviceRating={serviceDetails?.rating}
+            />
+
+            {customerId && (
+              <div className="md:pt-10 pt-7">
+                <p className="font-bold poppins md:text-2xl">
+                  Recently Purchased
+                </p>
+                <CardCarousel centercardData={recentPurchaseServiceDetails} />
+              </div>
+            )}
+
+            {(showTimeSlots || showAddonsModal) && (
+              <div className="absolute top-0 left-0 w-full h-screen bg-black/80 flex justify-center items-center z-50">
+                <div className="relative">
+                  {/* Header */}
+                  <div className="bg-gray-200 p-3 text-black flex items-center justify-between">
+                    <div className="md:flex gap-4">
+                      {showAddonsModal && (
+                        <button
+                          className="flex gap-1 items-center"
+                          onClick={() => {
+                            setShowAddonsModal(false);
+                            setShowTimeSlots(true);
+                          }}
+                        >
+                          <IoMdArrowRoundBack /> Go back
+                        </button>
+                      )}
+                      <p>{showAddonsModal ? "Add-ons" : "Time Slots"}</p>
+                    </div>
+                    <IoCloseSharp
+                      onClick={() => {
+                        setShowTimeSlots(false);
+                        setShowAddonsModal(false);
+                      }}
+                      className="cursor-pointer"
+                      size={30}
+                    />
+                  </div>
+
+                  {/* Body */}
+                  {showTimeSlots && (
+                    <TimeSlotsModel
+                      setShowAddonsModal={setShowAddonsModal}
+                      setShowTimeSlots={setShowTimeSlots}
+                      hasAddons={hasAddons}
+                      timeSlots={
+                        serviceDetails?.offerPrice > 4000
+                          ? timeSlotsPremium
+                          : timeSlotsBasic
+                      }
+                    />
+                  )}
+
+                  {showAddonsModal && hasAddons && (
+                    <RecommenedAddon
+                      subCat={serviceDetails?.subCategoryId}
+                      addons={addonsData}
+                    />
+                  )}
+
+                  {/* Footer */}
+                  <div className="bg-white px-2 flex justify-between items-center py-2">
+                    <div>
                       <p>Total Price</p>
                       <p className="font-bold">
                         {formatCurrency(
@@ -745,250 +1005,41 @@ const ServiceDetails = () => {
                           </p>
                         </div>
                       )}
-                      {deliveryCharges > 0 && (
-                        <div className="text-sm text-gray-500 mt-1">
-                          <p>(Including delivery Chareges)</p>
-                        </div>
-                      )}
                     </div>
-                  </div>
-                </div>
 
-                <div className="grid grid-cols-3 justify-between items-center py-10 border rounded-lg border-gray-400 bg-gradient-to-t from-purple-400 to-white">
-                  <div className="text-lg">
-                    <div className="mx-auto border-2 border-primary w-12 h-12 place-items-center place-content-center rounded-full">
-                      <TbCurrencyRupee className="text-primary" size={30} />
-                    </div>
-                    <p className="text-center pt-3">No Hidden Charges</p>
-                  </div>
-                  <div className="text-lg">
-                    <div className="mx-auto border-2 border-primary w-12 h-12 place-items-center place-content-center rounded-full">
-                      <LuHandHeart className="text-primary" size={30} />
-                    </div>
-                    <p className="text-center pt-3">10k+ Trusted Clients</p>
-                  </div>
-                  <div className="text-lg">
-                    <div className="mx-auto border-2 border-primary w-12 h-12 place-items-center place-content-center rounded-full">
-                      <GoShieldCheck className="text-primary" size={30} />
-                    </div>
-                    <p className="text-center pt-3">100% Secure Payments</p>
-                  </div>
-                </div>
-
-                <div className="rounded-md border border-gray-300 p-4 mt-4">
-                  <div className="flex justify-between">
-                    {["Inclusion", "FAQs", "Delivery details", "Care Info"].map(
-                      (item) => (
-                        <p
-                          key={item}
-                          onClick={() => setCurrentDetailsTab(item)}
-                          className={`${
-                            currentDetailsTab === item
-                              ? "text-primary border-b-2 border-primary"
-                              : "text-black"
-                          } cursor-pointer font-bold`}
-                        >
-                          {item}
-                        </p>
-                      )
-                    )}
-                  </div>
-                  <div className="mt-2 max-h-56 overflow-y-scroll scrollbar-thin">
-                    {currentDetailsTab === "Inclusion" && (
-                      <div
-                        className="mt-2"
-                        dangerouslySetInnerHTML={{
-                          __html: serviceDetails?.packageDetails,
-                        }}
-                      />
-                    )}
-                  </div>
-                  <div className="mt-2 max-h-56 overflow-y-scroll scrollbar-thin">
-                    {currentDetailsTab === "Delivery details" && (
-                      <div>
-                        {deliveryDetails.map((item, idx) => (
-                          <p key={idx}>
-                            {idx + 1}) {item}
-                          </p>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-2 max-h-56 overflow-y-scroll scrollbar-thin">
-                    {currentDetailsTab === "Care Info" && (
-                      <div>
-                        {careInstructions.map((item, idx) => (
-                          <p key={idx}>
-                            {idx + 1}) {item}
-                          </p>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <div>{currentDetailsTab === "FAQs" && <FAQ />}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {hasAddons && (
-            <>
-              <h1 className="font-bold md:text-3xl text-xl py-4">
-                Make It Extra Special
-              </h1>
-              <RecommenedAddonSlider
-                subCat={serviceDetails?.subCategoryId}
-                addons={addonsData}
-              />
-            </>
-          )}
-
-          <div className="hidden md:w-[90%] mx-auto md:flex items-center justify-between gap-2 border border-gray-300 px-2 py-4 my-4 rounded-2xl">
-            <div className="flex gap-2 items-center">
-              <img src={support} className="w-10" alt="support" />
-              <div>
-                <p className="text-primary text-2xl">
-                  Want to <span>customize</span> this decoration?
-                </p>
-                <p className="text-xl">Need assistance?</p>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center text-2xl">
-              <button
-                className="flex gap-2 items-center border border-green-500 text-green-500 rounded-full px-4 py-1 hover:bg-green-500 hover:text-white"
-                onClick={() => window.open(WhatsAppLink, "_blank")}
-              >
-                <img src={whatsapp} className="w-6" alt="whatsapp" />
-                Whatsapp
-              </button>
-              <a
-                href="tel:+919620558000"
-                className="flex gap-2 items-center border border-blue-500 text-blue-500 rounded-full px-6 py-1 hover:bg-blue-500 hover:text-white"
-              >
-                <img src={phone} className="w-6" alt="phone" />
-                Call us
-              </a>
-            </div>
-          </div>
-
-          <Review
-            serviceId={serviceId}
-            customerId={customerId}
-            serviceRating={serviceDetails?.rating}
-          />
-
-          {customerId && (
-            <div className="md:pt-10 pt-7">
-              <p className="font-bold poppins md:text-2xl">
-                Recently Purchased
-              </p>
-              <CardCarousel centercardData={recentPurchaseServiceDetails} />
-            </div>
-          )}
-
-          {(showTimeSlots || showAddonsModal) && (
-            <div className="absolute top-0 left-0 w-full h-screen bg-black/80 flex justify-center items-center z-50">
-              <div className="relative">
-                {/* Header */}
-                <div className="bg-gray-200 p-3 text-black flex items-center justify-between">
-                  <div className="md:flex gap-4">
-                    {showAddonsModal && (
+                    {/* Buttons */}
+                    {showTimeSlots && selectedTimeSlot && (
                       <button
-                        className="flex gap-1 items-center"
+                        className="flex gap-1 items-center bg-primary p-2 text-white rounded"
                         onClick={() => {
-                          setShowAddonsModal(false);
-                          setShowTimeSlots(true);
+                          if (hasAddons) {
+                            setShowAddonsModal(true);
+                            setShowTimeSlots(false);
+                          } else {
+                            navigate(`/checkout/${serviceId}`);
+                          }
                         }}
                       >
-                        <IoMdArrowRoundBack /> Go back
+                        {hasAddons ? "Next" : "Book Now"}
                       </button>
                     )}
-                    <p>{showAddonsModal ? "Add-ons" : "Time Slots"}</p>
-                  </div>
-                  <IoCloseSharp
-                    onClick={() => {
-                      setShowTimeSlots(false);
-                      setShowAddonsModal(false);
-                    }}
-                    className="cursor-pointer"
-                    size={30}
-                  />
-                </div>
 
-                {/* Body */}
-                {showTimeSlots && (
-                  <TimeSlotsModel
-                    setShowAddonsModal={setShowAddonsModal}
-                    setShowTimeSlots={setShowTimeSlots}
-                    hasAddons={hasAddons}
-                    timeSlots={
-                      serviceDetails?.offerPrice > 4000
-                        ? timeSlotsPremium
-                        : timeSlotsBasic
-                    }
-                  />
-                )}
-
-                {showAddonsModal && hasAddons && (
-                  <RecommenedAddon
-                    subCat={serviceDetails?.subCategoryId}
-                    addons={addonsData}
-                  />
-                )}
-
-                {/* Footer */}
-                <div className="bg-white px-2 flex justify-between items-center py-2">
-                  <div>
-                    <p>Total Price</p>
-                    <p className="font-bold">
-                      {formatCurrency(
-                        (serviceDetails?.offerPrice || 0) +
-                          addonTotal +
-                          (deliveryCharges || 0) +
-                          extraSlotCharge
-                      )}
-                    </p>
-                    {extraSlotCharge > 0 && (
-                      <div className="text-sm text-orange-600 mt-1">
-                        <p>
-                          + {extraSlotLabel}: {formatCurrency(extraSlotCharge)}
-                        </p>
-                      </div>
+                    {showAddonsModal && (
+                      <button
+                        className="flex gap-1 items-center bg-primary p-2 text-white rounded"
+                        onClick={() => navigate(`/checkout/${serviceId}`)}
+                      >
+                        Book now
+                      </button>
                     )}
                   </div>
-
-                  {/* Buttons */}
-                  {showTimeSlots && selectedTimeSlot && (
-                    <button
-                      className="flex gap-1 items-center bg-primary p-2 text-white rounded"
-                      onClick={() => {
-                        if (hasAddons) {
-                          setShowAddonsModal(true);
-                          setShowTimeSlots(false);
-                        } else {
-                          navigate(`/checkout/${serviceId}`);
-                        }
-                      }}
-                    >
-                      {hasAddons ? "Next" : "Book Now"}
-                    </button>
-                  )}
-
-                  {showAddonsModal && (
-                    <button
-                      className="flex gap-1 items-center bg-primary p-2 text-white rounded"
-                      onClick={() => navigate(`/checkout/${serviceId}`)}
-                    >
-                      Book now
-                    </button>
-                  )}
                 </div>
               </div>
-            </div>
-          )}
-        </>
-      )}
-    </div>
+            )}
+          </>
+        )}
+      </div>
+    </>
   );
 };
 
