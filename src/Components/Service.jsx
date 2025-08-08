@@ -117,12 +117,12 @@ const Service = () => {
       {subCategoryMeta && (
         <Helmet>
           {/* Basic Meta Tags */}
-          <title>{subCategoryMeta.metaTitle || modifiedSubcatTitle}</title>
+          <title>{subCategoryMeta.metaTitle}</title>
           <meta
             name="description"
             content={
-              subCategoryMeta.metaDescription ||
-              `Explore our ${modifiedSubcatTitle} services in Bangalore.`
+              subCategoryMeta.metaDescription
+     
             }
           />
           <meta
@@ -134,14 +134,14 @@ const Service = () => {
           />
 
           {/* Canonical URL */}
-          {/* <link
-            rel="canonical"
-            href={`https://www.lavisheventzz.in/service/${subcatgory}/${id}`}
-          /> */}
           <link
             rel="canonical"
-            href={window.location.href}
+            href={`https://www.lavisheventzz.in/service/${subcatgory}/${id}`}
           />
+          {/* <link
+            rel="canonical"
+            href={window.location.href}
+          /> */}
 
           {/* Structured Schema with FAQ & Metadata */}
           <script type="application/ld+json">

@@ -188,7 +188,7 @@ const Review = ({ serviceId,  serviceRating }) => {
   return (
     <div>
       <div className="my-10">
-        <h1 className="font-bold text-3xl text-center">Rating</h1>
+        <h2 className="font-bold text-3xl text-center">Rating</h2>
         <div className="bg-gray-100 w-full md:p-10 py-10 px-4 flex md:gap-14 gap-4 my-4 justify-center">
           <div>
             {serviceRating ? (

@@ -10,7 +10,7 @@ const CenterCarousalCard = ({ item }) => {
 
   const handleBookNow = () => {
     if (item._id) {
-      navigate(`/service/details/${item._id}`);
+      navigate(`/service/details/${item.serviceName.toLowerCase().replace(/\s+/g, "-")}/${item._id}`);
     }
   };
 

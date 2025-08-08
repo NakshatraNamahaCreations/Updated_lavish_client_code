@@ -640,7 +640,7 @@ const ServiceDetails = () => {
                 <ProductSlideCarousel images={serviceDetails?.images} />
                 <div className="rounded-md border border-gray-300 lg:my-20 p-4">
                   <div>
-                    <h1 className="font-semibold py-3">Required</h1>
+                    <h2 className="font-semibold py-3">Required</h2>
                     <p>
                       <div
                         className=" text-gray-600"
@@ -669,23 +669,23 @@ const ServiceDetails = () => {
                   </div>
                   <div id="booking">
                     <h1 className="text-3xl font-bold max-w-lg">
-                      {serviceDetails?.serviceName || "Golden Star Decoration"}
+                      {serviceDetails?.serviceName || "N/A"}
                     </h1>
                     <div>
                       <div className="flex gap-3 items-center py-2">
                         <p className="poppins text-2xl text-primary font-bold flex items-center">
                           <MdOutlineCurrencyRupee />{" "}
-                          {serviceDetails?.offerPrice || 4999}
+                          {serviceDetails?.offerPrice || "N/A"}
                         </p>
                         <p className="poppins text-gray-500 font-medium flex items-center line-through">
                           <MdOutlineCurrencyRupee />{" "}
-                          {serviceDetails?.originalPrice || 5599}
+                          {serviceDetails?.originalPrice || "N/A"}
                         </p>
                         <p className="py-1 px-2 text-xs bg-green-600 text-white rounded-3xl">
                           {Math.round(
-                            (((serviceDetails?.originalPrice || 5599) -
-                              (serviceDetails?.offerPrice || 4999)) /
-                              (serviceDetails?.originalPrice || 5599)) *
+                            (((serviceDetails?.originalPrice || "N/A") -
+                              (serviceDetails?.offerPrice || "N/A")) /
+                              (serviceDetails?.originalPrice || "N/A")) *
                               100
                           )}
                           % OFF
@@ -882,9 +882,9 @@ const ServiceDetails = () => {
 
             {hasAddons && (
               <>
-                <h1 className="font-bold md:text-3xl text-xl py-4">
+                <h2 className="font-bold md:text-3xl text-xl py-4">
                   Make It Extra Special
-                </h1>
+                </h2>
                 <RecommenedAddonSlider
                   subCat={serviceDetails?.subCategoryId}
                   addons={addonsData}
