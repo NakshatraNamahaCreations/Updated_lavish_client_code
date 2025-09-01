@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ProductSlideCarousel from "./ProductSlideCarousel";
-import { useNavigate, useParams , useLocation} from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
@@ -224,9 +224,9 @@ const ServiceDetails = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-   const location = useLocation();
+  const location = useLocation();
   const previousUrl = location.state?.from;
-  const previousPagetitle = location.state?.title
+  const previousPagetitle = location.state?.title;
 
   // Get data from redux
   const selectedTimeSlot = useSelector((state) => state.order.selectedTimeSlot);
@@ -608,8 +608,6 @@ const ServiceDetails = () => {
     },
   ];
 
-
-
   return (
     <>
       {/* SEO Metadata using Helmet */}
@@ -953,6 +951,12 @@ const ServiceDetails = () => {
               </div>
             )}
 
+            <div className="mt-5 p-5">
+              {serviceDetails?.caption && (
+                <ExpandableContent htmlContent={serviceDetails.caption} />
+              )}
+            </div>
+
             {serviceDetails?.faqs.length > 0 && (
               <div className="max-w-3xl p-4 mx-auto">
                 <p className="text-center font-bold poppins text-2xl">FAQs</p>
@@ -962,11 +966,6 @@ const ServiceDetails = () => {
                 <DynamicFaqs faqs={serviceDetails.faqs} />
               </div>
             )}
-            <div className="mt-5 p-5">
-              {serviceDetails?.caption && (
-                <ExpandableContent htmlContent={serviceDetails.caption} />
-              )}
-            </div>
 
             {(showTimeSlots || showAddonsModal) && (
               <div className="absolute top-0 left-0 w-full h-screen bg-black/80 flex justify-center items-center z-50">

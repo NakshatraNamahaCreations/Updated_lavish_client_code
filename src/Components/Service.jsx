@@ -229,11 +229,20 @@ const Service = () => {
             </div>
           ) : (
             sortedServices().map((service) => (
-              <ServiceCard key={service._id} service={service} title={modifiedSubcatTitle}/>
+              <ServiceCard
+                key={service._id}
+                service={service}
+                title={modifiedSubcatTitle}
+              />
             ))
           )}
         </div>
 
+        <div className="mt-5 p-5">
+          {subCategoryMeta?.caption && (
+            <ExpandableContent htmlContent={subCategoryMeta.caption} />
+          )}
+        </div>
         {subCategoryMeta?.faqs.length > 0 && (
           <div className="max-w-3xl p-4 mx-auto">
             <p className="text-center font-bold poppins text-2xl">FAQs</p>
@@ -243,11 +252,6 @@ const Service = () => {
             <DynamicFaqs faqs={subCategoryMeta.faqs} />
           </div>
         )}
-        <div className="mt-5 p-5">
-          {subCategoryMeta?.caption && (
-            <ExpandableContent htmlContent={subCategoryMeta.caption} />
-          )}
-        </div>
       </div>
     </>
   );
