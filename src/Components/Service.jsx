@@ -243,6 +243,7 @@ const Service = () => {
             <ExpandableContent htmlContent={subCategoryMeta.caption} />
           )}
         </div>
+        
         {subCategoryMeta?.faqs.length > 0 && (
           <div className="max-w-3xl p-4 mx-auto">
             <p className="text-center font-bold poppins text-2xl">FAQs</p>
