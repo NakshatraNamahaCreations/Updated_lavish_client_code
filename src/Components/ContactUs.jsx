@@ -72,35 +72,63 @@ const ContactUs = () => {
 
   return (
     <>
-      <div className='lg:pt-24 pt-28 mx-auto'>
+      <div className="lg:pt-24 pt-28 mx-auto">
         <Breadcrumb paths={breadcrumbPaths} />
       </div>
       <div className="container md:pt-24 pt-32 px-2 mx-auto">
-
         {/* Primary Meta Tags */}
         <Helmet>
-          <title>Contact Lavish Eventzz | Event Management Contact Bangalore</title>
-          <meta name="description" content="Get in touch with Lavish Eventzz, your trusted event management partner in Bangalore. Reach out for weddings, parties, decor, and custom event needs." />
+          <title>
+            Contact Lavish Eventzz | Event Management Contact Bangalore
+          </title>
+          <meta
+            name="description"
+            content="Get in touch with Lavish Eventzz, your trusted event management partner in Bangalore. Reach out for weddings, parties, decor, and custom event needs."
+          />
           <link rel="canonical" href="https://www.lavisheventzz.com/contact" />
           <meta
             name="keywords"
             content="Event Management Contact Bangalore, Bangalore Event Inquiry, Contact Event Organizers Bangalore, Book Event Services Bangalore, Schedule Event Planning Call, Event Booking Form Bangalore"
           />
           {/* Open Graph Tags */}
-          <meta property="og:title" content="Contact Lavish Eventzz | Event Management Contact Bangalore" />
-          <meta property="og:description" content="Get in touch with Lavish Eventzz, your trusted event management partner in Bangalore. Reach out for weddings, parties, decor, and custom event needs." />
+          <meta
+            property="og:title"
+            content="Contact Lavish Eventzz | Event Management Contact Bangalore"
+          />
+          <meta
+            property="og:description"
+            content="Get in touch with Lavish Eventzz, your trusted event management partner in Bangalore. Reach out for weddings, parties, decor, and custom event needs."
+          />
           <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://www.lavisheventzz.com/contact" />
-          <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/contact.avif" />
+          <meta
+            property="og:url"
+            content="https://www.lavisheventzz.com/contact"
+          />
+          <meta
+            property="og:image"
+            content="https://lavisheventzz-bangalore.b-cdn.net/contact.avif"
+          />
           <meta property="og:site_name" content="Lavish Eventzz" />
           <meta property="og:locale" content="en_US" />
 
           {/* Twitter Card Tags */}
           <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="Contact Lavish Eventzz | Event Management Contact Bangalore" />
-          <meta name="twitter:description" content="Get in touch with Lavish Eventzz, your trusted event management partner in Bangalore. Reach out for weddings, parties, decor, and custom event needs." />
-          <meta name="twitter:url" content="https://www.lavisheventzz.com/contact" />
-          <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/contact.avif" />
+          <meta
+            name="twitter:title"
+            content="Contact Lavish Eventzz | Event Management Contact Bangalore"
+          />
+          <meta
+            name="twitter:description"
+            content="Get in touch with Lavish Eventzz, your trusted event management partner in Bangalore. Reach out for weddings, parties, decor, and custom event needs."
+          />
+          <meta
+            name="twitter:url"
+            content="https://www.lavisheventzz.com/contact"
+          />
+          <meta
+            name="twitter:image"
+            content="https://lavisheventzz-bangalore.b-cdn.net/contact.avif"
+          />
           <meta name="twitter:site" content="@LavishEvents25" />
 
           {/* Organization Schema */}
@@ -163,12 +191,9 @@ const ContactUs = () => {
             }
           }
         `}</script>
-
         </Helmet>
 
-
         <div className="lg:grid grid-cols-2 gap-20">
-
           <div className="lg:mt-28">
             <h1 className="md:text-8xl text-4xl font-bold">Contact</h1>
             <hr className="w-52 h-2 bg-primary my-2" />
@@ -273,8 +298,9 @@ const ContactUs = () => {
 
               {status.message && (
                 <p
-                  className={`mt-2 ${status.success ? "text-green-600" : "text-red-500"
-                    }`}
+                  className={`mt-2 ${
+                    status.success ? "text-green-600" : "text-red-500"
+                  }`}
                 >
                   {status.message}
                 </p>
@@ -283,7 +309,22 @@ const ContactUs = () => {
           </div>
         </div>
       </div>
-      <div />
+      <div className=" mx-auto my-20 max-w-5xl gap-10 grid grid-cols-2 ">
+        <a href="https://maps.app.goo.gl/aEWVGE9MdVBYx63UA" className="text-2xl flex items-center" target="__blank">
+          55, 17th Main Rd, RIEHS Layout, JC Nagar, Kurubarahalli, Basaweshwara
+          Nagar, Bengaluru, Karnataka 560086
+        </a>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.50552127037!2d77.52737977381084!3d13.00344771418182!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae3d106cba62bb%3A0xd63393e34f0b240a!2sLavish%20Eventzz!5e0!3m2!1sen!2sin!4v1756721773830!5m2!1sen!2sin"
+          width="600"
+          height="400"
+          style={{ border: 0 }}
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title="Google Map"
+        />
+      </div>
     </>
   );
 };

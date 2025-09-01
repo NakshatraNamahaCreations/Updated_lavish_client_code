@@ -188,14 +188,14 @@ const Review = ({ serviceId,  serviceRating }) => {
   return (
     <div>
       <div className="my-10">
-        <h2 className="font-bold text-3xl text-center">Rating</h2>
+        <h5 className="font-bold text-3xl text-center">Rating</h5>
         <div className="bg-gray-100 w-full md:p-10 py-10 px-4 flex md:gap-14 gap-4 my-4 justify-center">
           <div>
             {serviceRating ? (
-              <h1 className="flex items-center gap-1 justify-center text-4xl font-bold">
+              <h6 className="flex items-center gap-1 justify-center text-4xl font-bold">
                 {serviceRating}
                 <IoIosStar className="text-green-600" />
-              </h1>
+              </h6>
             ) : null}
             <p className="md:text-2xl text-xl text-gray-400">
               {totalReviews} Ratings

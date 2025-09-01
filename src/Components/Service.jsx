@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import ServiceCard from "./ServiceCard";
 import { getAxios } from "../utils/api";
 import { Helmet } from "react-helmet-async";
+import ExpandableContent from "./ExpandableContent";
+import DynamicFaqs from "./DynamicFaqs";
+import Breadcrumb from "./Breadcrumb";
 
 // Only show banner for these exact subcategories
 const banners = {
@@ -25,6 +28,16 @@ const banners = {
     "https://lavisheventzz-bangalore.b-cdn.net/banner/riceceremony.jpg",
   "Retirement Decoration":
     "https://lavisheventzz-bangalore.b-cdn.net/banner/retirment.jpg",
+};
+
+const ShimmerCard = () => {
+  return (
+    <div className="animate-pulse bg-white rounded-lg shadow p-4">
+      <div className="w-full h-32 bg-gray-200 rounded mb-4"></div>
+      <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+      <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+    </div>
+  );
 };
 
 const Service = () => {
@@ -111,6 +124,13 @@ const Service = () => {
     }
     return sorted;
   };
+  const breadcrumbPaths = [
+    { name: "Home", link: "/" },
+    {
+      name: modifiedSubcatTitle,
+      link: `/service/${subcatgory}/${id}`,
+    },
+  ];
 
   return (
     <>
@@ -118,13 +138,7 @@ const Service = () => {
         <Helmet>
           {/* Basic Meta Tags */}
           <title>{subCategoryMeta.metaTitle}</title>
-          <meta
-            name="description"
-            content={
-              subCategoryMeta.metaDescription
-     
-            }
-          />
+          <meta name="description" content={subCategoryMeta.metaDescription} />
           <meta
             name="keywords"
             content={
@@ -136,7 +150,7 @@ const Service = () => {
           {/* Canonical URL */}
           <link
             rel="canonical"
-            href={`https://www.lavisheventzz.in/service/${subcatgory}/${id}`}
+            href={`https://www.lavisheventzz.com/service/${subcatgory}/${id}`}
           />
           {/* <link
             rel="canonical"
@@ -157,7 +171,7 @@ const Service = () => {
               provider: {
                 "@type": "Organization",
                 name: "Lavish Eventzz",
-                url: "https://www.lavisheventzz.in",
+                url: "https://www.lavisheventzz.com",
               },
               mainEntity: {
                 "@type": "FAQPage",
@@ -177,6 +191,7 @@ const Service = () => {
       )}
 
       <div className="relative md:pt-28 pt-36 md:px-10 px-2">
+        <Breadcrumb paths={breadcrumbPaths} />
         {bannerImg && (
           <img
             src={bannerImg}
@@ -207,17 +222,30 @@ const Service = () => {
 
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 md:gap-6 gap-4 mt-6">
           {loading ? (
-            <div className="col-span-3 text-center text-gray-500">
-              Loading services...
-            </div>
+            Array.from({ length: 6 }).map((_, i) => <ShimmerCard key={i} />)
           ) : services.length === 0 ? (
             <div className="col-span-3 text-center text-gray-500">
               No services found for this category.
             </div>
           ) : (
             sortedServices().map((service) => (
-              <ServiceCard key={service._id} service={service} />
+              <ServiceCard key={service._id} service={service} title={modifiedSubcatTitle}/>
             ))
+          )}
+        </div>
+
+        {subCategoryMeta?.faqs.length > 0 && (
+          <div className="max-w-3xl p-4 mx-auto">
+            <p className="text-center font-bold poppins text-2xl">FAQs</p>
+            <p className="text-center font-bold poppins text-sm pb-5">
+              Need help? Contact us for any queries related to us
+            </p>
+            <DynamicFaqs faqs={subCategoryMeta.faqs} />
+          </div>
+        )}
+        <div className="mt-5 p-5">
+          {subCategoryMeta?.caption && (
+            <ExpandableContent htmlContent={subCategoryMeta.caption} />
           )}
         </div>
       </div>

@@ -4,6 +4,16 @@ import axios from "axios";
 import { API_BASE_URL } from "../utils/api";
 import Breadcrumb from "./Breadcrumb";
 
+const ShimmerCard = () => {
+  return (
+    <div className="animate-pulse bg-white rounded-lg shadow p-4">
+      <div className="w-full h-32 bg-gray-200 rounded mb-4"></div>
+      <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+      <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+    </div>
+  );
+};
+
 function kebabToTitle(str) {
   if (!str) return ""; // Ensure that we handle undefined or null values
   return str.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
@@ -86,13 +96,10 @@ const Blog = () => {
               </div>
             );
           })}
-        </div>
 
-        {loading && (
-          <div className="text-center mt-4 text-sm text-gray-500">
-            Loading...
-          </div>
-        )}
+          {loading &&
+            Array.from({ length: 6 }).map((_, i) => <ShimmerCard key={i} />)}
+        </div>
       </div>
     </div>
   );

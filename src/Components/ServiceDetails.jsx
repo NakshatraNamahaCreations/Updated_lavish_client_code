@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ProductSlideCarousel from "./ProductSlideCarousel";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams , useLocation} from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
@@ -19,7 +19,7 @@ import { Helmet } from "react-helmet-async";
 
 import { GrLocation } from "react-icons/gr";
 import { SlCalender } from "react-icons/sl";
-
+import ServiceDetailsShimmer from "./ServiceDetailsShimmer";
 import { IoClose, IoCloseSharp } from "react-icons/io5";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import support from "../assets/support.png";
@@ -29,6 +29,7 @@ import whatsapp from "../assets/whatsapp.png";
 import TimeSlotsModel from "./TimeSlotsModel";
 import RecommenedAddon from "./RecommenedAddon";
 import { GoHeartFill, GoHeart } from "react-icons/go";
+import ExpandableContent from "./ExpandableContent";
 
 import FAQ from "./FAQ";
 import RecommenedAddonSlider from "./RecommenedAddonSlider";
@@ -44,6 +45,8 @@ import "react-calendar/dist/Calendar.css";
 import Review from "./Review";
 import CardCarousel from "./CardCarousel";
 import { getAuthAxios, getAxios } from "../utils/api";
+import DynamicFaqs from "./DynamicFaqs";
+import Breadcrumb from "./Breadcrumb";
 
 const timeSlotsBasic = [
   "06:00 AM - 11:00 AM",
@@ -221,6 +224,9 @@ const ServiceDetails = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+   const location = useLocation();
+  const previousUrl = location.state?.from;
+  const previousPagetitle = location.state?.title
 
   // Get data from redux
   const selectedTimeSlot = useSelector((state) => state.order.selectedTimeSlot);
@@ -590,6 +596,20 @@ const ServiceDetails = () => {
     (deliveryCharges || 0) +
     extraSlotCharge;
 
+  const breadcrumbPaths = [
+    { name: "Home", link: "/" },
+    {
+      name: previousPagetitle,
+      link: previousUrl,
+    },
+    {
+      name: serviceDetails?.serviceName,
+      link: "",
+    },
+  ];
+
+
+
   return (
     <>
       {/* SEO Metadata using Helmet */}
@@ -600,10 +620,7 @@ const ServiceDetails = () => {
           {seoMeta.keywords && (
             <meta name="keywords" content={seoMeta.keywords} />
           )}
-          <link
-            rel="canonical"
-            href={window.location.href}
-          />
+          <link rel="canonical" href={window.location.href} />
           <script type="application/ld+json">
             {JSON.stringify({
               "@context": "https://schema.org",
@@ -624,11 +641,12 @@ const ServiceDetails = () => {
 
       <div className="lg:py-28 lg:px-10 p-4 pt-32 mx-auto">
         {loading ? (
-          <div className="text-center py-10">Loading service details...</div>
+          <ServiceDetailsShimmer />
         ) : error ? (
           <div className="text-center py-10 text-red-500">{error}</div>
         ) : (
           <>
+            <Breadcrumb paths={breadcrumbPaths} />
             <ServiceBottomButtons
               serviceName={serviceDetails?.serviceName}
               price={serviceDetails?.offerPrice}
@@ -640,7 +658,7 @@ const ServiceDetails = () => {
                 <ProductSlideCarousel images={serviceDetails?.images} />
                 <div className="rounded-md border border-gray-300 lg:my-20 p-4">
                   <div>
-                    <h2 className="font-semibold py-3">Required</h2>
+                    <h5 className="font-semibold py-3">Required</h5>
                     <p>
                       <div
                         className=" text-gray-600"
@@ -934,6 +952,21 @@ const ServiceDetails = () => {
                 <CardCarousel centercardData={recentPurchaseServiceDetails} />
               </div>
             )}
+
+            {serviceDetails?.faqs.length > 0 && (
+              <div className="max-w-3xl p-4 mx-auto">
+                <p className="text-center font-bold poppins text-2xl">FAQs</p>
+                <p className="text-center font-bold poppins text-sm pb-5">
+                  Need help? Contact us for any queries related to us
+                </p>
+                <DynamicFaqs faqs={serviceDetails.faqs} />
+              </div>
+            )}
+            <div className="mt-5 p-5">
+              {serviceDetails?.caption && (
+                <ExpandableContent htmlContent={serviceDetails.caption} />
+              )}
+            </div>
 
             {(showTimeSlots || showAddonsModal) && (
               <div className="absolute top-0 left-0 w-full h-screen bg-black/80 flex justify-center items-center z-50">
