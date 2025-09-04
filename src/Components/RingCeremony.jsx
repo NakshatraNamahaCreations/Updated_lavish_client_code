@@ -14,7 +14,7 @@ import { getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
 import { Helmet } from "react-helmet-async";
-  import Breadcrumb from "./Breadcrumb"; // adjust path if needed
+import Breadcrumb from "./Breadcrumb"; // adjust path if needed
 
 const addOns = [
   {
@@ -152,98 +152,134 @@ const RingCermony = () => {
     fetchRecentPurchase();
   }, [customerId]);
 
-const breadcrumbPaths = [
-  { name: "Home", link: "/" },
-  { name: "Ring Ceremony Decor", link: "/ringceremonydecor/681b1095ddb6b3f4663e78c2" },
-];
+  const breadcrumbPaths = [
+    { name: "Home", link: "/" },
+    {
+      name: "Ring Ceremony Decor",
+      link: "/ringceremonydecor/681b1095ddb6b3f4663e78c2",
+    },
+  ];
 
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
+      <Helmet>
+        {/* Primary Meta Tags */}
+        <title>Ring Ceremony Decoration in Bangalore | Lavish Eventzz</title>
+        <meta
+          name="description"
+          content="Book elegant ring ceremony decoration in Bangalore with Lavish Eventzz. Floral setups, lights, and themes to make your engagement celebration picture-perfect."
+        />
+        <link
+          rel="canonical"
+          href="https://www.lavisheventzz.com/ringceremonydecor/681b1095ddb6b3f4663e78c2"
+        />
+        <meta
+          name="keywords"
+          content="Ring Ceremony Decoration in Bangalore, Engagement Stage Decoration Bangalore, Ring Exchange Event Decor, Floral Backdrop for Engagement, Ring Ceremony Event Planners, Stylish Engagement Themes Bangalore"
+        />
 
- <Helmet>
-      {/* Primary Meta Tags */}
-      <title>Ring Ceremony Decoration in Bangalore | Lavish Eventzz</title>
-      <meta name="description" content="Book elegant ring ceremony decoration in Bangalore with Lavish Eventzz. Floral setups, lights, and themes to make your engagement celebration picture-perfect." />
-      <link rel="canonical" href="https://www.lavisheventzz.com/ringceremonydecor/681b1095ddb6b3f4663e78c2" />
-      <meta name="keywords" content="Ring Ceremony Decoration in Bangalore, Engagement Stage Decoration Bangalore, Ring Exchange Event Decor, Floral Backdrop for Engagement, Ring Ceremony Event Planners, Stylish Engagement Themes Bangalore" />
+        {/* Open Graph Tags */}
+        <meta
+          property="og:title"
+          content="Ring Ceremony Decoration in Bangalore | Lavish Eventzz"
+        />
+        <meta
+          property="og:description"
+          content="Book elegant ring ceremony decoration in Bangalore with Lavish Eventzz. Floral setups, lights, and themes to make your engagement celebration picture-perfect."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.lavisheventzz.com/ringceremonydecor/681b1095ddb6b3f4663e78c2"
+        />
+        <meta
+          property="og:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/ringceremonyBanner.png"
+        />
+        <meta property="og:site_name" content="Lavish Eventzz" />
+        <meta property="og:locale" content="en_US" />
 
-      {/* Open Graph Tags */}
-      <meta property="og:title" content="Ring Ceremony Decoration in Bangalore | Lavish Eventzz" />
-      <meta property="og:description" content="Book elegant ring ceremony decoration in Bangalore with Lavish Eventzz. Floral setups, lights, and themes to make your engagement celebration picture-perfect." />
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://www.lavisheventzz.com/ringceremonydecor/681b1095ddb6b3f4663e78c2" />
-      <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/ringceremonyBanner.png" />
-      <meta property="og:site_name" content="Lavish Eventzz" />
-      <meta property="og:locale" content="en_US" />
+        {/* Twitter Card Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Ring Ceremony Decoration in Bangalore | Lavish Eventzz"
+        />
+        <meta
+          name="twitter:description"
+          content="Book elegant ring ceremony decoration in Bangalore with Lavish Eventzz. Floral setups, lights, and themes to make your engagement celebration picture-perfect."
+        />
+        <meta
+          name="twitter:url"
+          content="https://www.lavisheventzz.com/ringceremonydecor/681b1095ddb6b3f4663e78c2"
+        />
+        <meta
+          name="twitter:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/ringceremonyBanner.png"
+        />
+        <meta name="twitter:site" content="@LavishEvents25" />
 
-      {/* Twitter Card Tags */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content="Ring Ceremony Decoration in Bangalore | Lavish Eventzz" />
-      <meta name="twitter:description" content="Book elegant ring ceremony decoration in Bangalore with Lavish Eventzz. Floral setups, lights, and themes to make your engagement celebration picture-perfect." />
-      <meta name="twitter:url" content="https://www.lavisheventzz.com/ringceremonydecor/681b1095ddb6b3f4663e78c2" />
-      <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/ringceremonyBanner.png" />
-      <meta name="twitter:site" content="@LavishEvents25" />
-
-      {/* Schema.org - Organization */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          "name": "Lavish Eventzz",
-          "url": "https://www.lavisheventzz.com",
-          "logo": "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": "+91-9620558000",
-            "contactType": "Customer Service",
-            "areaServed": "IN",
-            "availableLanguage": "English"
-          },
-          "sameAs": [
-            "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
-            "https://x.com/LavishEvents25",
-            "https://www.youtube.com/@LavishEventzz-2025",
-            "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
-            "https://www.instagram.com/lavisheventzz.com_/",
-            "https://www.instagram.com/lavisheventzz"
-          ]
-        })}
-      </script>
-
-      {/* Schema.org - BreadcrumbList */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Home",
-              "item": "https://www.lavisheventzz.com"
+        {/* Schema.org - Organization */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Lavish Eventzz",
+            url: "https://www.lavisheventzz.com",
+            logo: "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+            contactPoint: {
+              "@type": "ContactPoint",
+              telephone: "+91-9620558000",
+              contactType: "Customer Service",
+              areaServed: "IN",
+              availableLanguage: "English",
             },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "Ring Ceremony Decor",
-              "item": "https://www.lavisheventzz.com/ringceremonydecor/681b1095ddb6b3f4663e78c2"
-            }
-          ]
-        })}
-      </script>
+            sameAs: [
+              "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
+              "https://x.com/LavishEvents25",
+              "https://www.youtube.com/@LavishEventzz-2025",
+              "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
+              "https://www.instagram.com/lavisheventzz.com_/",
+              "https://www.instagram.com/lavisheventzz",
+            ],
+          })}
+        </script>
 
-      {/* Schema.org - Product */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Product",
-          "name": "Ring Ceremony Decor",
-          "url": "https://www.lavisheventzz.com/ringceremonydecor/681b1095ddb6b3f4663e78c2",
-          "description": "Book elegant ring ceremony decoration in Bangalore with Lavish Eventzz. Floral setups, lights, and themes to make your engagement celebration picture-perfect."
-        })}
-      </script>
-    </Helmet>
-<Breadcrumb paths={breadcrumbPaths} />
+        {/* Schema.org - BreadcrumbList */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.lavisheventzz.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Ring Ceremony Decor",
+                item: "https://www.lavisheventzz.com/ringceremonydecor/681b1095ddb6b3f4663e78c2",
+              },
+            ],
+          })}
+        </script>
+
+        {/* Schema.org - Product */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: "Ring Ceremony Decor",
+            url: "https://www.lavisheventzz.com/ringceremonydecor/681b1095ddb6b3f4663e78c2",
+            description:
+              "Book elegant ring ceremony decoration in Bangalore with Lavish Eventzz. Floral setups, lights, and themes to make your engagement celebration picture-perfect.",
+          })}
+        </script>
+      </Helmet>
+      <Breadcrumb paths={breadcrumbPaths} />
 
       <div>
         <img
@@ -257,8 +293,14 @@ const breadcrumbPaths = [
           return (
             <div className="relative" key={item._id}>
               {/* <Link to={subSubAvailable ? `/service/${item.sub_SubId}` : `/service/${item.subId}`}> */}
-            
-              <Link to={`/service/${item.subCategory.subCategory.replace(/\s+/g, "-")}/${item._id}`}>
+
+              <Link
+                to={`/service/${item.subCategory.subCategory.replace(
+                  /\s+/g,
+                  "-"
+                )}/${item._id}`}
+                className="linkColorPink"
+              >
                 <img
                   src={`${item.image}`}
                   alt={item.subSubCategory}
@@ -286,20 +328,16 @@ const breadcrumbPaths = [
               );
               return simpleSub ? (
                 <Link
-                  to={`/service/${simpleSub._id}`}
-                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                  to={`/service/${simpleSub.subCategory.subCategory
+                    .split(" ")
+                    .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                    .join("-")}/${simpleSub._id}`}
+                  className="linkColorPink text-purple-600 underline text-sm font-semibold hover:text-blue-800"
                 >
                   View All
                 </Link>
               ) : null;
             })()}
-            {/* {subSubCategories.filter(item => item.subSubCategory.toLowerCase().includes("simple"))} */}
-            {/* <Link
-              to={`/service/${subcat_id}/simple-decoration`}
-              className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
-            >
-              View All
-            </Link> */}
           </div>
 
           {simpleData.length > 0 ? (
@@ -323,8 +361,11 @@ const breadcrumbPaths = [
               );
               return primumSub ? (
                 <Link
-                  to={`/service/${primumSub._id}`}
-                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                  to={`/service/${primumSub.subCategory.subCategory
+                    .split(" ")
+                    .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                    .join("-")}/${primumSub._id}`}
+                  className="linkColorPink text-purple-600 underline text-sm font-semibold hover:text-blue-800"
                 >
                   View All
                 </Link>

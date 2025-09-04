@@ -15,6 +15,7 @@ import PaymentFailure from "./Components/PaymentFailure";
 import LoginwithNumber from "./Components/LoginwithNumber";
 import BirthdayLandingpage from "./Components/BirthdayLandingpage";
 import Thankyou from "./Components/Thankyou";
+import Loader from "./Components/Loader";
 // Lazy load all other route components
 const About = lazy(() => import("./Components/About"));
 const Service = lazy(() => import("./Components/Service"));
@@ -52,7 +53,7 @@ function App() {
     <HelmetProvider>
       <Router>
         <ScrollToTop />
-        <Suspense
+        {/* <Suspense
           fallback={
             <div className="w-full h-screen flex items-center justify-center">
               <img
@@ -62,7 +63,8 @@ function App() {
               />
             </div>
           }
-        >
+        > */}
+        <Suspense fallback={<Loader />}>
           <Routes>
             {/* Wrap all routes inside Layout */}
             <Route element={<Layout />}>

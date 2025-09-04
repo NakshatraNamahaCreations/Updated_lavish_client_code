@@ -163,103 +163,130 @@ const GroomtoBe = () => {
   useEffect(() => {
     fetchRecentPurchase();
   }, [customerId]);
-const breadcrumbPaths = [
-  { name: "Home", link: "/" },
-  { name: "Groom to be Decor", link: "/groomtobedecor/681b10abddb6b3f4663e78d1" },
-];
+  const breadcrumbPaths = [
+    { name: "Home", link: "/" },
+    {
+      name: "Groom to be Decor",
+      link: "/groomtobedecor/681b10abddb6b3f4663e78d1",
+    },
+  ];
 
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
+      <Helmet>
+        {/* Meta Tags */}
+        <title>Groom to be Decoration in Bangalore | Bachelor Bash Decor</title>
+        <meta
+          name="description"
+          content="Celebrate the groom in style with Groom to be decoration in Bangalore. Lavish Eventzz creates bold, fun themes for bachelor parties, sangeet, and pre-wedding."
+        />
+        <link
+          rel="canonical"
+          href="https://www.lavisheventzz.com/groomtobedecor/681b10abddb6b3f4663e78d1"
+        />
 
-<Helmet>
-  {/* Meta Tags */}
-  <title>Groom to be Decoration in Bangalore | Bachelor Bash Decor</title>
-  <meta
-    name="description"
-    content="Celebrate the groom in style with Groom to be decoration in Bangalore. Lavish Eventzz creates bold, fun themes for bachelor parties, sangeet, and pre-wedding."
-  />
-  <link
-    rel="canonical"
-    href="https://www.lavisheventzz.com/groomtobedecor/681b10abddb6b3f4663e78d1"
-  />
+        {/* Open Graph */}
+        <meta
+          property="og:title"
+          content="Groom to be Decoration in Bangalore | Bachelor Bash Decor"
+        />
+        <meta
+          property="og:description"
+          content="Celebrate the groom in style with Groom to be decoration in Bangalore. Lavish Eventzz creates bold, fun themes for bachelor parties, sangeet, and pre-wedding."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.lavisheventzz.com/groomtobedecor/681b10abddb6b3f4663e78d1"
+        />
+        <meta
+          property="og:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/groomBanner.jpg"
+        />
+        <meta property="og:site_name" content="Lavish Eventzz" />
+        <meta property="og:locale" content="en_US" />
 
-  {/* Open Graph */}
-  <meta property="og:title" content="Groom to be Decoration in Bangalore | Bachelor Bash Decor" />
-  <meta property="og:description" content="Celebrate the groom in style with Groom to be decoration in Bangalore. Lavish Eventzz creates bold, fun themes for bachelor parties, sangeet, and pre-wedding." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.lavisheventzz.com/groomtobedecor/681b10abddb6b3f4663e78d1" />
-  <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/groomBanner.jpg" />
-  <meta property="og:site_name" content="Lavish Eventzz" />
-  <meta property="og:locale" content="en_US" />
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Groom to be Decoration in Bangalore | Bachelor Bash Decor"
+        />
+        <meta
+          name="twitter:description"
+          content="Celebrate the groom in style with Groom to be decoration in Bangalore. Lavish Eventzz creates bold, fun themes for bachelor parties, sangeet, and pre-wedding."
+        />
+        <meta
+          name="twitter:url"
+          content="https://www.lavisheventzz.com/groomtobedecor/681b10abddb6b3f4663e78d1"
+        />
+        <meta
+          name="twitter:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/groomBanner.jpg"
+        />
+        <meta name="twitter:site" content="@LavishEvents25" />
 
-  {/* Twitter Card */}
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Groom to be Decoration in Bangalore | Bachelor Bash Decor" />
-  <meta name="twitter:description" content="Celebrate the groom in style with Groom to be decoration in Bangalore. Lavish Eventzz creates bold, fun themes for bachelor parties, sangeet, and pre-wedding." />
-  <meta name="twitter:url" content="https://www.lavisheventzz.com/groomtobedecor/681b10abddb6b3f4663e78d1" />
-  <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/groomBanner.jpg" />
-  <meta name="twitter:site" content="@LavishEvents25" />
+        {/* Organization Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Lavish Eventzz",
+            url: "https://www.lavisheventzz.com",
+            logo: "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+            contactPoint: {
+              "@type": "ContactPoint",
+              telephone: "+91-9620558000",
+              contactType: "Customer Service",
+              areaServed: "IN",
+              availableLanguage: "English",
+            },
+            sameAs: [
+              "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
+              "https://x.com/LavishEvents25",
+              "https://www.youtube.com/@LavishEventzz-2025",
+              "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
+              "https://www.instagram.com/lavisheventzz.com_/",
+              "https://www.instagram.com/lavisheventzz",
+            ],
+          })}
+        </script>
 
-  {/* Organization Schema */}
-  <script type="application/ld+json">
-    {JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Lavish Eventzz",
-      "url": "https://www.lavisheventzz.com",
-      "logo": "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+91-9620558000",
-        "contactType": "Customer Service",
-        "areaServed": "IN",
-        "availableLanguage": "English"
-      },
-      "sameAs": [
-        "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
-        "https://x.com/LavishEvents25",
-        "https://www.youtube.com/@LavishEventzz-2025",
-        "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
-        "https://www.instagram.com/lavisheventzz.com_/",
-        "https://www.instagram.com/lavisheventzz"
-      ]
-    })}
-  </script>
+        {/* Breadcrumb Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.lavisheventzz.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Groom to be Decor",
+                item: "https://www.lavisheventzz.com/groomtobedecor/681b10abddb6b3f4663e78d1",
+              },
+            ],
+          })}
+        </script>
 
-  {/* Breadcrumb Schema */}
-  <script type="application/ld+json">
-    {JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://www.lavisheventzz.com"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Groom to be Decor",
-          "item": "https://www.lavisheventzz.com/groomtobedecor/681b10abddb6b3f4663e78d1"
-        }
-      ]
-    })}
-  </script>
-
-  {/* Product Schema */}
-  <script type="application/ld+json">
-    {JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Product",
-      "name": "Groom to be Decor",
-      "url": "https://www.lavisheventzz.com/groomtobedecor/681b10abddb6b3f4663e78d1",
-      "description": "Celebrate the groom in style with Groom to be decoration in Bangalore. Lavish Eventzz creates bold, fun themes for bachelor parties, sangeet, and pre-wedding."
-    })}
-  </script>
-</Helmet>
-<Breadcrumb paths={breadcrumbPaths} />
+        {/* Product Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: "Groom to be Decor",
+            url: "https://www.lavisheventzz.com/groomtobedecor/681b10abddb6b3f4663e78d1",
+            description:
+              "Celebrate the groom in style with Groom to be decoration in Bangalore. Lavish Eventzz creates bold, fun themes for bachelor parties, sangeet, and pre-wedding.",
+          })}
+        </script>
+      </Helmet>
+      <Breadcrumb paths={breadcrumbPaths} />
 
       <div>
         <img
@@ -271,7 +298,13 @@ const breadcrumbPaths = [
       <div className="grid grid-cols-2 md:gap-10 gap-3   md:my-16 mt-4 md:mx-10">
         {subSubCategories.map((item, idx) => (
           <div className="relative" key={item._id}>
-            <Link to={`/service/${item.subCategory.subCategory.replace(/\s+/g, "-")}/${item._id}`}>
+            <Link
+              to={`/service/${item.subCategory.subCategory
+                .split(" ")
+                .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                .join("-")}/${item._id}`}
+              className="linkColorPink"
+            >
               <img
                 src={`${item.image}`}
                 alt={item.subSubCategory}
@@ -292,6 +325,22 @@ const breadcrumbPaths = [
             <p className="lg:text-2xl text-primary font-bold playfair-display">
               Simple Decoration Service
             </p>
+            {(() => {
+              const simpleSub = subSubCategories.find((item) =>
+                item.subSubCategory.toLowerCase().includes("simple")
+              );
+              return simpleSub ? (
+                <Link
+                  to={`/service/${simpleSub.subCategory.subCategory
+                    .split(" ")
+                    .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                    .join("-")}/${simpleSub._id}`}
+                  className="linkColorPink text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                >
+                  View All
+                </Link>
+              ) : null;
+            })()}
           </div>
 
           {simpleData.length > 0 ? (
@@ -315,8 +364,11 @@ const breadcrumbPaths = [
               );
               return primumSub ? (
                 <Link
-                  to={`/service/${primumSub._id}`}
-                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                 to={`/service/${primumSub.subCategory.subCategory
+                    .split(" ")
+                    .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                    .join("-")}/${primumSub._id}`}
+                  className="linkColorPink text-purple-600 underline text-sm font-semibold hover:text-blue-800"
                 >
                   View All
                 </Link>

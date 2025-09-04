@@ -277,14 +277,14 @@ const Kidsbirthday = () => {
         ))}
       </div>
 
-      <Link to={WhatsAppLink} target="_blank" rel="noopener noreferrer">
+      <Link to={WhatsAppLink} target="_blank" rel="noopener noreferrer" className="linkColorPink">
         <div className="">
           <img
             src="https://lavisheventzz-bangalore.b-cdn.net/KidsBirthday/kidscake.png"
             alt="Kid's Birthday Cakes"
             className="rounded-3xl border-4 border-primary md:w-auto md:h-auto w-40 h-40 mx-auto"
           />
-          <p className="text-primary pt-4 md:text-3xl  text-center font-medium carter">
+          <p className=" text-primary pt-4 md:text-3xl  text-center font-medium carter">
             Kid's Birthday Cakes
           </p>
         </div>
@@ -292,11 +292,11 @@ const Kidsbirthday = () => {
 
       <div className="mt-5 px-10">
         <div className="flex justify-between">
-          <p className="lg:text-2xl text-primary font-bold playfair-display">
+          <p className="linkColorPink lg:text-2xl text-primary font-bold playfair-display">
             All Decoration Service
           </p>
           <div
-            className="text-purple-600 underline text-sm font-semibold hover:text-blue-800 cursor-pointer"
+            className="linkColorPink text-purple-600 underline text-sm font-semibold hover:text-blue-800 cursor-pointer"
             onClick={() => handleNavigation("Welcome Baby", "/service/")}
           >
             View All

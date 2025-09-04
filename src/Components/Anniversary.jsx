@@ -142,16 +142,20 @@ const Anniversary = () => {
   }, [customerId]);
 
   const breadcrumbPaths = [
-  { name: "Home", link: "/" },
-  { name: "Anniversary Decor", link: "/anniversarydecor/681b1109ddb6b3f4663e78e5" },
-];
+    { name: "Home", link: "/" },
+    {
+      name: "Anniversary Decor",
+      link: "/anniversarydecor/681b1109ddb6b3f4663e78e5",
+    },
+  ];
 
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
-
       <Helmet>
         {/* Meta Tags */}
-        <title>Anniversary Decoration in Bangalore | Celebrate with Style</title>
+        <title>
+          Anniversary Decoration in Bangalore | Celebrate with Style
+        </title>
         <meta
           name="description"
           content="Lavish Eventzz offers romantic anniversary decoration in Bangalore with floral setups, lights, themes, and personalized touches to make your day unforgettable."
@@ -162,20 +166,44 @@ const Anniversary = () => {
         />
 
         {/* Open Graph */}
-        <meta property="og:title" content="Anniversary Decoration in Bangalore | Celebrate with Style" />
-        <meta property="og:description" content="Lavish Eventzz offers romantic anniversary decoration in Bangalore with floral setups, lights, themes, and personalized touches to make your day unforgettable." />
+        <meta
+          property="og:title"
+          content="Anniversary Decoration in Bangalore | Celebrate with Style"
+        />
+        <meta
+          property="og:description"
+          content="Lavish Eventzz offers romantic anniversary decoration in Bangalore with floral setups, lights, themes, and personalized touches to make your day unforgettable."
+        />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.lavisheventzz.com/anniversarydecor/681b1109ddb6b3f4663e78e5" />
-        <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/anniversaryBanner1.png" />
+        <meta
+          property="og:url"
+          content="https://www.lavisheventzz.com/anniversarydecor/681b1109ddb6b3f4663e78e5"
+        />
+        <meta
+          property="og:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/anniversaryBanner1.png"
+        />
         <meta property="og:site_name" content="Lavish Eventzz" />
         <meta property="og:locale" content="en_US" />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Anniversary Decoration in Bangalore | Celebrate with Style" />
-        <meta name="twitter:description" content="Lavish Eventzz offers romantic anniversary decoration in Bangalore with floral setups, lights, themes, and personalized touches to make your day unforgettable." />
-        <meta name="twitter:url" content="https://www.lavisheventzz.com/anniversarydecor/681b1109ddb6b3f4663e78e5" />
-        <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/anniversaryBanner1.png" />
+        <meta
+          name="twitter:title"
+          content="Anniversary Decoration in Bangalore | Celebrate with Style"
+        />
+        <meta
+          name="twitter:description"
+          content="Lavish Eventzz offers romantic anniversary decoration in Bangalore with floral setups, lights, themes, and personalized touches to make your day unforgettable."
+        />
+        <meta
+          name="twitter:url"
+          content="https://www.lavisheventzz.com/anniversarydecor/681b1109ddb6b3f4663e78e5"
+        />
+        <meta
+          name="twitter:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/anniversaryBanner1.png"
+        />
         <meta name="twitter:site" content="@LavishEvents25" />
 
         {/* Organization Schema */}
@@ -183,24 +211,24 @@ const Anniversary = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "Lavish Eventzz",
-            "url": "https://www.lavisheventzz.com",
-            "logo": "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
-            "contactPoint": {
+            name: "Lavish Eventzz",
+            url: "https://www.lavisheventzz.com",
+            logo: "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+            contactPoint: {
               "@type": "ContactPoint",
-              "telephone": "+91-9620558000",
-              "contactType": "Customer Service",
-              "areaServed": "IN",
-              "availableLanguage": "English"
+              telephone: "+91-9620558000",
+              contactType: "Customer Service",
+              areaServed: "IN",
+              availableLanguage: "English",
             },
-            "sameAs": [
+            sameAs: [
               "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
               "https://x.com/LavishEvents25",
               "https://www.youtube.com/@LavishEventzz-2025",
               "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
               "https://www.instagram.com/lavisheventzz.com_/",
-              "https://www.instagram.com/lavisheventzz"
-            ]
+              "https://www.instagram.com/lavisheventzz",
+            ],
           })}
         </script>
 
@@ -209,20 +237,20 @@ const Anniversary = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
-            "itemListElement": [
+            itemListElement: [
               {
                 "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://www.lavisheventzz.com"
+                position: 1,
+                name: "Home",
+                item: "https://www.lavisheventzz.com",
               },
               {
                 "@type": "ListItem",
-                "position": 2,
-                "name": "Anniversary Decor",
-                "item": "https://www.lavisheventzz.com/anniversarydecor/681b1109ddb6b3f4663e78e5"
-              }
-            ]
+                position: 2,
+                name: "Anniversary Decor",
+                item: "https://www.lavisheventzz.com/anniversarydecor/681b1109ddb6b3f4663e78e5",
+              },
+            ],
           })}
         </script>
 
@@ -231,13 +259,14 @@ const Anniversary = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            "name": "Anniversary Decor",
-            "url": "https://www.lavisheventzz.com/anniversarydecor/681b1109ddb6b3f4663e78e5",
-            "description": "Lavish Eventzz offers romantic anniversary decoration in Bangalore with floral setups, lights, themes, and personalized touches to make your day unforgettable."
+            name: "Anniversary Decor",
+            url: "https://www.lavisheventzz.com/anniversarydecor/681b1109ddb6b3f4663e78e5",
+            description:
+              "Lavish Eventzz offers romantic anniversary decoration in Bangalore with floral setups, lights, themes, and personalized touches to make your day unforgettable.",
           })}
         </script>
       </Helmet>
-<Breadcrumb paths={breadcrumbPaths} />
+      <Breadcrumb paths={breadcrumbPaths} />
 
       <div>
         <img
@@ -249,7 +278,12 @@ const Anniversary = () => {
       <div className="grid grid-cols-2 gap-10  md:place-items-center lg:mt-10 mt-5">
         {subSubCategories.map((item, idx) => (
           <div className="relative" key={item._id}>
-            <Link to={`/service/${item.subCategory.subCategory.replace(/\s+/g, "-")}/${item._id}`}>
+            <Link
+              to={`/service/${item.subCategory.subCategory
+                .split(" ")
+                .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                .join("-")}/${item._id}`}
+            >
               {" "}
               <img
                 src={`${item?.image}`}
@@ -273,8 +307,11 @@ const Anniversary = () => {
               );
               return simpleSub ? (
                 <Link
-                  to={`/service/${simpleSub._id}`}
-                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                  to={`/service/${simpleSub.subCategory.subCategory
+                    .split(" ")
+                    .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                    .join("-")}/${simpleSub._id}`}
+                  className="linkColorPink text-purple-600 underline text-sm font-semibold hover:text-blue-800"
                 >
                   View All
                 </Link>
@@ -304,8 +341,11 @@ const Anniversary = () => {
               );
               return primumSub ? (
                 <Link
-                  to={`/service/${primumSub._id}`}
-                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                  to={`/service/${primumSub.subCategory.subCategory
+                    .split(" ")
+                    .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                    .join("-")}/${primumSub._id}`}
+                  className="linkColorPink text-purple-600 underline text-sm font-semibold hover:text-blue-800"
                 >
                   View All
                 </Link>

@@ -32,6 +32,7 @@ const Themes = () => {
       );
       if (res.data.data && res.data.data.length > 0) {
         setThemes(res.data.data);
+        console.log("themes", res.data.data);
       }
     } catch (err) {
       setError("Failed to load themes");

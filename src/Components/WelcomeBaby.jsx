@@ -131,16 +131,19 @@ const WelcomeBaby = () => {
 
   const breadcrumbPaths = [
     { name: "Home", link: "/" },
-    { name: "Welcome Baby Decoration", link: "/welcomebabydecor/681b1240ddb6b3f4663e794c" },
+    {
+      name: "Welcome Baby Decoration",
+      link: "/welcomebabydecor/681b1240ddb6b3f4663e794c",
+    },
   ];
 
   return (
     <div className="lg:py-24  pt-32  p-3  mx-auto">
-
-
       <Helmet>
         {/* Meta Tags */}
-        <title>Welcome Baby Decoration in Bangalore | Adorable Newborn Setup</title>
+        <title>
+          Welcome Baby Decoration in Bangalore | Adorable Newborn Setup
+        </title>
         <meta
           name="description"
           content="Celebrate your baby’s arrival with welcome baby decoration in Bangalore. Lavish Eventzz offers cute themes, balloon arches, cradles, and naming backdrop setups."
@@ -151,20 +154,44 @@ const WelcomeBaby = () => {
         />
 
         {/* Open Graph Tags */}
-        <meta property="og:title" content="Welcome Baby Decoration in Bangalore | Adorable Newborn Setup" />
-        <meta property="og:description" content="Celebrate your baby’s arrival with welcome baby decoration in Bangalore. Lavish Eventzz offers cute themes, balloon arches, cradles, and naming backdrop setups." />
+        <meta
+          property="og:title"
+          content="Welcome Baby Decoration in Bangalore | Adorable Newborn Setup"
+        />
+        <meta
+          property="og:description"
+          content="Celebrate your baby’s arrival with welcome baby decoration in Bangalore. Lavish Eventzz offers cute themes, balloon arches, cradles, and naming backdrop setups."
+        />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.lavisheventzz.com/welcomebabydecor/681b1240ddb6b3f4663e794c" />
-        <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/welcomeBabybanner1.png" />
+        <meta
+          property="og:url"
+          content="https://www.lavisheventzz.com/welcomebabydecor/681b1240ddb6b3f4663e794c"
+        />
+        <meta
+          property="og:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/welcomeBabybanner1.png"
+        />
         <meta property="og:site_name" content="Lavish Eventzz" />
         <meta property="og:locale" content="en_US" />
 
         {/* Twitter Card Tags */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Welcome Baby Decoration in Bangalore | Adorable Newborn Setup" />
-        <meta name="twitter:description" content="Celebrate your baby’s arrival with welcome baby decoration in Bangalore. Lavish Eventzz offers cute themes, balloon arches, cradles, and naming backdrop setups." />
-        <meta name="twitter:url" content="https://www.lavisheventzz.com/welcomebabydecor/681b1240ddb6b3f4663e794c" />
-        <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/welcomeBabybanner1.png" />
+        <meta
+          name="twitter:title"
+          content="Welcome Baby Decoration in Bangalore | Adorable Newborn Setup"
+        />
+        <meta
+          name="twitter:description"
+          content="Celebrate your baby’s arrival with welcome baby decoration in Bangalore. Lavish Eventzz offers cute themes, balloon arches, cradles, and naming backdrop setups."
+        />
+        <meta
+          name="twitter:url"
+          content="https://www.lavisheventzz.com/welcomebabydecor/681b1240ddb6b3f4663e794c"
+        />
+        <meta
+          name="twitter:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/welcomeBabybanner1.png"
+        />
         <meta name="twitter:site" content="@LavishEvents25" />
 
         {/* Organization Schema */}
@@ -172,24 +199,24 @@ const WelcomeBaby = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "Lavish Eventzz",
-            "url": "https://www.lavisheventzz.com",
-            "logo": "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
-            "contactPoint": {
+            name: "Lavish Eventzz",
+            url: "https://www.lavisheventzz.com",
+            logo: "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+            contactPoint: {
               "@type": "ContactPoint",
-              "telephone": "+91-9620558000",
-              "contactType": "Customer Service",
-              "areaServed": "IN",
-              "availableLanguage": "English"
+              telephone: "+91-9620558000",
+              contactType: "Customer Service",
+              areaServed: "IN",
+              availableLanguage: "English",
             },
-            "sameAs": [
+            sameAs: [
               "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
               "https://x.com/LavishEvents25",
               "https://www.youtube.com/@LavishEventzz-2025",
               "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
               "https://www.instagram.com/lavisheventzz.com_/",
-              "https://www.instagram.com/lavisheventzz"
-            ]
+              "https://www.instagram.com/lavisheventzz",
+            ],
           })}
         </script>
 
@@ -198,20 +225,20 @@ const WelcomeBaby = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
-            "itemListElement": [
+            itemListElement: [
               {
                 "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://www.lavisheventzz.com"
+                position: 1,
+                name: "Home",
+                item: "https://www.lavisheventzz.com",
               },
               {
                 "@type": "ListItem",
-                "position": 2,
-                "name": "Welcome Baby Decoration",
-                "item": "https://www.lavisheventzz.com/welcomebabydecor/681b1240ddb6b3f4663e794c"
-              }
-            ]
+                position: 2,
+                name: "Welcome Baby Decoration",
+                item: "https://www.lavisheventzz.com/welcomebabydecor/681b1240ddb6b3f4663e794c",
+              },
+            ],
           })}
         </script>
 
@@ -220,9 +247,10 @@ const WelcomeBaby = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            "name": "Welcome Baby Decoration",
-            "url": "https://www.lavisheventzz.com/welcomebabydecor/681b1240ddb6b3f4663e794c",
-            "description": "Celebrate your baby’s arrival with welcome baby decoration in Bangalore. Lavish Eventzz offers cute themes, balloon arches, cradles, and naming backdrop setups."
+            name: "Welcome Baby Decoration",
+            url: "https://www.lavisheventzz.com/welcomebabydecor/681b1240ddb6b3f4663e794c",
+            description:
+              "Celebrate your baby’s arrival with welcome baby decoration in Bangalore. Lavish Eventzz offers cute themes, balloon arches, cradles, and naming backdrop setups.",
           })}
         </script>
       </Helmet>
@@ -238,7 +266,12 @@ const WelcomeBaby = () => {
       <div className="grid grid-cols-2 md:gap-10 gap-3   lg:mt-20 mt-10">
         {subSubCategories.map((item, idx) => (
           <div className="relative" key={item._id}>
-            <Link to={`/service/${item.subCategory.subCategory.replace(/\s+/g, "-")}/${item._id}`}>
+            <Link
+              to={`/service/${item.subCategory.subCategory
+                .split(" ")
+                .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                .join("-")}/${item._id}`}
+            >
               <img
                 src={`${item.image}`}
                 alt={item.subSubCategory}
@@ -250,7 +283,7 @@ const WelcomeBaby = () => {
             </p>
           </div>
         ))}
-        <Link to={WhatsAppLink} target="_blank" rel="noopener noreferrer">
+        <Link to={WhatsAppLink} target="_blank" className="linkColorPink" rel="noopener noreferrer">
           <div className="relative">
             <img
               src="https://lavisheventzz-bangalore.b-cdn.net/WelcomeBaby/welcomebabyCake.png"
@@ -271,7 +304,7 @@ const WelcomeBaby = () => {
             All Decoration Service
           </p>
           <div
-            className="text-purple-600 underline text-sm font-semibold hover:text-blue-800 cursor-pointer"
+            className="linkColorPink text-purple-600 underline text-sm font-semibold hover:text-blue-800 cursor-pointer"
             onClick={() => handleNavigation("Kids Birthday", "/service/")}
           >
             View All

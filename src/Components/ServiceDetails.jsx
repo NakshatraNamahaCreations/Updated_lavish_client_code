@@ -928,7 +928,8 @@ const ServiceDetails = () => {
                 </button>
                 <a
                   href="tel:+919620558000"
-                  className="flex gap-2 items-center border border-blue-500 text-blue-500 rounded-full px-6 py-1 hover:bg-blue-500 hover:text-white"
+                  className="linkColorBlack flex gap-2 items-center border border-blue-500 text-blue-500 rounded-full px-6 py-1 hover:bg-blue-500 hover:text-white"
+                
                 >
                   <img src={phone} className="w-6" alt="phone" />
                   Call us

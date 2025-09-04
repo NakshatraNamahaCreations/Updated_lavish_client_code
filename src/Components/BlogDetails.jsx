@@ -48,6 +48,7 @@ const BlogDetails = () => {
       try {
         const res = await axios.get(`${API_BASE_URL}/blog/title/${title}`);
         setBlog(res.data.data);
+        console.log("blog data", res.data.data)
       } catch (err) {
         console.error("Failed to fetch blog:", err.message);
       }
@@ -114,7 +115,7 @@ const BlogDetails = () => {
   return (
     <div className="min-h-screen px-4 lg:py-24 py-36 ">
       <Helmet>
-        <title>{alterTitle}</title>
+        <title>{blog?.metaTitle}</title>
         <meta name="description" content={blog?.metaDescription} />
 
         <link

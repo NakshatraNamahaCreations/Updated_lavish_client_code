@@ -154,20 +154,6 @@ input[type="radio"] {
 }
 
 
-
-
-/* @keyframes slideDown {
-    from {
-        height: 20vh;
-        opacity: 0;
-    }
-
-    to {
-        height: 80vh;
-        opacity: 1;
-    }
-} */
-
 @keyframes slideUp {
     from {
         height: 100vh;
@@ -198,7 +184,6 @@ input[type="radio"] {
 }
 
 
-
 .search-bar.open {
     animation: slideDown 0.3s ease-in-out forwards;
 }
@@ -227,5 +212,25 @@ input[type="radio"] {
 /* Right arrow positioning */
 .custom-arrow.right-0 {
     right: -40px;
+}
+
+a{
+    color: blue !important;
+    text-decoration:underline !important
+}
+
+.linkColorBlack{
+    color: #000 !important;
+    text-decoration: none !important;
+}
+.linkColorGray{
+    color: #424040ea !important;
+    text-decoration: none !important;
+    /* font-weight: 400 !important; */
+}
+
+.linkColorPink{
+    color: #FF4286 !important;
+    text-decoration: none !important;
 }
 

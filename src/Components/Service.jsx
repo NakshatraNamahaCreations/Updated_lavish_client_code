@@ -46,13 +46,21 @@ const Service = () => {
   const [subCatTitle, setSubCatTitle] = useState("Services");
   const [bannerImg, setBannerImg] = useState(null);
   const [sortOption, setSortOption] = useState("latest");
-  const [subCategoryMeta, setSubCategoryMeta] = useState(null);
+  const [metaData, setMetaData] = useState(null);
 
   const [loading, setLoading] = useState(true);
 
-  const modifiedSubcatTitle = subcatgory.replace(/-/g, " ");
+ const modifiedSubcatTitle = subcatgory
+  .replace(/-/g, " ") 
+  .split(" ") 
+  .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
+  .join(" ");
 
   console.log("subcatgory", modifiedSubcatTitle);
+  let themeTitle = "";
+  if (metaData && metaData.theme) {
+    themeTitle = metaData?.theme;
+  }
   useEffect(() => {
     const fetchServices = async () => {
       setLoading(true);
@@ -92,9 +100,21 @@ const Service = () => {
       try {
         const slug = modifiedSubcatTitle; // e.g. "Marry Me Decor" → "Marry-Me-Decor"
         const res = await getAxios().get(`/subcategories/by-name/${slug}`);
-        console.log("SubcatTitle", res.data.data);
+        console.log("Sub cat fecthed", res.data.data);
         if (res.data.success) {
-          setSubCategoryMeta(res.data.data);
+          setMetaData(res.data.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch subcategory SEO/meta:", err.message);
+      }
+    };
+
+    const fetchThemeDetails = async () => {
+      try {
+        const res = await getAxios().get(`/themes/getTheme/${id}`);
+        console.log("theme fecthed", res.data.data);
+        if (res.data.success) {
+          setMetaData(res.data.data);
         }
       } catch (err) {
         console.error("Failed to fetch subcategory SEO/meta:", err.message);
@@ -103,6 +123,7 @@ const Service = () => {
 
     fetchServices();
     fetchSubCategoryDetails();
+    fetchThemeDetails();
   }, [id, subcatgory]);
 
   const handleSortChange = (event) => {
@@ -130,20 +151,22 @@ const Service = () => {
       name: modifiedSubcatTitle,
       link: `/service/${subcatgory}/${id}`,
     },
+    {
+      name: themeTitle && themeTitle,
+    },
   ];
 
   return (
     <>
-      {subCategoryMeta && (
+      {metaData && (
         <Helmet>
           {/* Basic Meta Tags */}
-          <title>{subCategoryMeta.metaTitle}</title>
-          <meta name="description" content={subCategoryMeta.metaDescription} />
+          <title>{metaData.metaTitle}</title>
+          <meta name="description" content={metaData.metaDescription} />
           <meta
             name="keywords"
             content={
-              subCategoryMeta.keywords ||
-              `${modifiedSubcatTitle}, decoration, events`
+              metaData.keywords || `${modifiedSubcatTitle}, decoration, events`
             }
           />
 
@@ -152,22 +175,18 @@ const Service = () => {
             rel="canonical"
             href={`https://www.lavisheventzz.com/service/${subcatgory}/${id}`}
           />
-          {/* <link
-            rel="canonical"
-            href={window.location.href}
-          /> */}
 
           {/* Structured Schema with FAQ & Metadata */}
           <script type="application/ld+json">
             {JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Service",
-              name: subCategoryMeta.metaTitle || modifiedSubcatTitle,
+              name: metaData.metaTitle || modifiedSubcatTitle,
               description:
-                subCategoryMeta.metaDescription ||
+                metaData.metaDescription ||
                 `Services related to ${modifiedSubcatTitle}`,
-              keywords: subCategoryMeta.keywords || "",
-              dateCreated: new Date(subCategoryMeta.createdAt).toISOString(),
+              keywords: metaData.keywords || "",
+              dateCreated: new Date(metaData.createdAt).toISOString(),
               provider: {
                 "@type": "Organization",
                 name: "Lavish Eventzz",
@@ -176,7 +195,7 @@ const Service = () => {
               mainEntity: {
                 "@type": "FAQPage",
                 mainEntity:
-                  subCategoryMeta.faqs?.map((faq) => ({
+                  metaData.faqs?.map((faq) => ({
                     "@type": "Question",
                     name: faq.question,
                     acceptedAnswer: {
@@ -203,7 +222,9 @@ const Service = () => {
         <div className="flex justify-between items-center mb-5 md:px-10">
           <div>
             {/* <h1 className="text-2xl font-bold">{subCatTitle} </h1> */}
-            <h1 className="text-2xl font-bold">{modifiedSubcatTitle} </h1>
+            <h1 className="text-2xl font-bold">
+              {themeTitle ? themeTitle : modifiedSubcatTitle}{" "}
+            </h1>
           </div>
 
           {services.length > 0 && (
@@ -239,18 +260,18 @@ const Service = () => {
         </div>
 
         <div className="mt-5 p-5">
-          {subCategoryMeta?.caption && (
-            <ExpandableContent htmlContent={subCategoryMeta.caption} />
+          {metaData?.caption && (
+            <ExpandableContent htmlContent={metaData.caption} />
           )}
         </div>
-        
-        {subCategoryMeta?.faqs.length > 0 && (
+
+        {metaData?.faqs.length > 0 && (
           <div className="max-w-3xl p-4 mx-auto">
             <p className="text-center font-bold poppins text-2xl">FAQs</p>
             <p className="text-center font-bold poppins text-sm pb-5">
               Need help? Contact us for any queries related to us
             </p>
-            <DynamicFaqs faqs={subCategoryMeta.faqs} />
+            <DynamicFaqs faqs={metaData.faqs} />
           </div>
         )}
       </div>

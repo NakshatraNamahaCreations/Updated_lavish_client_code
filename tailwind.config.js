@@ -1,8 +1,5 @@
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -10,8 +7,11 @@ export default {
         primarysec: "var(--primarysec-color)",
         secondary: "var(--secondary-color)",
         light: "var(--light-color)",
-        text: "var(--text-color)"
+        text: "var(--text-color)",
       },
+      // animation: {
+      //   "spin-slow": "spin 3s linear infinite", // Customize the spin duration here (3s for slow)
+      // },
     },
   },
   plugins: [],

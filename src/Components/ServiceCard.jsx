@@ -246,6 +246,7 @@ const ServiceCard = ({ service, title }) => {
           .toLowerCase()
           .replace(/\s+/g, "-")}/${service._id}`}
         state={{ from: location.pathname + location.search, title: title }} 
+        className="linkColorBlack"
       >
         <div>
           <img

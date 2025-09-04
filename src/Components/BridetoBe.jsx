@@ -164,17 +164,21 @@ const BridetoBe = () => {
   useEffect(() => {
     fetchRecentPurchase();
   }, [customerId]);
-const breadcrumbPaths = [
-  { name: "Home", link: "/" },
-  { name: "Bride to be Decor", link: "/bridetobedecor/681b10a5ddb6b3f4663e78cc" },
-];
+  const breadcrumbPaths = [
+    { name: "Home", link: "/" },
+    {
+      name: "Bride to be Decor",
+      link: "/bridetobedecor/681b10a5ddb6b3f4663e78cc",
+    },
+  ];
 
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
-
       <Helmet>
         {/* Meta Title & Description */}
-        <title>Bride to be Decoration in Bangalore | Bridal Shower Experts</title>
+        <title>
+          Bride to be Decoration in Bangalore | Bridal Shower Experts
+        </title>
         <meta
           name="description"
           content="Make her feel special with stylish Bride to be decorations in Bangalore. Lavish Eventzz offers balloons, photo booths, themes, and glam setups for bridal showers"
@@ -185,20 +189,44 @@ const breadcrumbPaths = [
         />
 
         {/* Open Graph */}
-        <meta property="og:title" content="Bride to be Decoration in Bangalore | Bridal Shower Experts" />
-        <meta property="og:description" content="Make her feel special with stylish Bride to be decorations in Bangalore. Lavish Eventzz offers balloons, photo booths, themes, and glam setups for bridal showers" />
+        <meta
+          property="og:title"
+          content="Bride to be Decoration in Bangalore | Bridal Shower Experts"
+        />
+        <meta
+          property="og:description"
+          content="Make her feel special with stylish Bride to be decorations in Bangalore. Lavish Eventzz offers balloons, photo booths, themes, and glam setups for bridal showers"
+        />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.lavisheventzz.com/bridetobedecor/681b10a5ddb6b3f4663e78cc" />
-        <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/bridetobebanner.png" />
+        <meta
+          property="og:url"
+          content="https://www.lavisheventzz.com/bridetobedecor/681b10a5ddb6b3f4663e78cc"
+        />
+        <meta
+          property="og:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/bridetobebanner.png"
+        />
         <meta property="og:site_name" content="Lavish Eventzz" />
         <meta property="og:locale" content="en_US" />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Bride to be Decoration in Bangalore | Bridal Shower Experts" />
-        <meta name="twitter:description" content="Make her feel special with stylish Bride to be decorations in Bangalore. Lavish Eventzz offers balloons, photo booths, themes, and glam setups for bridal showers" />
-        <meta name="twitter:url" content="https://www.lavisheventzz.com/bridetobedecor/681b10a5ddb6b3f4663e78cc" />
-        <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/bridetobebanner.png" />
+        <meta
+          name="twitter:title"
+          content="Bride to be Decoration in Bangalore | Bridal Shower Experts"
+        />
+        <meta
+          name="twitter:description"
+          content="Make her feel special with stylish Bride to be decorations in Bangalore. Lavish Eventzz offers balloons, photo booths, themes, and glam setups for bridal showers"
+        />
+        <meta
+          name="twitter:url"
+          content="https://www.lavisheventzz.com/bridetobedecor/681b10a5ddb6b3f4663e78cc"
+        />
+        <meta
+          name="twitter:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/bridetobebanner.png"
+        />
         <meta name="twitter:site" content="@LavishEvents25" />
 
         {/* JSON-LD Schemas */}
@@ -206,24 +234,24 @@ const breadcrumbPaths = [
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "Lavish Eventzz",
-            "url": "https://www.lavisheventzz.com",
-            "logo": "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
-            "contactPoint": {
+            name: "Lavish Eventzz",
+            url: "https://www.lavisheventzz.com",
+            logo: "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+            contactPoint: {
               "@type": "ContactPoint",
-              "telephone": "+91-9620558000",
-              "contactType": "Customer Service",
-              "areaServed": "IN",
-              "availableLanguage": "English"
+              telephone: "+91-9620558000",
+              contactType: "Customer Service",
+              areaServed: "IN",
+              availableLanguage: "English",
             },
-            "sameAs": [
+            sameAs: [
               "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
               "https://x.com/LavishEvents25",
               "https://www.youtube.com/@LavishEventzz-2025",
               "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
               "https://www.instagram.com/lavisheventzz.com_/",
-              "https://www.instagram.com/lavisheventzz"
-            ]
+              "https://www.instagram.com/lavisheventzz",
+            ],
           })}
         </script>
 
@@ -231,20 +259,20 @@ const breadcrumbPaths = [
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
-            "itemListElement": [
+            itemListElement: [
               {
                 "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://www.lavisheventzz.com"
+                position: 1,
+                name: "Home",
+                item: "https://www.lavisheventzz.com",
               },
               {
                 "@type": "ListItem",
-                "position": 2,
-                "name": "Bride to be Decor",
-                "item": "https://www.lavisheventzz.com/bridetobedecor/681b10a5ddb6b3f4663e78cc"
-              }
-            ]
+                position: 2,
+                name: "Bride to be Decor",
+                item: "https://www.lavisheventzz.com/bridetobedecor/681b10a5ddb6b3f4663e78cc",
+              },
+            ],
           })}
         </script>
 
@@ -252,14 +280,15 @@ const breadcrumbPaths = [
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            "name": "Bride to be Decor",
-            "url": "https://www.lavisheventzz.com/bridetobedecor/681b10a5ddb6b3f4663e78cc",
-            "description": "Make her feel special with stylish Bride to Be decorations in Bangalore. Lavish Eventzz offers balloons, photo booths, themes, and glam setups for bridal showers"
+            name: "Bride to be Decor",
+            url: "https://www.lavisheventzz.com/bridetobedecor/681b10a5ddb6b3f4663e78cc",
+            description:
+              "Make her feel special with stylish Bride to Be decorations in Bangalore. Lavish Eventzz offers balloons, photo booths, themes, and glam setups for bridal showers",
           })}
         </script>
       </Helmet>
 
-<Breadcrumb paths={breadcrumbPaths} />
+      <Breadcrumb paths={breadcrumbPaths} />
 
       <div>
         <img
@@ -271,7 +300,13 @@ const breadcrumbPaths = [
       <div className="grid grid-cols-2 md:gap-10 gap-3  place-items-center md:my-16 mt-4 md:mx-10">
         {subSubCategories.map((item, idx) => (
           <div className="relative" key={item._id}>
-            <Link to={`/service/${item.subCategory.subCategory.replace(/\s+/g, "-")}/${item._id}`}>
+            <Link
+              to={`/service/${item.subCategory.subCategory
+                .split(" ")
+                .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                .join("-")}/${item._id}`}
+              className="linkColorPink"
+            >
               <img
                 src={`${item?.image}`}
                 alt={item.subSubCategory}
@@ -299,8 +334,11 @@ const breadcrumbPaths = [
               );
               return simpleSub ? (
                 <Link
-                  to={`/service/${simpleSub._id}`}
-                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+              to={`/service/${simpleSub.subCategory.subCategory
+                    .split(" ")
+                    .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                    .join("-")}/${simpleSub._id}`}
+                  className="linkColorPink text-purple-600 underline text-sm font-semibold hover:text-blue-800"
                 >
                   View All
                 </Link>
@@ -330,8 +368,11 @@ const breadcrumbPaths = [
               );
               return primumSub ? (
                 <Link
-                  to={`/service/${primumSub._id}`}
-                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                  to={`/service/${primumSub.subCategory.subCategory
+                    .split(" ")
+                    .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                    .join("-")}/${primumSub._id}`}
+                  className="linkColorPink text-purple-600 underline text-sm font-semibold hover:text-blue-800"
                 >
                   View All
                 </Link>
