@@ -223,7 +223,7 @@ const Navbar = () => {
               <div className="relative">
                 <img src={heart} alt="Wishlist" className="w-8 h-8" />
                 {wishlistCount > 0 && (
-                  <span className="absolute top-0 right-0 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                     {wishlistCount}
                   </span>
                 )}
@@ -282,7 +282,14 @@ const Navbar = () => {
 
             <div className="mt-5 flex  justify-end gap-4">
               <Link to="/wishlist" onClick={handleMenuItemClose}>
-                <img src={heart} alt="Wishlist" className="w-8 h-8" />
+                <div className="relative">
+                  <img src={heart} alt="Wishlist" className="w-8 h-8" />
+                  {wishlistCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {wishlistCount}
+                    </span>
+                  )}
+                </div>
               </Link>
               <Link to="/profile" onClick={handleMenuItemClose}>
                 <img src={User} alt="User" className="w-8 h-8" />
@@ -309,7 +316,11 @@ const Navbar = () => {
                       {openDropdown ? <IoChevronUp /> : <IoChevronDown />}
                     </span>
                   ) : (
-                    <Link to={item.link} className="linkColorGray" onClick={handleMenuItemClose}>
+                    <Link
+                      to={item.link}
+                      className="linkColorGray"
+                      onClick={handleMenuItemClose}
+                    >
                       {item.name}
                     </Link>
                   )}
