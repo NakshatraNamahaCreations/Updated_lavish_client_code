@@ -295,10 +295,10 @@ const RingCermony = () => {
               {/* <Link to={subSubAvailable ? `/service/${item.sub_SubId}` : `/service/${item.subId}`}> */}
 
               <Link
-                to={`/service/${item.subCategory.subCategory.replace(
-                  /\s+/g,
-                  "-"
-                )}/${item._id}`}
+                to={`/service/${item.subCategory.subCategory
+                  .split(" ")
+                  .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                  .join("-")}/${item._id}`}
                 className="linkColorPink"
               >
                 <img

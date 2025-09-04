@@ -48,7 +48,7 @@ const BlogDetails = () => {
       try {
         const res = await axios.get(`${API_BASE_URL}/blog/title/${title}`);
         setBlog(res.data.data);
-        console.log("blog data", res.data.data)
+        console.log("blog data", res.data.data);
       } catch (err) {
         console.error("Failed to fetch blog:", err.message);
       }
@@ -113,7 +113,7 @@ const BlogDetails = () => {
   ];
 
   return (
-    <div className="min-h-screen px-4 lg:py-24 py-36 ">
+    <div className="min-h-screen w-screen   lg:py-24 pt-36 ">
       <Helmet>
         <title>{blog?.metaTitle}</title>
         <meta name="description" content={blog?.metaDescription} />
@@ -207,12 +207,11 @@ const BlogDetails = () => {
           })}
         </script>
       </Helmet>
-
-      <Breadcrumb paths={breadcrumbPaths} />
-
-      <div className="flex flex-col md:flex-row max-w-7xl mx-auto mt-4 gap-8">
+      <div className="md:grid grid-cols-7 gap-4 ">
+      <div className="col-span-5">
+        <Breadcrumb paths={breadcrumbPaths} />
         {/* Blog Content (Page scrolls normally) */}
-        <div className="flex-1 pr-4">
+        <div className="flex-1 md:px-10 px-4">
           {blog ? (
             <div>
               <h1 className="text-4xl font-bold text-[#FF4286] mb-4">
@@ -232,10 +231,11 @@ const BlogDetails = () => {
             <BlogShimmer />
           )}
         </div>
+        </div>
 
         {/* Sticky Contact Form */}
-        <div className="hidden md:block w-[350px] h-fit">
-          <div className="fixed top-26 bg-white border border-gray-200 rounded-lg shadow-lg p-6">
+        <div className="col-span-2 md:block flex w-full p-4 md:w-[350px] ">
+          <div className="md:fixed md:top-[100px] bg-white border border-gray-200 rounded-lg shadow-lg p-6 md:p-8 w-full md:w-[350px]">
             <h2 className="text-xl font-semibold text-[#6a1b9a] mb-4">
               Contact Us
             </h2>
@@ -310,3 +310,76 @@ const BlogDetails = () => {
 };
 
 export default BlogDetails;
+
+// <div className="flex flex-col md:flex-row max-w-7xl mx-auto mt-4 gap-8">
+//   {/* Sticky Contact Form */}
+//   <div className="md:block flex w-full md:w-[350px] ">
+//     <div className="md:fixed md:top-[100px] bg-white border border-gray-200 rounded-lg shadow-lg p-6 md:p-8 w-full md:w-[350px]">
+//       <h2 className="text-xl font-semibold text-[#6a1b9a] mb-4">
+//         Contact Us
+//       </h2>
+//       <form className="space-y-4" onSubmit={handleSubmit}>
+//         <input
+//           type="text"
+//           name="name"
+//           placeholder="Name*"
+//           className="w-full border-b border-black focus:outline-none py-2 placeholder-gray-500"
+//           required
+//           value={formData.name}
+//           onChange={handleChange}
+//         />
+//         <input
+//           type="tel"
+//           name="phone"
+//           placeholder="Phone*"
+//           className="w-full border-b border-black focus:outline-none py-2 placeholder-gray-500"
+//           required
+//           value={formData.phone}
+//           onChange={handleChange}
+//         />
+//         <input
+//           type="email"
+//           name="email"
+//           placeholder="Email*"
+//           className="w-full border-b border-black focus:outline-none py-2 placeholder-gray-500"
+//           required
+//           value={formData.email}
+//           onChange={handleChange}
+//         />
+//         <input
+//           type="text"
+//           name="service"
+//           placeholder="Services you want"
+//           className="w-full border-b border-black focus:outline-none py-2 placeholder-gray-500"
+//           value={formData.service}
+//           onChange={handleChange}
+//         />
+//         <textarea
+//           name="message"
+//           placeholder="Message"
+//           className="w-full border-b border-black focus:outline-none py-2 placeholder-gray-500"
+//           rows={3}
+//           value={formData.message}
+//           onChange={handleChange}
+//         ></textarea>
+
+//         <button
+//           type="submit"
+//           className="w-full bg-[#FF4286] hover:bg-[#e91e63] text-white py-2 px-4 rounded"
+//         >
+//           Submit
+//         </button>
+
+//         {status.message && (
+//           <p
+//             className={`text-sm ${
+//               status.success ? "text-green-600" : "text-red-500"
+//             }`}
+//           >
+//             {status.message}
+//           </p>
+//         )}
+//       </form>
+//     </div>
+//   </div>
+// </div>

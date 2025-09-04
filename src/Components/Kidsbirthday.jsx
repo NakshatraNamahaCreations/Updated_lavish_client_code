@@ -111,7 +111,11 @@ const Kidsbirthday = () => {
         console.log("No themes found, navigating to services");
         // If no themes, navigate directly to services
         // navigate(`/service/${subSubCategoryId}`);
-        navigate(`/service/${item.subCategory.subCategory.replace(/\s+/g, "-")}/${item._id} `);
+        navigate(`/service/${item.subCategory.subCategory
+                .split(" ")
+                .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                .join("-")}/${item._id}`)
+        // navigate(`/service/${item.subCategory.subCategory.replace(/\s+/g, "-")}/${item._id} `);
       }
     } catch (err) {
       console.error("Error in navigation:", err);

@@ -67,10 +67,14 @@ const Themes = () => {
   const handleThemeClick = (item) => {
     console.log("item:", item);
     navigate(
-      `/service/${item.subSubCategory.subCategory.subCategory.replace(
-        /\s+/g,
-        "-"
-      )}/${item._id}`
+      // `/service/${item.subSubCategory.subCategory.subCategory.replace(
+      //   /\s+/g,
+      //   "-"
+      // )}/${item._id}`
+      `/service/${item.subSubCategory.subCategory.subCategory
+                .split(" ")
+                .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                .join("-")}/${item._id}`
     );
   };
 

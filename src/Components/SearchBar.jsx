@@ -57,7 +57,8 @@ const SearchBar = ({ setSearchbartoggle }) => {
                         {inpVal.length > 2 ? (
                             filteredData.length > 0 ? (
                                 filteredData.map(item => (
-                                    <Link to={`/service/details/${item._id}`} onClick={handleClose} key={item._id}>
+                                    // <Link to={`/service/details/${item._id}`} onClick={handleClose} key={item._id}>
+                                    <Link  to={`/service/details/${item.serviceName.toLowerCase().replace(/\s+/g, "-")}/${item._id}`} onClick={handleClose} key={item._id} className="linkColorWhite">
                                         <li className="p-2 bg-primary text-white rounded-md text-center md:text-lg text-sm cursor-pointer">
                                             {item.serviceName}
                                         </li>

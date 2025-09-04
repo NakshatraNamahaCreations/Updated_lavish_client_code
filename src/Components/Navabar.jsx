@@ -18,6 +18,9 @@ import menuData from "../json/menu.json";
 import { getAuthAxios, getAxios } from "../utils/api";
 
 const Navbar = () => {
+  const storedUser = localStorage.getItem("user");
+  const userData = JSON.parse(storedUser);
+  const userId = userData?.id;
   const [openDropdown, setOpenDropdown] = useState(false);
   const [openCategory, setOpenCategory] = useState(null);
   const [searchbartoggle, setSearchbartoggle] = useState(false);
@@ -28,7 +31,7 @@ const Navbar = () => {
   const [loading, setLoading] = useState(false);
   const [subCategories, setSubCategories] = useState([]);
   const [subCategoriesCache, setSubCategoriesCache] = useState({}); // Cache for subcategories
-
+  const [wishlistCount, setWishlistCount] = useState(0);
   const dropdownRef = useRef(null);
   const mobileDropdownRef = useRef(null);
 
@@ -80,8 +83,22 @@ const Navbar = () => {
     }
   };
 
+  const fetchWishlistcount = async () => {
+    try {
+      const res = await getAxios().get(`wishlist/count/${userId}`);
+      if (res.status !== 200) {
+        throw new Error("something went wrong");
+      }
+      setWishlistCount(res.data.count);
+    } catch (error) {
+      setError(error.message || "Error in fetching Whislist count");
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
     fetchCategories();
+    fetchWishlistcount();
   }, []);
 
   // When categories load, set default openCategory if none selected yet
@@ -201,9 +218,16 @@ const Navbar = () => {
             className="hidden lg:flex items-center gap-5 cursor-pointer"
             onClick={handleMenuItemClose}
           >
+            {/* Wishlist Link with Badge */}
             <Link to="/wishlist" onClick={handleMenuItemClose}>
-              {" "}
-              <img src={heart} alt="Wishlist" />
+              <div className="relative">
+                <img src={heart} alt="Wishlist" className="w-8 h-8" />
+                {wishlistCount > 0 && (
+                  <span className="absolute top-0 right-0 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {wishlistCount}
+                  </span>
+                )}
+              </div>
             </Link>
             <Link to="/profile" onClick={handleMenuItemClose}>
               <img src={User} alt="User" />
@@ -279,13 +303,13 @@ const Navbar = () => {
                           setOpenCategory(null);
                         }
                       }}
-                      className="flex justify-between items-center"
+                      className="flex justify-between items-center linkColorGray"
                     >
                       {item.name}{" "}
                       {openDropdown ? <IoChevronUp /> : <IoChevronDown />}
                     </span>
                   ) : (
-                    <Link to={item.link} onClick={handleMenuItemClose}>
+                    <Link to={item.link} className="linkColorGray" onClick={handleMenuItemClose}>
                       {item.name}
                     </Link>
                   )}
@@ -457,10 +481,14 @@ const Navbar = () => {
                       >
                         <ul className="py-4 pl-4 text-[#504B53]">
                           {subCategories.map((item) => {
-                            let linkPath = `/service/${item.subCategory.replace(
-                              /\s+/g,
-                              "-"
-                            )}/${item._id}`;
+                            let linkPath = `/service/${item.subCategory
+                              .split(" ")
+                              .map(
+                                (word) =>
+                                  word.charAt(0).toLowerCase() + word.slice(1)
+                              )
+                              .join("-")}/${item._id}`;
+
                             const isWhatsappLinkMobile =
                               whatsappSubCategories.includes(item.subCategory);
 
@@ -528,6 +556,7 @@ const Navbar = () => {
                                     ? "noopener noreferrer"
                                     : undefined
                                 }
+                                className="linkColorGray"
                               >
                                 <li className="py-1">{item.subCategory}</li>
                               </Link>

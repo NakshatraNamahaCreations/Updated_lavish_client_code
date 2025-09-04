@@ -42,7 +42,10 @@ export const navigateToSubcategory = async ({
 
       const finalRoute =
         baseRoute === "/service" || baseRoute === "/service/"
-          ? `/service/${subCategory.subCategory.replace(/\s+/g, "-")}/${subCategory._id}`
+          ? `/service/${subCategory.subCategory
+              .split(" ")
+              .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+              .join("-")}/${subCategory._id}`
           : `${baseRoute}/${subCategory._id}`;
 
       console.log("Navigating to:", finalRoute);

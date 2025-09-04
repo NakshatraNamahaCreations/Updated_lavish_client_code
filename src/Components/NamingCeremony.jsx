@@ -9,7 +9,7 @@ import photography from "../assets/services/photography.png";
 import welcomeboard from "../assets/services/welcomeboard.png";
 import flwrbouqt from "../assets/services/flwrbouqt.png";
 import activity from "../assets/services/activity.png";
-import Breadcrumb from "./Breadcrumb"; 
+import Breadcrumb from "./Breadcrumb";
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
 import CardCarousel from "./CardCarousel";
@@ -118,13 +118,14 @@ const NamingCeremony = () => {
   const WhatsAppLink = `https://wa.me/919620558000?text=${encodedMessage}`;
   const breadcrumbPaths = [
     { name: "Home", link: "/" },
-    { name: "Naming Ceremony Decoration", link: "/namingceremonydecor/681b124bddb6b3f4663e7951" },
+    {
+      name: "Naming Ceremony Decoration",
+      link: "/namingceremonydecor/681b124bddb6b3f4663e7951",
+    },
   ];
 
   return (
     <div className="lg:py-24 md:pt-20 pt-32 p-3 mx-auto">
-
-
       <Helmet>
         {/* Meta Tags */}
         <title>Naming Ceremony Decoration in Bangalore | Baby Name Setup</title>
@@ -138,20 +139,44 @@ const NamingCeremony = () => {
         />
 
         {/* Open Graph Tags */}
-        <meta property="og:title" content="Naming Ceremony Decoration in Bangalore | Baby Name Setup" />
-        <meta property="og:description" content="Make your child’s special day memorable with naming ceremony decoration in Bangalore. Lavish Eventzz offers themes, balloon decor, and custom name backdrops." />
+        <meta
+          property="og:title"
+          content="Naming Ceremony Decoration in Bangalore | Baby Name Setup"
+        />
+        <meta
+          property="og:description"
+          content="Make your child’s special day memorable with naming ceremony decoration in Bangalore. Lavish Eventzz offers themes, balloon decor, and custom name backdrops."
+        />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.lavisheventzz.com/namingceremonydecor/681b124bddb6b3f4663e7951" />
-        <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/namingcermonyBanner.png" />
+        <meta
+          property="og:url"
+          content="https://www.lavisheventzz.com/namingceremonydecor/681b124bddb6b3f4663e7951"
+        />
+        <meta
+          property="og:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/namingcermonyBanner.png"
+        />
         <meta property="og:site_name" content="Lavish Eventzz" />
         <meta property="og:locale" content="en_US" />
 
         {/* Twitter Card Tags */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Naming Ceremony Decoration in Bangalore | Baby Name Setup" />
-        <meta name="twitter:description" content="Make your child’s special day memorable with naming ceremony decoration in Bangalore. Lavish Eventzz offers themes, balloon decor, and custom name backdrops." />
-        <meta name="twitter:url" content="https://www.lavisheventzz.com/namingceremonydecor/681b124bddb6b3f4663e7951" />
-        <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/namingcermonyBanner.png" />
+        <meta
+          name="twitter:title"
+          content="Naming Ceremony Decoration in Bangalore | Baby Name Setup"
+        />
+        <meta
+          name="twitter:description"
+          content="Make your child’s special day memorable with naming ceremony decoration in Bangalore. Lavish Eventzz offers themes, balloon decor, and custom name backdrops."
+        />
+        <meta
+          name="twitter:url"
+          content="https://www.lavisheventzz.com/namingceremonydecor/681b124bddb6b3f4663e7951"
+        />
+        <meta
+          name="twitter:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/namingcermonyBanner.png"
+        />
         <meta name="twitter:site" content="@LavishEvents25" />
 
         {/* Organization Schema */}
@@ -159,24 +184,24 @@ const NamingCeremony = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "Lavish Eventzz",
-            "url": "https://www.lavisheventzz.com",
-            "logo": "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
-            "contactPoint": {
+            name: "Lavish Eventzz",
+            url: "https://www.lavisheventzz.com",
+            logo: "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+            contactPoint: {
               "@type": "ContactPoint",
-              "telephone": "+91-9620558000",
-              "contactType": "Customer Service",
-              "areaServed": "IN",
-              "availableLanguage": "English"
+              telephone: "+91-9620558000",
+              contactType: "Customer Service",
+              areaServed: "IN",
+              availableLanguage: "English",
             },
-            "sameAs": [
+            sameAs: [
               "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
               "https://x.com/LavishEvents25",
               "https://www.youtube.com/@LavishEventzz-2025",
               "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
               "https://www.instagram.com/lavisheventzz.com_/",
-              "https://www.instagram.com/lavisheventzz"
-            ]
+              "https://www.instagram.com/lavisheventzz",
+            ],
           })}
         </script>
 
@@ -185,20 +210,20 @@ const NamingCeremony = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
-            "itemListElement": [
+            itemListElement: [
               {
                 "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://www.lavisheventzz.com"
+                position: 1,
+                name: "Home",
+                item: "https://www.lavisheventzz.com",
               },
               {
                 "@type": "ListItem",
-                "position": 2,
-                "name": "Naming Ceremony",
-                "item": "https://www.lavisheventzz.com/namingceremonydecor/681b124bddb6b3f4663e7951"
-              }
-            ]
+                position: 2,
+                name: "Naming Ceremony",
+                item: "https://www.lavisheventzz.com/namingceremonydecor/681b124bddb6b3f4663e7951",
+              },
+            ],
           })}
         </script>
 
@@ -207,9 +232,10 @@ const NamingCeremony = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            "name": "Naming Ceremony",
-            "url": "https://www.lavisheventzz.com/namingceremonydecor/681b124bddb6b3f4663e7951",
-            "description": "Make your child’s special day memorable with naming ceremony decoration in Bangalore. Lavish Eventzz offers themes, balloon decor, and custom name backdrops."
+            name: "Naming Ceremony",
+            url: "https://www.lavisheventzz.com/namingceremonydecor/681b124bddb6b3f4663e7951",
+            description:
+              "Make your child’s special day memorable with naming ceremony decoration in Bangalore. Lavish Eventzz offers themes, balloon decor, and custom name backdrops.",
           })}
         </script>
       </Helmet>
@@ -224,7 +250,12 @@ const NamingCeremony = () => {
       <div className="grid grid-cols-2 gap-x-8 md:gap-y-14 gap-y-5 md:place-items-center lg:mt-20 mt-10">
         {subSubCategories.map((item) => (
           <div className="relative" key={item._id}>
-            <Link to={`/service/${item.subCategory.subCategory.replace(/\s+/g, "-")}/${item._id}`}>
+            <Link
+              to={`/service/${item.subCategory.subCategory
+                .split(" ")
+                .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                .join("-")}/${item._id}`}
+            >
               <img
                 src={`${item.image}`}
                 alt={item.subSubCategory}
@@ -264,7 +295,10 @@ const NamingCeremony = () => {
               );
               return simpleSub ? (
                 <Link
-                  to={`/service/${simpleSub._id}`}
+                  to={`/service/${simpleSub.subCategory.subCategory
+                    .split(" ")
+                    .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                    .join("-")}/${simpleSub._id}`}
                   className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
                 >
                   View All
@@ -294,7 +328,10 @@ const NamingCeremony = () => {
               );
               return primumSub ? (
                 <Link
-                  to={`/service/${primumSub._id}`}
+                  to={`/service/${primumSub.subCategory.subCategory
+                    .split(" ")
+                    .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+                    .join("-")}/${primumSub._id}`}
                   className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
                 >
                   View All
