@@ -9,6 +9,7 @@ export default {
         light: "var(--light-color)",
         text: "var(--text-color)",
       },
+      plugins: [require('@tailwindcss/line-clamp')],
       // animation: {
       //   "spin-slow": "spin 3s linear infinite", // Customize the spin duration here (3s for slow)
       // },

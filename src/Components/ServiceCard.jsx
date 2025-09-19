@@ -159,24 +159,29 @@ const ServiceCard = ({ service, title }) => {
   const customerId = userData?.id;
   const authAxios = getAuthAxios();
 
-  useEffect(() => {
-    const checkWishlistStatus = async () => {
-      if (!customerId || !service?._id) return;
+useEffect(() => {
+  const checkWishlistStatus = async () => {
+    if (!customerId || !service?._id) return;
 
-      try {
-        const response = await getAxios().get(`/wishlist/${customerId}`);
-        const wishlistItems = response.data.wishlist;
-        const isServiceInWishlist = wishlistItems.some(
-          (item) => item.serviceId._id === service._id
-        );
-        setIsInWishlist(isServiceInWishlist);
-      } catch (error) {
+    try {
+      const response = await getAxios().get(`/wishlist/${customerId}`);
+      const wishlistItems = response.data.wishlist || []; // ✅ fallback to []
+      const isServiceInWishlist = wishlistItems.some(
+        (item) => item.serviceId?._id === service._id
+      );
+      setIsInWishlist(isServiceInWishlist);
+    } catch (error) {
+      // Only log real errors (not empty list)
+      if (error.response?.status !== 404) {
         console.error("Error checking wishlist status:", error);
       }
-    };
+      setIsInWishlist(false);
+    }
+  };
 
-    checkWishlistStatus();
-  }, [customerId, service?._id]);
+  checkWishlistStatus();
+}, [customerId, service?._id]);
+
 
   const handleWishlist = async () => {
     if (!customerId) {

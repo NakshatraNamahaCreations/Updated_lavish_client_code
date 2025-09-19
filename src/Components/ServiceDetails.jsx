@@ -613,11 +613,22 @@ const ServiceDetails = () => {
       {/* SEO Metadata using Helmet */}
       {seoMeta && (
         <Helmet>
-          <title>{seoMeta.title}</title>
-          <meta name="description" content={seoMeta.description} />
-          {seoMeta.keywords && (
-            <meta name="keywords" content={seoMeta.keywords} />
-          )}
+          <title>
+            {seoMeta.title || `${serviceDetails?.serviceName} | Lavizeventzz`}
+          </title>
+          <meta
+            name="description"
+            content={
+              seoMeta.description ||
+              `Explore ${serviceDetails?.serviceName}services designed to make your events unforgettable. Add elegance, creativity and style to every celebration. Book Now!`
+            }
+          />
+
+          <meta
+            name="keywords"
+            content={seoMeta.keywords || serviceDetails?.serviceName}
+          />
+
           <link rel="canonical" href={window.location.href} />
           <script type="application/ld+json">
             {JSON.stringify({
@@ -929,7 +940,6 @@ const ServiceDetails = () => {
                 <a
                   href="tel:+919620558000"
                   className="linkColorBlack flex gap-2 items-center border border-blue-500 text-blue-500 rounded-full px-6 py-1 hover:bg-blue-500 hover:text-white"
-                
                 >
                   <img src={phone} className="w-6" alt="phone" />
                   Call us

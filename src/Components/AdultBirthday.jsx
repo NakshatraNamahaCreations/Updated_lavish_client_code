@@ -7,11 +7,19 @@ import cakes from "../assets/bday/add_ons/cakes.png";
 import FAQ from "./FAQ";
 import { Helmet } from "react-helmet-async";
 import Testimonials from "./Testimonials";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useLocation,
+  redirect,
+} from "react-router-dom";
 import { getAuthAxios, getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
-import Breadcrumb from "./Breadcrumb"; // adjust path if needed
+import Breadcrumb from "./Breadcrumb";
+import DynamicFaqs from "./DynamicFaqs";
+import ExpandableContent from "./ExpandableContent";
 
 const addOns = [
   {
@@ -41,6 +49,7 @@ const AdultBirthday = () => {
   const [allServices, setAllServices] = useState([]);
   const [recentPurchase, setRecentPurchase] = useState([]);
   const [serviceDetails, setServiceDetails] = useState([]);
+  const [subCategory, setSubCategory] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -48,6 +57,7 @@ const AdultBirthday = () => {
   const storedUser = localStorage.getItem("user");
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
+  const location = useLocation();
 
   const fetchRecentPurchase = async () => {
     try {
@@ -60,6 +70,21 @@ const AdultBirthday = () => {
       console.error("Error fetching recent purchase:", error);
     }
   };
+
+  useEffect(() => {
+    const fetchSubCategory = async () => {
+      try {
+        const res = await getAxios().get(
+          `/subcategories/by-name/${encodeURIComponent("Ring Ceremony")}`
+        );
+        setSubCategory(res.data.data); // ✅ note .data.data
+      } catch (err) {
+        console.error("API error:", err);
+      }
+    };
+
+    fetchSubCategory();
+  }, []);
 
   const fetchSubSubcategoriesBySubCategory = async () => {
     if (!subcat_id) return;
@@ -262,20 +287,31 @@ const AdultBirthday = () => {
         />
       </div>
 
-      <div className="grid grid-cols-2 md:gap-10 gap-3  place-items-center lg:my-10 my-5 ">
-        {subSubCategories.map((item, idx) => (
+      <div className="grid grid-cols-2 md:gap-10 gap-3 place-items-center lg:my-10 my-5 ">
+        {subSubCategories.map((item) => (
           <div className="relative" key={item._id}>
             <Link
               to={`/service/${item.subCategory.subCategory
                 .split(" ")
                 .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
                 .join("-")}/${item._id}`}
+              state={{
+                metaTitle: item.metaTitle,
+                metaDescription: item.metaDescription,
+                keywords: item.keywords,
+                caption: item.caption,
+                faqs: item.faqs,
+                subSubCategory: item.subSubCategory,
+                createdAt: item.createdAt,
+                updatedAt: item.updatedAt,
+                redirectUrl: "/adultbirthdaydecor/681b113eddb6b3f4663e78f9",
+              }}
               className="linkColorPink"
             >
               <img
-                src={`${item.image}`}
+                src={item.image}
                 alt={item.subSubCategory}
-                className="rounded-3xl "
+                className="rounded-3xl"
               />
             </Link>
           </div>
@@ -437,6 +473,20 @@ const AdultBirthday = () => {
           today and watch the magic unfold!
         </p>
       </div>
+      {subCategory?.caption && (
+        <div className="mt-5 p-5">
+          <ExpandableContent htmlContent={subCategory.caption} />
+        </div>
+      )}
+      {subCategory?.faqs?.length > 0 && (
+        <div className="max-w-3xl p-4 mx-auto">
+          <p className="text-center font-bold poppins text-2xl">FAQs</p>
+          <p className="text-center font-bold poppins text-sm pb-5">
+            Need help? Contact us for any queries related to us
+          </p>
+          <DynamicFaqs faqs={subCategory?.faqs} />
+        </div>
+      )}
     </div>
   );
 };

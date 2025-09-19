@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, redirect, useNavigate, useParams } from "react-router-dom";
 
 import sash from "../assets/services/sash.png";
 import cakes from "../assets/services/cakes.png";
@@ -10,6 +10,7 @@ import welcomeboard from "../assets/services/welcomeboard.png";
 import flwrbouqt from "../assets/services/flwrbouqt.png";
 import activity from "../assets/services/activity.png";
 import Breadcrumb from "./Breadcrumb";
+import DynamicFaqs from "./DynamicFaqs";
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
 import CardCarousel from "./CardCarousel";
@@ -17,6 +18,7 @@ import CardCarousel from "./CardCarousel";
 import { getAxios } from "../utils/api";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
 import { Helmet } from "react-helmet-async";
+import ExpandableContent from "./ExpandableContent";
 
 const addOns = [
   { src: sash, title: "Sash" },
@@ -34,6 +36,7 @@ const NamingCeremony = () => {
   const [simpleData, setSimpleData] = useState([]);
   const [subSubCategories, setSubSubCategories] = useState([]);
   const [serviceDetails, setServiceDetails] = useState([]);
+  const [subCategory, setSubCategory] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -43,6 +46,21 @@ const NamingCeremony = () => {
   const storedUser = localStorage.getItem("user");
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
+
+  useEffect(() => {
+    const fetchSubCategory = async () => {
+      try {
+        const res = await getAxios().get(
+          `/subcategories/by-name/${encodeURIComponent("Ring Ceremony")}`
+        );
+        setSubCategory(res.data.data); // ✅ note .data.data
+      } catch (err) {
+        console.error("API error:", err);
+      }
+    };
+
+    fetchSubCategory();
+  }, []);
 
   const fetchSubSubcategories = async () => {
     if (!subcat_id) return;
@@ -255,6 +273,18 @@ const NamingCeremony = () => {
                 .split(" ")
                 .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
                 .join("-")}/${item._id}`}
+              state={{
+                metaTitle: item.metaTitle,
+                metaDescription: item.metaDescription,
+                keywords: item.keywords,
+                caption: item.caption,
+                faqs: item.faqs,
+                subSubCategory: item.subSubCategory,
+                createdAt: item.createdAt,
+                updatedAt: item.updatedAt,
+                redirectUrl: "/namingceremonydecor/681b124bddb6b3f4663e7951",
+              }}
+              className="linkColorPink"
             >
               <img
                 src={`${item.image}`}
@@ -269,7 +299,12 @@ const NamingCeremony = () => {
         ))}
       </div>
 
-      <Link to={WhatsAppLink} target="_blank" rel="noopener noreferrer">
+      <Link
+        to={WhatsAppLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="linkColorPink"
+      >
         <div className="md:my-10 my-5 text-center">
           <img
             src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingceremonycake.png"
@@ -299,7 +334,7 @@ const NamingCeremony = () => {
                     .split(" ")
                     .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
                     .join("-")}/${simpleSub._id}`}
-                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800 linkColorPink"
                 >
                   View All
                 </Link>
@@ -332,7 +367,7 @@ const NamingCeremony = () => {
                     .split(" ")
                     .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
                     .join("-")}/${primumSub._id}`}
-                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800"
+                  className="text-purple-600 underline text-sm font-semibold hover:text-blue-800 linkColorPink"
                 >
                   View All
                 </Link>
@@ -481,6 +516,20 @@ const NamingCeremony = () => {
           of joy and elegance to this precious occasion.
         </p>
       </div>
+      {subCategory?.caption && (
+        <div className="mt-5 p-5">
+          <ExpandableContent htmlContent={subCategory.caption} />
+        </div>
+      )}
+      {subCategory?.faqs?.length > 0 && (
+        <div className="max-w-3xl p-4 mx-auto">
+          <p className="text-center font-bold poppins text-2xl">FAQs</p>
+          <p className="text-center font-bold poppins text-sm pb-5">
+            Need help? Contact us for any queries related to us
+          </p>
+          <DynamicFaqs faqs={subCategory?.faqs} />
+        </div>
+      )}
     </div>
   );
 };

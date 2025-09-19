@@ -7,15 +7,15 @@ import axios from "axios";
 import { getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
-import Breadcrumb from "./Breadcrumb"; // adjust path if needed
+import Breadcrumb from "./Breadcrumb";
+import DynamicFaqs from "./DynamicFaqs";
 import { Helmet } from "react-helmet-async";
 const Kidsbirthday = () => {
   const [subSubCategories, setSubSubCategories] = useState([]);
   const [allServices, setAllServices] = useState([]);
-
-  const navigate = useNavigate();
   const [recentPurchase, setRecentPurchase] = useState([]);
   const [serviceDetails, setServiceDetails] = useState([]);
+  const [subCategory, setSubCategory] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const { subcat_id } = useParams();
@@ -23,7 +23,23 @@ const Kidsbirthday = () => {
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
 
+  const navigate = useNavigate();
+
   console.log("subSubCategories", subSubCategories);
+  useEffect(() => {
+    const fetchSubCategory = async () => {
+      try {
+        const res = await getAxios().get(
+          `/subcategories/by-name/${encodeURIComponent("Ring Ceremony")}`
+        );
+        setSubCategory(res.data.data); // ✅ note .data.data
+      } catch (err) {
+        console.error("API error:", err);
+      }
+    };
+
+    fetchSubCategory();
+  }, []);
 
   const fetchRecentPurchase = async () => {
     try {
@@ -106,16 +122,41 @@ const Kidsbirthday = () => {
       if (hasThemes) {
         console.log("Navigating to themes page");
         // If themes exist, navigate to themes page
-        navigate(`/themes/${item._id}`);
+        navigate(`/themes/${item._id}`, {
+          state: {
+            metaTitle: item.metaTitle,
+            metaDescription: item.metaDescription,
+            keywords: item.keywords,
+            caption: item.caption,
+            faqs: item.faqs,
+            subSubCategory: item.subSubCategory,
+            createdAt: item.createdAt,
+            updatedAt: item.updatedAt,
+            modifiedSubcatTitle: "Kids Birthday Decor",
+            redirectUrl: `/themes/${item.subCategory._id}`,
+          },
+        });
       } else {
         console.log("No themes found, navigating to services");
-        // If no themes, navigate directly to services
-        // navigate(`/service/${subSubCategoryId}`);
-        navigate(`/service/${item.subCategory.subCategory
-                .split(" ")
-                .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
-                .join("-")}/${item._id}`)
-        // navigate(`/service/${item.subCategory.subCategory.replace(/\s+/g, "-")}/${item._id} `);
+
+        const subCatSlug = item.subCategory.subCategory
+          .toLowerCase()
+          .replace(/\s+/g, "-");
+
+        navigate(`/service/${subCatSlug}/${item._id}`, {
+          state: {
+            metaTitle: item.metaTitle,
+            metaDescription: item.metaDescription,
+            keywords: item.keywords,
+            caption: item.caption,
+            faqs: item.faqs,
+            subSubCategory: item.subSubCategory,
+            createdAt: item.createdAt,
+            updatedAt: item.updatedAt,
+            modifiedSubcatTitle: "Kids Birthday Decor",
+            redirectUrl: `/${subCatSlug}/${item.subCategory._id}`,
+          },
+        });
       }
     } catch (err) {
       console.error("Error in navigation:", err);
@@ -148,14 +189,14 @@ const Kidsbirthday = () => {
 
   const breadcrumbPaths = [
     { name: "Home", link: "/" },
-    { name: "Kids Birthday Decor", link: "/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4" },
+    {
+      name: "Kids Birthday Decor",
+      link: "/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4",
+    },
   ];
 
-
   return (
-
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
-
       <Helmet>
         {/* Meta Tags */}
         <title>Kids Birthday Decoration in Bangalore | Fun Theme Setups</title>
@@ -169,20 +210,44 @@ const Kidsbirthday = () => {
         />
 
         {/* Open Graph */}
-        <meta property="og:title" content="Kids Birthday Decoration in Bangalore | Fun Theme Setups" />
-        <meta property="og:description" content="Celebrate your child’s big day with exciting kids birthday decoration in Bangalore. Lavish Eventzz offers balloon arches, cartoon themes, games, and more." />
+        <meta
+          property="og:title"
+          content="Kids Birthday Decoration in Bangalore | Fun Theme Setups"
+        />
+        <meta
+          property="og:description"
+          content="Celebrate your child’s big day with exciting kids birthday decoration in Bangalore. Lavish Eventzz offers balloon arches, cartoon themes, games, and more."
+        />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4" />
-        <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/kidsbdayBanner1.png" />
+        <meta
+          property="og:url"
+          content="https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4"
+        />
+        <meta
+          property="og:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/kidsbdayBanner1.png"
+        />
         <meta property="og:site_name" content="Lavish Eventzz" />
         <meta property="og:locale" content="en_US" />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Kids Birthday Decoration in Bangalore | Fun Theme Setups" />
-        <meta name="twitter:description" content="Celebrate your child’s big day with exciting kids birthday decoration in Bangalore. Lavish Eventzz offers balloon arches, cartoon themes, games, and more." />
-        <meta name="twitter:url" content="https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4" />
-        <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/kidsbdayBanner1.png" />
+        <meta
+          name="twitter:title"
+          content="Kids Birthday Decoration in Bangalore | Fun Theme Setups"
+        />
+        <meta
+          name="twitter:description"
+          content="Celebrate your child’s big day with exciting kids birthday decoration in Bangalore. Lavish Eventzz offers balloon arches, cartoon themes, games, and more."
+        />
+        <meta
+          name="twitter:url"
+          content="https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4"
+        />
+        <meta
+          name="twitter:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/kidsbdayBanner1.png"
+        />
         <meta name="twitter:site" content="@LavishEvents25" />
 
         {/* Organization Schema */}
@@ -190,24 +255,24 @@ const Kidsbirthday = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "Lavish Eventzz",
-            "url": "https://www.lavisheventzz.com",
-            "logo": "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
-            "contactPoint": {
+            name: "Lavish Eventzz",
+            url: "https://www.lavisheventzz.com",
+            logo: "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+            contactPoint: {
               "@type": "ContactPoint",
-              "telephone": "+91-9620558000",
-              "contactType": "Customer Service",
-              "areaServed": "IN",
-              "availableLanguage": "English"
+              telephone: "+91-9620558000",
+              contactType: "Customer Service",
+              areaServed: "IN",
+              availableLanguage: "English",
             },
-            "sameAs": [
+            sameAs: [
               "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
               "https://x.com/LavishEvents25",
               "https://www.youtube.com/@LavishEventzz-2025",
               "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
               "https://www.instagram.com/lavisheventzz.com_/",
-              "https://www.instagram.com/lavisheventzz"
-            ]
+              "https://www.instagram.com/lavisheventzz",
+            ],
           })}
         </script>
 
@@ -216,20 +281,20 @@ const Kidsbirthday = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
-            "itemListElement": [
+            itemListElement: [
               {
                 "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://www.lavisheventzz.com"
+                position: 1,
+                name: "Home",
+                item: "https://www.lavisheventzz.com",
               },
               {
                 "@type": "ListItem",
-                "position": 2,
-                "name": "Kids Birthday Decor",
-                "item": "https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4"
-              }
-            ]
+                position: 2,
+                name: "Kids Birthday Decor",
+                item: "https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4",
+              },
+            ],
           })}
         </script>
 
@@ -238,9 +303,10 @@ const Kidsbirthday = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            "name": "Kids Birthday Decor",
-            "url": "https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4",
-            "description": "Celebrate your child’s big day with exciting kids birthday decoration in Bangalore. Lavish Eventzz offers balloon arches, cartoon themes, games, and more."
+            name: "Kids Birthday Decor",
+            url: "https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4",
+            description:
+              "Celebrate your child’s big day with exciting kids birthday decoration in Bangalore. Lavish Eventzz offers balloon arches, cartoon themes, games, and more.",
           })}
         </script>
       </Helmet>
@@ -281,7 +347,12 @@ const Kidsbirthday = () => {
         ))}
       </div>
 
-      <Link to={WhatsAppLink} target="_blank" rel="noopener noreferrer" className="linkColorPink">
+      <Link
+        to={WhatsAppLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="linkColorPink"
+      >
         <div className="">
           <img
             src="https://lavisheventzz-bangalore.b-cdn.net/KidsBirthday/kidscake.png"
@@ -427,6 +498,15 @@ const Kidsbirthday = () => {
           today and watch the magic unfold!
         </p>
       </div>
+      {subCategory?.faqs?.length > 0 && (
+        <div className="max-w-3xl p-4 mx-auto">
+          <p className="text-center font-bold poppins text-2xl">FAQs</p>
+          <p className="text-center font-bold poppins text-sm pb-5">
+            Need help? Contact us for any queries related to us
+          </p>
+          <DynamicFaqs faqs={subCategory?.faqs} />
+        </div>
+      )}
     </div>
   );
 };

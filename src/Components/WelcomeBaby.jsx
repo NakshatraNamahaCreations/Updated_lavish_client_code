@@ -7,13 +7,15 @@ import photography from "../assets/bday/add_ons/photography.png";
 import cakes from "../assets/bday/add_ons/cakes.png";
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, redirect, useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { getAuthAxios, getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import { MdArrowRightAlt } from "react-icons/md";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
-import Breadcrumb from "./Breadcrumb"; // adjust path if needed
+import Breadcrumb from "./Breadcrumb";
+import DynamicFaqs from "./DynamicFaqs";
+import ExpandableContent from "./ExpandableContent";
 
 const addOns = [
   {
@@ -43,6 +45,7 @@ const WelcomeBaby = () => {
   const [allServices, setAllServices] = useState([]);
   const [recentPurchase, setRecentPurchase] = useState([]);
   const [serviceDetails, setServiceDetails] = useState([]);
+  const [subCategory, setSubCategory] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const { subcat_id } = useParams();
@@ -50,6 +53,21 @@ const WelcomeBaby = () => {
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchSubCategory = async () => {
+      try {
+        const res = await getAxios().get(
+          `/subcategories/by-name/${encodeURIComponent("Ring Ceremony")}`
+        );
+        setSubCategory(res.data.data); // ✅ note .data.data
+      } catch (err) {
+        console.error("API error:", err);
+      }
+    };
+
+    fetchSubCategory();
+  }, []);
 
   const fetchRecentPurchase = async () => {
     try {
@@ -271,6 +289,18 @@ const WelcomeBaby = () => {
                 .split(" ")
                 .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
                 .join("-")}/${item._id}`}
+              state={{
+                metaTitle: item.metaTitle,
+                metaDescription: item.metaDescription,
+                keywords: item.keywords,
+                caption: item.caption,
+                faqs: item.faqs,
+                subSubCategory: item.subSubCategory,
+                createdAt: item.createdAt,
+                updatedAt: item.updatedAt,
+                redirectUrl: "/welcomebabydecor/681b1240ddb6b3f4663e794c",
+              }}
+              className="linkColorPink"
             >
               <img
                 src={`${item.image}`}
@@ -283,7 +313,12 @@ const WelcomeBaby = () => {
             </p>
           </div>
         ))}
-        <Link to={WhatsAppLink} target="_blank" className="linkColorPink" rel="noopener noreferrer">
+        <Link
+          to={WhatsAppLink}
+          target="_blank"
+          className="linkColorPink"
+          rel="noopener noreferrer"
+        >
           <div className="relative">
             <img
               src="https://lavisheventzz-bangalore.b-cdn.net/WelcomeBaby/welcomebabyCake.png"
@@ -447,6 +482,20 @@ const WelcomeBaby = () => {
           balloon décor today and make the celebration truly unforgettable!
         </p>
       </div>
+      {subCategory?.caption && (
+        <div className="mt-5 p-5">
+          <ExpandableContent htmlContent={subCategory.caption} />
+        </div>
+      )}
+      {subCategory?.faqs?.length > 0 && (
+        <div className="max-w-3xl p-4 mx-auto">
+          <p className="text-center font-bold poppins text-2xl">FAQs</p>
+          <p className="text-center font-bold poppins text-sm pb-5">
+            Need help? Contact us for any queries related to us
+          </p>
+          <DynamicFaqs faqs={subCategory?.faqs} />
+        </div>
+      )}
     </div>
   );
 };

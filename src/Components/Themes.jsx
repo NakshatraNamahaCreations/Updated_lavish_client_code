@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { getAuthAxios } from "../utils/api";
+import Breadcrumb from "./Breadcrumb";
+import ExpandableContent from "./ExpandableContent";
+import DynamicFaqs from "./DynamicFaqs";
 
 const ShimmerCard = () => {
   return (
@@ -19,49 +22,50 @@ const ShimmerCard = () => {
 
 const Themes = () => {
   const [themes, setThemes] = useState([]);
-  const [subSubCategory, setSubSubCategory] = useState(null);
+  const [subSubCategoryData, setSubSubCategoryData] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const { subSubCategoryId } = useParams();
   const navigate = useNavigate();
-
-  const fetchThemes = async () => {
-    try {
-      const res = await getAuthAxios().get(
-        `themes/subsubcategory/${subSubCategoryId}`
-      );
-      if (res.data.data && res.data.data.length > 0) {
-        setThemes(res.data.data);
-        console.log("themes", res.data.data);
-      }
-    } catch (err) {
-      setError("Failed to load themes");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchSubSubCategory = async () => {
-    try {
-      const res = await getAuthAxios().get(
-        `subsubcategories/${subSubCategoryId}`
-      );
-      if (res.data.data) {
-        setSubSubCategory(res.data.data);
-      } else {
-        setError("Failed to load category details");
-      }
-    } catch (err) {
-      setError("Failed to load category details");
-    }
-  };
+  const location = useLocation();
+  const { subSubCategory, redirectUrl, modifiedSubcatTitle } =
+    location.state || {};
 
   useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      await Promise.all([fetchThemes(), fetchSubSubCategory()]);
+    const fetchSubSubCategory = async () => {
+      try {
+        const res = await getAuthAxios().get(
+          `subsubcategories/${subSubCategoryId}`
+        );
+        if (res.data.data) {
+          setSubSubCategoryData(res.data.data);
+          console.log("subSubCategory from API", res.data.data);
+        } else {
+          setError("Failed to load category details");
+        }
+      } catch (err) {
+        setError("Failed to load category details");
+      }
     };
-    loadData();
+
+    const fetchThemes = async () => {
+      try {
+        const res = await getAuthAxios().get(
+          `themes/subsubcategory/${subSubCategoryId}`
+        );
+        if (res.data.data && res.data.data.length > 0) {
+          setThemes(res.data.data);
+          console.log("themes", res.data.data);
+        }
+      } catch (err) {
+        setError("Failed to load themes");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSubSubCategory();
+    fetchThemes();
   }, [subSubCategoryId]);
 
   const handleThemeClick = (item) => {
@@ -72,9 +76,26 @@ const Themes = () => {
       //   "-"
       // )}/${item._id}`
       `/service/${item.subSubCategory.subCategory.subCategory
-                .split(" ")
-                .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
-                .join("-")}/${item._id}`
+        .split(" ")
+        .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+        .join("-")}/${item._id}`,
+      {
+        state: {
+          metaTitle: item.metaTitle,
+          metaDescription: item.metaDescription,
+          keywords: item.keywords,
+          caption: item.caption,
+          faqs: item.faqs,
+          subSubCategory: item.subSubCategory.subSubCategory, // ✅ use the name, not the object
+          createdAt: item.createdAt,
+          updatedAt: item.updatedAt,
+          modifiedSubcatTitle: "Kids Birthday Decor",
+          theme: item.theme,
+
+          subCatredirectUrl: `/themes/${subSubCategoryId}`,
+          redirectUrl: "/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4",
+        },
+      }
     );
   };
 
@@ -92,6 +113,19 @@ const Themes = () => {
     return "Category";
   };
 
+  // ✅ Deduplicate breadcrumb names
+  const breadcrumbPaths = [
+    { name: "Home", link: "/" },
+    {
+      name: modifiedSubcatTitle,
+      link: `/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4`,
+    },
+
+    {
+      name: subSubCategory,
+      link: redirectUrl,
+    },
+  ];
   if (loading) {
     return (
       <div className="mt-32 px-20 ">
@@ -106,38 +140,57 @@ const Themes = () => {
   }
 
   return (
-    <div className="pt-32 md:pt-20 lg:py-24 px-4 sm:px-6 md:px-10 lg:px-20">
-      <h1 className="text-2xl sm:text-3xl text-primary font-bold my-5 text-center md:text-left">
-        {getCategoryName()} Themes
-      </h1>
+    <div className="pt-32 md:pt-20 lg:py-24">
+      <Breadcrumb paths={breadcrumbPaths} />
+      <div className="  px-4 sm:px-6 md:px-10 lg:px-20">
+        <h1 className="text-2xl sm:text-3xl text-primary font-bold my-5 text-center md:text-left">
+          {getCategoryName()} Themes
+        </h1>
 
-      {error && themes.length === 0 && (
-        <div className="text-red-500 text-center mb-4">{error}</div>
-      )}
+        {error && themes.length === 0 && (
+          <div className="text-red-500 text-center mb-4">{error}</div>
+        )}
 
-      {themes.length === 0 && !error && (
-        <div className="text-center text-gray-600 mb-4">
-          No themes available for this category.
-        </div>
-      )}
-
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-16 mt-10">
-        {themes.map((theme) => (
-          <div
-            key={theme._id}
-            onClick={() => handleThemeClick(theme)}
-            className="cursor-pointer hover:shadow-lg transition-shadow duration-300"
-          >
-            <img
-              src={theme.image}
-              alt={theme.theme}
-              className="w-full h-48 sm:h-52 md:h-60 lg:h-64 object-cover rounded-2xl"
-            />
-            <p className="text-black pt-3 text-center text-lg sm:text-xl md:text-2xl font-bold">
-              {theme.theme}
-            </p>
+        {themes.length === 0 && !error && (
+          <div className="text-center text-gray-600 mb-4">
+            No themes available for this category.
           </div>
-        ))}
+        )}
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-16 mt-10">
+          {themes.map((theme) => (
+            <div
+              key={theme._id}
+              onClick={() => handleThemeClick(theme)}
+              className="cursor-pointer hover:shadow-lg transition-shadow duration-300"
+            >
+              <img
+                src={theme.image}
+                alt={theme.theme}
+                className="w-full h-48 sm:h-52 md:h-60 lg:h-64 object-cover rounded-2xl"
+              />
+              <p className="text-black pt-3 text-center text-lg sm:text-xl md:text-2xl font-bold">
+                {theme.theme}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {caption && (
+          <div className="mt-5 p-5">
+            <ExpandableContent htmlContent={caption} />
+          </div>
+        )}
+
+        {faqs?.length > 0 && (
+          <div className="max-w-3xl p-4 mx-auto">
+            <p className="text-center font-bold poppins text-2xl">FAQs</p>
+            <p className="text-center font-bold poppins text-sm pb-5">
+              Need help? Contact us for any queries related to us
+            </p>
+            <DynamicFaqs faqs={faqs} />
+          </div>
+        )}
       </div>
     </div>
   );

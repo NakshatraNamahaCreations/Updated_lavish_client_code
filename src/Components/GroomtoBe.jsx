@@ -9,13 +9,15 @@ import flwrbouqt from "../assets/services/flwrbouqt.png";
 import activity from "../assets/services/activity.png";
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, redirect, useNavigate, useParams } from "react-router-dom";
 import Breadcrumb from "./Breadcrumb"; // adjust path if needed
 import { getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import axios from "axios";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
 import { Helmet } from "react-helmet-async";
+import DynamicFaqs from "./DynamicFaqs";
+import ExpandableContent from "./ExpandableContent";
 
 const addOns = [
   {
@@ -60,6 +62,7 @@ const GroomtoBe = () => {
   const [loading, setLoading] = useState(true);
   const [recentPurchase, setRecentPurchase] = useState([]);
   const [serviceDetails, setServiceDetails] = useState([]);
+  const [subCategory, setSubCategory] = useState(null);
   const { subcat_id } = useParams();
   const storedUser = localStorage.getItem("user");
   const userData = JSON.parse(storedUser);
@@ -97,6 +100,21 @@ const GroomtoBe = () => {
       setError("Failed to load subcategories");
     }
   };
+
+  useEffect(() => {
+    const fetchSubCategory = async () => {
+      try {
+        const res = await getAxios().get(
+          `/subcategories/by-name/${encodeURIComponent("Groom To Be")}`
+        );
+        setSubCategory(res.data.data); // ✅ note .data.data
+      } catch (err) {
+        console.error("API error:", err);
+      }
+    };
+
+    fetchSubCategory();
+  }, []);
 
   const fetchServices = async () => {
     try {
@@ -303,6 +321,17 @@ const GroomtoBe = () => {
                 .split(" ")
                 .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
                 .join("-")}/${item._id}`}
+              state={{
+                metaTitle: item.metaTitle,
+                metaDescription: item.metaDescription,
+                keywords: item.keywords,
+                caption: item.caption,
+                faqs: item.faqs,
+                subSubCategory: item.subSubCategory,
+                createdAt: item.createdAt,
+                updatedAt: item.updatedAt,
+                redirectUrl: "/groomtobedecor/681b10abddb6b3f4663e78d1",
+              }}
               className="linkColorPink"
             >
               <img
@@ -364,7 +393,7 @@ const GroomtoBe = () => {
               );
               return primumSub ? (
                 <Link
-                 to={`/service/${primumSub.subCategory.subCategory
+                  to={`/service/${primumSub.subCategory.subCategory
                     .split(" ")
                     .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
                     .join("-")}/${primumSub._id}`}
@@ -512,6 +541,21 @@ const GroomtoBe = () => {
           extraordinary!
         </p>
       </div>
+
+      {subCategory?.caption && (
+        <div className="mt-5 p-5">
+          <ExpandableContent htmlContent={subCategory.caption} />
+        </div>
+      )}
+      {subCategory?.faqs?.length > 0 && (
+        <div className="max-w-3xl p-4 mx-auto">
+          <p className="text-center font-bold poppins text-2xl">FAQs</p>
+          <p className="text-center font-bold poppins text-sm pb-5">
+            Need help? Contact us for any queries related to us
+          </p>
+          <DynamicFaqs faqs={subCategory?.faqs} />
+        </div>
+      )}
     </div>
   );
 };

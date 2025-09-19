@@ -9,6 +9,7 @@ import welcomeboard from "../assets/services/welcomeboard.png";
 import flwrbouqt from "../assets/services/flwrbouqt.png";
 import activity from "../assets/services/activity.png";
 import Breadcrumb from "./Breadcrumb"; // adjust path if needed
+import DynamicFaqs from "./DynamicFaqs";
 import { Helmet } from "react-helmet-async";
 import FAQ from "./FAQ";
 import Testimonials from "./Testimonials";
@@ -16,6 +17,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAuthAxios, getAxios } from "../utils/api";
 import CardCarousel from "./CardCarousel";
 import { navigateToSubcategory } from "../utils/navigationsUtils";
+import ExpandableContent from "./ExpandableContent";
 
 const addOns = [
   {
@@ -58,6 +60,7 @@ const BabyShower = () => {
   const [subSubCategories, setSubSubCategories] = useState([]);
   const [recentPurchase, setRecentPurchase] = useState([]);
   const [serviceDetails, setServiceDetails] = useState([]);
+    const [subCategory, setSubCategory] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const { subcat_id } = useParams();
@@ -65,6 +68,21 @@ const BabyShower = () => {
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
   const navigate = useNavigate();
+
+    useEffect(() => {
+      const fetchSubCategory = async () => {
+        try {
+          const res = await getAxios().get(
+            `/subcategories/by-name/${encodeURIComponent("Ring Ceremony")}`
+          );
+          setSubCategory(res.data.data); // ✅ note .data.data
+        } catch (err) {
+          console.error("API error:", err);
+        }
+      };
+  
+      fetchSubCategory();
+    }, []);
 
   const fetchRecentPurchase = async () => {
     try {
@@ -309,8 +327,18 @@ const BabyShower = () => {
                   .split(" ")
                   .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
                   .join("-")}/${item._id}`}
-
-                  className="linkColorPink"
+                state={{
+                  metaTitle: item.metaTitle,
+                  metaDescription: item.metaDescription,
+                  keywords: item.keywords,
+                  caption: item.caption,
+                  faqs: item.faqs,
+                  subSubCategory: item.subSubCategory,
+                  createdAt: item.createdAt,
+                  updatedAt: item.updatedAt,
+                  redirectUrl: "/babyshowerdecor/681b1146ddb6b3f4663e78fe",
+                }}
+                className="linkColorPink"
               >
                 <img
                   src={`${item?.image}`}
@@ -325,7 +353,12 @@ const BabyShower = () => {
           );
         })}
       </div>
-      <Link to={WhatsAppLink} className="linkColorPink" target="_blank" rel="noopener noreferrer">
+      <Link
+        to={WhatsAppLink}
+        className="linkColorPink"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <div className="md:my-10 my-4">
           <img
             src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/babyshowerdecor3.png"
@@ -351,11 +384,10 @@ const BabyShower = () => {
               );
               return simpleSub ? (
                 <Link
-                to={`/service/${simpleSub.subCategory.subCategory
+                  to={`/service/${simpleSub.subCategory.subCategory
                     .split(" ")
                     .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
                     .join("-")}/${simpleSub._id}`}
-
                   className="linkColorPink text-purple-600 underline text-sm font-semibold hover:text-blue-800"
                 >
                   View All
@@ -537,6 +569,22 @@ const BabyShower = () => {
           décor today and make the day truly unforgettable!
         </p>
       </div>
+
+      {subCategory?.caption && (
+        <div className="mt-5 p-5">
+          <ExpandableContent htmlContent={subCategory.caption} />
+        </div>
+      )}
+       {subCategory?.faqs?.length > 0 && (
+        <div className="max-w-3xl p-4 mx-auto">
+          <p className="text-center font-bold poppins text-2xl">FAQs</p>
+          <p className="text-center font-bold poppins text-sm pb-5">
+            Need help? Contact us for any queries related to us
+          </p>
+          <DynamicFaqs faqs={subCategory?.faqs} />
+        </div>
+      )}
+
     </div>
   );
 };

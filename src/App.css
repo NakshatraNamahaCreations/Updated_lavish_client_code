@@ -237,3 +237,12 @@ a{
     color: #fff !important;
     text-decoration: none !important;
 }
+
+
+/* Clamp to 7 lines */
+.clamp-7 {
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
