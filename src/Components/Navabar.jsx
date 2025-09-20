@@ -122,8 +122,12 @@ const Navbar = () => {
   };
 
   // Toggle category open/close
-  const handleCategory = (catId) => {
-    setOpenCategory(openCategory === catId ? null : catId);
+  // const handleCategory = (catId) => {
+  //   setOpenCategory(openCategory === catId ? null : catId);
+  // };
+
+    const handleCategory = (catId) => {
+    setOpenCategory(catId);
   };
 
   // Reset dropdown, category, and mobile menu
@@ -147,6 +151,18 @@ const Navbar = () => {
       setMobileMenu(!mobileMenu);
     }
   };
+
+  // Lock body scroll when mobile dropdown/menu is open
+  useEffect(() => {
+    if (openDropdown || mobileMenu) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [openDropdown, mobileMenu]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -465,9 +481,10 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="lg:hidden absolute top-[90px] left-0 text-base cursor-pointer bg-white shadow-md z-40 w-full h-screen bg-black/40"
+            className="lg:hidden absolute top-[90px] left-0 text-base cursor-pointer z-40 w-full h-screen bg-black/40"
           >
-            <div className="flex flex-col items-start gap-2 bg-white p-5">
+            {/* White dropdown panel */}
+            <div className="flex flex-col items-start gap-2 bg-white p-5 overflow-y-auto max-h-[90vh] w-full">
               {categories.map((category) => (
                 <div key={category._id} className="w-full">
                   <p
@@ -488,7 +505,7 @@ const Navbar = () => {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        className="overflow-hidden"
+                        className="overflow-y-auto max-h-[50vh] pr-2"
                       >
                         <ul className="py-4 pl-4 text-[#504B53]">
                           {subCategories.map((item) => {
@@ -503,7 +520,6 @@ const Navbar = () => {
                             const isWhatsappLinkMobile =
                               whatsappSubCategories.includes(item.subCategory);
 
-                            // Apply special links if matched
                             if (item.subCategory.includes("Ring Ceremony")) {
                               linkPath = `/ringceremonydecor/${item._id}`;
                             } else if (
@@ -580,7 +596,7 @@ const Navbar = () => {
                 </div>
               ))}
             </div>
-
+            {/* Images section */}
             <motion.div
               key={openCategory}
               initial={{ opacity: 0, y: -10 }}

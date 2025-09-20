@@ -4,6 +4,7 @@ import axios from "axios";
 import { API_BASE_URL, getAuthAxios } from "../utils/api";
 import Breadcrumb from "./Breadcrumb";
 import { Helmet } from "react-helmet-async";
+import DynamicFaqs from "./DynamicFaqs";
 
 const BlogShimmer = () => {
   return (
@@ -48,6 +49,7 @@ const BlogDetails = () => {
       try {
         const res = await axios.get(`${API_BASE_URL}/blog/title/${title}`);
         setBlog(res.data.data);
+
         console.log("blog data", res.data.data);
       } catch (err) {
         console.error("Failed to fetch blog:", err.message);
@@ -208,29 +210,39 @@ const BlogDetails = () => {
         </script>
       </Helmet>
       <div className="md:grid grid-cols-7 gap-4 ">
-      <div className="col-span-5">
-        <Breadcrumb paths={breadcrumbPaths} />
-        {/* Blog Content (Page scrolls normally) */}
-        <div className="flex-1 md:px-10 px-4">
-          {blog ? (
-            <div>
-              <h1 className="text-4xl font-bold text-[#FF4286] mb-4">
-                {alterTitle}
-              </h1>
-              <img
-                src={blog.bannerImage}
-                alt={blog.title}
-                className="w-full h-auto object-cover rounded-lg shadow mb-6"
-              />
-              <div
-                className="prose max-w-full text-gray-700"
-                dangerouslySetInnerHTML={{ __html: blog.description }}
-              ></div>
+        <div className="col-span-5">
+          <Breadcrumb paths={breadcrumbPaths} />
+          {/* Blog Content (Page scrolls normally) */}
+          <div className="flex-1 md:px-10 px-4">
+            {blog ? (
+              <div>
+                <h1 className="text-4xl font-bold text-[#FF4286] mb-4">
+                  {alterTitle}
+                </h1>
+                <img
+                  src={blog.bannerImage}
+                  alt={blog.title}
+                  className="w-full h-auto object-cover rounded-lg shadow mb-6"
+                />
+                <div
+                  className="prose max-w-full text-gray-700"
+                  dangerouslySetInnerHTML={{ __html: blog.description }}
+                ></div>
+              </div>
+            ) : (
+              <BlogShimmer />
+            )}
+          </div>
+
+          {blog?.faqs.length > 0 && (
+            <div className="max-w-3xl p-4 mx-auto">
+              <p className="text-center font-bold poppins text-2xl">FAQs</p>
+              <p className="text-center font-bold poppins text-sm pb-5">
+                Need help? Contact us for any queries related to us
+              </p>
+              <DynamicFaqs faqs={blog.faqs} />
             </div>
-          ) : (
-            <BlogShimmer />
           )}
-        </div>
         </div>
 
         {/* Sticky Contact Form */}
@@ -304,82 +316,10 @@ const BlogDetails = () => {
           </div>
         </div>
       </div>
+
       <div ref={footerRef} className="footer" />
     </div>
   );
 };
 
 export default BlogDetails;
-
-// <div className="flex flex-col md:flex-row max-w-7xl mx-auto mt-4 gap-8">
-//   {/* Sticky Contact Form */}
-//   <div className="md:block flex w-full md:w-[350px] ">
-//     <div className="md:fixed md:top-[100px] bg-white border border-gray-200 rounded-lg shadow-lg p-6 md:p-8 w-full md:w-[350px]">
-//       <h2 className="text-xl font-semibold text-[#6a1b9a] mb-4">
-//         Contact Us
-//       </h2>
-//       <form className="space-y-4" onSubmit={handleSubmit}>
-//         <input
-//           type="text"
-//           name="name"
-//           placeholder="Name*"
-//           className="w-full border-b border-black focus:outline-none py-2 placeholder-gray-500"
-//           required
-//           value={formData.name}
-//           onChange={handleChange}
-//         />
-//         <input
-//           type="tel"
-//           name="phone"
-//           placeholder="Phone*"
-//           className="w-full border-b border-black focus:outline-none py-2 placeholder-gray-500"
-//           required
-//           value={formData.phone}
-//           onChange={handleChange}
-//         />
-//         <input
-//           type="email"
-//           name="email"
-//           placeholder="Email*"
-//           className="w-full border-b border-black focus:outline-none py-2 placeholder-gray-500"
-//           required
-//           value={formData.email}
-//           onChange={handleChange}
-//         />
-//         <input
-//           type="text"
-//           name="service"
-//           placeholder="Services you want"
-//           className="w-full border-b border-black focus:outline-none py-2 placeholder-gray-500"
-//           value={formData.service}
-//           onChange={handleChange}
-//         />
-//         <textarea
-//           name="message"
-//           placeholder="Message"
-//           className="w-full border-b border-black focus:outline-none py-2 placeholder-gray-500"
-//           rows={3}
-//           value={formData.message}
-//           onChange={handleChange}
-//         ></textarea>
-
-//         <button
-//           type="submit"
-//           className="w-full bg-[#FF4286] hover:bg-[#e91e63] text-white py-2 px-4 rounded"
-//         >
-//           Submit
-//         </button>
-
-//         {status.message && (
-//           <p
-//             className={`text-sm ${
-//               status.success ? "text-green-600" : "text-red-500"
-//             }`}
-//           >
-//             {status.message}
-//           </p>
-//         )}
-//       </form>
-//     </div>
-//   </div>
-// </div>

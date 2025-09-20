@@ -53,7 +53,7 @@ const NamingCeremony = () => {
         const res = await getAxios().get(
           `/subcategories/by-name/${encodeURIComponent("Ring Ceremony")}`
         );
-        setSubCategory(res.data.data); // ✅ note .data.data
+        setSubCategory(res.data.data); 
       } catch (err) {
         console.error("API error:", err);
       }
@@ -273,17 +273,7 @@ const NamingCeremony = () => {
                 .split(" ")
                 .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
                 .join("-")}/${item._id}`}
-              state={{
-                metaTitle: item.metaTitle,
-                metaDescription: item.metaDescription,
-                keywords: item.keywords,
-                caption: item.caption,
-                faqs: item.faqs,
-                subSubCategory: item.subSubCategory,
-                createdAt: item.createdAt,
-                updatedAt: item.updatedAt,
-                redirectUrl: "/namingceremonydecor/681b124bddb6b3f4663e7951",
-              }}
+            
               className="linkColorPink"
             >
               <img
@@ -517,7 +507,7 @@ const NamingCeremony = () => {
         </p>
       </div>
       {subCategory?.caption && (
-        <div className="mt-5 p-5">
+        <div className="mt-5 p-5 md:px-10 px-4">
           <ExpandableContent htmlContent={subCategory.caption} />
         </div>
       )}

@@ -295,17 +295,6 @@ const AdultBirthday = () => {
                 .split(" ")
                 .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
                 .join("-")}/${item._id}`}
-              state={{
-                metaTitle: item.metaTitle,
-                metaDescription: item.metaDescription,
-                keywords: item.keywords,
-                caption: item.caption,
-                faqs: item.faqs,
-                subSubCategory: item.subSubCategory,
-                createdAt: item.createdAt,
-                updatedAt: item.updatedAt,
-                redirectUrl: "/adultbirthdaydecor/681b113eddb6b3f4663e78f9",
-              }}
               className="linkColorPink"
             >
               <img
@@ -474,7 +463,7 @@ const AdultBirthday = () => {
         </p>
       </div>
       {subCategory?.caption && (
-        <div className="mt-5 p-5">
+        <div className="mt-5 p-5 md:px-10 px-4">
           <ExpandableContent htmlContent={subCategory.caption} />
         </div>
       )}

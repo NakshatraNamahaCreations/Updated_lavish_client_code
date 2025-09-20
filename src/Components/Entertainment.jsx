@@ -70,8 +70,10 @@ const imagelist = [
 ];
 
 const handleWhatsappRedirect = (activity) => {
-  const message = encodeURIComponent(`Hi, I'm interested in the ${activity} entertainment activity. Please provide more details.`);
-  window.open(`https://wa.me/919620558000?text=${message}`, '_blank');
+  const message = encodeURIComponent(
+    `Hi, I'm interested in the ${activity} entertainment activity. Please provide more details.`
+  );
+  window.open(`https://wa.me/919620558000?text=${message}`, "_blank");
 };
 
 const Entertainment = () => {
@@ -79,11 +81,27 @@ const Entertainment = () => {
   const [serviceDetails, setServiceDetails] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [subCategory, setSubCategory] = useState(null);
   const navigate = useNavigate();
 
   const storedUser = localStorage.getItem("user");
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
+
+  useEffect(() => {
+    const fetchSubCategory = async () => {
+      try {
+        const res = await getAxios().get(
+          `/subcategories/by-name/${encodeURIComponent("Groom To Be")}`
+        );
+        setSubCategory(res.data.data); 
+      } catch (err) {
+        console.error("API error:", err);
+      }
+    };
+
+    fetchSubCategory();
+  }, []);
 
   const fetchRecentPurchase = async () => {
     try {
@@ -116,18 +134,21 @@ const Entertainment = () => {
     fetchRecentPurchase();
   }, [customerId]);
 
-const breadcrumbPaths = [
-  { name: "Home", link: "/" },
-  { name: "Entertainment Decoration", link: "/entertainmentdecor/681b1238ddb6b3f4663e7947" },
-];
+  const breadcrumbPaths = [
+    { name: "Home", link: "/" },
+    {
+      name: "Entertainment Decoration",
+      link: "/entertainmentdecor/681b1238ddb6b3f4663e7947",
+    },
+  ];
 
   return (
     <div className="lg:py-24 md:pt-20 pt-32  p-3  mx-auto">
-
-
       <Helmet>
         {/* Meta Tags */}
-        <title>Entertainment Decoration in Bangalore | Stage & Show Setup</title>
+        <title>
+          Entertainment Decoration in Bangalore | Stage & Show Setup
+        </title>
         <meta
           name="description"
           content="Light up your events with entertainment decoration in Bangalore by Lavish Eventzz. Stage decor, live show setups, LED walls, DJ zones, and vibrant ambiance."
@@ -138,20 +159,44 @@ const breadcrumbPaths = [
         />
 
         {/* Open Graph Tags */}
-        <meta property="og:title" content="Entertainment Decoration in Bangalore | Stage & Show Setup" />
-        <meta property="og:description" content="Light up your events with entertainment decoration in Bangalore by Lavish Eventzz. Stage decor, live show setups, LED walls, DJ zones, and vibrant ambiance." />
+        <meta
+          property="og:title"
+          content="Entertainment Decoration in Bangalore | Stage & Show Setup"
+        />
+        <meta
+          property="og:description"
+          content="Light up your events with entertainment decoration in Bangalore by Lavish Eventzz. Stage decor, live show setups, LED walls, DJ zones, and vibrant ambiance."
+        />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.lavisheventzz.com/entertainmentdecor/681b1238ddb6b3f4663e7947" />
-        <meta property="og:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/entertainmentBanner.png" />
+        <meta
+          property="og:url"
+          content="https://www.lavisheventzz.com/entertainmentdecor/681b1238ddb6b3f4663e7947"
+        />
+        <meta
+          property="og:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/entertainmentBanner.png"
+        />
         <meta property="og:site_name" content="Lavish Eventzz" />
         <meta property="og:locale" content="en_US" />
 
         {/* Twitter Card Tags */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Entertainment Decoration in Bangalore | Stage & Show Setup" />
-        <meta name="twitter:description" content="Light up your events with entertainment decoration in Bangalore by Lavish Eventzz. Stage decor, live show setups, LED walls, DJ zones, and vibrant ambiance." />
-        <meta name="twitter:url" content="https://www.lavisheventzz.com/entertainmentdecor/681b1238ddb6b3f4663e7947" />
-        <meta name="twitter:image" content="https://lavisheventzz-bangalore.b-cdn.net/banner/entertainmentBanner.png" />
+        <meta
+          name="twitter:title"
+          content="Entertainment Decoration in Bangalore | Stage & Show Setup"
+        />
+        <meta
+          name="twitter:description"
+          content="Light up your events with entertainment decoration in Bangalore by Lavish Eventzz. Stage decor, live show setups, LED walls, DJ zones, and vibrant ambiance."
+        />
+        <meta
+          name="twitter:url"
+          content="https://www.lavisheventzz.com/entertainmentdecor/681b1238ddb6b3f4663e7947"
+        />
+        <meta
+          name="twitter:image"
+          content="https://lavisheventzz-bangalore.b-cdn.net/banner/entertainmentBanner.png"
+        />
         <meta name="twitter:site" content="@LavishEvents25" />
 
         {/* Organization Schema */}
@@ -159,24 +204,24 @@ const breadcrumbPaths = [
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "Lavish Eventzz",
-            "url": "https://www.lavisheventzz.com",
-            "logo": "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
-            "contactPoint": {
+            name: "Lavish Eventzz",
+            url: "https://www.lavisheventzz.com",
+            logo: "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
+            contactPoint: {
               "@type": "ContactPoint",
-              "telephone": "+91-9620558000",
-              "contactType": "Customer Service",
-              "areaServed": "IN",
-              "availableLanguage": "English"
+              telephone: "+91-9620558000",
+              contactType: "Customer Service",
+              areaServed: "IN",
+              availableLanguage: "English",
             },
-            "sameAs": [
+            sameAs: [
               "https://www.facebook.com/people/Lavish-Eventzz/61577120475321/",
               "https://x.com/LavishEvents25",
               "https://www.youtube.com/@LavishEventzz-2025",
               "https://www.linkedin.com/in/lavish-eventzz-917b43366/",
               "https://www.instagram.com/lavisheventzz.com_/",
-              "https://www.instagram.com/lavisheventzz"
-            ]
+              "https://www.instagram.com/lavisheventzz",
+            ],
           })}
         </script>
 
@@ -185,20 +230,20 @@ const breadcrumbPaths = [
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
-            "itemListElement": [
+            itemListElement: [
               {
                 "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://www.lavisheventzz.com"
+                position: 1,
+                name: "Home",
+                item: "https://www.lavisheventzz.com",
               },
               {
                 "@type": "ListItem",
-                "position": 2,
-                "name": "Entertainment Decoration",
-                "item": "https://www.lavisheventzz.com/entertainmentdecor/681b1238ddb6b3f4663e7947"
-              }
-            ]
+                position: 2,
+                name: "Entertainment Decoration",
+                item: "https://www.lavisheventzz.com/entertainmentdecor/681b1238ddb6b3f4663e7947",
+              },
+            ],
           })}
         </script>
 
@@ -207,13 +252,14 @@ const breadcrumbPaths = [
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            "name": "Entertainment Decoration",
-            "url": "https://www.lavisheventzz.com/entertainmentdecor/681b1238ddb6b3f4663e7947",
-            "description": "Light up your events with entertainment decoration in Bangalore by Lavish Eventzz. Stage decor, live show setups, LED walls, DJ zones, and vibrant ambiance."
+            name: "Entertainment Decoration",
+            url: "https://www.lavisheventzz.com/entertainmentdecor/681b1238ddb6b3f4663e7947",
+            description:
+              "Light up your events with entertainment decoration in Bangalore by Lavish Eventzz. Stage decor, live show setups, LED walls, DJ zones, and vibrant ambiance.",
           })}
         </script>
       </Helmet>
-<Breadcrumb paths={breadcrumbPaths} />
+      <Breadcrumb paths={breadcrumbPaths} />
 
       <div>
         <img
@@ -226,10 +272,11 @@ const breadcrumbPaths = [
         {imagelist.map((item, index) => (
           <div
             key={index}
-            className={`flex flex-col items-center ${imagelist.length % 2 !== 0 && index === imagelist.length - 1
+            className={`flex flex-col items-center ${
+              imagelist.length % 2 !== 0 && index === imagelist.length - 1
                 ? "col-span-2"
                 : ""
-              }`}
+            }`}
             onClick={() => handleWhatsappRedirect(item.title)}
           >
             <img
@@ -272,7 +319,10 @@ const breadcrumbPaths = [
                 muted
               />
             </div> */}
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg" className=" lg:h-40 md:h-28 h-10 rounded-xl" />
+            <img
+              src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg"
+              className=" lg:h-40 md:h-28 h-10 rounded-xl"
+            />
           </div>
           <div>
             <img src="https://lavisheventzz-bangalore.b-cdn.net/Entertainment/activity4.png" />
@@ -348,6 +398,21 @@ const breadcrumbPaths = [
           and make the celebration truly spectacular!
         </p>
       </div>
+
+      {subCategory?.caption && (
+        <div className="mt-5 p-5 md:px-10 px-4">
+          <ExpandableContent htmlContent={subCategory.caption} />
+        </div>
+      )}
+      {subCategory?.faqs?.length > 0 && (
+        <div className="max-w-3xl p-4 mx-auto">
+          <p className="text-center font-bold poppins text-2xl">FAQs</p>
+          <p className="text-center font-bold poppins text-sm pb-5">
+            Need help? Contact us for any queries related to us
+          </p>
+          <DynamicFaqs faqs={subCategory?.faqs} />
+        </div>
+      )}
     </div>
   );
 };

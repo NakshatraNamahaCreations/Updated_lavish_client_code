@@ -576,6 +576,8 @@ const ServiceDetails = () => {
     }
   };
 
+  console.log("Services", serviceDetails);
+
   // Calculate extra charge for special time slots
   let extraSlotCharge = 0;
   let extraSlotLabel = "";
@@ -589,24 +591,58 @@ const ServiceDetails = () => {
     }
   }
 
-  // Calculate total price for display
-  const totalPrice =
-    (serviceDetails?.offerPrice || 0) +
-    addonTotal +
-    (deliveryCharges || 0) +
-    extraSlotCharge;
+  const subcat = serviceDetails?.subCategoryId;
+  const subSubCat = serviceDetails?.subSubCategoryId;
+  const themeCat = serviceDetails?.themeId;
 
-  const breadcrumbPaths = [
-    { name: "Home", link: "/" },
-    {
-      name: previousPagetitle,
-      link: previousUrl,
-    },
-    {
+  const subCategoryUrlMap = {
+    "681b10abddb6b3f4663e78d1": "/groomtobedecor/681b10abddb6b3f4663e78d1",
+    "681b10a5ddb6b3f4663e78cc": "/bridetobedecor/681b10a5ddb6b3f4663e78cc",
+    "681b1095ddb6b3f4663e78c2": "/ringceremonydecor/681b1095ddb6b3f4663e78c2",
+    "681b1109ddb6b3f4663e78e5": "/anniversarydecor/681b1109ddb6b3f4663e78e5",
+    "681b1136ddb6b3f4663e78f4": "/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4",
+    "681b113eddb6b3f4663e78f9": "/adultbirthdaydecor/681b113eddb6b3f4663e78f9",
+    "681b1146ddb6b3f4663e78fe": "/babyshowerdecor/681b1146ddb6b3f4663e78fe",
+    "681b1240ddb6b3f4663e794c": "/welcomebabydecor/681b1240ddb6b3f4663e794c",
+    "681b1255ddb6b3f4663e7956": "/photography/681b1255ddb6b3f4663e7956",
+    "681b124bddb6b3f4663e7951": "/namingceremonydecor/681b124bddb6b3f4663e7951",
+    "681b1238ddb6b3f4663e7947": "/entertainmentdecor/681b1238ddb6b3f4663e7947",
+  };
+
+  const breadcrumbPaths = [{ name: "Home", link: "/" }];
+
+  if (subcat) {
+    const subCatId = subcat._id;
+    const subCatSlug = subcat.subCategory.toLowerCase().replace(/\s+/g, "-");
+    breadcrumbPaths.push({
+      name: subcat.subCategory,
+      link: subCategoryUrlMap[subCatId] || `/service/${subCatSlug}/${subCatId}`,
+    });
+  }
+  if (subSubCat) {
+    const subCatId = subcat._id;
+    breadcrumbPaths.push({
+      name: subSubCat.subSubCategory,
+      link: subCategoryUrlMap[subCatId] || `/service/${subCatSlug}/${subCatId}`,
+    });
+  }
+
+  if (themeCat) {
+    const subCatSlug = subcat.subCategory.toLowerCase().replace(/\s+/g, "-");
+    breadcrumbPaths.push({
+      name: themeCat.theme,
+      link: `/service/${subCatSlug}/${themeCat._id}`,
+    });
+  }
+
+  if (serviceDetails?.serviceName) {
+    breadcrumbPaths.push({
       name: serviceDetails?.serviceName,
-      link: "",
-    },
-  ];
+      link: `/service/details/${serviceDetails.serviceName
+        .toLowerCase()
+        .replace(/\s+/g, "-")}/${serviceDetails._id}`,
+    });
+  }
 
   return (
     <>

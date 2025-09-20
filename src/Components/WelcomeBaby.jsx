@@ -289,17 +289,7 @@ const WelcomeBaby = () => {
                 .split(" ")
                 .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
                 .join("-")}/${item._id}`}
-              state={{
-                metaTitle: item.metaTitle,
-                metaDescription: item.metaDescription,
-                keywords: item.keywords,
-                caption: item.caption,
-                faqs: item.faqs,
-                subSubCategory: item.subSubCategory,
-                createdAt: item.createdAt,
-                updatedAt: item.updatedAt,
-                redirectUrl: "/welcomebabydecor/681b1240ddb6b3f4663e794c",
-              }}
+            
               className="linkColorPink"
             >
               <img
@@ -483,7 +473,7 @@ const WelcomeBaby = () => {
         </p>
       </div>
       {subCategory?.caption && (
-        <div className="mt-5 p-5">
+        <div className="mt-5 p-5 md:px-10 px-4">
           <ExpandableContent htmlContent={subCategory.caption} />
         </div>
       )}

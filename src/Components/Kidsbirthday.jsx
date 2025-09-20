@@ -10,6 +10,8 @@ import { navigateToSubcategory } from "../utils/navigationsUtils";
 import Breadcrumb from "./Breadcrumb";
 import DynamicFaqs from "./DynamicFaqs";
 import { Helmet } from "react-helmet-async";
+import ExpandableContent from "./ExpandableContent";
+
 const Kidsbirthday = () => {
   const [subSubCategories, setSubSubCategories] = useState([]);
   const [allServices, setAllServices] = useState([]);
@@ -30,9 +32,9 @@ const Kidsbirthday = () => {
     const fetchSubCategory = async () => {
       try {
         const res = await getAxios().get(
-          `/subcategories/by-name/${encodeURIComponent("Ring Ceremony")}`
+          `/subcategories/by-name/${encodeURIComponent("Kids Birthday")}`
         );
-        setSubCategory(res.data.data); // ✅ note .data.data
+        setSubCategory(res.data.data); 
       } catch (err) {
         console.error("API error:", err);
       }
@@ -122,20 +124,7 @@ const Kidsbirthday = () => {
       if (hasThemes) {
         console.log("Navigating to themes page");
         // If themes exist, navigate to themes page
-        navigate(`/themes/${item._id}`, {
-          state: {
-            metaTitle: item.metaTitle,
-            metaDescription: item.metaDescription,
-            keywords: item.keywords,
-            caption: item.caption,
-            faqs: item.faqs,
-            subSubCategory: item.subSubCategory,
-            createdAt: item.createdAt,
-            updatedAt: item.updatedAt,
-            modifiedSubcatTitle: "Kids Birthday Decor",
-            redirectUrl: `/themes/${item.subCategory._id}`,
-          },
-        });
+        navigate(`/themes/${item._id}`);
       } else {
         console.log("No themes found, navigating to services");
 
@@ -143,20 +132,7 @@ const Kidsbirthday = () => {
           .toLowerCase()
           .replace(/\s+/g, "-");
 
-        navigate(`/service/${subCatSlug}/${item._id}`, {
-          state: {
-            metaTitle: item.metaTitle,
-            metaDescription: item.metaDescription,
-            keywords: item.keywords,
-            caption: item.caption,
-            faqs: item.faqs,
-            subSubCategory: item.subSubCategory,
-            createdAt: item.createdAt,
-            updatedAt: item.updatedAt,
-            modifiedSubcatTitle: "Kids Birthday Decor",
-            redirectUrl: `/${subCatSlug}/${item.subCategory._id}`,
-          },
-        });
+        navigate(`/service/${subCatSlug}/${item._id}`);
       }
     } catch (err) {
       console.error("Error in navigation:", err);
@@ -498,6 +474,12 @@ const Kidsbirthday = () => {
           today and watch the magic unfold!
         </p>
       </div>
+
+      {subCategory?.caption && (
+        <div className="mt-5 p-5 md:px-10 px-4">
+          <ExpandableContent htmlContent={subCategory.caption} />
+        </div>
+      )}
       {subCategory?.faqs?.length > 0 && (
         <div className="max-w-3xl p-4 mx-auto">
           <p className="text-center font-bold poppins text-2xl">FAQs</p>

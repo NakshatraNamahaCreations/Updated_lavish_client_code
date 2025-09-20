@@ -571,7 +571,7 @@ const BabyShower = () => {
       </div>
 
       {subCategory?.caption && (
-        <div className="mt-5 p-5">
+        <div className="mt-5 p-5 md:px-10 px-4">
           <ExpandableContent htmlContent={subCategory.caption} />
         </div>
       )}
