@@ -656,7 +656,7 @@ const ServiceDetails = () => {
             name="description"
             content={
               seoMeta.description ||
-              `Explore ${serviceDetails?.serviceName}services designed to make your events unforgettable. Add elegance, creativity and style to every celebration. Book Now!`
+              `Explore ${serviceDetails?.serviceName} services designed to make your events unforgettable. Add elegance, creativity and style to every celebration. Book Now!`
             }
           />
 
