@@ -621,6 +621,7 @@ const ServiceDetails = () => {
   }
   if (subSubCat) {
     const subCatId = subcat._id;
+    const subCatSlug = subcat.subCategory.toLowerCase().replace(/\s+/g, "-");
     breadcrumbPaths.push({
       name: subSubCat.subSubCategory,
       link: subCategoryUrlMap[subCatId] || `/service/${subCatSlug}/${subCatId}`,

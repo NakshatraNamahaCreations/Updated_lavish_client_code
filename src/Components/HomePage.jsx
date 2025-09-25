@@ -16,6 +16,7 @@ import { resetCurrentOrder } from "../features/orderdetails/orderSlice";
 import { persistor } from "../app/store";
 import { Helmet } from "react-helmet-async";
 import Loader from "./Loader";
+import ExpandableContent from "./ExpandableContent";
 
 const occasions = [
   {
@@ -143,6 +144,130 @@ const varities = [
   },
 ];
 
+let content = `
+<h1 class="text-2xl font-bold mb-4 text-gray-900">
+  Lavish Eventzz - Balloon Decoration in Bangalore
+</h1>
+
+<p class="mb-4 leading-relaxed text-gray-700">
+  When it comes to making your special moments unforgettable, Lavish Eventzz is one of the most trusted names for Balloon Decoration in Bangalore. Whether you are planning a birthday party, anniversary celebration, or a grand festival, we bring life to your occasions with colorful balloons, creative backdrops, and eye-catching arrangements. Alongside our expertise in balloons, we also offer <strong>Flower Decoration in Bangalore</strong> to add elegance and charm to your events. Our team combines creativity with professionalism to ensure your celebrations look stunning and leave lasting impressions.
+</p>
+
+<h2 class="text-2xl font-semibold mt-6 mb-3 text-gray-900">Why Choose Lavish Eventzz</h2>
+<p class="mb-4 leading-relaxed text-gray-700">
+  Choosing the right decorator is just as important as planning the event itself. At Lavish Eventzz, we specialize in Balloon Decoration in Bangalore that suits all age groups and themes. From kids birthday parties to elegant anniversary setups, our team ensures every detail matches your vision. Customers trust us because:
+</p>
+<ul class="list-disc list-inside mb-4 text-gray-700">
+  <li class="mb-2">We offer innovative balloon themes at affordable prices.</li>
+  <li class="mb-2">We use high-quality balloons and flowers for safe and long-lasting decorations.</li>
+  <li class="mb-2">Our dedicated staff delivers decorations on time and sets up hassle-free.</li>
+  <li class="mb-2">We also provide Flower Decoration in Bangalore for traditional, elegant, and classy events.</li>
+</ul>
+<p class="mb-4 leading-relaxed text-gray-700">
+  With years of experience, Lavish Eventzz has become the go-to choice for families and corporates alike.
+</p>
+
+<h2 class="text-2xl font-semibold mt-6 mb-3 text-gray-900">Our Service as Balloon Decoration in Bangalore</h2>
+<p class="mb-4 leading-relaxed text-gray-700">
+  At Lavish Eventzz, we understand that each occasion has its own mood and requirements. That’s why our Balloon Decoration in Bangalore service is versatile and adaptable for different events. Here’s how we add color and happiness to your celebrations:
+</p>
+
+<h3 class="text-xl font-semibold mt-4 mb-2 text-gray-900">Birthday Decoration</h3>
+<p class="mb-4 leading-relaxed text-gray-700">
+  Birthdays are incomplete without balloons. Our Balloon Decoration in Bangalore includes themed balloon arches, ceiling hangings, and stage setups that make birthdays memorable. For a touch of sophistication, we can blend balloons with Flower Decoration in Bangalore, creating a festive yet elegant vibe.
+</p>
+
+<h3 class="text-xl font-semibold mt-4 mb-2 text-gray-900">Anniversary Decoration</h3>
+<p class="mb-4 leading-relaxed text-gray-700">
+  Celebrate your love story with romantic Balloon Decoration in Bangalore. We design heart-shaped balloon backdrops, candlelight balloon setups, and couple seating areas that turn anniversaries into magical evenings. Adding Flower Decoration in Bangalore with roses and lilies makes the atmosphere even more special.
+</p>
+
+<h3 class="text-xl font-semibold mt-4 mb-2 text-gray-900">Baby Shower Decoration</h3>
+<p class="mb-4 leading-relaxed text-gray-700">
+  Welcoming a new member into the family is a joyous moment. Our Balloon Decoration in Bangalore for baby showers includes pastel shades, cloud themes, and cute character balloons. We also use fresh flowers to complement the balloon designs, making the decor soothing and graceful.
+</p>
+
+<h3 class="text-xl font-semibold mt-4 mb-2 text-gray-900">Welcome Baby Decoration</h3>
+<p class="mb-4 leading-relaxed text-gray-700">
+  Parents love to celebrate the arrival of their little one, and we make it extra special with vibrant Balloon Decoration in Bangalore. From balloon cradles to entrance arches, our designs create a warm welcome. Pairing it with Flower Decoration in Bangalore adds freshness to the celebration.
+</p>
+
+<h3 class="text-xl font-semibold mt-4 mb-2 text-gray-900">Naming Ceremony Decoration</h3>
+<p class="mb-4 leading-relaxed text-gray-700">
+  For traditional events like naming ceremonies, we provide elegant Balloon Decoration in Bangalore that blends modern themes with cultural touches. Flowers combined with balloons bring a spiritual and pure vibe to the event.
+</p>
+
+<h3 class="text-xl font-semibold mt-4 mb-2 text-gray-900">House Warming Decoration</h3>
+<p class="mb-4 leading-relaxed text-gray-700">
+  A new home is a milestone worth celebrating. Our Balloon Decoration in Bangalore for house warming decoration includes entrance decor, living room arrangements, and terrace party setups. With Flower Decoration in Bangalore, the event looks more graceful and welcoming for your guests.
+</p>
+
+<h3 class="text-xl font-semibold mt-4 mb-2 text-gray-900">Festival Decoration</h3>
+<p class="mb-4 leading-relaxed text-gray-700">
+  Festivals bring families and friends together. Whether it’s Diwali, Christmas, or New Year’s Eve, our Balloon Decoration in Bangalore brings vibrance to your celebrations. Balloons combined with lights and Flower Decoration in Bangalore create the perfect festive mood.
+</p>
+
+<h3 class="text-xl font-semibold mt-4 mb-2 text-gray-900">Ring Ceremony Decoration</h3>
+<p class="mb-4 leading-relaxed text-gray-700">
+  Ring ceremonies demand elegance and charm. Our Balloon Decoration in Bangalore uses subtle shades like gold, silver, and white to create romantic vibes. Blending flowers into the backdrop enhances the beauty of the moment.
+</p>
+
+<h3 class="text-xl font-semibold mt-4 mb-2 text-gray-900">Party Decoration</h3>
+<p class="mb-4 leading-relaxed text-gray-700">
+  No matter the theme, we provide the best Balloon Decoration in Bangalore for private and corporate parties. From neon balloon walls to glow-in-the-dark balloons, our creative ideas make your party stand out. For formal parties, our Flower Decoration in Bangalore adds sophistication.
+</p>
+
+<h3 class="text-xl font-semibold mt-4 mb-2 text-gray-900">Shop Opening Decoration</h3>
+<p class="mb-4 leading-relaxed text-gray-700">
+  Grand openings need attractive setups to catch attention. Our Balloon Decoration in Bangalore includes entrance arches, balloon pillars, and branding balloons. To add a professional touch, we often combine it with Flower Decoration in Bangalore for ribbon-cutting ceremonies.
+</p>
+
+<h3 class="text-xl font-semibold mt-4 mb-2 text-gray-900">Office Decoration</h3>
+<p class="mb-4 leading-relaxed text-gray-700">
+  Corporate events and office parties deserve a neat yet festive look. Our Balloon Decoration in Bangalore brings energy and enthusiasm to workplace events. For formal occasions like annual functions or product launches, our Flower Decoration in Bangalore balances tradition with elegance.
+</p>
+
+<h3 class="text-xl font-semibold mt-4 mb-2 text-gray-900">Car Boot Decoration</h3>
+<p class="mb-4 leading-relaxed text-gray-700">
+  Surprise your loved ones with our trendy Balloon Decoration in Bangalore for car boots. Perfect for proposals, anniversaries, or just a surprise date, this service creates an unforgettable memory. Balloons, fairy lights, and flowers together turn a simple car boot into a magical spot.
+</p>
+
+<h2 class="text-2xl font-semibold mt-6 mb-3 text-gray-900">Our Service Areas for Balloon Decoration in Bangalore</h2>
+<p class="mb-4 leading-relaxed text-gray-700">
+  At Lavish Eventzz, we provide professional Balloon Decoration in Bangalore across all major locations, ensuring your celebrations look stunning no matter where you are. Our dedicated team delivers and sets up decorations right at your doorstep for a hassle-free experience.
+</p>
+<ul class="list-disc list-inside mb-4 text-gray-700">
+  <li>Whitefield</li>
+  <li>Bellandur</li>
+  <li>Marathahalli</li>
+  <li>Electronic City</li>
+  <li>HSR Layout</li>
+  <li>Koramangala</li>
+  <li>JP Nagar</li>
+  <li>Rajarajeshwari Nagar</li>
+  <li>Hebbal</li>
+  <li>KR Puram</li>
+  <li>Yelahanka</li>
+  <li>HBR Layout</li>
+</ul>
+
+<h2 class="text-2xl font-semibold mt-6 mb-3 text-gray-900">Why Customers Love Lavish Eventzz</h2>
+<p class="mb-4 leading-relaxed text-gray-700">
+  Customers choose Lavish Eventzz again and again because we make every celebration unique. Our expertise in Balloon Decoration in Bangalore ensures that no two events look the same. We listen to your ideas and bring them to life with creativity. We also understand the importance of tradition, which is why our Flower Decoration in Bangalore is a favorite among families.
+</p>
+<p class="mb-4 leading-relaxed text-gray-700">
+  Our commitment to quality, timely delivery, and professional setup has earned us loyal customers across Bangalore. Whether it’s a small home event or a large corporate function, our team gives equal importance to every project.
+</p>
+
+<h2 class="text-2xl font-semibold mt-6 mb-3 text-gray-900">Book the Best Birthday Decorations for a Memorable Celebration</h2>
+<p class="mb-4 leading-relaxed text-gray-700">
+  If you are planning a birthday, anniversary, or any special event, Lavish Eventzz is your one-stop solution. Our Balloon Decoration in Bangalore services are designed to fit every budget and style. Alongside balloons, our Flower Decoration in Bangalore adds a classy and elegant touch, making your celebration even more memorable.
+</p>
+<p class="mb-4 leading-relaxed text-gray-700">
+  Booking with Lavish Eventzz is simple. Just share your requirements, and our team will handle everything from design to execution. All you need to do is enjoy your special day while we create a magical atmosphere.
+</p>
+`;
+
 const HomePage = () => {
   const [services, setServices] = useState([]);
   const [servicesbySubcategory, setServicesbySubcategory] = useState([]);
@@ -166,13 +291,17 @@ const HomePage = () => {
     (item) => item.bannerType === "upcoming banner"
   );
 
-  const fetchServices = async () => {
+  const fetchServices = async (page = 1, limit = 10) => {
     setLoading(true);
     try {
-      const response = await getAxios().get(`/services/`);
-      const { data } = response.data;
-      setServices(data);
-      // console.log(data)
+      const response = await getAxios().get(
+        `/services?page=${page}&limit=${limit}`
+      );
+
+      const { data, totalPages, page: currentPage } = response.data;
+
+      setServices(data); // store services for this page
+      console.log("trending Services", data);
     } catch (error) {
       console.error("Error fetching services:", error.message);
       setError("Failed to fetch services. Please try again later.");
@@ -181,15 +310,33 @@ const HomePage = () => {
     }
   };
 
-  const fetchServivesbySubcategory = async (subcategory) => {
+  const fetchServicesBySubcategory = async (
+    subcategory,
+    page = 1,
+    limit = 10
+  ) => {
     setLoading(true);
     try {
       const response = await getAxios().get(
-        `/services/by-subcategory/${subcategory}`
+        `/services/by-subcategory/${subcategory}?page=${page}&limit=${limit}`
       );
-      const { data } = response.data;
-      setServicesbySubcategory(data);
-      // console.log("servicesbySubcategory", data)
+
+      const {
+        data,
+        page: currentPage,
+        totalPages,
+        totalServices,
+      } = response.data;
+
+      setServicesbySubcategory(data); // store the actual services
+      // setPagination({
+      //   currentPage,
+      //   totalPages,
+      //   totalServices,
+      //   limit
+      // });
+
+      console.log("servicesBySubcategory:", data);
     } catch (error) {
       console.error("Error fetching services:", error.message);
       setError("Failed to fetch services. Please try again later.");
@@ -211,8 +358,8 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    fetchServices();
-    fetchServivesbySubcategory("Kids Birthday");
+    fetchServices(1, 10);
+    fetchServicesBySubcategory("Kids Birthday");
     fetchBanner();
   }, []);
 
@@ -237,25 +384,27 @@ const HomePage = () => {
     <>
       <Helmet>
         {/* Primary Meta Tags */}
-        <title>Event Management Company in Bangalore | Lavish Eventzz</title>
+        <title>
+          Balloon Decoration in Bangalore | Lavish Eventzz | Book Now
+        </title>
         <meta
           name="description"
-          content="Lavish Eventzz is a professional event management company in Bangalore offering services for weddings, birthdays, corporate events, decor, and more."
+          content="Lavish Eventzz offers creative Balloon Decoration in Bangalore for birthdays, anniversaries, baby showers & more. Book now for vibrant & memorable celebrations."
         />
         <link rel="canonical" href="https://www.lavisheventzz.com" />
         <meta
           name="keywords"
-          content="Event Management Company in Bangalore, Wedding Event Organizers in Bangalore, Birthday Party Planners Bangalore, Corporate Event Solutions Bangalore, Event Decor Services Bangalore, Luxury Event Planners in Bangalore"
+          content="Balloon Decoration in Bangalore, Flower Decoration in Bangalore, Birthday Party Planners Bangalore, Corporate Event Solutions Bangalore, Event Decor Services Bangalore, Luxury Event Planners in Bangalore"
         />
 
         {/* Open Graph Tags */}
         <meta
           property="og:title"
-          content="Event Management Company in Bangalore | Lavish Eventzz"
+          content="Balloon Decoration in Bangalore | Lavish Eventzz | Book Now"
         />
         <meta
           property="og:description"
-          content="Lavish Eventzz is a professional event management company in Bangalore offering services for weddings, birthdays, corporate events, decor, and more."
+          content="Lavish Eventzz offers creative Balloon Decoration in Bangalore for birthdays, anniversaries, baby showers & more. Book now for vibrant & memorable celebrations."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.lavisheventzz.com" />
@@ -270,11 +419,11 @@ const HomePage = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="Event Management Company in Bangalore | Lavish Eventzz"
+          content="Balloon Decoration in Bangalore | Lavish Eventzz | Book Now"
         />
         <meta
           name="twitter:description"
-          content="Lavish Eventzz is a professional event management company in Bangalore offering services for weddings, birthdays, corporate events, decor, and more."
+          content="Lavish Eventzz offers creative Balloon Decoration in Bangalore for birthdays, anniversaries, baby showers & more. Book now for vibrant & memorable celebrations."
         />
         <meta name="twitter:url" content="https://www.lavisheventzz.com/" />
         <meta
@@ -292,7 +441,7 @@ const HomePage = () => {
             url: "https://www.lavisheventzz.com",
             logo: "https://www.lavisheventzz.com/assets/logo-sUNpuNY_.png",
             description:
-              "Lavish Eventzz is a professional event management company in Bangalore offering services for weddings, birthdays, corporate events, decor, and more.",
+              "Lavish Eventzz offers creative Balloon Decoration in Bangalore for birthdays, anniversaries, baby showers & more. Book now for vibrant & memorable celebrations.",
             telephone: "+91-9620558000",
             address: {
               "@type": "PostalAddress",
@@ -347,7 +496,7 @@ const HomePage = () => {
 
           <div>
             <img
-              src="https://lavisheventzz-bangalore.b-cdn.net/banner/banner5.png"
+              src="https://lavisheventzz-bangalore.b-cdn.net/WhatsApp%20Image%202025-09-25%20at%205.54.18%20PM.jpeg"
               alt="banner"
               className="lg:py-10 w-screen"
             />
@@ -482,13 +631,17 @@ const HomePage = () => {
               Kids Celebration
             </p>
             <div
-              className="text-secondary font-bold flex items-center text-sm md:text-base  "
-              onClick={() => handleNavigation("Kids Birthday", "/service/")}
+              className="text-secondary font-bold flex items-center text-sm md:text-base cursor-pointer  "
+              // onClick={() => handleNavigation("Kids Birthday", "/service/")}
+              onClick={() => navigate("/all-services/681b1136ddb6b3f4663e78f4")}
             >
               View All <MdArrowRightAlt className="md:text-2xl text-xl " />
             </div>
           </div>
-          <CardCarousel centercardData={servicesbySubcategory} />
+          <CardCarousel
+            centercardData={servicesbySubcategory}
+            loading={loading}
+          />
 
           <div className="relative md:flex hidden justify-center lg:py-10">
             <img
@@ -585,7 +738,7 @@ const HomePage = () => {
               View All <MdArrowRightAlt className="md:text-2xl text-xl" />
             </div>
           </div>
-          <CardCarousel centercardData={services} />
+          <CardCarousel centercardData={services} loading={loading} />
           <div
             className="relative lg:mt-44 md:mt-32 mt-16 mb-5 flex flex-col items-center"
             onClick={() => handleNavigation("Candlelight", "/service")}
@@ -692,6 +845,10 @@ const HomePage = () => {
           </h2>
           <Testimonials />
         </section>
+
+        <div className="mt-10">
+          <ExpandableContent htmlContent={content} />
+        </div>
 
         {/* Loading and Error States */}
         {loading && <Loader />}

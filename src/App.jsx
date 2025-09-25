@@ -137,6 +137,7 @@ function App() {
               {/* <Route path="/signup" element={<Signup />} /> */}
               <Route path="/themes/:subSubCategoryId" element={<Themes />} />
               <Route path="/all-services" element={<AllServices />} />
+              <Route path="/all-services/:subcategoryId" element={<AllServices />} />
               <Route path="/orderDetails/:id" element={<OrderDetails />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/return-refund" element={<ReturnRefund />} />
