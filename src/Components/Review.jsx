@@ -34,6 +34,7 @@ const ReviewCard = ({ review }) => (
   <div className="flex md:gap-5 gap-3 max-w-lg md:p-4 rounded-lg mt-10">
     <div>
       <img
+      
         src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg"
         alt="avatar"
         className="w-20 h-20 rounded-full"
@@ -61,6 +62,8 @@ const ReviewCard = ({ review }) => (
               .filter((img) => img && img.trim() !== "")
               .map((img, idx) => (
                 <img
+                   loading="lazy"
+          decoding="async"
                   key={idx}
                   src={img}
                   alt={`review-img-${idx}`}

@@ -179,6 +179,8 @@ const CenterCarousalCard = ({ item }) => {
     <div className="mx-auto h-[420px] bg-white max-w-xs shadow-xl rounded-lg mt-5 z-10">
       <div className="md:px-4 md:pt-4 p-2 border-2 rounded-lg h-full">
         <img
+          loading="lazy"
+          decoding="async"
           src={item?.images?.[0]}
           alt={item?.serviceName}
           className="rounded-lg mb-2 w-full h-[70%] object-cover"

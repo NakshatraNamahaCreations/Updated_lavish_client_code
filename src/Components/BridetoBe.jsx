@@ -321,10 +321,11 @@ const BridetoBe = () => {
                 .split(" ")
                 .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
                 .join("-")}/${item._id}`}
-             
               className="linkColorPink"
             >
               <img
+                loading="lazy"
+                decoding="async"
                 src={`${item?.image}`}
                 alt={item.subSubCategory}
                 className="rounded-3xl w-[500px] "
@@ -420,6 +421,8 @@ const BridetoBe = () => {
         <div className="absolute top-14  md:top-36 grid grid-cols-4  lg:gap-10  gap-2 place-items-center ">
           {addOns.map((item, idx) => (
             <img
+              loading="lazy"
+              decoding="async"
               key={idx}
               src={item.src}
               className="cursor-pointer object-cover lg:px-10 md:px-4 px-1"
@@ -436,37 +439,50 @@ const BridetoBe = () => {
         <div className="flex justify-center items-center gap-1">
           <div className="place-items-end lg:space-y-2  space-y-1">
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/bridetobe1.png"
               className=" lg:h-40 md:h-28 h-10"
             />
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/bridetobe2.png"
               className=" lg:h-64  "
             />
-            {/* <div className=" bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
-              <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/gallery3.png" className="rounded" />
-              <video
-                className="absolute top-0 left-0 w-full h-full object-cover opacity-80"
-                src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/video.mp4"
-                autoPlay
-                loop
-                muted
-              />
-            </div> */}
+
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg"
               className=" lg:h-40 md:h-28 h-10 rounded-xl"
             />
           </div>
           <div>
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/bridetobe4.png" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/bridetobe4.png"
+            />
           </div>
           <div className="lg:space-y-2 space-y-1">
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/bridetobe5.png" />
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/bridetobe6.png" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/bridetobe5.png"
+            />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/bridetobe6.png"
+            />
           </div>
           <div>
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/bridetobe7.png" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/bridetobe7.png"
+            />
           </div>
         </div>
         <p className="lg:absolute bottom-10 right-2 [text-shadow:_-4px_4px_3px_#7D7C7C] playfair-display md:text-7xl text-4xl font-bold text-[#FFD1D1]">
@@ -479,6 +495,8 @@ const BridetoBe = () => {
         onClick={() => handleNavigation("photography", "/photography")}
       >
         <img
+          loading="lazy"
+          decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/photoshootbride.png"
           className="mx-auto w-[2000px]"
         />

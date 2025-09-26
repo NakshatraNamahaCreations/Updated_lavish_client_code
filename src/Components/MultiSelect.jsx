@@ -63,7 +63,7 @@ const MultiSelect = ({ disabled, defaulyballoonsColors, onSelectionChange }) => 
   };
 
   return (
-    <div className="col-span-2 p-4 rounded-2xl bg-transparent">
+    <div className="col-span-2 md:p-4 rounded-2xl bg-transparent">
       <p className="font-bold">Choose Balloons Color</p>
 
       {/* Default Selection Checkbox */}

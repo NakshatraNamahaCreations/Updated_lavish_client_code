@@ -283,7 +283,10 @@ const AdultBirthday = () => {
       <div>
         <img
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/adultBanner1.png"
+          alt="Adult Banner"
           className="mx-auto w-[1600px]"
+          decoding="async"
+          fetchpriority="high"
         />
       </div>
 
@@ -298,6 +301,8 @@ const AdultBirthday = () => {
               className="linkColorPink"
             >
               <img
+                loading="lazy"
+                decoding="async"
                 src={item.image}
                 alt={item.subSubCategory}
                 className="rounded-3xl"
@@ -332,6 +337,8 @@ const AdultBirthday = () => {
       {/* Add ons */}
       <div className="relative inset-0 flex flex-col items-center justify-center text-center gap-5 my-10">
         <img
+          loading="lazy"
+          decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/adultbanner4.png"
           alt="adultBanner4"
           className="w-[2000px] mx-auto "
@@ -343,6 +350,8 @@ const AdultBirthday = () => {
         <div className="absolute top-16 lg:top-48 md:top-32 grid grid-cols-5  lg:gap-5  gap-0 place-items-center px-3">
           {addOns.map((item, idx) => (
             <img
+              loading="lazy"
+              decoding="async"
               key={idx}
               src={item.src}
               alt={item.title}
@@ -360,37 +369,56 @@ const AdultBirthday = () => {
         <div className="flex justify-center items-center gap-1">
           <div className="place-items-end lg:space-y-2  space-y-1">
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery1.png"
+              alt="gallery1"
               className=" lg:h-40 md:h-28 h-10"
             />
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery2.png"
+              alt="gallery2"
               className=" lg:h-64  "
             />
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg"
+              alt="image"
               className=" lg:h-40 md:h-28 h-10 rounded-xl"
             />
-            {/* <div className=" bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
-              <img src="https://lavisheventzz-bangalore.b-cdn.net/KidsBirthday/bdayGallery3.png" className="rounded" />
-              <video
-                className="absolute top-0 left-0 w-full h-full object-cover opacity-80"
-                src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/video.mp4"
-                autoPlay
-                loop
-                muted
-              />
-            </div> */}
           </div>
           <div>
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery4.png" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery4.png"
+              alt="gallery4"
+            />
           </div>
           <div className="lg:space-y-2 space-y-1">
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery5.png" />
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery6.png" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery5.png"
+              alt="gallery5"
+            />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery6.png"
+              alt="gallery6"
+            />
           </div>
           <div>
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery7.png" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/AdultsBirthday/gallery7.png"
+              alt="gallery7"
+            />
           </div>
         </div>
         <p className="lg:absolute bottom-10 right-2 [text-shadow:_-4px_4px_3px_#7D7C7C] playfair-display md:text-7xl text-4xl font-bold text-[#FFD1D1]">
@@ -403,8 +431,11 @@ const AdultBirthday = () => {
         onClick={() => handleNavigation("photography", "/photography")}
       >
         <img
+          loading="lazy"
+          decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/photoshootBday.png"
           className="mx-auto w-[2000px]"
+          alt="photoshootBday"
         />
       </div>
 
@@ -420,8 +451,11 @@ const AdultBirthday = () => {
           Why Celebrate With Lavisheventzz
         </p>
         <img
+          loading="lazy"
+          decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/trustedBanner.png"
           className="mx-auto w-[1600px]"
+          alt="trustedBanner"
         />
       </div>
 
@@ -435,7 +469,6 @@ const AdultBirthday = () => {
             Pick a query related to your issue
           </p>
           <FAQ />
-          {/* <FAQServices/> */}
         </div>
       </div>
 
@@ -462,11 +495,13 @@ const AdultBirthday = () => {
           today and watch the magic unfold!
         </p>
       </div>
+      
       {subCategory?.caption && (
         <div className="mt-5 p-5 md:px-10 px-4">
           <ExpandableContent htmlContent={subCategory.caption} />
         </div>
       )}
+
       {subCategory?.faqs?.length > 0 && (
         <div className="max-w-3xl p-4 mx-auto">
           <p className="text-center font-bold poppins text-2xl">FAQs</p>

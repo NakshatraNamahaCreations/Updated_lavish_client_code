@@ -17,6 +17,7 @@ import { persistor } from "../app/store";
 import { Helmet } from "react-helmet-async";
 import Loader from "./Loader";
 import ExpandableContent from "./ExpandableContent";
+import DynamicFaqs from "./DynamicFaqs";
 
 const occasions = [
   {
@@ -155,7 +156,7 @@ let content = `
 
 <h2 class="text-2xl font-semibold mt-6 mb-3 text-gray-900">Why Choose Lavish Eventzz</h2>
 <p class="mb-4 leading-relaxed text-gray-700">
-  Choosing the right decorator is just as important as planning the event itself. At Lavish Eventzz, we specialize in Balloon Decoration in Bangalore that suits all age groups and themes. From kids birthday parties to elegant anniversary setups, our team ensures every detail matches your vision. Customers trust us because:
+  Choosing the right decorator is just as important as planning the event itself. At Lavish Eventzz, we specialize in <a href="https://www.lavisheventzz.com/birthday-event-planner-in-bangalore">Balloon Decoration in Bangalore</a> that suits all age groups and themes. From kids birthday parties to elegant anniversary setups, our team ensures every detail matches your vision. Customers trust us because:
 </p>
 <ul class="list-disc list-inside mb-4 text-gray-700">
   <li class="mb-2">We offer innovative balloon themes at affordable prices.</li>
@@ -199,7 +200,7 @@ let content = `
 
 <h3 class="text-xl font-semibold mt-4 mb-2 text-gray-900">House Warming Decoration</h3>
 <p class="mb-4 leading-relaxed text-gray-700">
-  A new home is a milestone worth celebrating. Our Balloon Decoration in Bangalore for house warming decoration includes entrance decor, living room arrangements, and terrace party setups. With Flower Decoration in Bangalore, the event looks more graceful and welcoming for your guests.
+  A new home is a milestone worth celebrating. Our Balloon Decoration in Bangalore for <a href="https://www.lavisheventzz.com/service/house-warming-decoration/681b11b6ddb6b3f4663e791f">house warming decoration</a> includes entrance decor, living room arrangements, and terrace party setups. With Flower Decoration in Bangalore, the event looks more graceful and welcoming for your guests.
 </p>
 
 <h3 class="text-xl font-semibold mt-4 mb-2 text-gray-900">Festival Decoration</h3>
@@ -229,7 +230,7 @@ let content = `
 
 <h3 class="text-xl font-semibold mt-4 mb-2 text-gray-900">Car Boot Decoration</h3>
 <p class="mb-4 leading-relaxed text-gray-700">
-  Surprise your loved ones with our trendy Balloon Decoration in Bangalore for car boots. Perfect for proposals, anniversaries, or just a surprise date, this service creates an unforgettable memory. Balloons, fairy lights, and flowers together turn a simple car boot into a magical spot.
+  Surprise your loved ones with our trendy Balloon Decoration in Bangalore for car boots. Perfect for proposals, anniversaries, or just a surprise date, this service creates an unforgettable memory. Balloons, fairy lights, and flowers together turn a simple <a href="https://www.lavisheventzz.com/service/car-boot-decoration/68385310e368dc934714e27a">car boot</a> into a magical spot.
 </p>
 
 <h2 class="text-2xl font-semibold mt-6 mb-3 text-gray-900">Our Service Areas for Balloon Decoration in Bangalore</h2>
@@ -264,10 +265,48 @@ let content = `
   If you are planning a birthday, anniversary, or any special event, Lavish Eventzz is your one-stop solution. Our Balloon Decoration in Bangalore services are designed to fit every budget and style. Alongside balloons, our Flower Decoration in Bangalore adds a classy and elegant touch, making your celebration even more memorable.
 </p>
 <p class="mb-4 leading-relaxed text-gray-700">
-  Booking with Lavish Eventzz is simple. Just share your requirements, and our team will handle everything from design to execution. All you need to do is enjoy your special day while we create a magical atmosphere.
+  <a href="https://www.lavisheventzz.com/contact">Booking with Lavish Eventzz</a> is simple. Just share your requirements, and our team will handle everything from design to execution. All you need to do is enjoy your special day while we create a magical atmosphere.
 </p>
 `;
 
+const faqs = [
+  {
+    question:
+      "Do you provide Balloon Decoration in Bangalore for all occasions?",
+    answer:
+      "Yes, we offer Balloon Decoration in Bangalore for birthdays, anniversaries, corporate events, and more.",
+  },
+  {
+    question: "Can I combine balloon and flower decoration?",
+    answer:
+      "Absolutely. Many of our clients prefer Flower Decoration in Bangalore along with balloons for a balanced and elegant look.",
+  },
+  {
+    question: "How early should I book your service?",
+    answer:
+      "We recommend booking our Balloon Decoration in Bangalore at least a week in advance, especially during festive seasons.",
+  },
+  {
+    question: "Do you provide decoration services at home as well?",
+    answer:
+      "Yes, our Balloon Decoration in Bangalore covers homes, banquet halls, offices, and even outdoor locations.",
+  },
+  {
+    question: "What is the cost of Flower Decoration in Bangalore?",
+    answer:
+      "The cost of Flower Decoration in Bangalore depends on the event size, flower types, and setup requirements.",
+  },
+  {
+    question: "Do you provide car boot decoration?",
+    answer:
+      "Yes, we offer trendy Balloon Decoration in Bangalore for car boot surprises, perfect for romantic celebrations.",
+  },
+  {
+    question: "How long will the decorations last?",
+    answer:
+      "Our Balloon Decoration in Bangalore usually lasts for hours, and with high-quality materials, some arrangements can stay intact for more than a day.",
+  },
+];
 const HomePage = () => {
   const [services, setServices] = useState([]);
   const [servicesbySubcategory, setServicesbySubcategory] = useState([]);
@@ -468,6 +507,20 @@ const HomePage = () => {
             },
           })}
         </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map((faq) => ({
+              "@type": "Question",
+              name: faq.question,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: faq.answer,
+              },
+            })),
+          })}
+        </script>
       </Helmet>
 
       <div className="container md:pt-24 pt-32  mx-auto">
@@ -487,20 +540,20 @@ const HomePage = () => {
             className="relative flex justify-center md:py-10 py-4 cursor-pointer"
             onClick={() => handleNavigation("Festival Decoration", "/service/")}
           >
-            <img
+            {/* <img
               src={`${upcomingBanner[0]?.bannerImage}`}
-              alt="banner"
+              alt="Upcoming banner"
               className="w-full lg:h-[400px] md:h-[250px] h-[180px] object-cover rounded-2xl"
-            />
+            /> */}
+            <div className="w-full aspect-[16/6]">
+              <img
+                src={upcomingBanner[0]?.bannerImage}
+                alt="Upcoming banner"
+                className="w-full h-full object-cover rounded-2xl"
+              />
+            </div>
           </div>
 
-          <div>
-            <img
-              src="https://lavisheventzz-bangalore.b-cdn.net/WhatsApp%20Image%202025-09-25%20at%205.54.18%20PM.jpeg"
-              alt="banner"
-              className="lg:py-10 w-screen"
-            />
-          </div>
           <div className="flex justify-center items-center max-w-4xl mx-auto lg:gap-72 gap-20">
             <motion.div
               className="rounded-full text-center text-xl"
@@ -512,6 +565,8 @@ const HomePage = () => {
               }
             >
               <img
+                loading="lazy"
+                decoding="async"
                 src="https://lavisheventzz-bangalore.b-cdn.net/decor1.png"
                 alt="img"
                 className=""
@@ -531,6 +586,8 @@ const HomePage = () => {
               }
             >
               <img
+                loading="lazy"
+                decoding="async"
                 src="https://lavisheventzz-bangalore.b-cdn.net/decor2.png"
                 alt="img"
                 className=""
@@ -549,7 +606,7 @@ const HomePage = () => {
           <h1 className="lg:text-4xl text-3xl tracking-tighter font-bold text-center playfair-display text-primary">
             Make every Occasion Special
           </h1>
-          <div className="grid grid-cols-2 lg:flex flex-wrap md:justify-between justify-center py-10 lg:gap-14 gap-y-5 lg:w-[80%] mx-auto px-4 lg:px-0 ">
+          <div className="grid grid-cols-2 lg:flex flex-wrap md:justify-between justify-center pt-10 lg:gap-14 gap-y-5 lg:w-[80%] mx-auto px-4 lg:px-0 ">
             {varities.map((item, index) => (
               <div
                 key={index}
@@ -557,6 +614,8 @@ const HomePage = () => {
                 onClick={() => handleNavigation(item.text, item.link)}
               >
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src={item.src}
                   alt={item.text}
                   className="mx-auto lg:h-[400px] h-[170px] border-2 border-primary object-cover md:rounded-[80px] rounded-lg"
@@ -567,7 +626,24 @@ const HomePage = () => {
               </div>
             ))}
           </div>
-
+          <div>
+            {/* <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/WhatsApp%20Image%202025-09-25%20at%205.54.18%20PM.jpeg"
+              alt="banner"
+              className="lg:pb-5 py-4 md:py-0 w-screen"
+            /> */}
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/WhatsApp%20Image%202025-09-25%20at%205.54.18%20PM.jpeg"
+              alt="banner"
+              width="1366"
+              height="513"
+              className="lg:pb-5 py-4 md:py-0 w-screen object-cover"
+            />
+          </div>
           <div className="flex flex-wrap lg:gap-x-40 lg:gap-y-20 md:gap-3 gap-1 justify-center lg:py-20 md:py-10 py-0 mx-auto lg:px-0 md:my-0 my-5">
             {occasions.map((item, idx) => (
               <div
@@ -575,7 +651,13 @@ const HomePage = () => {
                 className="lg:w-[260px] md:w-[230px] w-[120px] cursor-pointer hover:shadow-lg transition-shadow duration-300"
                 onClick={() => handleNavigation(item.title, item.link)}
               >
-                <img src={item.src} alt={item.title} className="" />
+                <img
+                  loading="lazy"
+                  decoding="async"
+                  src={item.src}
+                  alt={item.title}
+                  className=""
+                />
                 <p className="md:text-2xl text-center carter py-3 text-xs">
                   {item.title}
                 </p>
@@ -587,6 +669,8 @@ const HomePage = () => {
             <img
               src="https://lavisheventzz-bangalore.b-cdn.net/banner/banner6.png"
               alt="banner"
+              width="1200"
+              height="440"
               className="w-full"
             />
 
@@ -596,8 +680,10 @@ const HomePage = () => {
             >
               <div className=" md:p-2 p-1  lg:w-[350px] md:w-[240px] w-[120px]  mx-auto">
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src="https://lavisheventzz-bangalore.b-cdn.net/shop_decoration.png"
-                  alt="Shop decor"
+                  alt="Shop decoration"
                   className="w-full max-h-full object-contain  "
                 />
               </div>
@@ -613,8 +699,10 @@ const HomePage = () => {
             >
               <div className=" md:p-2 p-1  lg:w-[350px] md:w-[240px] w-[120px]  mx-auto">
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src="https://lavisheventzz-bangalore.b-cdn.net/office_decor.png"
-                  alt="office decor"
+                  alt="office decoration"
                   className="w-full max-h-full object-contain"
                 />
               </div>
@@ -645,6 +733,8 @@ const HomePage = () => {
 
           <div className="relative md:flex hidden justify-center lg:py-10">
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/banner/banner7.png"
               alt="banner"
               className="w-full"
@@ -658,8 +748,10 @@ const HomePage = () => {
             >
               <div className=" lg:rounded-tr-[60px] lg:rounded-bl-[80px] rounded-tr-3xl rounded-bl-3xl lg:w-[420px] md:w-[240px] w-[120px]  mx-auto">
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src="https://lavisheventzz-bangalore.b-cdn.net/bridetobe_decor.png"
-                  alt="office decor"
+                  alt="Bride To be decoration"
                   className="w-full max-h-full object-contain lg:rounded-tr-[60px] lg:rounded-bl-[80px] rounded-tr-3xl rounded-bl-3xl "
                 />
               </div>
@@ -676,8 +768,10 @@ const HomePage = () => {
             >
               <div className="  lg:rounded-tl-[60px] lg:rounded-br-[80px] rounded-tl-3xl rounded-br-3xl lg:w-[420px] md:w-[240px] w-[120px]  mx-auto">
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe_decor.png"
-                  alt="office decor"
+                  alt="Groom to be decoration"
                   className="w-full max-h-full object-contain lg:rounded-tl-[60px] lg:rounded-br-[80px] rounded-tl-3xl rounded-br-3xl "
                 />
               </div>
@@ -689,9 +783,13 @@ const HomePage = () => {
 
           <div className="relative md:hidden ">
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/banner/bannermobile7.png"
               alt="banner"
               className="w-full"
+              width="398"
+              height="953"
             />
             <div
               className="absolute top-44  left-1/2 transform -translate-x-1/2 w-[300px]"
@@ -704,8 +802,10 @@ const HomePage = () => {
                 Bride to be Decoration
               </p>
               <img
+                loading="lazy"
+                decoding="async"
                 src="https://lavisheventzz-bangalore.b-cdn.net/bridetobe_decor.png"
-                alt="office decor"
+                alt="Bride To be decoration"
                 className="w-full max-h-full object-contain "
               />
             </div>
@@ -720,8 +820,10 @@ const HomePage = () => {
                 Groom to be Decoration
               </p>
               <img
+                loading="lazy"
+                decoding="async"
                 src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe_decor.png"
-                alt="office decor"
+                alt="Groom to be decoration"
                 className="w-full max-h-full object-contain  "
               />
             </div>
@@ -747,24 +849,34 @@ const HomePage = () => {
               src="https://lavisheventzz-bangalore.b-cdn.net/banner/banner8.png"
               alt="banner"
               className="w-full h-auto"
+              height="607"
+              width="1318"
             />
             <div className="absolute lg:-top-24  md:-top-16 -top-8 lg:left-[9%] flex md:gap-4 gap-1 items-center  ">
               <img
+                loading="lazy"
+                decoding="async"
                 src="https://lavisheventzz-bangalore.b-cdn.net/candleImg1.png"
                 alt="candleImg1"
                 className="lg:w-64 lg:h-56 md:w-40 md:h-32 w-20 h-20 object-cover rounded-s-3xl"
               />
               <img
+                loading="lazy"
+                decoding="async"
                 src="https://lavisheventzz-bangalore.b-cdn.net/candleImg2.png"
                 alt="candleImg2"
                 className="lg:w-64 lg:h-56 md:w-40 md:h-32 w-20 h-20 object-cover"
               />
               <img
+                loading="lazy"
+                decoding="async"
                 src="https://lavisheventzz-bangalore.b-cdn.net/candleImg3.png"
                 alt="candleImg3"
                 className="lg:w-64 lg:h-56 md:w-40 md:h-32 w-20 h-20 object-cover"
               />
               <img
+                loading="lazy"
+                decoding="async"
                 src="https://lavisheventzz-bangalore.b-cdn.net/candleImg4.png"
                 alt="candleImg4"
                 className="lg:w-64 lg:h-56 md:w-40 md:h-32 w-20 h-20 object-cover rounded-e-3xl"
@@ -787,17 +899,18 @@ const HomePage = () => {
             Love designs, flawless execution, unforgattable results.{" "}
           </h2>
 
-          {/* <div className='flex justify-end  lg:py-4 py-2 px-3 '>
-          <Link to='#' className='text-secondary font-bold flex items-center text-sm md:text-base  '>View All <MdArrowRightAlt className='md:text-2xl text-xl ' /></Link>
-        </div> */}
           <PhotoGrid />
         </section>
 
         <div className="relative flex justify-center lg:py-10">
           <img
+            loading="lazy"
+            decoding="async"
             src="https://lavisheventzz-bangalore.b-cdn.net/banner/banner9.png"
-            alt="banner"
+            alt="banner9"
             className="w-full"
+            width="1135"
+            height="400"
           />
           {/* <Link to="/service/7"> */}
           <div
@@ -806,8 +919,10 @@ const HomePage = () => {
           >
             <div className="bg-[#FF9500] md:p-2 p-1 lg:rounded-tr-[60px] lg:rounded-bl-[80px] rounded-tr-3xl rounded-bl-3xl lg:w-[420px] md:w-[240px] w-[120px]  mx-auto">
               <img
+                loading="lazy"
+                decoding="async"
                 src="https://lavisheventzz-bangalore.b-cdn.net/haldi.png"
-                alt="office decor"
+                alt="Haldi Decoration"
                 className="w-full max-h-full object-contain lg:rounded-tr-[60px] lg:rounded-bl-[80px] rounded-tr-3xl rounded-bl-3xl "
               />
             </div>
@@ -823,8 +938,10 @@ const HomePage = () => {
           >
             <div className="bg-[#FF9500] md:p-2 p-1 lg:rounded-tl-[60px] lg:rounded-br-[80px] rounded-tl-3xl rounded-br-3xl lg:w-[420px] md:w-[240px] w-[120px]  mx-auto">
               <img
+                loading="lazy"
+                decoding="async"
                 src="https://lavisheventzz-bangalore.b-cdn.net/Mehendi.png"
-                alt="office decor"
+                alt="Mehendi Decoration"
                 className="w-full max-h-full object-contain lg:rounded-tl-[60px] lg:rounded-br-[80px] rounded-tl-3xl rounded-br-3xl "
               />
             </div>
@@ -849,6 +966,16 @@ const HomePage = () => {
         <div className="mt-10">
           <ExpandableContent htmlContent={content} />
         </div>
+
+        {faqs.length > 0 && (
+          <div className="max-w-3xl p-4 mx-auto">
+            <p className="text-center font-bold poppins text-2xl">FAQs</p>
+            <p className="text-center font-bold poppins text-sm pb-5">
+              Need help? Contact us for any queries related to us
+            </p>
+            <DynamicFaqs faqs={faqs} />
+          </div>
+        )}
 
         {/* Loading and Error States */}
         {loading && <Loader />}

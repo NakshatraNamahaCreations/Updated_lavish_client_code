@@ -87,7 +87,7 @@ const Footer = () => {
   };
 
   return (
-    <div className="bg-gray-200 relative font-medium">
+    <div className="bg-gray-200 relative font-medium pb-6">
       {/* Hero section */}
       <div className="absolute -top-24 left-1/2 transform -translate-x-1/2 w-[90%] max-w-[1200px] rounded-xl">
         <div className="relative">

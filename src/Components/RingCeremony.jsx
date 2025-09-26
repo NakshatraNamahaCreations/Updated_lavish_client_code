@@ -317,10 +317,11 @@ const RingCermony = () => {
                   .split(" ")
                   .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
                   .join("-")}/${item._id}`}
-             
                 className="linkColorPink"
               >
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src={`${item.image}`}
                   alt={item.subSubCategory}
                   className="rounded-3xl w-[500px] "
@@ -405,6 +406,8 @@ const RingCermony = () => {
       {/* Add ons */}
       <div className="relative inset-0 flex flex-col items-center justify-center text-center gap-5 md:my-10 my-4">
         <img
+          loading="lazy"
+          decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/addonsbanner.png"
           alt="adultBanner4"
           className="w-[2000px] mx-auto max-h-[650px]"
@@ -415,6 +418,8 @@ const RingCermony = () => {
         <div className="absolute top-14  md:top-36 grid grid-cols-4  lg:gap-10  gap-2 place-items-center ">
           {addOns.map((item, idx) => (
             <img
+              loading="lazy"
+              decoding="async"
               key={idx}
               src={item.src}
               className="cursor-pointer object-cover lg:px-10 md:px-4 px-1"
@@ -431,19 +436,27 @@ const RingCermony = () => {
         <div className="flex justify-center items-center gap-1">
           <div className="place-items-end lg:space-y-2  space-y-1">
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/RingCeremony/ringcer1.png"
               className=" lg:h-40 md:h-28 h-10"
             />
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/RingCeremony/ringcer2.png"
               className=" lg:h-64  "
             />
             <div className=" bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
               <img
+                loading="lazy"
+                decoding="async"
                 src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/gallery3.png"
                 className="rounded"
               />
               <video
+                loading="lazy"
+                decoding="async"
                 className="absolute top-0 left-0 w-full h-full object-cover opacity-80"
                 src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/video.mp4"
                 autoPlay
@@ -453,14 +466,30 @@ const RingCermony = () => {
             </div>
           </div>
           <div>
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/RingCeremony/ringcer4.png" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/RingCeremony/ringcer4.png"
+            />
           </div>
           <div className="lg:space-y-2 space-y-1">
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/RingCeremony/ringcer5.png" />
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/RingCeremony/ringcer6.png" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/RingCeremony/ringcer5.png"
+            />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/RingCeremony/ringcer6.png"
+            />
           </div>
           <div>
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/RingCeremony/ringcer7.png" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/RingCeremony/ringcer7.png"
+            />
           </div>
         </div>
         <p className="lg:absolute bottom-10 right-2 [text-shadow:_-4px_4px_3px_#7D7C7C] playfair-display md:text-7xl text-4xl font-bold text-[#FFD1D1]">
@@ -473,6 +502,8 @@ const RingCermony = () => {
         onClick={() => handleNavigation("photography", "/photography")}
       >
         <img
+          loading="lazy"
+          decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/photoshootring.png"
           className="mx-auto w-[2000px]"
         />
@@ -489,6 +520,8 @@ const RingCermony = () => {
           Why Celebrate With Lavisheventzz
         </p>
         <img
+          loading="lazy"
+          decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/trustedBanner.png"
           className="mx-auto w-[1600px]"
         />

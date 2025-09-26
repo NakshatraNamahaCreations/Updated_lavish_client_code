@@ -48,22 +48,22 @@ const PastBookings = () => {
 
   return (
     <div className="h-[75vh] overflow-y-auto lg:m-10 m-4 mt-5 scrollbar-hide">
-          <Helmet>
-      {/* ✅ Meta Title & Description */}
-      <title>My Profile | Lavish Eventzz</title>
-      <meta
-        name="description"
-        content="Explore my Profile at Lavish Eventzz. We specialize in curating exceptional weddings, corporate events and private celebrations across India."
-      />
-      <meta
-        name="keywords"
-        content="My Profile, Lavish Eventzz, Our Profile & Lavish Eventzz, Event Planner Account, Wedding Planning Profile"
-      />
+      <Helmet>
+        {/* ✅ Meta Title & Description */}
+        <title>My Profile | Lavish Eventzz</title>
+        <meta
+          name="description"
+          content="Explore my Profile at Lavish Eventzz. We specialize in curating exceptional weddings, corporate events and private celebrations across India."
+        />
+        <meta
+          name="keywords"
+          content="My Profile, Lavish Eventzz, Our Profile & Lavish Eventzz, Event Planner Account, Wedding Planning Profile"
+        />
 
-      {/* ✅ Canonical URL */}
-      <link rel="canonical" href="https://www.lavisheventzz.com/profile" />
-       </Helmet>
-       
+        {/* ✅ Canonical URL */}
+        <link rel="canonical" href="https://www.lavisheventzz.com/profile" />
+      </Helmet>
+
       <div className="lg:w-[60%]">
         <h1 className="font-bold poppins lg:my-6">Past Bookings</h1>
 
@@ -258,6 +258,8 @@ const UpcomingBookings = () => {
               >
                 <div className="flex lg:gap-4 gap-2 lg:items-center">
                   <img
+                    loading="lazy"
+                    decoding="async"
                     src={serviceImage}
                     alt="Service"
                     className="w-24 h-28 rounded-2xl object-cover"

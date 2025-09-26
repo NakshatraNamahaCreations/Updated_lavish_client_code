@@ -13,7 +13,9 @@ const RecommenedAddon = ({ subCat, addons }) => {
 
   // Get existing addon items from Redux
   const reduxAddons = useSelector((state) =>
-    state.order.currentOrder.items.filter((item) => item.categoryType === "addon")
+    state.order.currentOrder.items.filter(
+      (item) => item.categoryType === "addon"
+    )
   );
 
   // ✅ Get eventDate from Redux (assuming stored in currentOrder)
@@ -59,7 +61,6 @@ const RecommenedAddon = ({ subCat, addons }) => {
           quantity: 1,
           id: addon._id,
           customizedInputs: addon.customizedInputs,
-          
         })
       );
     }
@@ -96,6 +97,8 @@ const RecommenedAddon = ({ subCat, addons }) => {
                 )}
 
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src={`${addon.image}`}
                   alt={addon.addonsName}
                   className="mx-auto w-44 h-48 object-contain"
@@ -127,7 +130,9 @@ const RecommenedAddon = ({ subCat, addons }) => {
                 </div>
 
                 <div className="flex justify-between items-center mt-auto">
-                  <p className="font-bold md:text-base text-xs">Rs. {addon.price}</p>
+                  <p className="font-bold md:text-base text-xs">
+                    Rs. {addon.price}
+                  </p>
 
                   <div className="flex gap-2 items-center">
                     {!isSelected ? (

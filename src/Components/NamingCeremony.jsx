@@ -53,7 +53,7 @@ const NamingCeremony = () => {
         const res = await getAxios().get(
           `/subcategories/by-name/${encodeURIComponent("Ring Ceremony")}`
         );
-        setSubCategory(res.data.data); 
+        setSubCategory(res.data.data);
       } catch (err) {
         console.error("API error:", err);
       }
@@ -273,10 +273,11 @@ const NamingCeremony = () => {
                 .split(" ")
                 .map((word) => word.charAt(0).toLowerCase() + word.slice(1))
                 .join("-")}/${item._id}`}
-            
               className="linkColorPink"
             >
               <img
+                loading="lazy"
+                decoding="async"
                 src={`${item.image}`}
                 alt={item.subSubCategory}
                 className="rounded-3xl w-[500px]"
@@ -297,6 +298,8 @@ const NamingCeremony = () => {
       >
         <div className="md:my-10 my-5 text-center">
           <img
+            loading="lazy"
+            decoding="async"
             src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingceremonycake.png"
             className="rounded-3xl md:w-[500px] h-auto w-44 mx-auto"
             alt="Naming Ceremony Cake"
@@ -377,6 +380,8 @@ const NamingCeremony = () => {
       {/* Add-ons */}
       <div className="relative text-center md:my-10 my-4">
         <img
+          loading="lazy"
+          decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/addonsbanner.png"
           className="w-[2000px] mx-auto max-h-[650px]"
           alt="Addons Banner"
@@ -404,37 +409,47 @@ const NamingCeremony = () => {
         <div className="flex justify-center items-center gap-1">
           <div className="lg:space-y-2 space-y-1">
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer1.png"
               className="lg:h-40 md:h-28 h-10"
             />
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer2.png"
               className="lg:h-64"
             />
-            {/* <div className="relative bg-gray-600 overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
-              <img
-                src="https://lavisheventzz-bangalore.b-cdn.net/KidsBirthday/bdayGallery3.png"
-                className="rounded"
-              />
-              <video
-                className="absolute top-0 left-0 w-full h-full object-cover opacity-80"
-                src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/video.mp4"
-                autoPlay
-                loop
-                muted
-              />
-            </div> */}
+
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg"
               className=" lg:h-40 md:h-28 h-10 rounded-xl"
             />
           </div>
-          <img src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer4.png" />
+          <img
+            loading="lazy"
+            decoding="async"
+            src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer4.png"
+          />
           <div className="lg:space-y-2 space-y-1">
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer5.png" />
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer6.png" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer5.png"
+            />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer6.png"
+            />
           </div>
-          <img src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer7.png" />
+          <img
+            loading="lazy"
+            decoding="async"
+            src="https://lavisheventzz-bangalore.b-cdn.net/NamingCeremony/namingcer7.png"
+          />
         </div>
         <p className="lg:absolute bottom-10 right-2 [text-shadow:_-4px_4px_3px_#7D7C7C] playfair-display md:text-7xl text-4xl font-bold text-[#FFD1D1]">
           Wonderful Moments
@@ -447,6 +462,8 @@ const NamingCeremony = () => {
         onClick={() => handleNavigation("photography", "/photography")}
       >
         <img
+          loading="lazy"
+          decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/photoshootnaming.png"
           className="mx-auto w-[2000px]"
           alt="Photography Banner"
@@ -467,6 +484,8 @@ const NamingCeremony = () => {
           Why Celebrate With Lavisheventzz
         </p>
         <img
+          loading="lazy"
+          decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/trustedBanner.png"
           className="mx-auto w-[1600px]"
           alt="Why Celebrate"

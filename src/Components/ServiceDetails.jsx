@@ -958,7 +958,13 @@ const ServiceDetails = () => {
 
             <div className="hidden md:w-[90%] mx-auto md:flex items-center justify-between gap-2 border border-gray-300 px-2 py-4 my-4 rounded-2xl">
               <div className="flex gap-2 items-center">
-                <img src={support} className="w-10" alt="support" />
+                <img
+                  loading="lazy"
+                  decoding="async"
+                  src={support}
+                  className="w-10"
+                  alt="support"
+                />
                 <div>
                   <p className="text-primary text-2xl">
                     Want to <span>customize</span> this decoration?
@@ -971,14 +977,16 @@ const ServiceDetails = () => {
                   className="flex gap-2 items-center border border-green-500 text-green-500 rounded-full px-4 py-1 hover:bg-green-500 hover:text-white"
                   onClick={() => window.open(WhatsAppLink, "_blank")}
                 >
-                  <img src={whatsapp} className="w-6" alt="whatsapp" />
+                  <img     loading="lazy"
+          decoding="async" src={whatsapp} className="w-6" alt="whatsapp" />
                   Whatsapp
                 </button>
                 <a
                   href="tel:+919620558000"
                   className="linkColorBlack flex gap-2 items-center border border-blue-500 text-blue-500 rounded-full px-6 py-1 hover:bg-blue-500 hover:text-white"
                 >
-                  <img src={phone} className="w-6" alt="phone" />
+                  <img    loading="lazy"
+          decoding="async" src={phone} className="w-6" alt="phone" />
                   Call us
                 </a>
               </div>

@@ -14,7 +14,8 @@ const reviewData = [
       "The service was exceptional! The team was professional, attentive, and delivered beyond our expectations. Highly recommended!",
     serviceName: "Mermaid theme Decoration",
     rating: "4.5",
-    servicethemeImg: "https://lavisheventzz-bangalore.b-cdn.net/Mermaid%20Theme%20shimmery%20stylish%20Silver%20Decor.jpg",
+    servicethemeImg:
+      "https://lavisheventzz-bangalore.b-cdn.net/Mermaid%20Theme%20shimmery%20stylish%20Silver%20Decor.jpg",
   },
   {
     name: "Riya Sharma",
@@ -24,18 +25,19 @@ const reviewData = [
       "https://images.unsplash.com/photo-1681717166573-f71589207785?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     serviceName: "Better Together Decoration",
     rating: "5.0",
-    servicethemeImg: "https://lavisheventzz-bangalore.b-cdn.net/Better%20Together%20Theme%20Terrece%20Decor.jpeg",
+    servicethemeImg:
+      "https://lavisheventzz-bangalore.b-cdn.net/Better%20Together%20Theme%20Terrece%20Decor.jpeg",
   },
 
   {
     name: "Neha Verma",
     review:
       "The quality of work was outstanding! The team was responsive, patient, and delivered exactly what I needed.",
-    profileimg:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    profileimg: "",
     serviceName: "Retirerment decoration",
     rating: "4.7",
-    servicethemeImg: "https://lavisheventzz-bangalore.b-cdn.net/Retirement%20Theme%20Vibrant%20Decor.jpeg",
+    servicethemeImg:
+      "https://lavisheventzz-bangalore.b-cdn.net/Retirement%20Theme%20Vibrant%20Decor.jpeg",
   },
   {
     name: "Pooja Singh",
@@ -44,7 +46,8 @@ const reviewData = [
     profileimg: "",
     serviceName: "Wednesday Theme Decoration",
     rating: "5.0",
-    servicethemeImg: "https://lavisheventzz-bangalore.b-cdn.net/Wednesday%20Theme%20Cute%20Ring%20Decor.jpg",
+    servicethemeImg:
+      "https://lavisheventzz-bangalore.b-cdn.net/Wednesday%20Theme%20Cute%20Ring%20Decor.jpg",
   },
   {
     name: "Sanjay Rao",
@@ -54,7 +57,8 @@ const reviewData = [
       "https://images.unsplash.com/photo-1511485977113-f34c92461ad9?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     serviceName: "Rice Ceremony Decoration",
     rating: "5.0",
-    servicethemeImg: "https://lavisheventzz-bangalore.b-cdn.net/Rice%20Ceremony%20Theme%20Charming%20Decor.jpeg",
+    servicethemeImg:
+      "https://lavisheventzz-bangalore.b-cdn.net/Rice%20Ceremony%20Theme%20Charming%20Decor.jpeg",
   },
   {
     name: "Meera Kapoor",
@@ -74,7 +78,8 @@ const reviewData = [
       "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     serviceName: "Butterfly theme decoration",
     rating: "5.0",
-    servicethemeImg: "https://lavisheventzz-bangalore.b-cdn.net/Butterfly%20Theme%20shimmery%20stylish%20Silver%20pretty%20Decor.jpg",
+    servicethemeImg:
+      "https://lavisheventzz-bangalore.b-cdn.net/Butterfly%20Theme%20shimmery%20stylish%20Silver%20pretty%20Decor.jpg",
   },
   {
     name: "Vikram Patel",
@@ -83,7 +88,8 @@ const reviewData = [
     profileimg: "",
     serviceName: "Let's Party Decoration ",
     rating: "5.0",
-    servicethemeImg: "https://lavisheventzz-bangalore.b-cdn.net/Lets%20Party%20Theme%20Gold%20Shimmery%20Sequine%20Decor.jpeg",
+    servicethemeImg:
+      "https://lavisheventzz-bangalore.b-cdn.net/Lets%20Party%20Theme%20Gold%20Shimmery%20Sequine%20Decor.jpeg",
   },
   {
     name: "Priya Menon",
@@ -93,7 +99,8 @@ const reviewData = [
       "https://images.unsplash.com/photo-1517265035603-faefa167335b?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     serviceName: "Barbie Theme Decoration",
     rating: "4.5",
-    servicethemeImg: "https://lavisheventzz-bangalore.b-cdn.net/Barbie%20Theme%20%20Charming%20Decor.jpg",
+    servicethemeImg:
+      "https://lavisheventzz-bangalore.b-cdn.net/Barbie%20Theme%20%20Charming%20Decor.jpg",
   },
   {
     name: "Ankit Joshi",
@@ -136,6 +143,8 @@ const TestimonialsCard = ({ item }) => {
       {/* <div className="flex gap-2 items-center "> */}
       <div className=" ">
         <img
+          loading="lazy"
+          decoding="async"
           src={servicethemeImg}
           alt="service_theme"
           className="rounded-lg w-64 mx-auto h-32 object-contain "

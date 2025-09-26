@@ -80,8 +80,7 @@ const Photograpghy = () => {
     fetchSubCategory();
   }, []);
 
-
-  console.log("Photography Decoration", subCategory)
+  console.log("Photography Decoration", subCategory);
   const fetchRecentPurchase = async () => {
     try {
       const response = await getAxios().get(
@@ -262,6 +261,8 @@ const Photograpghy = () => {
               onClick={() => handleWhatsappRedirect(item.title)}
             >
               <img
+                loading="lazy"
+                decoding="async"
                 src={item.src}
                 alt={item.title}
                 className="rounded-3xl md:w-[500px] md:h-auto w-48 h-40"
@@ -281,40 +282,50 @@ const Photograpghy = () => {
           <div className="flex justify-center items-center gap-1">
             <div className="place-items-end lg:space-y-2  space-y-1">
               <img
+                loading="lazy"
+                decoding="async"
                 src="https://lavisheventzz-bangalore.b-cdn.net/Photography/photography1.png"
                 className=" lg:h-40 md:h-28 h-10"
               />
               <img
+                loading="lazy"
+                decoding="async"
                 src="https://lavisheventzz-bangalore.b-cdn.net/Photography/photography2.png"
                 className=" lg:h-64  "
               />
-              {/* <div className=" bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
+
               <img
-                src="https://lavisheventzz-bangalore.b-cdn.net/KidsBirthday/bdayGallery3.png"
-                className="rounded"
-              />
-              <video
-                className="absolute top-0 left-0 w-full h-full object-cover opacity-80"
-                src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/video.mp4"
-                autoPlay
-                loop
-                muted
-              />
-            </div> */}
-              <img
+                loading="lazy"
+                decoding="async"
                 src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg"
                 className=" lg:h-40 md:h-28 h-10 rounded-xl"
               />
             </div>
             <div>
-              <img src="https://lavisheventzz-bangalore.b-cdn.net/Photography/photography4.png" />
+              <img
+                loading="lazy"
+                decoding="async"
+                src="https://lavisheventzz-bangalore.b-cdn.net/Photography/photography4.png"
+              />
             </div>
             <div className="lg:space-y-2 space-y-1">
-              <img src="https://lavisheventzz-bangalore.b-cdn.net/Photography/photography5.png" />
-              <img src="https://lavisheventzz-bangalore.b-cdn.net/Photography/photography6.png" />
+              <img
+                loading="lazy"
+                decoding="async"
+                src="https://lavisheventzz-bangalore.b-cdn.net/Photography/photography5.png"
+              />
+              <img
+                loading="lazy"
+                decoding="async"
+                src="https://lavisheventzz-bangalore.b-cdn.net/Photography/photography6.png"
+              />
             </div>
             <div>
-              <img src="https://lavisheventzz-bangalore.b-cdn.net/Photography/photography7.png" />
+              <img
+                loading="lazy"
+                decoding="async"
+                src="https://lavisheventzz-bangalore.b-cdn.net/Photography/photography7.png"
+              />
             </div>
           </div>
           <p className="lg:absolute bottom-10 right-2 [text-shadow:_-4px_4px_3px_#7D7C7C] playfair-display md:text-7xl text-4xl font-bold text-[#FFD1D1]">
@@ -324,6 +335,8 @@ const Photograpghy = () => {
         <Link to="/photograpghy">
           <div className="md:pt-20 py-5">
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/banner/photoshootPhotograpghy.png"
               className="mx-auto w-[2000px]"
             />
@@ -334,6 +347,8 @@ const Photograpghy = () => {
             Why Celebrate With Lavisheventzz
           </p>
           <img
+            loading="lazy"
+            decoding="async"
             src="https://lavisheventzz-bangalore.b-cdn.net/banner/trustedBanner.png"
             className="mx-auto w-[1600px]"
           />
@@ -381,7 +396,7 @@ const Photograpghy = () => {
             magic!
           </p>
         </div>
-        
+
         {subCategory?.caption && (
           <div className="mt-5 p-5 md:px-10 px-4">
             <ExpandableContent htmlContent={subCategory.caption} />

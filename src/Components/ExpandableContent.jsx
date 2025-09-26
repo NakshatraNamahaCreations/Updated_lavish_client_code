@@ -72,10 +72,10 @@ const ExpandableContent = ({ htmlContent }) => {
   }, [htmlContent]);
 
   return (
-    <div>
+    <div className="p-3 md:p-0">
       <div
         ref={contentRef}
-        className={`text-gray-700 mb-3 transition-all duration-300 ${
+        className={`text-gray-700 mb-3 transition-all duration-300  ${
           expanded ? "" : "clamp-7"
         }`}
         dangerouslySetInnerHTML={{ __html: htmlContent }}

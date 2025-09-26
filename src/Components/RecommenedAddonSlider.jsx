@@ -125,6 +125,8 @@ const RecommenedAddonSlider = ({ subCat, addons }) => {
             <div key={addon._id} className="rounded-md">
               <div className="relative p-2 border rounded-md bg-gray-200 md:mx-3 mx-1 pb-10 flex flex-col justify-between">
                 <img
+                   loading="lazy"
+          decoding="async"
                   src={`${addon?.image}`}
                   alt={addon.addonsName}
                   className="mx-auto h-56 object-contain"

@@ -324,6 +324,8 @@ const GroomtoBe = () => {
               className="linkColorPink"
             >
               <img
+                loading="lazy"
+                decoding="async"
                 src={`${item.image}`}
                 alt={item.subSubCategory}
                 className="rounded-tl-[100px] rounded-br-[100px] w-[500px] h-[340px] mx-auto"
@@ -407,6 +409,8 @@ const GroomtoBe = () => {
       {/* Add ons */}
       <div className="relative inset-0 flex flex-col items-center justify-center text-center gap-5 md:my-10 my-4">
         <img
+          loading="lazy"
+          decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/addonsbanner.png"
           alt="adultBanner4"
           className="w-[2000px] mx-auto max-h-[650px]"
@@ -433,37 +437,50 @@ const GroomtoBe = () => {
         <div className="flex justify-center items-center gap-1">
           <div className="place-items-end lg:space-y-2  space-y-1">
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/groomtobe1.png"
               className=" lg:h-40 md:h-28 h-10"
             />
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/groomtobe2.png"
               className=" lg:h-64  "
             />
-            {/* <div className=" bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16">
-              <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/gallery3.png" className="rounded" />
-              <video
-                className="absolute top-0 left-0 w-full h-full object-cover opacity-80"
-                src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/video.mp4"
-                autoPlay
-                loop
-                muted
-              />
-            </div> */}
+
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg"
               className=" lg:h-40 md:h-28 h-10 rounded-xl"
             />
           </div>
           <div>
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/groomtobe4.png" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/groomtobe4.png"
+            />
           </div>
           <div className="lg:space-y-2 space-y-1">
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/groomtobe5.png" />
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/groomtobe6.png" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/groomtobe5.png"
+            />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/groomtobe6.png"
+            />
           </div>
           <div>
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/groomtobe7.png" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/groomtobe7.png"
+            />
           </div>
         </div>
         <p className="lg:absolute bottom-10 right-2 [text-shadow:_-4px_4px_3px_#7D7C7C] playfair-display md:text-7xl text-4xl font-bold text-[#FFD1D1]">
@@ -476,6 +493,8 @@ const GroomtoBe = () => {
         onClick={() => handleNavigation("photography", "/photography")}
       >
         <img
+          loading="lazy"
+          decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/photoshootgroom.png"
           className="mx-auto w-[2000px]"
         />
@@ -486,6 +505,8 @@ const GroomtoBe = () => {
           Why Celebrate With Lavisheventzz
         </p>
         <img
+          loading="lazy"
+          decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/trustedBanner.png"
           className="mx-auto w-[1600px]"
         />

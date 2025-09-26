@@ -99,6 +99,8 @@ const DesktopSlider = ({ images, selectedIndex }) => {
           className="flex justify-center items-center h-[70vh] md:h-[80vh]"
         >
           <img
+            loading="lazy"
+            decoding="async"
             src={img}
             alt={`Review ${index}`}
             className="max-w-[80vw] md:max-w-[70vw] max-h-[70vh] md:max-h-[80vh] object-contain rounded-lg mx-auto"
@@ -135,6 +137,8 @@ const ReviewGallery = ({ images = [] }) => {
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-10 gap-2 sm:gap-4">
         {images.slice(0, 13).map((img, index) => (
           <img
+            loading="lazy"
+            decoding="async"
             key={index}
             src={img}
             alt={`Review ${index}`}
@@ -149,6 +153,8 @@ const ReviewGallery = ({ images = [] }) => {
             onClick={() => handleOpenModal(13)}
           >
             <img
+              loading="lazy"
+              decoding="async"
               src={images[13]}
               alt="Review 13"
               className="absolute top-0 left-0 w-full h-full object-cover opacity-50 rounded-lg"

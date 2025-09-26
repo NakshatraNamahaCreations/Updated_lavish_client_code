@@ -60,7 +60,7 @@ const BabyShower = () => {
   const [subSubCategories, setSubSubCategories] = useState([]);
   const [recentPurchase, setRecentPurchase] = useState([]);
   const [serviceDetails, setServiceDetails] = useState([]);
-    const [subCategory, setSubCategory] = useState(null);
+  const [subCategory, setSubCategory] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const { subcat_id } = useParams();
@@ -69,20 +69,20 @@ const BabyShower = () => {
   const customerId = userData?.id;
   const navigate = useNavigate();
 
-    useEffect(() => {
-      const fetchSubCategory = async () => {
-        try {
-          const res = await getAxios().get(
-            `/subcategories/by-name/${encodeURIComponent("Ring Ceremony")}`
-          );
-          setSubCategory(res.data.data); // ✅ note .data.data
-        } catch (err) {
-          console.error("API error:", err);
-        }
-      };
-  
-      fetchSubCategory();
-    }, []);
+  useEffect(() => {
+    const fetchSubCategory = async () => {
+      try {
+        const res = await getAxios().get(
+          `/subcategories/by-name/${encodeURIComponent("Ring Ceremony")}`
+        );
+        setSubCategory(res.data.data); // ✅ note .data.data
+      } catch (err) {
+        console.error("API error:", err);
+      }
+    };
+
+    fetchSubCategory();
+  }, []);
 
   const fetchRecentPurchase = async () => {
     try {
@@ -341,6 +341,8 @@ const BabyShower = () => {
                 className="linkColorPink"
               >
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src={`${item?.image}`}
                   alt={item.subSubCategory}
                   className="rounded-3xl w-[500px] "
@@ -361,6 +363,8 @@ const BabyShower = () => {
       >
         <div className="md:my-10 my-4">
           <img
+            loading="lazy"
+            decoding="async"
             src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/babyshowerdecor3.png"
             alt="Kid's Birthday Cakes"
             className="rounded-3xl  md:w-auto md:h-auto w-48 h-40 mx-auto"
@@ -443,6 +447,8 @@ const BabyShower = () => {
       {/* Add ons */}
       <div className="relative inset-0 flex flex-col items-center justify-center text-center gap-5 md:my-10 my-4">
         <img
+          loading="lazy"
+          decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/addonsbanner.png"
           alt="adultBanner4"
           className="w-[2000px] mx-auto max-h-[650px]"
@@ -453,6 +459,8 @@ const BabyShower = () => {
         <div className="absolute top-14  md:top-36 grid grid-cols-4  lg:gap-10  gap-2 place-items-center ">
           {addOns.map((item, idx) => (
             <img
+              loading="lazy"
+              decoding="async"
               key={idx}
               src={item.src}
               className="cursor-pointer object-cover lg:px-10 md:px-4 px-1"
@@ -469,37 +477,50 @@ const BabyShower = () => {
         <div className="flex justify-center items-center gap-1">
           <div className="place-items-end lg:space-y-2  space-y-1">
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/babyshower1.png"
               className=" lg:h-40 md:h-28 h-10"
             />
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/babyshower2.png"
               className=" lg:h-64  "
             />
-            {/* <div className=' bg-gray-600 relative overflow-hidden rounded md:h-20 md:w-36 lg:w-auto lg:h-auto h-8 w-16'>
-                            <img src="https://lavisheventzz-bangalore.b-cdn.net/KidsBirthday/bdayGallery3.png" className='rounded' />
-                            <video
-                                className='absolute top-0 left-0 w-full h-full object-cover opacity-80'
-                                 src="https://lavisheventzz-bangalore.b-cdn.net/groomtobe/video.mp4"
-                                autoPlay
-                                loop
-                                muted
-                            />
-                        </div> */}
+
             <img
+              loading="lazy"
+              decoding="async"
               src="https://lavisheventzz-bangalore.b-cdn.net/image.jpg"
               className=" lg:h-40 md:h-28 h-10 rounded-xl"
             />
           </div>
           <div>
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/gallery4.png" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/gallery4.png"
+            />
           </div>
           <div className="lg:space-y-2 space-y-1">
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/babyshower5.png" />
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/babyshower6.png" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/babyshower5.png"
+            />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/babyshower6.png"
+            />
           </div>
           <div>
-            <img src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/gallery7.png" />
+            <img
+              loading="lazy"
+              decoding="async"
+              src="https://lavisheventzz-bangalore.b-cdn.net/Babyshower/gallery7.png"
+            />
           </div>
         </div>
         <p className="lg:absolute bottom-10 right-2 [text-shadow:_-4px_4px_3px_#7D7C7C] playfair-display md:text-7xl text-4xl font-bold text-[#FFD1D1]">
@@ -575,7 +596,7 @@ const BabyShower = () => {
           <ExpandableContent htmlContent={subCategory.caption} />
         </div>
       )}
-       {subCategory?.faqs?.length > 0 && (
+      {subCategory?.faqs?.length > 0 && (
         <div className="max-w-3xl p-4 mx-auto">
           <p className="text-center font-bold poppins text-2xl">FAQs</p>
           <p className="text-center font-bold poppins text-sm pb-5">
@@ -584,7 +605,6 @@ const BabyShower = () => {
           <DynamicFaqs faqs={subCategory?.faqs} />
         </div>
       )}
-
     </div>
   );
 };

@@ -217,6 +217,8 @@ const OrderDetails = () => {
               className="flex flex-col md:flex-row gap-4 border-b pb-4 last:border-0"
             >
               <img
+                loading="lazy"
+                decoding="async"
                 src={`${item.image}`}
                 alt={item.serviceName}
                 className="w-full md:w-48 md:h-38 w-auto rounded-lg shadow-sm"

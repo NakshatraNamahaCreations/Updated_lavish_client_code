@@ -45,7 +45,7 @@ const Breadcrumb = ({ paths = [] }) => {
   return (
     <nav
       aria-label="breadcrumb"
-      className="bg-slate-100 mb-3 text-gray-700 py-3 shadow-sm"
+      className="bg-slate-100 mb-3 text-gray-700 py-3 my-2 shadow-sm"
     >
       <div className="max-w-screen-3xl pl-5 md:pl-20 mx-auto px-4">
         <ol className="flex flex-wrap items-center text-sm">

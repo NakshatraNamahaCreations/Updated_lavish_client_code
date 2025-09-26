@@ -17,29 +17,6 @@ const initialState = {
     foilBalloonColor: "",
 };
 
-// const userdetailsSlice = createSlice({
-//     name: "user",
-//     initialState,
-
-//     reducers: {
-//         setUserDetails: (state, action) => {
-//             return { ...state, ...action.payload };
-//         },
-//         setBalloonColors: (state, action) => {
-//             state.balloonColors = action.payload;
-//         },
-//         setFoilBalloonColor: (state, action) => {
-//             state.foilBalloonColor = action.payload;
-//         },
-//     },
-
-// });
-
-// export const { setUserDetails, setBalloonColors, setFoilBalloonColor } = userdetailsSlice.actions;
-// export default userdetailsSlice.reducer;
-
-
-
 
 
 const userdetailsSlice = createSlice({

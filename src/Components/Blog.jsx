@@ -71,6 +71,8 @@ const Blog = () => {
                 onClick={() => navigate(`/blogs/${slug}`)}
               >
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src={blog.bannerImage}
                   alt={blog.title}
                   className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-300"

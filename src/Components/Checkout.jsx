@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import support from "../assets/support.png";
 import phone from "../assets/phone.png";
 import whatsapp from "../assets/whatsapp.png";
-import phonepe from "../assets/phonepe.png"
+import phonepe from "../assets/phonepe.png";
 import { IoMdTime } from "react-icons/io";
 import { CiMoneyCheck1 } from "react-icons/ci";
 import { HiOutlineCalendarDateRange } from "react-icons/hi2";
 import DateTimeModal from "./DateTimeModal";
 import axios from "axios";
-
 import { useDispatch, useSelector } from "react-redux";
 import { TbRosetteDiscount } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
@@ -357,7 +356,7 @@ const Checkout = () => {
   const storedUser = localStorage.getItem("user");
   const userData = JSON.parse(storedUser);
   const customerId = userData?.id;
-  console.log("Customer ID", customerId);
+  // console.log("Customer ID", customerId);
 
   useEffect(() => {
     if (!customerId) {
@@ -414,13 +413,13 @@ const Checkout = () => {
         // Fetch all addons
         const allAddonsResponse = await getAxios().get("/addons/");
         const allAddons = allAddonsResponse.data.data;
-        console.log("All addons from API:", allAddons);
+        // console.log("All addons from API:", allAddons);
 
         // Filter addons that are in the cart
         const cartAddons = items.filter(
           (item) => item.categoryType === "addon"
         );
-        console.log("Cart addons:", cartAddons);
+        // console.log("Cart addons:", cartAddons);
 
         // Create a map of addon details using the _id from cart addons
         const addonDetailsMap = {};
@@ -429,12 +428,12 @@ const Checkout = () => {
           const addonDetail = allAddons.find(
             (addon) => addon._id === cartAddon._id
           );
-          console.log(
-            "Matching addon by ID:",
-            cartAddon._id,
-            "Found:",
-            addonDetail
-          );
+          // console.log(
+          //   "Matching addon by ID:",
+          //   cartAddon._id,
+          //   "Found:",
+          //   addonDetail
+          // );
 
           if (addonDetail) {
             addonDetailsMap[addonDetail._id] = {
@@ -443,13 +442,13 @@ const Checkout = () => {
               price: cartAddon.price,
               quantity: cartAddon.quantity,
             };
-            console.log("Added to map:", addonDetailsMap[addonDetail._id]);
+            // console.log("Added to map:", addonDetailsMap[addonDetail._id]);
           } else {
             console.log("No matching addon found for ID:", cartAddon._id);
           }
         });
 
-        console.log("Final addon details map:", addonDetailsMap);
+        // console.log("Final addon details map:", addonDetailsMap);
         setAddonDetails(addonDetailsMap);
       } catch (err) {
         console.error("Error fetching details:", err);
@@ -464,7 +463,7 @@ const Checkout = () => {
     }
   }, [serviceId, items]);
 
-  console.log("Service", serviceDetails);
+  // console.log("Service", serviceDetails);
 
   const handleInputChange = (
     label,
@@ -589,7 +588,7 @@ const Checkout = () => {
       try {
         const response = await getAxios().get("/coupons/getcoupons");
         setCoupons(response.data.coupons);
-        console.log("Coupons", response.data.coupons);
+        // console.log("Coupons", response.data.coupons);
       } catch (error) {
         console.error("Error fetching coupons:", error);
         setError("Failed to fetch coupons. Please try again later.");
@@ -654,7 +653,7 @@ const Checkout = () => {
 
       // Parse stored user data
       const userData = JSON.parse(storedUser);
-      console.log("Parsed User Data:", userData);
+      // console.log("Parsed User Data:", userData);
 
       // Form validation
       if (!address.trim()) {
@@ -764,7 +763,7 @@ const Checkout = () => {
         merchantOrderId: `TX${Date.now()}`,
       };
 
-      console.log("Order Data being sent:", orderData);
+      // console.log("Order Data being sent:", orderData);
 
       // Create order with authentication token
       // const response = await axios.post("https://api.lavisheventzz.com/api/payment/initiate-payment", orderData);
@@ -781,12 +780,12 @@ const Checkout = () => {
       setSelectedNotification(false);
       dispatch(completeOrder());
 
-      console.log("Backend response:", response.data);
+      // console.log("Backend response:", response.data);
 
       const { success, data } = response.data;
 
       if (success && data?.paymentUrl) {
-        console.log("data.paymentUrl", data.paymentUrl);
+        // console.log("data.paymentUrl", data.paymentUrl);
         setPaymentUrl(data.paymentUrl);
         window.location.href = data.paymentUrl;
       } else {
@@ -1094,6 +1093,8 @@ const Checkout = () => {
                 {/* Left Section - Product Image & Details */}
                 <div className="flex gap-4 w-full">
                   <img
+                    loading="lazy"
+                    decoding="async"
                     src={selctedServiceImage}
                     className="w-32 h-32 rounded-xl object-cover shadow-sm"
                     alt="Product"
@@ -1356,7 +1357,7 @@ const Checkout = () => {
               {/* <p className="text-gray-500 py-3 text-center">
                 100% Safe & Secure Payment!
               </p> */}
-              <img src={phonepe} className="w-100 h-100"/>
+              <img src={phonepe} className="w-100 h-100" />
             </div>
           </div>
 
@@ -1378,17 +1379,3 @@ const Checkout = () => {
 };
 
 export default Checkout;
-
-{
-  /* Debug section to display Redux order data */
-}
-{
-  /* <div className="mt-8 p-4 border border-gray-300 rounded-lg">
-                    <h2 className="text-xl font-bold mb-2">Current Order Data (Redux Store)</h2>
-                    <div className="bg-gray-100 p-4 rounded overflow-auto max-h-64">
-                        <pre className="text-sm whitespace-pre-wrap">
-                            {JSON.stringify(currentOrder, null, 2)}
-                        </pre>
-                    </div>
-                </div> */
-}
