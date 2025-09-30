@@ -238,6 +238,8 @@ const ServiceDetails = () => {
       ?.filter((item) => item.categoryType === "addon")
       .reduce((sum, item) => sum + (item.price || 0), 0)
   );
+  const limit = 6;
+  const page = 1;
 
   // Local state variables
   const [pincode, setPincodeLocal] = useState("");
@@ -252,7 +254,7 @@ const ServiceDetails = () => {
   const [addonsData, setAddonsData] = useState([]);
   const [hasAddons, setHasAddons] = useState(false);
   const [loadingAddons, setLoadingAddons] = useState(true);
-
+  const [recommendedServices, setRecommendedServices] = useState([]);
   const [seoMeta, setSeoMeta] = useState(null);
 
   const selectedOptions = useSelector(
@@ -290,6 +292,43 @@ const ServiceDetails = () => {
   useEffect(() => {
     fetchRecentPurchase();
   }, [customerId]);
+
+  useEffect(() => {
+    const fetchService = async () => {
+      try {
+        // ✅ Pick ID in priority order
+        const id =
+          serviceDetails?.themeId?._id ||
+          serviceDetails?.subSubCategoryId?._id ||
+          serviceDetails?.subCategoryId?._id;
+
+        if (!id) {
+          console.error("No valid ID found in service object");
+          return;
+        }
+
+        const res = await axios.get(
+          `http://localhost:5000/api/services/similar-services/${id}`,
+          {
+            params: {
+              limit,
+              page,
+            },
+          }
+        );
+        console.log("Service Details", res.data.data);
+        const filter = res.data.data.filter((item) => {
+          return item._id !== serviceId;
+        });
+        console.log("filtered ", res.data.data);
+        setRecommendedServices(res.data.data);
+      } catch (error) {
+        console.error("Error fetching service:", error);
+      }
+    };
+
+    fetchService();
+  }, [serviceDetails, limit, page]);
 
   // Attempt to fetch service details
   useEffect(() => {
@@ -362,7 +401,7 @@ const ServiceDetails = () => {
 
         if (Array.isArray(result) && result.length > 0) {
           setAddonsData(result);
-          console.log("Addons Data:", result);
+          // console.log("Addons Data:", result);
           setHasAddons(true);
         } else {
           setAddonsData([]);
@@ -479,13 +518,6 @@ const ServiceDetails = () => {
     setOpenCalendar(!openCalendar);
   };
 
-  useEffect(() => {
-    console.log(
-      "Balloon colors in Redux:",
-      reduxOrderState.currentOrder.balloonsColor
-    );
-  }, [reduxOrderState.currentOrder.balloonsColor]);
-
   // For WhatsApp contact
   const city = "Bangalore";
   const price = serviceDetails?.offerPrice;
@@ -575,8 +607,6 @@ const ServiceDetails = () => {
       setIsWishlistLoading(false);
     }
   };
-
-  console.log("Services", serviceDetails);
 
   // Calculate extra charge for special time slots
   let extraSlotCharge = 0;
@@ -689,7 +719,7 @@ const ServiceDetails = () => {
         {loading ? (
           <ServiceDetailsShimmer />
         ) : error ? (
-          <div className="text-center py-10 text-red-500">{error}</div>
+          <div className="text-center pt-10 text-red-500">{error}</div>
         ) : (
           <>
             <Breadcrumb paths={breadcrumbPaths} />
@@ -977,16 +1007,26 @@ const ServiceDetails = () => {
                   className="flex gap-2 items-center border border-green-500 text-green-500 rounded-full px-4 py-1 hover:bg-green-500 hover:text-white"
                   onClick={() => window.open(WhatsAppLink, "_blank")}
                 >
-                  <img     loading="lazy"
-          decoding="async" src={whatsapp} className="w-6" alt="whatsapp" />
+                  <img
+                    loading="lazy"
+                    decoding="async"
+                    src={whatsapp}
+                    className="w-6"
+                    alt="whatsapp"
+                  />
                   Whatsapp
                 </button>
                 <a
                   href="tel:+919620558000"
                   className="linkColorBlack flex gap-2 items-center border border-blue-500 text-blue-500 rounded-full px-6 py-1 hover:bg-blue-500 hover:text-white"
                 >
-                  <img    loading="lazy"
-          decoding="async" src={phone} className="w-6" alt="phone" />
+                  <img
+                    loading="lazy"
+                    decoding="async"
+                    src={phone}
+                    className="w-6"
+                    alt="phone"
+                  />
                   Call us
                 </a>
               </div>
@@ -998,12 +1038,21 @@ const ServiceDetails = () => {
               serviceRating={serviceDetails?.rating}
             />
 
-            {customerId && (
+            {customerId && recentPurchaseServiceDetails.length > 0 && (
               <div className="md:pt-10 pt-7">
                 <p className="font-bold poppins md:text-2xl">
                   Recently Purchased
                 </p>
                 <CardCarousel centercardData={recentPurchaseServiceDetails} />
+              </div>
+            )}
+
+            {recommendedServices.length > 0 && (
+              <div className="md:pt-10 pt-7">
+                <p className="font-bold poppins md:text-2xl">
+                  Similar Services
+                </p>
+                <CardCarousel centercardData={recommendedServices} />
               </div>
             )}
 

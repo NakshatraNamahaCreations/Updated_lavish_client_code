@@ -58,7 +58,7 @@ const WelcomeBaby = () => {
     const fetchSubCategory = async () => {
       try {
         const res = await getAxios().get(
-          `/subcategories/by-name/${encodeURIComponent("Ring Ceremony")}`
+          `/subcategories/by-name/${encodeURIComponent("Welcome Baby Decoration")}`
         );
         setSubCategory(res.data.data); // ✅ note .data.data
       } catch (err) {

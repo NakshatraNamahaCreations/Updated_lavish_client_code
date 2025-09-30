@@ -107,7 +107,7 @@ const GroomtoBe = () => {
         const res = await getAxios().get(
           `/subcategories/by-name/${encodeURIComponent("Groom To Be")}`
         );
-        setSubCategory(res.data.data); // ✅ note .data.data
+        setSubCategory(res.data.data);
       } catch (err) {
         console.error("API error:", err);
       }

@@ -75,6 +75,7 @@ const Service = () => {
           `/services/filter/${id}?page=${currentPage}&limit=${limit}`
         );
         const data = response.data;
+        console.log("service Data", data);
 
         if (data.success && Array.isArray(data.data)) {
           setServices(data.data);
@@ -170,7 +171,7 @@ const Service = () => {
     const subCatId = services[0].subCategoryId._id;
     breadcrumbPaths.push({
       name: services[0].subCategoryId.subCategory,
-      link: subCategoryUrlMap[subCatId] || `/service/${subCatId}`, // ✅ use custom URL if found
+      link: subCategoryUrlMap[subCatId] || `/service/${subCatId}`,
     });
   }
 
@@ -249,7 +250,6 @@ const Service = () => {
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "Lavish Eventzz",
-              headline: metaTitle,
               url: "Current URL",
               logo: "https://www.lavisheventzz.com/assets/logo.png",
               description: metaDescription,

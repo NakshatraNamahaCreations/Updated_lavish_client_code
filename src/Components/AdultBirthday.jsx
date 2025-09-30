@@ -75,7 +75,7 @@ const AdultBirthday = () => {
     const fetchSubCategory = async () => {
       try {
         const res = await getAxios().get(
-          `/subcategories/by-name/${encodeURIComponent("Ring Ceremony")}`
+          `/subcategories/by-name/${encodeURIComponent("Adult Birthday")}`
         );
         setSubCategory(res.data.data); // ✅ note .data.data
       } catch (err) {

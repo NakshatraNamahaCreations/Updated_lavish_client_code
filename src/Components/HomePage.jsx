@@ -368,12 +368,7 @@ const HomePage = () => {
       } = response.data;
 
       setServicesbySubcategory(data); // store the actual services
-      // setPagination({
-      //   currentPage,
-      //   totalPages,
-      //   totalServices,
-      //   limit
-      // });
+      
 
       console.log("servicesBySubcategory:", data);
     } catch (error) {
@@ -600,12 +595,12 @@ const HomePage = () => {
         </section>
 
         <section className="">
-          <h2 className=" font-bold text-center text-primary poppins text-xl">
+          <h3 className=" font-bold text-center text-primary poppins text-xl">
             Serving All over Bangalores
-          </h2>
-          <h1 className="lg:text-4xl text-3xl tracking-tighter font-bold text-center playfair-display text-primary">
+          </h3>
+          <h6 className="lg:text-4xl text-3xl tracking-tighter font-bold text-center playfair-display text-primary">
             Make every Occasion Special
-          </h1>
+          </h6>
           <div className="grid grid-cols-2 lg:flex flex-wrap md:justify-between justify-center pt-10 lg:gap-14 gap-y-5 lg:w-[80%] mx-auto px-4 lg:px-0 ">
             {varities.map((item, index) => (
               <div
@@ -895,9 +890,9 @@ const HomePage = () => {
           <h2 className="lg:text-4xl text-2xl font-bold text-center  text-primary playfair-display">
             Curating moments that shine{" "}
           </h2>
-          <h2 className="text-sm font-bold text-center poppins text-primary">
+          <h6 className="text-sm font-bold text-center poppins text-primary">
             Love designs, flawless execution, unforgattable results.{" "}
-          </h2>
+          </h6>
 
           <PhotoGrid />
         </section>
@@ -953,12 +948,12 @@ const HomePage = () => {
 
         <section className="pt-10 text-primary lg:px-0 px-4">
           <h2 className="text-xl font-bold  text-pimary">Testimonials </h2>
-          <h2 className="md:text-4xl text-2xl tracking-tighter font-bold lg:py-4  text-pimary">
+          <h3 className="md:text-4xl text-2xl tracking-tighter font-bold lg:py-4  text-pimary">
             Hear from our{" "}
             <span className="md:text-5xl text-3xl italic">Lavish</span> Clients{" "}
-          </h2>
+          </h3>
           <h2 className="text-md tracking-tighter font-bold   text-pimary">
-            Reacl experience from our happy Clients{" "}
+            Real experience from our happy Clients{" "}
           </h2>
           <Testimonials />
         </section>
