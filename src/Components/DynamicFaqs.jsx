@@ -14,7 +14,7 @@ export default function DynamicFaqs({ faqs }) {
         {faqs?.map((faq, index) => (
           <div key={index} className="border rounded-lg p-4 shadow-md">
             <button
-              className="w-full flex justify-between items-center md:text-lg font-medium"
+              className="w-full flex justify-between  md:text-lg font-medium"
               onClick={() => toggleFAQ(index)}
             >
               <h5>{faq.question}</h5>
