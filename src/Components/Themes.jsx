@@ -404,7 +404,7 @@ const Themes = () => {
         {/* FAQs from subSubCategory SEO */}
         {seoData?.faqs?.length > 0 && (
           <div className="max-w-3xl p-4 mx-auto pt-10">
-            <p className="text-center font-bold poppins text-2xl">FAQs</p>
+            <h4 className="text-center font-bold poppins text-2xl">FAQs</h4>
             <p className="text-center font-bold poppins text-sm pb-5">
               Need help? Contact us for any queries related to us
             </p>

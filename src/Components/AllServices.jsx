@@ -4,6 +4,14 @@ import { getAxios } from "../utils/api";
 import Pagination from "./Pagination";
 import { useParams } from "react-router-dom";
 
+const ShimmerCard = () => (
+  <div className="animate-pulse bg-white rounded-lg shadow p-4">
+    <div className="w-full h-32 bg-gray-200 rounded mb-4"></div>
+    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+    <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+  </div>
+);
+
 const AllServices = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,7 +22,7 @@ const AllServices = () => {
   // pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [limit] = useState(12); 
+  const [limit] = useState(12);
 
   // ✅ fetch all services with pagination
   const fetchAllServices = async (page, limit) => {
@@ -68,7 +76,7 @@ const AllServices = () => {
 
   const handleSortChange = (event) => {
     setSortOption(event.target.value);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   return (
@@ -76,7 +84,7 @@ const AllServices = () => {
       <div className="flex justify-between items-center mb-5 md:px-10">
         <h1 className="text-2xl font-bold">
           {subcategoryId
-            ? `${services[0]?.subCategoryId?.subCategory}`
+            ? services[0]?.subCategoryId?.subCategory || ""
             : "All Services"}
         </h1>
 
@@ -96,9 +104,7 @@ const AllServices = () => {
 
       <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 md:gap-6 gap-4 mt-6">
         {loading ? (
-          <div className="col-span-3 text-center text-gray-500">
-            Loading services...
-          </div>
+          Array.from({ length: 6 }).map((_, i) => <ShimmerCard key={i} />)
         ) : error ? (
           <div className="col-span-3 text-center text-red-500">{error}</div>
         ) : services.length === 0 ? (
@@ -111,8 +117,6 @@ const AllServices = () => {
           ))
         )}
       </div>
-
-
 
       {/* ✅ Show Pagination for both all services and subcategory services */}
       {!loading && services.length > 0 && (

@@ -58,7 +58,9 @@ const WelcomeBaby = () => {
     const fetchSubCategory = async () => {
       try {
         const res = await getAxios().get(
-          `/subcategories/by-name/${encodeURIComponent("Welcome Baby Decoration")}`
+          `/subcategories/by-name/${encodeURIComponent(
+            "Welcome Baby Decoration"
+          )}`
         );
         setSubCategory(res.data.data); // ✅ note .data.data
       } catch (err) {
@@ -281,6 +283,10 @@ const WelcomeBaby = () => {
         />
       </div>
 
+      <h1 className="mt-10 font-bold text-center text-primary playfair-display lg:text-5xl text-2xl">
+        Welcome Baby Decoration
+      </h1>
+
       <div className="grid grid-cols-2 md:gap-10 gap-3   lg:mt-20 mt-10">
         {subSubCategories.map((item, idx) => (
           <div className="relative" key={item._id}>
@@ -299,9 +305,9 @@ const WelcomeBaby = () => {
                 className="rounded-3xl mx-auto md:w-[400px] w-auto"
               />
             </Link>
-            <p className="pt-4 md:text-3xl  text-primary text-center font-medium carter">
+            <h4 className="pt-4 md:text-3xl  text-primary text-center font-medium carter">
               {item.subSubCategory}
-            </p>
+            </h4>
           </div>
         ))}
         <Link
@@ -319,21 +325,22 @@ const WelcomeBaby = () => {
               className="rounded-3xl mx-auto md:w-[400px] w-auto "
               key="Welcome baby cake"
             />
-            <p className="pt-4 md:text-3xl  text-primary text-center font-medium carter">
+            <h4 className="pt-4 md:text-3xl  text-primary text-center font-medium carter">
               Welcome Baby Cake
-            </p>
+            </h4>
           </div>
         </Link>
       </div>
       {/* Simple Decoration Section */}
-      <div className="mt-5 px-10">
+      <div className="mt-5 px-10 py-10">
         <div className="flex justify-between">
-          <p className="lg:text-2xl text-primary font-bold playfair-display">
+          <h5 className="lg:text-2xl text-primary font-bold playfair-display">
             All Decoration Service
-          </p>
+          </h5>
           <div
             className="linkColorPink text-purple-600 underline text-sm font-semibold hover:text-blue-800 cursor-pointer"
-            onClick={() => handleNavigation("Kids Birthday", "/service/")}
+            // onClick={() => handleNavigation("Kids Birthday", "/service/")}
+              onClick={() => navigate("/all-services/681b1240ddb6b3f4663e794c")}
           >
             View All
           </div>
@@ -354,9 +361,9 @@ const WelcomeBaby = () => {
           alt="adultBanner4"
           className="w-[2000px] mx-auto "
         />
-        <h1 className="absolute top-5 md:top-10 lg:text-4xl md:text-2xl text-xs font-bold text-[#761337] playfair-display md:w-[50%]">
+        <h2 className="absolute top-5 md:top-10 lg:text-4xl md:text-2xl text-xs font-bold text-[#761337] playfair-display md:w-[50%]">
           Make It Unforgettable with Our Exclusive Add-Ons!
-        </h1>
+        </h2>
 
         <div className="absolute top-16 lg:top-48 md:top-32 grid grid-cols-5  lg:gap-5  gap-0 place-items-center px-3">
           {addOns.map((item, idx) => (
@@ -373,9 +380,9 @@ const WelcomeBaby = () => {
       </div>
 
       <div className="relative mx-auto text-center lg:mt-10">
-        <p className="md:py-8 py-4 font-bold poppins md:text-2xl">
+        <h2 className="md:py-8 py-4 font-bold poppins md:text-2xl">
           #WelcomeBabyDecorationBestMovements
-        </p>
+        </h2>
         <div className="flex justify-center items-center gap-1">
           <div className="place-items-end lg:space-y-2  space-y-1">
             <img
@@ -453,14 +460,14 @@ const WelcomeBaby = () => {
 
       {customerId && (
         <div className="md:pt-10 pt-7">
-          <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+          <h6 className="font-bold poppins md:text-2xl">Recently Purchased</h6>
           <CardCarousel centercardData={serviceDetails} />
         </div>
       )}
       <div className="">
-        <p className="font-bold poppins md:py-6 pb-4 md:text-2xl">
+        <h6 className="font-bold poppins md:py-6 pb-4 md:text-2xl">
           Why Celebrate With Lavisheventzz
-        </p>
+        </h6>
         <img
           loading="lazy"
           decoding="async"
@@ -483,7 +490,7 @@ const WelcomeBaby = () => {
         </div>
       </div>
       <div>
-        <p className="font-bold poppins md:text-2xl">Recent Customer Reviews</p>
+        <h2 className="font-bold poppins md:text-2xl">Recent Customer Reviews</h2>
         <Testimonials />
         {/* <ReviewSlider /> */}
       </div>
@@ -510,7 +517,7 @@ const WelcomeBaby = () => {
       )}
       {subCategory?.faqs?.length > 0 && (
         <div className="max-w-3xl p-4 mx-auto">
-          <p className="text-center font-bold poppins text-2xl">FAQs</p>
+          <h4 className="text-center font-bold poppins text-2xl">FAQs</h4>
           <p className="text-center font-bold poppins text-sm pb-5">
             Need help? Contact us for any queries related to us
           </p>

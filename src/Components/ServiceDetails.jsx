@@ -1047,14 +1047,14 @@ const ServiceDetails = () => {
               </div>
             )}
 
-            {recommendedServices.length > 0 && (
+            {/* {recommendedServices.length > 0 && ( */}
               <div className="md:pt-10 pt-7">
                 <p className="font-bold poppins md:text-2xl">
                   Similar Services
                 </p>
                 <CardCarousel centercardData={recommendedServices} />
               </div>
-            )}
+            {/* )} */}
 
             <div className="mt-5 p-5">
               {serviceDetails?.caption && (
@@ -1064,7 +1064,7 @@ const ServiceDetails = () => {
 
             {serviceDetails?.faqs.length > 0 && (
               <div className="max-w-3xl p-4 mx-auto">
-                <p className="text-center font-bold poppins text-2xl">FAQs</p>
+                <h4 className="text-center font-bold poppins text-2xl">FAQs</h4>
                 <p className="text-center font-bold poppins text-sm pb-5">
                   Need help? Contact us for any queries related to us
                 </p>

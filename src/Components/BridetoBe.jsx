@@ -313,6 +313,10 @@ const BridetoBe = () => {
         />
       </div>
 
+       <h1 className="mt-10 font-bold text-center text-primary playfair-display lg:text-5xl text-2xl">
+       Bride To Be Decoration
+      </h1>
+
       <div className="grid grid-cols-2 md:gap-10 gap-3  place-items-center md:my-16 mt-4 md:mx-10">
         {subSubCategories.map((item, idx) => (
           <div className="relative" key={item._id}>
@@ -331,9 +335,9 @@ const BridetoBe = () => {
                 className="rounded-3xl w-[500px] "
               />
             </Link>
-            <p className="text-primary pt-4 md:text-3xl text-xl text-center font-medium carter">
+            <h4 className="text-primary pt-4 md:text-3xl text-xl text-center font-medium carter">
               {item.subSubCategory}
-            </p>
+            </h4>
           </div>
         ))}
       </div>
@@ -342,9 +346,9 @@ const BridetoBe = () => {
         {/* Simple Decoration Section */}
         <div className="mt-5">
           <div className="flex justify-between">
-            <p className="lg:text-2xl text-primary font-bold playfair-display">
+            <h5 className="lg:text-2xl text-primary font-bold playfair-display">
               Simple Decoration Service
-            </p>
+            </h5>
 
             {(() => {
               const simpleSub = subSubCategories.find((item) =>
@@ -376,9 +380,9 @@ const BridetoBe = () => {
         {/* Premium Decoration Section */}
         <div className="mt-10">
           <div className="flex justify-between">
-            <p className="lg:text-2xl text-primary font-bold playfair-display">
+            <h5 className="lg:text-2xl text-primary font-bold playfair-display">
               Premium Decoration Service
-            </p>
+            </h5>
 
             {(() => {
               const primumSub = subSubCategories.find((item) =>
@@ -415,9 +419,9 @@ const BridetoBe = () => {
           alt="adultBanner4"
           className="w-[2000px] mx-auto max-h-[650px]"
         />
-        <h1 className="absolute top-4 md:text-4xl  text-sm font-bold text-[#1C256C] playfair-display lg:w-[50%]">
+        <h2 className="absolute top-4 md:text-4xl  text-sm font-bold text-[#1C256C] playfair-display lg:w-[50%]">
           Make It Unforgettable with Our Exclusive Add-Ons!
-        </h1>
+        </h2>
         <div className="absolute top-14  md:top-36 grid grid-cols-4  lg:gap-10  gap-2 place-items-center ">
           {addOns.map((item, idx) => (
             <img
@@ -433,9 +437,9 @@ const BridetoBe = () => {
 
       {/* gallery */}
       <div className="relative mx-auto text-center lg:mt-10">
-        <p className="md:py-8 py-4 font-bold poppins md:text-2xl">
+        <h2 className="md:py-8 py-4 font-bold poppins md:text-2xl">
           #BridetobeDecorationBestMovements
-        </p>
+        </h2>
         <div className="flex justify-center items-center gap-1">
           <div className="place-items-end lg:space-y-2  space-y-1">
             <img
@@ -503,9 +507,9 @@ const BridetoBe = () => {
       </div>
 
       <div className="md:pt-20 pt-10">
-        <p className="font-bold poppins md:py-6 pb-4 md:text-2xl">
+        <h6 className="font-bold poppins md:py-6 pb-4 md:text-2xl">
           Why Celebrate With Lavisheventzz
-        </p>
+        </h6>
         <img
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/trustedBanner.png"
           className="mx-auto w-[1600px]"
@@ -513,7 +517,7 @@ const BridetoBe = () => {
       </div>
       {customerId && (
         <div className="md:pt-10 pt-7">
-          <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+          <h6 className="font-bold poppins md:text-2xl">Recently Purchased</h6>
           <CardCarousel centercardData={serviceDetails} />
         </div>
       )}
@@ -532,7 +536,7 @@ const BridetoBe = () => {
       </div>
 
       <div>
-        <p className="font-bold poppins md:text-2xl">Recent Customer Reviews</p>
+        <h2 className="font-bold poppins md:text-2xl">Recent Customer Reviews</h2>
         <Testimonials />
       </div>
       <div className="md:px-10 px-4">
@@ -558,7 +562,7 @@ const BridetoBe = () => {
       )}
       {subCategory?.faqs?.length > 0 && (
         <div className="max-w-3xl p-4 mx-auto">
-          <p className="text-center font-bold poppins text-2xl">FAQs</p>
+          <h4 className="text-center font-bold poppins text-2xl">FAQs</h4>
           <p className="text-center font-bold poppins text-sm pb-5">
             Need help? Contact us for any queries related to us
           </p>

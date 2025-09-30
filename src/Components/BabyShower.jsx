@@ -317,7 +317,10 @@ const BabyShower = () => {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-x-2 md:gap-y-14 gap-y-5 md:place-items-center lg:mt-20 mt-10">
+      <h1 className="mt-10 font-bold text-center text-primary playfair-display lg:text-5xl text-2xl">
+       Baby Shower Decoration
+      </h1>
+      <div className="grid grid-cols-2 gap-x-2 md:gap-y-14 gap-y-5 md:place-items-center mt-10">
         {subSubCategories.map((item, idx) => {
           return (
             <div className="relative" key={item._id}>
@@ -347,9 +350,9 @@ const BabyShower = () => {
                   alt={item.subSubCategory}
                   className="rounded-3xl w-[500px] "
                 />
-                <p className="text-primary pt-4 md:text-3xl text-xl text-center font-medium carter">
+                <h4 className="text-primary pt-4 md:text-3xl text-xl text-center font-medium carter">
                   {item.subSubCategory}
-                </p>
+                </h4>
               </Link>
             </div>
           );
@@ -369,9 +372,9 @@ const BabyShower = () => {
             alt="Kid's Birthday Cakes"
             className="rounded-3xl  md:w-auto md:h-auto w-48 h-40 mx-auto"
           />
-          <p className="text-primary pt-4 md:text-3xl text-center font-medium carter">
+          <h4 className="text-primary pt-4 md:text-3xl text-center font-medium carter">
             Baby Shower Cakes
-          </p>
+          </h4>
         </div>
       </Link>
 
@@ -379,9 +382,9 @@ const BabyShower = () => {
         {/* Simple Decoration Section */}
         <div className="mt-5">
           <div className="flex justify-between">
-            <p className="lg:text-2xl text-primary font-bold playfair-display">
+            <h5 className="lg:text-2xl text-primary font-bold playfair-display">
               Simple Decoration Service
-            </p>
+            </h5>
             {(() => {
               const simpleSub = subSubCategories.find((item) =>
                 item.subSubCategory.toLowerCase().includes("simple")
@@ -412,9 +415,9 @@ const BabyShower = () => {
         {/* Premium Decoration Section */}
         <div className="mt-10">
           <div className="flex justify-between">
-            <p className="lg:text-2xl text-primary font-bold playfair-display">
+            <h5 className="lg:text-2xl text-primary font-bold playfair-display">
               Premium Decoration Service
-            </p>
+            </h5>
 
             {(() => {
               const primumSub = subSubCategories.find((item) =>
@@ -453,9 +456,9 @@ const BabyShower = () => {
           alt="adultBanner4"
           className="w-[2000px] mx-auto max-h-[650px]"
         />
-        <h1 className="absolute top-4 md:text-4xl  text-sm font-bold text-[#1C256C] playfair-display lg:w-[50%]">
+        <h2 className="absolute top-4 md:text-4xl  text-sm font-bold text-[#1C256C] playfair-display lg:w-[50%]">
           Make It Unforgettable with Our Exclusive Add-Ons!
-        </h1>
+        </h2>
         <div className="absolute top-14  md:top-36 grid grid-cols-4  lg:gap-10  gap-2 place-items-center ">
           {addOns.map((item, idx) => (
             <img
@@ -471,9 +474,9 @@ const BabyShower = () => {
 
       {/* gallery */}
       <div className="relative mx-auto text-center lg:mt-10">
-        <p className="md:py-8 py-4 font-bold poppins md:text-2xl">
+        <h2 className="md:py-8 py-4 font-bold poppins md:text-2xl">
           #BabyShowerDecorationBestMovements
-        </p>
+        </h2>
         <div className="flex justify-center items-center gap-1">
           <div className="place-items-end lg:space-y-2  space-y-1">
             <img
@@ -540,14 +543,14 @@ const BabyShower = () => {
 
       {customerId && (
         <div className="md:pt-10 pt-7">
-          <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+          <h6 className="font-bold poppins md:text-2xl">Recently Purchased</h6>
           <CardCarousel centercardData={serviceDetails} />
         </div>
       )}
       <div className=" ">
-        <p className="font-bold poppins md:py-6 pb-4 md:text-2xl">
+        <h6 className="font-bold poppins md:py-6 pb-4 md:text-2xl">
           Why Celebrate With Lavisheventzz
-        </p>
+        </h6>
         <img
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/trustedBanner.png"
           className="mx-auto w-[1600px]"
@@ -570,7 +573,7 @@ const BabyShower = () => {
       </div>
 
       <div>
-        <p className="font-bold poppins md:text-2xl">Recent Customer Reviews</p>
+        <h2 className="font-bold poppins md:text-2xl">Recent Customer Reviews</h2>
         <Testimonials />
         {/* <ReviewSlider /> */}
       </div>
@@ -598,7 +601,7 @@ const BabyShower = () => {
       )}
       {subCategory?.faqs?.length > 0 && (
         <div className="max-w-3xl p-4 mx-auto">
-          <p className="text-center font-bold poppins text-2xl">FAQs</p>
+          <h4 className="text-center font-bold poppins text-2xl">FAQs</h4>
           <p className="text-center font-bold poppins text-sm pb-5">
             Need help? Contact us for any queries related to us
           </p>

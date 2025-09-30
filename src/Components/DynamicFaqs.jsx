@@ -17,7 +17,7 @@ export default function DynamicFaqs({ faqs }) {
               className="w-full flex justify-between items-center md:text-lg font-medium"
               onClick={() => toggleFAQ(index)}
             >
-              {faq.question}
+              <h5>{faq.question}</h5>
               {openIndex === index ? <FaChevronUp /> : <FaChevronDown />}
             </button>
             {openIndex === index && (

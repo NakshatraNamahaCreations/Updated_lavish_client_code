@@ -566,9 +566,9 @@ const HomePage = () => {
                 alt="img"
                 className=""
               />
-              <p className="py-3 md:text-2xl text-sm font-bold carter">
+              <h4 className="py-3 md:text-2xl text-sm font-bold carter">
                 Kids Decorations
-              </p>
+              </h4>
             </motion.div>
 
             <motion.div
@@ -587,9 +587,9 @@ const HomePage = () => {
                 alt="img"
                 className=""
               />
-              <p className="py-3 md:text-2xl text-sm font-bold carter ">
+              <h4 className="py-3 md:text-2xl text-sm font-bold carter ">
                 Entertainment & Activities
-              </p>
+              </h4>
             </motion.div>
           </div>
         </section>
@@ -615,9 +615,9 @@ const HomePage = () => {
                   alt={item.text}
                   className="mx-auto lg:h-[400px] h-[170px] border-2 border-primary object-cover md:rounded-[80px] rounded-lg"
                 />
-                <p className="text-center md:text-2xl mx-2 px-2 text-black rounded-md py-3 carter my-3">
+                <h4 className="text-center md:text-2xl mx-2 px-2 text-black rounded-md py-3 carter my-3">
                   {item.text}
-                </p>
+                </h4>
               </div>
             ))}
           </div>
@@ -653,9 +653,9 @@ const HomePage = () => {
                   alt={item.title}
                   className=""
                 />
-                <p className="md:text-2xl text-center carter py-3 text-xs">
+                <h5 className="md:text-2xl text-center carter py-3 text-xs">
                   {item.title}
-                </p>
+                </h5>
               </div>
             ))}
           </div>
@@ -683,9 +683,9 @@ const HomePage = () => {
                 />
               </div>
 
-              <p className="carter lg:text-3xl md:text-2xl text-xs text-center text-black ">
+              <h4 className="carter lg:text-3xl md:text-2xl text-xs text-center text-black ">
                 Shop Opening Decoration
-              </p>
+              </h4>
             </div>
 
             <div
@@ -701,18 +701,18 @@ const HomePage = () => {
                   className="w-full max-h-full object-contain"
                 />
               </div>
-              <p className="carter lg:text-3xl md:text-2xl text-xs text-center text-black ">
+              <h4 className="carter lg:text-3xl md:text-2xl text-xs text-center text-black ">
                 Office Decoration
-              </p>
+              </h4>
             </div>
           </div>
         </section>
 
         <section className="md:pt-10 pt-5  px-4 lg:px-0">
           <div className="flex justify-between ">
-            <p className="lg:text-2xl text-primary font-bold playfair-display">
+            <h4 className="lg:text-2xl text-primary font-bold playfair-display">
               Kids Celebration
-            </p>
+            </h4>
             <div
               className="text-secondary font-bold flex items-center text-sm md:text-base cursor-pointer  "
               // onClick={() => handleNavigation("Kids Birthday", "/service/")}
@@ -750,9 +750,9 @@ const HomePage = () => {
                   className="w-full max-h-full object-contain lg:rounded-tr-[60px] lg:rounded-bl-[80px] rounded-tr-3xl rounded-bl-3xl "
                 />
               </div>
-              <p className="carter lg:text-3xl md:text-xl text-xs text-center text-black lg:pt-4">
+              <h4 className="carter lg:text-3xl md:text-xl text-xs text-center text-black lg:pt-4">
                 Bride to be Decoration
-              </p>
+              </h4>
             </div>
             <div
               className="absolute top-1/2 lg:right-44 md:right-24 right-12 transform -translate-y-1/2"
@@ -770,9 +770,9 @@ const HomePage = () => {
                   className="w-full max-h-full object-contain lg:rounded-tl-[60px] lg:rounded-br-[80px] rounded-tl-3xl rounded-br-3xl "
                 />
               </div>
-              <p className="carter lg:text-3xl md:text-xl text-xs text-center text-black lg:pt-4">
+              <h4 className="carter lg:text-3xl md:text-xl text-xs text-center text-black lg:pt-4">
                 Groom to be Decoration
-              </p>
+              </h4>
             </div>
           </div>
 
@@ -793,9 +793,9 @@ const HomePage = () => {
               }
               style={{ cursor: "pointer" }}
             >
-              <p className="carter  text-2xl pb-5 text-center text-black ">
+              <h4 className="carter  text-2xl pb-5 text-center text-black ">
                 Bride to be Decoration
-              </p>
+              </h4>
               <img
                 loading="lazy"
                 decoding="async"
@@ -811,9 +811,9 @@ const HomePage = () => {
               }
               style={{ cursor: "pointer" }}
             >
-              <p className="carter text-2xl pb-5  text-center text-black ">
+              <h4 className="carter text-2xl pb-5  text-center text-black ">
                 Groom to be Decoration
-              </p>
+              </h4>
               <img
                 loading="lazy"
                 decoding="async"
@@ -825,9 +825,9 @@ const HomePage = () => {
           </div>
 
           <div className="flex justify-between mt-5 ">
-            <p className="lg:text-2xl text-primary font-bold playfair-display ">
+            <h4 className="lg:text-2xl text-primary font-bold playfair-display ">
               New Trendings Design
-            </p>
+            </h4>
             <div
               className="text-secondary font-bold flex items-center text-sm md:text-base cursor-pointer"
               onClick={() => navigate("/all-services")}
@@ -921,9 +921,9 @@ const HomePage = () => {
                 className="w-full max-h-full object-contain lg:rounded-tr-[60px] lg:rounded-bl-[80px] rounded-tr-3xl rounded-bl-3xl "
               />
             </div>
-            <p className="carter lg:text-3xl md:text-2xl text-xs text-center text-black lg:pt-4">
+            <h4 className="carter lg:text-3xl md:text-2xl text-xs text-center text-black lg:pt-4">
               Haldi Decoration
-            </p>
+            </h4>
           </div>
           {/* </Link> */}
 
@@ -940,9 +940,9 @@ const HomePage = () => {
                 className="w-full max-h-full object-contain lg:rounded-tl-[60px] lg:rounded-br-[80px] rounded-tl-3xl rounded-br-3xl "
               />
             </div>
-            <p className="carter lg:text-3xl md:text-2xl text-xs text-center text-black lg:pt-4">
+            <h4 className="carter lg:text-3xl md:text-2xl text-xs text-center text-black lg:pt-4">
               Mehendi Decoration
-            </p>
+            </h4>
           </div>
         </div>
 

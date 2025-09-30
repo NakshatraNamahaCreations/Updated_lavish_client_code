@@ -59,7 +59,7 @@ const Service = () => {
   const [limit] = useState(18); // services per page
 
   const location = useLocation();
-  const { redirectUrl } = location.state || {};
+
 
   const modifiedSubcatTitle = subcatgory
     .replace(/-/g, " ")
@@ -359,9 +359,17 @@ const Service = () => {
           )}
         </div>
 
+        {!loading && services.length > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(newPage) => setCurrentPage(newPage)}
+          />
+        )}
+
         {/* Caption */}
         {caption && (
-          <div className="">
+          <div className="my-10">
             <ExpandableContent htmlContent={caption} />
           </div>
         )}
@@ -369,7 +377,7 @@ const Service = () => {
         {/* FAQs */}
         {faqs.length > 0 && (
           <div className="max-w-3xl p-4 mx-auto">
-            <p className="text-center font-bold poppins text-2xl">FAQs</p>
+            <h4 className="text-center font-bold poppins text-2xl">FAQs</h4>
             <p className="text-center font-bold poppins text-sm pb-5">
               Need help? Contact us for any queries related to us
             </p>
@@ -378,13 +386,6 @@ const Service = () => {
         )}
 
         {/* ✅ Show Pagination for both all services and subcategory services */}
-        {!loading && services.length > 0 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={(newPage) => setCurrentPage(newPage)}
-          />
-        )}
       </div>
     </>
   );

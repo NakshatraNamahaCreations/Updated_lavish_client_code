@@ -247,6 +247,9 @@ const Photograpghy = () => {
           />
         </div>
 
+        <h1 className="mt-10 font-bold text-center text-primary playfair-display lg:text-5xl text-2xl">
+          Photography Service in Bangalore
+        </h1>
         {/* <PhotograpghySlider imagelist={imagelist} /> */}
 
         <div className="grid grid-cols-2 gap-x-2 md:gap-y-14 gap-y-5 md:place-items-center lg:mt-20 mt-10">
@@ -267,18 +270,18 @@ const Photograpghy = () => {
                 alt={item.title}
                 className="rounded-3xl md:w-[500px] md:h-auto w-48 h-40"
               />
-              <p className="text-purple-800  md:text-3xl  text-center font-medium carter">
+              <h4 className="text-purple-800  md:text-3xl  text-center font-medium carter">
                 {item.title}
-              </p>
+              </h4>
             </div>
           ))}
         </div>
 
         {/* gallery */}
         <div className="relative mx-auto text-center lg:mt-10">
-          <p className="md:py-8 py-4 font-bold poppins md:text-2xl">
+          <h2 className="md:py-8 py-4 font-bold poppins md:text-2xl">
             #PhotograpghyBestMovements
-          </p>
+          </h2>
           <div className="flex justify-center items-center gap-1">
             <div className="place-items-end lg:space-y-2  space-y-1">
               <img
@@ -343,9 +346,9 @@ const Photograpghy = () => {
           </div>
         </Link>
         <div className="">
-          <p className="font-bold poppins md:py-6 pb-4 md:text-2xl">
+          <h6 className="font-bold poppins md:py-6 pb-4 md:text-2xl">
             Why Celebrate With Lavisheventzz
-          </p>
+          </h6>
           <img
             loading="lazy"
             decoding="async"
@@ -355,7 +358,7 @@ const Photograpghy = () => {
         </div>
         {customerId && (
           <div className="md:pt-10 pt-7">
-            <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+            <h6 className="font-bold poppins md:text-2xl">Recently Purchased</h6>
             <CardCarousel centercardData={serviceDetails} />
           </div>
         )}
@@ -373,9 +376,9 @@ const Photograpghy = () => {
           </div>
         </div>
         <div>
-          <p className="font-bold poppins md:text-2xl">
+          <h2 className="font-bold poppins md:text-2xl">
             Recent Customer Reviews
-          </p>
+          </h2>
           <Testimonials />
           {/* <ReviewSlider /> */}
         </div>
@@ -405,7 +408,7 @@ const Photograpghy = () => {
 
         {subCategory?.faqs?.length > 0 && (
           <div className="max-w-3xl p-4 mx-auto">
-            <p className="text-center font-bold poppins text-2xl">FAQs</p>
+            <h4 className="text-center font-bold poppins text-2xl">FAQs</h4>
             <p className="text-center font-bold poppins text-sm pb-5">
               Need help? Contact us for any queries related to us
             </p>
