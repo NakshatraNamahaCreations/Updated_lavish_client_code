@@ -245,17 +245,7 @@ const NamingCeremony = () => {
           })}
         </script>
 
-        {/* Product Schema */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: "Naming Ceremony",
-            url: "https://www.lavisheventzz.com/namingceremonydecor/681b124bddb6b3f4663e7951",
-            description:
-              "Make your child’s special day memorable with naming ceremony decoration in Bangalore. Lavish Eventzz offers themes, balloon decor, and custom name backdrops.",
-          })}
-        </script>
+   
       </Helmet>
       <Breadcrumb paths={breadcrumbPaths} />
 

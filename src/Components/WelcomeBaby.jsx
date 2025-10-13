@@ -262,17 +262,7 @@ const WelcomeBaby = () => {
           })}
         </script>
 
-        {/* Product Schema */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: "Welcome Baby Decoration",
-            url: "https://www.lavisheventzz.com/welcomebabydecor/681b1240ddb6b3f4663e794c",
-            description:
-              "Celebrate your baby’s arrival with welcome baby decoration in Bangalore. Lavish Eventzz offers cute themes, balloon arches, cradles, and naming backdrop setups.",
-          })}
-        </script>
+  
       </Helmet>
       <Breadcrumb paths={breadcrumbPaths} />
 

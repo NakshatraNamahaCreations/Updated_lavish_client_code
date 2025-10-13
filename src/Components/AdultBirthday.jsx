@@ -157,7 +157,7 @@ const AdultBirthday = () => {
     { name: "Home", link: "/" },
     {
       name: " Adult Birthday Decor",
-      link: "/adultbirthdaydecor/681b113eddb6b3f4663e78f9",
+      link: "/birthdaydecoration/681b113eddb6b3f4663e78f9",
     },
   ];
 
@@ -174,7 +174,7 @@ const AdultBirthday = () => {
         />
         <link
           rel="canonical"
-          href="https://www.lavisheventzz.com/adultbirthdaydecor/681b113eddb6b3f4663e78f9"
+          href="https://www.lavisheventzz.com/birthdaydecoration/681b113eddb6b3f4663e78f9"
         />
 
         {/* Open Graph Tags */}
@@ -189,7 +189,7 @@ const AdultBirthday = () => {
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content="https://www.lavisheventzz.com/adultbirthdaydecor/681b113eddb6b3f4663e78f9"
+          content="https://www.lavisheventzz.com/birthdaydecoration/681b113eddb6b3f4663e78f9"
         />
         <meta
           property="og:image"
@@ -210,7 +210,7 @@ const AdultBirthday = () => {
         />
         <meta
           name="twitter:url"
-          content="https://www.lavisheventzz.com/adultbirthdaydecor/681b113eddb6b3f4663e78f9"
+          content="https://www.lavisheventzz.com/birthdaydecoration/681b113eddb6b3f4663e78f9"
         />
         <meta
           name="twitter:image"
@@ -260,21 +260,9 @@ const AdultBirthday = () => {
                 "@type": "ListItem",
                 position: 2,
                 name: "Adult Birthday Decor",
-                item: "https://www.lavisheventzz.com/adultbirthdaydecor/681b113eddb6b3f4663e78f9",
+                item: "https://www.lavisheventzz.com/birthdaydecoration/681b113eddb6b3f4663e78f9",
               },
             ],
-          })}
-        </script>
-
-        {/* Product Schema */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: "Adult Birthday Decor",
-            url: "https://www.lavisheventzz.com/adultbirthdaydecor/681b113eddb6b3f4663e78f9",
-            description:
-              "Celebrate in style with adult birthday decoration in Bangalore by Lavish Eventzz. Choose from elegant, bold, or themed setups for a fun, unforgettable night.",
           })}
         </script>
       </Helmet>
@@ -289,6 +277,9 @@ const AdultBirthday = () => {
           fetchpriority="high"
         />
       </div>
+      <h1 className="mt-10 font-bold text-center text-primary playfair-display lg:text-5xl text-2xl">
+        Birthday Decoration
+      </h1>
 
       <div className="grid grid-cols-2 md:gap-10 gap-3 place-items-center lg:my-10 my-5 ">
         {subSubCategories.map((item) => (
@@ -314,9 +305,9 @@ const AdultBirthday = () => {
 
       <div className="mt-5 px-10">
         <div className="flex justify-between">
-          <p className="lg:text-2xl text-primary font-bold playfair-display">
+          <h5 className="lg:text-2xl text-primary font-bold playfair-display">
             All Decoration Service
-          </p>
+          </h5>
           <div
             className="linkColorPink text-purple-600 underline text-sm font-semibold hover:text-blue-800 cursor-pointer"
             onClick={() => handleNavigation("Adult birthday", "/service/")}
@@ -343,9 +334,9 @@ const AdultBirthday = () => {
           alt="adultBanner4"
           className="w-[2000px] mx-auto "
         />
-        <h1 className="absolute top-5 md:top-10 lg:text-4xl md:text-2xl text-xs font-bold text-[#761337] playfair-display md:w-[50%]">
+        <h2 className="absolute top-5 md:top-10 lg:text-4xl md:text-2xl text-xs font-bold text-[#761337] playfair-display md:w-[50%]">
           Make It Unforgettable with Our Exclusive Add-Ons!
-        </h1>
+        </h2>
 
         <div className="absolute top-16 lg:top-48 md:top-32 grid grid-cols-5  lg:gap-5  gap-0 place-items-center px-3">
           {addOns.map((item, idx) => (
@@ -363,9 +354,9 @@ const AdultBirthday = () => {
 
       {/* gallery */}
       <div className="relative mx-auto text-center lg:mt-10">
-        <p className="md:py-8 py-4 font-bold poppins md:text-2xl">
+        <h2 className="md:py-8 py-4 font-bold poppins md:text-2xl">
           #AdultsBirthdayDecorationBestMovements
-        </p>
+        </h2>
         <div className="flex justify-center items-center gap-1">
           <div className="place-items-end lg:space-y-2  space-y-1">
             <img
@@ -439,17 +430,10 @@ const AdultBirthday = () => {
         />
       </div>
 
-      {customerId && (
-        <div className="md:pt-10 pt-7">
-          <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
-          <CardCarousel centercardData={serviceDetails} />
-        </div>
-      )}
-
       <div className="">
-        <p className="font-bold poppins md:py-6 pb-4 md:text-2xl">
+        <h6 className="font-bold poppins md:py-6 pb-4 md:text-2xl">
           Why Celebrate With Lavisheventzz
-        </p>
+        </h6>
         <img
           loading="lazy"
           decoding="async"
@@ -458,6 +442,12 @@ const AdultBirthday = () => {
           alt="trustedBanner"
         />
       </div>
+      {customerId && (
+        <div className="md:pt-10 pt-7">
+          <h6 className="font-bold poppins md:text-2xl">Recently Purchased</h6>
+          <CardCarousel centercardData={serviceDetails} />
+        </div>
+      )}
 
       <div className="my-4">
         <p className="text-center font-bold poppins text-2xl">FAQs</p>
@@ -473,7 +463,9 @@ const AdultBirthday = () => {
       </div>
 
       <div>
-        <p className="font-bold poppins md:text-2xl">Recent Customer Reviews</p>
+        <h2 className="font-bold poppins md:text-2xl">
+          Recent Customer Reviews
+        </h2>
         <Testimonials />
       </div>
       <div className="md:px-10 px-4">
@@ -495,7 +487,7 @@ const AdultBirthday = () => {
           today and watch the magic unfold!
         </p>
       </div>
-      
+
       {subCategory?.caption && (
         <div className="mt-5 p-5 md:px-10 px-4">
           <ExpandableContent htmlContent={subCategory.caption} />
@@ -504,7 +496,7 @@ const AdultBirthday = () => {
 
       {subCategory?.faqs?.length > 0 && (
         <div className="max-w-3xl p-4 mx-auto">
-          <p className="text-center font-bold poppins text-2xl">FAQs</p>
+          <h4 className="text-center font-bold poppins text-2xl">FAQs</h4>
           <p className="text-center font-bold poppins text-sm pb-5">
             Need help? Contact us for any queries related to us
           </p>

@@ -414,9 +414,9 @@ const Navbar = () => {
                       ) {
                         linkPath = `/anniversarydecor/${item._id}`;
                       } else if (item.subCategory.includes("Kids Birthday")) {
-                        linkPath = `/kidsBirthdaydecor/${item._id}`;
+                        linkPath = `/kidsbirthdaydecor/${item._id}`;
                       } else if (item.subCategory.includes("Adult Birthday")) {
-                        linkPath = `/adultbirthdaydecor/${item._id}`;
+                        linkPath = `/birthdaydecoration/${item._id}`;
                       } else if (item.subCategory.includes("Baby Shower")) {
                         linkPath = `/babyshowerdecor/${item._id}`;
                       } else if (
@@ -539,11 +539,11 @@ const Navbar = () => {
                             } else if (
                               item.subCategory.includes("Kids Birthday")
                             ) {
-                              linkPath = `/kidsBirthdaydecor/${item._id}`;
+                              linkPath = `/kidsbirthdaydecor/${item._id}`;
                             } else if (
                               item.subCategory.includes("Adult Birthday")
                             ) {
-                              linkPath = `/adultbirthdaydecor/${item._id}`;
+                              linkPath = `/birthdaydecoration/${item._id}`;
                             } else if (
                               item.subCategory.includes("Baby Shower")
                             ) {

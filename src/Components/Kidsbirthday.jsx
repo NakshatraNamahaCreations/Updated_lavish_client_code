@@ -11,6 +11,34 @@ import Breadcrumb from "./Breadcrumb";
 import DynamicFaqs from "./DynamicFaqs";
 import { Helmet } from "react-helmet-async";
 import ExpandableContent from "./ExpandableContent";
+import sash from "../assets/bday/add_ons/sash.png";
+import welcomeboard from "../assets/bday/add_ons/welcomeboard.png";
+import flwrbouqt from "../assets/bday/add_ons/flwrbouqt.png";
+import photography from "../assets/bday/add_ons/photography.png";
+import cakes from "../assets/bday/add_ons/cakes.png";
+
+const addOns = [
+  {
+    src: sash,
+    title: "Sash",
+  },
+  {
+    src: welcomeboard,
+    title: "Welcome Board",
+  },
+  {
+    src: flwrbouqt,
+    title: "Flower Bouquet",
+  },
+  {
+    src: photography,
+    title: "Photography",
+  },
+  {
+    src: cakes,
+    title: "Cakes",
+  },
+];
 
 const Kidsbirthday = () => {
   const [subSubCategories, setSubSubCategories] = useState([]);
@@ -167,7 +195,7 @@ const Kidsbirthday = () => {
     { name: "Home", link: "/" },
     {
       name: "Kids Birthday Decor",
-      link: "/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4",
+      link: "/kidsbirthdaydecor/681b1136ddb6b3f4663e78f4",
     },
   ];
 
@@ -182,7 +210,7 @@ const Kidsbirthday = () => {
         />
         <link
           rel="canonical"
-          href="https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4"
+          href="https://www.lavisheventzz.com/kidsbirthdaydecor/681b1136ddb6b3f4663e78f4"
         />
 
         {/* Open Graph */}
@@ -197,7 +225,7 @@ const Kidsbirthday = () => {
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content="https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4"
+          content="https://www.lavisheventzz.com/kidsbirthdaydecor/681b1136ddb6b3f4663e78f4"
         />
         <meta
           property="og:image"
@@ -218,7 +246,7 @@ const Kidsbirthday = () => {
         />
         <meta
           name="twitter:url"
-          content="https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4"
+          content="https://www.lavisheventzz.com/kidsbirthdaydecor/681b1136ddb6b3f4663e78f4"
         />
         <meta
           name="twitter:image"
@@ -268,23 +296,13 @@ const Kidsbirthday = () => {
                 "@type": "ListItem",
                 position: 2,
                 name: "Kids Birthday Decor",
-                item: "https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4",
+                item: "https://www.lavisheventzz.com/kidsbirthdaydecor/681b1136ddb6b3f4663e78f4",
               },
             ],
           })}
         </script>
 
-        {/* Product Schema */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: "Kids Birthday Decor",
-            url: "https://www.lavisheventzz.com/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4",
-            description:
-              "Celebrate your child’s big day with exciting kids birthday decoration in Bangalore. Lavish Eventzz offers balloon arches, cartoon themes, games, and more.",
-          })}
-        </script>
+        
       </Helmet>
       <Breadcrumb paths={breadcrumbPaths} />
 
@@ -303,6 +321,10 @@ const Kidsbirthday = () => {
         />
       </div>
 
+      <h1 className="mt-10 font-bold text-center text-primary playfair-display lg:text-5xl text-2xl">
+        Kids Birthday Decoration
+      </h1>
+
       <div className="grid grid-cols-2 gap-x-12 md:gap-y-14 gap-y-5 md:place-items-center lg:mt-20 mt-10">
         {subSubCategories.map((item) => (
           <div className="relative" key={item._id}>
@@ -317,9 +339,9 @@ const Kidsbirthday = () => {
                 alt={item.subSubCategory}
                 className="rounded-3xl border-4 border-primary md:w-auto md:h-auto w-40 h-40"
               />
-              <p className="text-primary pt-4 md:text-3xl text-xl text-center font-medium carter">
+              <h4 className="text-primary pt-4 md:text-3xl text-xl text-center font-medium carter">
                 {item.subSubCategory}
-              </p>
+              </h4>
             </div>
           </div>
         ))}
@@ -339,17 +361,17 @@ const Kidsbirthday = () => {
             alt="Kid's Birthday Cakes"
             className="rounded-3xl border-4 border-primary md:w-auto md:h-auto w-40 h-40 mx-auto"
           />
-          <p className=" text-primary pt-4 md:text-3xl  text-center font-medium carter">
+          <h4 className=" text-primary pt-4 md:text-3xl  text-center font-medium carter">
             Kid's Birthday Cakes
-          </p>
+          </h4>
         </div>
       </Link>
 
       <div className="mt-5 px-10">
         <div className="flex justify-between">
-          <p className="linkColorPink lg:text-2xl text-primary font-bold playfair-display">
+          <h5 className="linkColorPink lg:text-2xl text-primary font-bold playfair-display">
             All Decoration Service
-          </p>
+          </h5>
           <div
             className="linkColorPink text-purple-600 underline text-sm font-semibold hover:text-blue-800 cursor-pointer"
             onClick={() => handleNavigation("Welcome Baby", "/service/")}
@@ -367,10 +389,37 @@ const Kidsbirthday = () => {
         )}
       </div>
 
+      {/* Add ons */}
+      <div className="relative inset-0 flex flex-col items-center justify-center text-center gap-5 my-10">
+        <img
+          loading="lazy"
+          decoding="async"
+          src="https://lavisheventzz-bangalore.b-cdn.net/banner/adultbanner4.png"
+          alt="adultBanner4"
+          className="w-[2000px] mx-auto "
+        />
+        <h2 className="absolute top-5 md:top-10 lg:text-4xl md:text-2xl text-xs font-bold text-[#761337] playfair-display md:w-[50%]">
+          Make It Unforgettable with Our Exclusive Add-Ons!
+        </h2>
+
+        <div className="absolute top-16 lg:top-48 md:top-32 grid grid-cols-5  lg:gap-5  gap-0 place-items-center px-3">
+          {addOns.map((item, idx) => (
+            <img
+              loading="lazy"
+              decoding="async"
+              key={idx}
+              src={item.src}
+              alt={item.title}
+              className="cursor-pointer object-cover md:px-3 px-1"
+            />
+          ))}
+        </div>
+      </div>
+
       <div className="relative mx-auto text-center lg:mt-10">
-        <p className="md:py-8 py-4 font-bold poppins md:text-2xl">
+        <h2 className="md:py-8 py-4 font-bold poppins md:text-2xl">
           #KidsBirthdayDecorationBestMovements
-        </p>
+        </h2>
         <div className="flex justify-center items-center gap-1">
           <div className="place-items-end lg:space-y-2  space-y-1">
             <img
@@ -430,7 +479,7 @@ const Kidsbirthday = () => {
         onClick={() => handleNavigation("photography", "/photography")}
       >
         <img
-           loading="lazy"
+          loading="lazy"
           decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/photoshootkidsBday.png"
           className="mx-auto w-[2000px]"
@@ -438,11 +487,11 @@ const Kidsbirthday = () => {
       </div>
 
       <div className="">
-        <p className="font-bold poppins md:py-6 pb-4 md:text-2xl">
+        <h6 className="font-bold poppins md:py-6 pb-4 md:text-2xl">
           Why Celebrate With Lavisheventzz
-        </p>
+        </h6>
         <img
-           loading="lazy"
+          loading="lazy"
           decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/kidsbdayBanner3.png"
           className="mx-auto w-[2000px]"
@@ -450,7 +499,7 @@ const Kidsbirthday = () => {
       </div>
       {customerId && (
         <div className="md:pt-10 pt-7">
-          <p className="font-bold poppins md:text-2xl">Recently Purchased</p>
+          <h6 className="font-bold poppins md:text-2xl">Recently Purchased</h6>
           <CardCarousel centercardData={serviceDetails} />
         </div>
       )}
@@ -470,7 +519,9 @@ const Kidsbirthday = () => {
       </div>
 
       <div>
-        <p className="font-bold poppins md:text-2xl">Recent Customer Reviews</p>
+        <h2 className="font-bold poppins md:text-2xl">
+          Recent Customer Reviews
+        </h2>
         <Testimonials />
       </div>
       <div className="md:px-10 px-4">
@@ -500,7 +551,7 @@ const Kidsbirthday = () => {
       )}
       {subCategory?.faqs?.length > 0 && (
         <div className="max-w-3xl p-4 mx-auto">
-          <p className="text-center font-bold poppins text-2xl">FAQs</p>
+          <h4 className="text-center font-bold poppins text-2xl">FAQs</h4>
           <p className="text-center font-bold poppins text-sm pb-5">
             Need help? Contact us for any queries related to us
           </p>

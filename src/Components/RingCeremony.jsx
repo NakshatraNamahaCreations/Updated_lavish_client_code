@@ -285,17 +285,7 @@ const RingCermony = () => {
           })}
         </script>
 
-        {/* Schema.org - Product */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: "Ring Ceremony Decor",
-            url: "https://www.lavisheventzz.com/ringceremonydecor/681b1095ddb6b3f4663e78c2",
-            description:
-              "Book elegant ring ceremony decoration in Bangalore with Lavish Eventzz. Floral setups, lights, and themes to make your engagement celebration picture-perfect.",
-          })}
-        </script>
+  
       </Helmet>
       <Breadcrumb paths={breadcrumbPaths} />
 

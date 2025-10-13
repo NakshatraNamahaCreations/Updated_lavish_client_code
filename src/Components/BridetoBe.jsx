@@ -292,16 +292,7 @@ const BridetoBe = () => {
           })}
         </script>
 
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: "Bride to be Decor",
-            url: "https://www.lavisheventzz.com/bridetobedecor/681b10a5ddb6b3f4663e78cc",
-            description:
-              "Make her feel special with stylish Bride to Be decorations in Bangalore. Lavish Eventzz offers balloons, photo booths, themes, and glam setups for bridal showers",
-          })}
-        </script>
+     
       </Helmet>
 
       <Breadcrumb paths={breadcrumbPaths} />

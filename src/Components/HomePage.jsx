@@ -86,7 +86,7 @@ const varities = [
   {
     src: "https://lavisheventzz-bangalore.b-cdn.net/kid_bday.png",
     text: "Kids Birthday",
-    link: "/kidsBirthdaydecor",
+    link: "/kidsbirthdaydecor",
   },
   {
     src: "https://lavisheventzz-bangalore.b-cdn.net/adult_bday.png",
@@ -556,7 +556,7 @@ const HomePage = () => {
               whileInView={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
               onClick={() =>
-                handleNavigation("Kids Birthday", "/kidsBirthdaydecor")
+                handleNavigation("Kids Birthday", "/kidsbirthdaydecor")
               }
             >
               <img

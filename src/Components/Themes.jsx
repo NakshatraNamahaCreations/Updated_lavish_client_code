@@ -108,7 +108,7 @@
 //           theme: item.theme,
 
 //           subCatredirectUrl: `/themes/${subSubCategoryId}`,
-//           redirectUrl: "/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4",
+//           redirectUrl: "/kidsbirthdaydecor/681b1136ddb6b3f4663e78f4",
 //         },
 //       }
 //     );
@@ -133,7 +133,7 @@
 //     { name: "Home", link: "/" },
 //     {
 //       name: modifiedSubcatTitle,
-//       link: `/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4`,
+//       link: `/kidsbirthdaydecor/681b1136ddb6b3f4663e78f4`,
 //     },
 
 //     {
@@ -236,8 +236,8 @@ const subCategoryUrlMap = {
   "681b10a5ddb6b3f4663e78cc": "/bridetobedecor/681b10a5ddb6b3f4663e78cc",
   "681b1095ddb6b3f4663e78c2": "/ringceremonydecor/681b1095ddb6b3f4663e78c2",
   "681b1109ddb6b3f4663e78e5": "/anniversarydecor/681b1109ddb6b3f4663e78e5",
-  "681b1136ddb6b3f4663e78f4": "/kidsBirthdaydecor/681b1136ddb6b3f4663e78f4",
-  "681b113eddb6b3f4663e78f9": "/adultbirthdaydecor/681b113eddb6b3f4663e78f9",
+  "681b1136ddb6b3f4663e78f4": "/kidsbirthdaydecor/681b1136ddb6b3f4663e78f4",
+  "681b113eddb6b3f4663e78f9": "/birthdaydecoration/681b113eddb6b3f4663e78f9",
   "681b1146ddb6b3f4663e78fe": "/babyshowerdecor/681b1146ddb6b3f4663e78fe",
   "681b1240ddb6b3f4663e794c": "/welcomebabydecor/681b1240ddb6b3f4663e794c",
   "681b1255ddb6b3f4663e7956": "/photography/681b1255ddb6b3f4663e7956",

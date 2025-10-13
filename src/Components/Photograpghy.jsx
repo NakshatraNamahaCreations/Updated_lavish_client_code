@@ -199,17 +199,7 @@ const Photograpghy = () => {
           })}
         </script>
 
-        {/* Product Schema */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: "Photography Decoration",
-            url: "https://www.lavisheventzz.com/photography/681b1255ddb6b3f4663e7956",
-            description:
-              "Get picture-perfect setups with photography decoration in Bangalore by Lavish Eventzz. Custom photo zones, floral walls, props, and stylish shoot backdrops.",
-          })}
-        </script>
+       
 
         {/* Organization Schema */}
         <script type="application/ld+json">

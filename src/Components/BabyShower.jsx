@@ -296,17 +296,6 @@ const BabyShower = () => {
           })}
         </script>
 
-        {/* Product Schema */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: "Baby Shower Decor",
-            url: "https://www.lavisheventzz.com/babyshowerdecor/681b1146ddb6b3f4663e78fe",
-            description:
-              "Lavish Eventzz creates beautiful baby shower decorations in Bangalore with pastel themes, floral decor, photo corners, and joyful setups to welcome the little one.",
-          })}
-        </script>
       </Helmet>
       <Breadcrumb paths={breadcrumbPaths} />
 

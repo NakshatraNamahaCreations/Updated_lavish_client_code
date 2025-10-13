@@ -89,11 +89,11 @@ function App() {
               <Route path="/checkout/:serviceId" element={<Checkout />} />
               <Route path="/payment/success" element={<PaymentSuccess />} />
               <Route
-                path="/kidsBirthdaydecor/:subcat_id"
+                path="/kidsbirthdaydecor/:subcat_id"
                 element={<Kidsbirthday />}
               />
               <Route
-                path="/adultBirthdaydecor/:subcat_id"
+                path="/birthdaydecoration/:subcat_id"
                 element={<AdultBirthday />}
               />
               <Route

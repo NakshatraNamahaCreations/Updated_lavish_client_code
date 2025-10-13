@@ -274,18 +274,6 @@ const Anniversary = () => {
             ],
           })}
         </script>
-
-        {/* Product Schema */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: "Anniversary Decor",
-            url: "https://www.lavisheventzz.com/anniversarydecor/681b1109ddb6b3f4663e78e5",
-            description:
-              "Lavish Eventzz offers romantic anniversary decoration in Bangalore with floral setups, lights, themes, and personalized touches to make your day unforgettable.",
-          })}
-        </script>
       </Helmet>
       <Breadcrumb paths={breadcrumbPaths} />
 

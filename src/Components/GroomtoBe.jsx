@@ -292,17 +292,7 @@ const GroomtoBe = () => {
           })}
         </script>
 
-        {/* Product Schema */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: "Groom to be Decor",
-            url: "https://www.lavisheventzz.com/groomtobedecor/681b10abddb6b3f4663e78d1",
-            description:
-              "Celebrate the groom in style with Groom to be decoration in Bangalore. Lavish Eventzz creates bold, fun themes for bachelor parties, sangeet, and pre-wedding.",
-          })}
-        </script>
+      
       </Helmet>
       <Breadcrumb paths={breadcrumbPaths} />
 
