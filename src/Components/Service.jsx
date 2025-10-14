@@ -60,7 +60,6 @@ const Service = () => {
 
   const location = useLocation();
 
-
   const modifiedSubcatTitle = subcatgory
     .replace(/-/g, " ")
     .split(" ")
@@ -230,6 +229,11 @@ const Service = () => {
     };
   };
 
+  const pageTitle =
+    breadcrumbPaths.length > 0
+      ? breadcrumbPaths[breadcrumbPaths.length - 1].name
+      : modifiedSubcatTitle;
+
   return (
     <>
       {metaTitle && (
@@ -323,7 +327,7 @@ const Service = () => {
 
         <div className="flex justify-between items-center mb-5 md:px-10">
           <div>
-            <h1 className="text-2xl font-bold">{modifiedSubcatTitle}</h1>
+            <h1 className="text-2xl font-bold">{pageTitle}</h1>
           </div>
 
           {services.length > 0 && (

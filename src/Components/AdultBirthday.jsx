@@ -156,7 +156,7 @@ const AdultBirthday = () => {
   const breadcrumbPaths = [
     { name: "Home", link: "/" },
     {
-      name: " Adult Birthday Decor",
+      name: "Birthday Decoration",
       link: "/birthdaydecoration/681b113eddb6b3f4663e78f9",
     },
   ];
@@ -166,25 +166,33 @@ const AdultBirthday = () => {
       <Helmet>
         {/* Meta Tags */}
         <title>
-          Adult Birthday Decoration in Bangalore | Stylish Party Setup
+          Birthday Decoration in Bangalore | Home & Balloon Birthday Decor
         </title>
         <meta
           name="description"
-          content="Celebrate in style with adult birthday decoration in Bangalore by Lavish Eventzz. Choose from elegant, bold, or themed setups for a fun, unforgettable night."
+          content="Book stunning birthday decoration in Bangalore today. From balloon decoration for birthday at home to premium terrace parties, we offer birthday decoration starting at ₹1999."
         />
         <link
           rel="canonical"
           href="https://www.lavisheventzz.com/birthdaydecoration/681b113eddb6b3f4663e78f9"
         />
 
+        <meta
+          name="keywords"
+          content="Birthday Decoration in Bangalore,
+Birthday Decoration at Home in Bangalore,
+Balloon Decoration for Birthday Bangalore
+"
+        />
+
         {/* Open Graph Tags */}
         <meta
           property="og:title"
-          content="Adult Birthday Decoration in Bangalore | Stylish Party Setup"
+          content="Birthday Decoration in Bangalore | Stylish Party Setup"
         />
         <meta
           property="og:description"
-          content="Celebrate in style with adult birthday decoration in Bangalore by Lavish Eventzz. Choose from elegant, bold, or themed setups for a fun, unforgettable night."
+          content="Celebrate in style with birthday decoration in Bangalore by Lavish Eventzz. Choose from elegant, bold, or themed setups for a fun, unforgettable night."
         />
         <meta property="og:type" content="website" />
         <meta
@@ -202,7 +210,7 @@ const AdultBirthday = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="Adult Birthday Decoration in Bangalore | Stylish Party Setup"
+          content="Birthday Decoration in Bangalore | Stylish Party Setup"
         />
         <meta
           name="twitter:description"
@@ -259,7 +267,7 @@ const AdultBirthday = () => {
               {
                 "@type": "ListItem",
                 position: 2,
-                name: "Adult Birthday Decor",
+                name: "Birthday Decor",
                 item: "https://www.lavisheventzz.com/birthdaydecoration/681b113eddb6b3f4663e78f9",
               },
             ],
@@ -271,7 +279,7 @@ const AdultBirthday = () => {
       <div>
         <img
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/adultBanner1.png"
-          alt="Adult Banner"
+          alt="Banner"
           className="mx-auto w-[1600px]"
           decoding="async"
           fetchpriority="high"
@@ -331,7 +339,7 @@ const AdultBirthday = () => {
           loading="lazy"
           decoding="async"
           src="https://lavisheventzz-bangalore.b-cdn.net/banner/adultbanner4.png"
-          alt="adultBanner4"
+          alt="Banner4"
           className="w-[2000px] mx-auto "
         />
         <h2 className="absolute top-5 md:top-10 lg:text-4xl md:text-2xl text-xs font-bold text-[#761337] playfair-display md:w-[50%]">
@@ -355,7 +363,7 @@ const AdultBirthday = () => {
       {/* gallery */}
       <div className="relative mx-auto text-center lg:mt-10">
         <h2 className="md:py-8 py-4 font-bold poppins md:text-2xl">
-          #AdultsBirthdayDecorationBestMovements
+          #BirthdayDecorationBestMovements
         </h2>
         <div className="flex justify-center items-center gap-1">
           <div className="place-items-end lg:space-y-2  space-y-1">
@@ -470,7 +478,7 @@ const AdultBirthday = () => {
       </div>
       <div className="md:px-10 px-4">
         <p className="font-bold poppins py-8 text-2xl">
-          Hire the Best Balloon Decorators for Adult's Birthday Party
+          Hire the Best Balloon Decorators for Birthday Party
         </p>
         <p className="font-bold">
           Planning a magical birthday celebration for your special one? Look no
@@ -483,7 +491,7 @@ const AdultBirthday = () => {
           stunning balloon arches and adorable centerpieces to fun balloon
           sculptures and customized bouquets, we add that special touch to make
           the day unforgettable. Let us handle the decorations while you focus
-          on making memories. Book your Adult's birthday balloon décor with us
+          on making memories. Book your birthday balloon décor with us
           today and watch the magic unfold!
         </p>
       </div>

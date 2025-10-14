@@ -62,7 +62,7 @@ const WelcomeBaby = () => {
             "Welcome Baby Decoration"
           )}`
         );
-        setSubCategory(res.data.data); // ✅ note .data.data
+        setSubCategory(res.data.data); 
       } catch (err) {
         console.error("API error:", err);
       }
