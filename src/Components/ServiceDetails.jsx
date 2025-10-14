@@ -307,8 +307,8 @@ const ServiceDetails = () => {
           return;
         }
 
-        const res = await axios.get(
-          `http://localhost:5000/api/services/similar-services/${id}`,
+        const res = await getAxios().get(
+          `/services/similar-services/${id}`,
           {
             params: {
               limit,
@@ -1048,12 +1048,10 @@ const ServiceDetails = () => {
             )}
 
             {/* {recommendedServices.length > 0 && ( */}
-              <div className="md:pt-10 pt-7">
-                <p className="font-bold poppins md:text-2xl">
-                  Similar Services
-                </p>
-                <CardCarousel centercardData={recommendedServices} />
-              </div>
+            <div className="md:pt-10 pt-7">
+              <p className="font-bold poppins md:text-2xl">Similar Services</p>
+              <CardCarousel centercardData={recommendedServices} />
+            </div>
             {/* )} */}
 
             <div className="mt-5 p-5">
