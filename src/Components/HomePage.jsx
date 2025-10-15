@@ -91,7 +91,7 @@ const varities = [
   {
     src: "https://lavisheventzz-bangalore.b-cdn.net/adult_bday.png",
     text: "Adult birthday Decoration",
-    link: "/adultBirthdaydecor",
+    link: "/birthdaydecoration",
   },
   {
     src: "https://lavisheventzz-bangalore.b-cdn.net/wlcm_baby.png",
