@@ -307,15 +307,12 @@ const ServiceDetails = () => {
           return;
         }
 
-        const res = await getAxios().get(
-          `/services/similar-services/${id}`,
-          {
-            params: {
-              limit,
-              page,
-            },
-          }
-        );
+        const res = await getAxios().get(`/services/similar-services/${id}`, {
+          params: {
+            limit,
+            page,
+          },
+        });
         console.log("Service Details", res.data.data);
         const filter = res.data.data.filter((item) => {
           return item._id !== serviceId;
@@ -680,28 +677,86 @@ const ServiceDetails = () => {
       {/* SEO Metadata using Helmet */}
       {seoMeta && (
         <Helmet>
+          {/* Basic SEO */}
           <title>
-            {seoMeta.title || `${serviceDetails?.serviceName} | Lavizeventzz`}
+            {seoMeta?.title ||
+              `${serviceDetails?.serviceName} | Lavish Eventzz`}
           </title>
           <meta
             name="description"
             content={
-              seoMeta.description ||
-              `Explore ${serviceDetails?.serviceName} services designed to make your events unforgettable. Add elegance, creativity and style to every celebration. Book Now!`
+              seoMeta?.description ||
+              `Explore ${serviceDetails?.serviceName} services designed to make your events unforgettable. Add elegance, creativity, and style to every celebration. Book Now!`
             }
           />
-
           <meta
             name="keywords"
-            content={seoMeta.keywords || serviceDetails?.serviceName}
+            content={seoMeta?.keywords || serviceDetails?.serviceName}
           />
-
           <link rel="canonical" href={window.location.href} />
+
+          {/* ✅ Open Graph Meta Tags */}
+          <meta property="og:type" content="product" />
+          <meta
+            property="og:title"
+            content={seoMeta?.title || serviceDetails?.serviceName}
+          />
+          <meta
+            property="og:description"
+            content={seoMeta?.description || serviceDetails?.metaDescription}
+          />
+          <meta property="og:url" content={window.location.href} />
+          <meta property="og:site_name" content="Lavish Eventzz" />
+          <meta
+            property="og:image"
+            content={
+              serviceDetails?.images?.[0] ||
+              "https://www.lavisheventzz.com/default-image.jpg"
+            }
+          />
+          <meta
+            property="og:image:alt"
+            content={
+              serviceDetails?.serviceName
+                ? `${serviceDetails.serviceName} - Lavish Eventzz`
+                : "Service Image"
+            }
+          />
+          <meta property="og:locale" content="en_IN" />
+
+          {/* ✅ Twitter Card Meta Tags */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta
+            name="twitter:title"
+            content={seoMeta?.title || serviceDetails?.serviceName}
+          />
+          <meta
+            name="twitter:description"
+            content={seoMeta?.description || serviceDetails?.metaDescription}
+          />
+          <meta
+            name="twitter:image"
+            content={
+              serviceDetails?.images?.[0] ||
+              "https://www.lavisheventzz.com/default-image.jpg"
+            }
+          />
+          <meta
+            name="twitter:image:alt"
+            content={
+              serviceDetails?.serviceName
+                ? `${serviceDetails.serviceName} - Lavish Eventzz`
+                : "Service Image"
+            }
+          />
+          <meta name="twitter:site" content="@lavisheventzz" />
+
+          {/* ✅ FAQ Schema */}
           <script type="application/ld+json">
             {JSON.stringify({
               "@context": "https://schema.org",
               "@type": "FAQPage",
-              mainEntity: seoMeta.faqs?.map((faq) => ({
+              mainEntity: seoMeta?.faqs?.map((faq) => ({
                 "@type": "Question",
                 name: faq.question,
                 acceptedAnswer: {
@@ -709,11 +764,68 @@ const ServiceDetails = () => {
                   text: faq.answer,
                 },
               })),
-              dateCreated: new Date(seoMeta.createdAt).toISOString(),
+              dateCreated: new Date(
+                seoMeta?.createdAt || new Date()
+              ).toISOString(),
+            })}
+          </script>
+
+          {/* ✅ Product Schema */}
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org/",
+              "@type": "Product",
+              name: seoMeta?.title || serviceDetails?.serviceName,
+              image:
+                serviceDetails?.images?.[0] ||
+                "https://www.lavisheventzz.com/default-image.jpg",
+              description:
+                seoMeta?.description || serviceDetails?.metaDescription || "",
+              brand: {
+                "@type": "Brand",
+                name: "Lavish Eventzz",
+              },
+              sku: serviceId,
+              category:
+                serviceDetails?.subCategoryId?.subCategory || "Decoration",
+              offers: {
+                "@type": "Offer",
+                url: window.location.href,
+                priceCurrency: "INR",
+                price: serviceDetails?.offerPrice || 0,
+                priceValidUntil: "2026-12-31",
+                itemCondition: "https://schema.org/NewCondition",
+                availability: "https://schema.org/InStock",
+                seller: {
+                  "@type": "Organization",
+                  name: "Lavish Eventzz",
+                },
+              },
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "4.8",
+                reviewCount: "56",
+              },
+            })}
+          </script>
+
+          {/* ✅ Dynamic Breadcrumb Schema */}
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: breadcrumbPaths.map((path, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                name: path.name,
+                item: `https://www.lavisheventzz.com${path.link}`,
+              })),
             })}
           </script>
         </Helmet>
       )}
+
+      {console.log("serviceDetails", serviceDetails)}
 
       <div className="lg:py-28 lg:px-10 p-4 pt-32 mx-auto">
         {loading ? (

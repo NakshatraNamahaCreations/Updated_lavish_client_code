@@ -307,6 +307,7 @@ const faqs = [
       "Our Balloon Decoration in Bangalore usually lasts for hours, and with high-quality materials, some arrangements can stay intact for more than a day.",
   },
 ];
+
 const HomePage = () => {
   const [services, setServices] = useState([]);
   const [servicesbySubcategory, setServicesbySubcategory] = useState([]);
@@ -368,7 +369,6 @@ const HomePage = () => {
       } = response.data;
 
       setServicesbySubcategory(data); // store the actual services
-      
 
       console.log("servicesBySubcategory:", data);
     } catch (error) {
@@ -671,7 +671,10 @@ const HomePage = () => {
 
             <div
               className="absolute top-1/2 lg:left-44 md:left-24 left-12 transform -translate-y-1/2     "
-              onClick={() => handleWhatsappRedirect("Shop")}
+              // onClick={() => handleWhatsappRedirect("Shop")}
+              onClick={() =>
+                handleNavigation("Shop Opening Decoration", "/service")
+              }
             >
               <div className=" md:p-2 p-1  lg:w-[350px] md:w-[240px] w-[120px]  mx-auto">
                 <img
@@ -690,7 +693,10 @@ const HomePage = () => {
 
             <div
               className="absolute top-1/2 lg:right-44 md:right-24 right-12 transform -translate-y-1/2 "
-              onClick={() => handleWhatsappRedirect("Office")}
+              // onClick={() => handleWhatsappRedirect("Office")}
+              onClick={() =>
+                handleNavigation("Office Balloon Decoration", "/service")
+              }
             >
               <div className=" md:p-2 p-1  lg:w-[350px] md:w-[240px] w-[120px]  mx-auto">
                 <img

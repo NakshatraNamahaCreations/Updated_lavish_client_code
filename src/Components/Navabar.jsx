@@ -126,7 +126,7 @@ const Navbar = () => {
   //   setOpenCategory(openCategory === catId ? null : catId);
   // };
 
-    const handleCategory = (catId) => {
+  const handleCategory = (catId) => {
     setOpenCategory(catId);
   };
 
@@ -397,13 +397,15 @@ const Navbar = () => {
                       let isWhatsAppLink = false;
 
                       // WhatsApp subcategories on desktop
-                      if (whatsappSubCategories.includes(item.subCategory)) {
-                        const message = encodeURIComponent(
-                          `Hi, I'm interested in ${item.subCategory}. Please provide more details.`
-                        );
-                        linkPath = `https://wa.me/919620558000?text=${message}`;
-                        isWhatsAppLink = true;
-                      } else if (item.subCategory.includes("Ring Ceremony")) {
+                      // if (whatsappSubCategories.includes(item.subCategory)) {
+                      //   const message = encodeURIComponent(
+                      //     `Hi, I'm interested in ${item.subCategory}. Please provide more details.`
+                      //   );
+                      //   linkPath = `https://wa.me/919620558000?text=${message}`;
+                      //   isWhatsAppLink = true;
+                      // } else
+
+                      if (item.subCategory.includes("Ring Ceremony")) {
                         linkPath = `/ringceremonydecor/${item._id}`;
                       } else if (item.subCategory.includes("Bride To Be")) {
                         linkPath = `/bridetobedecor/${item._id}`;
